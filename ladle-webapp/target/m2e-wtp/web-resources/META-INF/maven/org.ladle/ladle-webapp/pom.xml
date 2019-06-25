@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- =============================================================== -->
+	<!-- Informations du projet -->
+	<!-- =============================================================== -->
+
+	<!-- ===== Informations Maven du projet parent ===== -->
+	<parent>
+		<groupId>org.ladle</groupId>
+		<artifactId>ladle</artifactId>
+		<relativePath>../pom.xml</relativePath>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<!-- ===== Informations Maven du module ===== -->
+	<artifactId>ladle-webapp</artifactId>
+	<packaging>war</packaging>
+
+	<!-- ===== Informations générales du module ===== -->
+	<name>ladle-webapp</name>
+	<url>http://ladle.org</url>
+	<description>Application Web du site LADLE.</description>
+
+	<!-- =============================================================== -->
+	<!-- Gestion des dépendances -->
+	<!-- =============================================================== -->
+	
+	<dependencies>
+
+		<!-- ===== Modules ===== -->
+
+		<dependency>
+			<artifactId>ladle-service</artifactId>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<artifactId>ladle-beans</artifactId>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- ===== Bibliothèques tierces ===== -->
+
+		<!-- Servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<!-- =============================================================== -->
+	<!-- Build -->
+	<!-- =============================================================== -->
+
+	<build>
+		<finalName>ladle-webapp</finalName>
+	</build>
+
+</project>

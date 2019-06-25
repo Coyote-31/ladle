@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- =============================================================== -->
+	<!-- Informations du projet -->
+	<!-- =============================================================== -->
+
+	<!-- ===== Informations Maven du projet ===== -->
+	<groupId>org.ladle</groupId>
+	<artifactId>ladle</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<!-- ===== Informations générales du projet ===== -->
+	<name>ladle</name>
+	<url>http://ladle.org</url>
+	<description>Site Web communautaire pour l'association : Les Amis De L'Escalade.
+Projet de formation OpenClassrooms.</description>
+
+	<!-- =============================================================== -->
+	<!-- Properties -->
+	<!-- =============================================================== -->
+
+	<properties>
+	
+		<!-- ===== Général ===== -->	
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		
+		<!-- ===== Version de dépendance ===== -->		
+		<junit.version>4.12</junit.version>
+		<servlet-api.version>4.0.1</servlet-api.version>
+		<hibernate-core.version>5.4.3.Final</hibernate-core.version>
+		
+	</properties>
+
+	<!-- =============================================================== -->
+	<!-- Gestion des dépendances -->
+	<!-- =============================================================== -->
+
+	<!-- ===== Modules ===== -->
+	<modules>
+		<module>ladle-webapp</module>    
+		<module>ladle-service</module>
+		<module>ladle-dao</module>
+		<module>ladle-beans</module>
+	</modules>
+
+	<!-- ===== Bibliothèques héritées ===== -->
+
+	<dependencies>
+	
+		<!-- Junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+	</dependencies>
+	
+	<!-- ===== Bibliothèques manager ===== -->
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- Servlet - https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet-api.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- Hibernate Core - https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate-core.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<!-- =============================================================== -->
+	<!-- Réglages du Build -->
+	<!-- =============================================================== -->
+
+	<!-- ===== Compilation ===== -->
+	<build>
+		<plugins>
+		
+			<!-- Maven-compiler-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			
+		</plugins>
+	</build>
+
+	<!-- =============================================================== -->
+	<!-- Divers -->
+	<!-- =============================================================== -->
+
+</project>
