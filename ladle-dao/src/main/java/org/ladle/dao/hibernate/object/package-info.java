@@ -1,0 +1,1 @@
+package org.ladle.dao.hibernate.object;

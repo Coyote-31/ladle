@@ -10,12 +10,14 @@
 	<!-- =============================================================== -->
 
 	<!-- ===== Informations Maven du projet ===== -->
+	
 	<groupId>org.ladle</groupId>
 	<artifactId>ladle</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<!-- ===== Informations générales du projet ===== -->
+	
 	<name>ladle</name>
 	<url>http://ladle.org</url>
 	<description>Site Web communautaire pour l'association : Les Amis De L'Escalade.
@@ -35,6 +37,7 @@ Projet de formation OpenClassrooms.</description>
 		<junit.version>4.12</junit.version>
 		<servlet-api.version>4.0.1</servlet-api.version>
 		<hibernate-core.version>5.4.3.Final</hibernate-core.version>
+		<mysql-connector-java.version>8.0.16</mysql-connector-java.version>
 		
 	</properties>
 
@@ -83,6 +86,14 @@ Projet de formation OpenClassrooms.</description>
 				<artifactId>hibernate-core</artifactId>
 				<version>${hibernate-core.version}</version>
 			</dependency>
+
+			<!-- MySQL-Connector-Java - https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql-connector-java.version}</version>
+			</dependency>
+			
 
 		</dependencies>
 	</dependencyManagement>

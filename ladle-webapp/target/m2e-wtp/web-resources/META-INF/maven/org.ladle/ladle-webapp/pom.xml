@@ -10,6 +10,7 @@
 	<!-- =============================================================== -->
 
 	<!-- ===== Informations Maven du projet parent ===== -->
+	
 	<parent>
 		<groupId>org.ladle</groupId>
 		<artifactId>ladle</artifactId>
@@ -18,10 +19,12 @@
 	</parent>
 
 	<!-- ===== Informations Maven du module ===== -->
+	
 	<artifactId>ladle-webapp</artifactId>
 	<packaging>war</packaging>
 
 	<!-- ===== Informations générales du module ===== -->
+	
 	<name>ladle-webapp</name>
 	<url>http://ladle.org</url>
 	<description>Application Web du site LADLE.</description>

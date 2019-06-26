@@ -10,6 +10,7 @@
 	<!-- =============================================================== -->
 
 	<!-- ===== Informations projet parent ===== -->
+	
 	<parent>
 		<groupId>org.ladle</groupId>
 		<artifactId>ladle</artifactId>
@@ -18,6 +19,7 @@
 	</parent>
 
 	<!-- ===== Informations générales ===== -->
+	
 	<artifactId>ladle-service</artifactId>
 	<name>ladle-service</name>
 	<url>http://ladle.org</url>
