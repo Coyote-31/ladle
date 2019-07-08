@@ -57,6 +57,7 @@ public class Index extends HttpServlet {
     		session = factory.openSession();
     		tx = session.beginTransaction();
     		
+			@SuppressWarnings("unchecked")
 			List<Region> regions = session.createQuery("FROM Region").list();
 
     		for (Iterator<Region> iterator = regions.iterator(); iterator.hasNext();){
