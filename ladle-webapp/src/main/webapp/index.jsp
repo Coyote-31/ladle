@@ -17,6 +17,9 @@
 <%-- 		JSP Version: <%= JspFactory.getDefaultFactory().getEngineInfo().getSpecificationVersion() %> <br> --%>
 <!-- 	</p> -->
 
+<p>
+	<c:out value="JSTL fonctionne ! =)"></c:out>
+</p>
 <%@ include file="parts/footer.jsp" %>
 </body>
 </html>

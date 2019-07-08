@@ -4,16 +4,15 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
 				http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
-   
-  <display-name>Archetype Created Web Application</display-name>
-  
-<!--       <servlet> -->
-<!--         <servlet-name>Index</servlet-name> -->
-<!--         <servlet-class>org.ladle.webapp.servlet.Index</servlet-class> -->
-<!--     </servlet> -->
-<!--     <servlet-mapping> -->
-<!--         <servlet-name>Index</servlet-name> -->
-<!--         <url-pattern>/*</url-pattern> -->
-<!--     </servlet-mapping> -->
-  
+
+	<display-name>Archetype Created Web Application</display-name>
+
+	<!-- Configuration du taglib -->
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<include-prelude>/parts/taglibs.jsp</include-prelude>
+		</jsp-property-group>
+	</jsp-config>
+
 </web-app>
