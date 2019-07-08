@@ -10,7 +10,7 @@
 	<!-- =============================================================== -->
 
 	<!-- ===== Informations Maven du projet parent ===== -->
-	
+
 	<parent>
 		<groupId>org.ladle</groupId>
 		<artifactId>ladle</artifactId>
@@ -19,12 +19,12 @@
 	</parent>
 
 	<!-- ===== Informations Maven du module ===== -->
-	
+
 	<artifactId>ladle-webapp</artifactId>
 	<packaging>war</packaging>
 
 	<!-- ===== Informations générales du module ===== -->
-	
+
 	<name>ladle-webapp</name>
 	<url>http://ladle.org</url>
 	<description>Application Web du site LADLE.</description>
@@ -32,7 +32,7 @@
 	<!-- =============================================================== -->
 	<!-- Gestion des dépendances -->
 	<!-- =============================================================== -->
-	
+
 	<dependencies>
 
 		<!-- ===== Modules ===== -->
@@ -51,10 +51,34 @@
 
 		<!-- ===== Bibliothèques tierces ===== -->
 
-		<!-- Servlet-api -->
+		<!-- Servlet - API -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+
+		<!-- JSP - API -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+		</dependency>
+
+		<!-- Expression Language - API -->
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+		</dependency>
+
+		<!-- Taglibs Standard Spec -->
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-spec</artifactId>
+		</dependency>
+
+		<!-- Taglibs Standard Impl -->
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-impl</artifactId>
 		</dependency>
 
 	</dependencies>

@@ -10,14 +10,14 @@
 	<!-- =============================================================== -->
 
 	<!-- ===== Informations Maven du projet ===== -->
-	
+
 	<groupId>org.ladle</groupId>
 	<artifactId>ladle</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<!-- ===== Informations générales du projet ===== -->
-	
+
 	<name>ladle</name>
 	<url>http://ladle.org</url>
 	<description>Site Web communautaire pour l'association : Les Amis De L'Escalade.
@@ -28,17 +28,23 @@ Projet de formation OpenClassrooms.</description>
 	<!-- =============================================================== -->
 
 	<properties>
-	
-		<!-- ===== Général ===== -->	
+
+		<!-- ===== Général ===== -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		
-		<!-- ===== Version de dépendance ===== -->		
+
+		<!-- ===== Version de dépendance ===== -->
 		<junit.version>4.12</junit.version>
-		<servlet-api.version>4.0.1</servlet-api.version>
+		
+		<servlet-api.version>4.0.0</servlet-api.version>
+		<jsp-api.version>2.3.3</jsp-api.version>
+		<el-api.version>2.2</el-api.version>
+		<taglibs-standard-spec.version>1.2.5</taglibs-standard-spec.version>
+		<taglibs-standard-impl.version>1.2.5</taglibs-standard-impl.version>
+		
 		<hibernate-core.version>5.4.3.Final</hibernate-core.version>
 		<mysql-connector-java.version>8.0.16</mysql-connector-java.version>
-		
+
 	</properties>
 
 	<!-- =============================================================== -->
@@ -47,7 +53,7 @@ Projet de formation OpenClassrooms.</description>
 
 	<!-- ===== Modules ===== -->
 	<modules>
-		<module>ladle-webapp</module>    
+		<module>ladle-webapp</module>
 		<module>ladle-service</module>
 		<module>ladle-dao</module>
 		<module>ladle-beans</module>
@@ -56,7 +62,7 @@ Projet de formation OpenClassrooms.</description>
 	<!-- ===== Bibliothèques héritées ===== -->
 
 	<dependencies>
-	
+
 		<!-- Junit -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -64,9 +70,9 @@ Projet de formation OpenClassrooms.</description>
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 	</dependencies>
-	
+
 	<!-- ===== Bibliothèques manager ===== -->
 
 	<dependencyManagement>
@@ -79,6 +85,36 @@ Projet de formation OpenClassrooms.</description>
 				<version>${servlet-api.version}</version>
 				<scope>provided</scope>
 			</dependency>
+
+			<!-- JSP - https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
+			<dependency>
+				<groupId>javax.servlet.jsp</groupId>
+				<artifactId>javax.servlet.jsp-api</artifactId>
+				<version>${jsp-api.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- Expression Language - https://mvnrepository.com/artifact/javax.el/el-api -->
+			<dependency>
+				<groupId>javax.el</groupId>
+				<artifactId>el-api</artifactId>
+				<version>${el-api.version}</version>
+			</dependency>
+
+			<!-- Taglibs Standard Spec - https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-spec -->
+			<dependency>
+				<groupId>org.apache.taglibs</groupId>
+				<artifactId>taglibs-standard-spec</artifactId>
+				<version>${taglibs-standard-spec.version}</version>
+			</dependency>
+
+			<!-- Taglibs Standard Impl - https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-impl -->
+			<dependency>
+				<groupId>org.apache.taglibs</groupId>
+				<artifactId>taglibs-standard-impl</artifactId>
+				<version>${taglibs-standard-impl.version}</version>
+			</dependency>
+
 
 			<!-- Hibernate Core - https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
 			<dependency>
@@ -93,7 +129,7 @@ Projet de formation OpenClassrooms.</description>
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${mysql-connector-java.version}</version>
 			</dependency>
-			
+
 
 		</dependencies>
 	</dependencyManagement>
@@ -105,7 +141,7 @@ Projet de formation OpenClassrooms.</description>
 	<!-- ===== Compilation ===== -->
 	<build>
 		<plugins>
-		
+
 			<!-- Maven-compiler-plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -116,7 +152,7 @@ Projet de formation OpenClassrooms.</description>
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 

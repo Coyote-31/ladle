@@ -10,6 +10,12 @@
 <%@ include file="parts/header.jsp" %>
 	
 	<h2>Hello World !</h2>
+	
+<!-- 	<p>	 -->
+<%-- 		Server Version: <%= application.getServerInfo() %><br> --%>
+<%-- 		Servlet Version: <%= application.getMajorVersion() %>.<%= application.getMinorVersion() %> --%>
+<%-- 		JSP Version: <%= JspFactory.getDefaultFactory().getEngineInfo().getSpecificationVersion() %> <br> --%>
+<!-- 	</p> -->
 
 <%@ include file="parts/footer.jsp" %>
 </body>
