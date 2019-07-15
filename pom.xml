@@ -41,6 +41,7 @@ Projet de formation OpenClassrooms.</description>
 		<el-api.version>2.2</el-api.version>
 		<taglibs-standard-spec.version>1.2.5</taglibs-standard-spec.version>
 		<taglibs-standard-impl.version>1.2.5</taglibs-standard-impl.version>
+		<javax-servlet-jstl.version>1.2</javax-servlet-jstl.version>
 		
 		<hibernate-core.version>5.4.3.Final</hibernate-core.version>
 		<mysql-connector-java.version>8.0.16</mysql-connector-java.version>
@@ -114,7 +115,13 @@ Projet de formation OpenClassrooms.</description>
 				<artifactId>taglibs-standard-impl</artifactId>
 				<version>${taglibs-standard-impl.version}</version>
 			</dependency>
-
+			
+			<!-- JSTL https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl -->
+			<dependency>
+			    <groupId>javax.servlet</groupId>
+			    <artifactId>jstl</artifactId>
+			    <version>${javax-servlet-jstl.version}</version>
+			</dependency>
 
 			<!-- Hibernate Core - https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
 			<dependency>

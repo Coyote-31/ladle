@@ -80,6 +80,13 @@
 			<groupId>org.apache.taglibs</groupId>
 			<artifactId>taglibs-standard-impl</artifactId>
 		</dependency>
+		
+		<!-- JSTL -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>jstl</artifactId>
+		</dependency>
+						
 
 	</dependencies>
 
