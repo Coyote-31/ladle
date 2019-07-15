@@ -1,11 +1,38 @@
 @charset "UTF-8";
 
-/* Couleur de la navbar */
-.bg-dark {
-    background-color: #00ab13 !important;
-    
+/* ================================================= */
+/* --- Main --- */
+/* ============ */
+
+html {
+    position: relative;
+    min-height: 100%;
 }
 
-.test {
-	
+body {
+
+	/* margin-bottom = #footer.height */
+    margin-bottom: 60px;
 }
+
+/* ================================================= */
+/* --- Header / NavBar --- */
+/* ======================= */
+
+#header-navbar {
+    background-color: #00ab13 !important;    
+}
+
+/* ================================================= */
+/* --- Footer --- */
+/* ============== */
+
+#footer {
+    background-color: rgb(32, 95, 39);
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+}
+
+/* ================================================= */
+/* ================================================= */

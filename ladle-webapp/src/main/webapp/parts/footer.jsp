@@ -1,3 +1,8 @@
+<footer id="footer" class="position-absolute">
+      <div class="container">
+        <span class="text-muted">Hello ! Place sticky footer content here.</span>
+      </div>
+</footer>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

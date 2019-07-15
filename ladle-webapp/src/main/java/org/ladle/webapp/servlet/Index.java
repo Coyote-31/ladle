@@ -1,6 +1,7 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -50,6 +51,7 @@ public class Index extends HttpServlet {
     		throw new ExceptionInInitializerError(ex); 
     	}
 
+    	List<Region> regionsToSend = new ArrayList<>();
     	Session session = null;
     	Transaction tx = null;
 
@@ -59,6 +61,8 @@ public class Index extends HttpServlet {
     		
 			@SuppressWarnings("unchecked")
 			List<Region> regions = session.createQuery("FROM Region").list();
+			
+			regionsToSend.addAll(regions);
 
     		for (Iterator<Region> iterator = regions.iterator(); iterator.hasNext();){
     			Region region = iterator.next(); 
@@ -81,6 +85,8 @@ public class Index extends HttpServlet {
 		   
 		   Logger logger = Logger.getLogger(Index.class);
 		   logger.info("Hello World");
+		   
+		   request.setAttribute("myList", regionsToSend);
 		   
 		   this.getServletContext().getRequestDispatcher( "/index.jsp" ).forward( request, response );
 			
