@@ -88,7 +88,7 @@ public class Index extends HttpServlet {
 		   
 		   request.setAttribute("myList", regionsToSend);
 		   
-		   this.getServletContext().getRequestDispatcher( "/index.jsp" ).forward( request, response );
+		   this.getServletContext().getRequestDispatcher( "/WEB-INF/index.jsp" ).forward( request, response );
 			
 		} catch (Exception e) {
 			e.printStackTrace();
