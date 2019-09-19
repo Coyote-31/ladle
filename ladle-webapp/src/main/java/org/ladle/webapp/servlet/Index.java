@@ -84,7 +84,7 @@ public class Index extends HttpServlet {
 	   try {
 		   
 		   Logger logger = Logger.getLogger(Index.class);
-		   logger.info("Hello World");
+		   logger.info("Servlet : index");
 		   
 		   request.setAttribute("myList", regionsToSend);
 		   

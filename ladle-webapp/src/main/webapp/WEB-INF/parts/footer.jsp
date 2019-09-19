@@ -1,7 +1,14 @@
 <footer id="footer" class="position-absolute">
-      <div class="container">
-        <span class="text-muted">Hello ! Place sticky footer content here.</span>
-      </div>
+	<div class="container">
+		<p class="text-muted">
+			<c:out value="JSTL fonctionne ! =)"></c:out>
+			<br /> Server Version:
+			<%=application.getServerInfo()%><br /> Servlet Version:
+			<%=application.getMajorVersion()%>.<%=application.getMinorVersion()%>
+			JSP Version:
+			<%=JspFactory.getDefaultFactory().getEngineInfo().getSpecificationVersion()%>
+		</p>
+	</div>
 </footer>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
