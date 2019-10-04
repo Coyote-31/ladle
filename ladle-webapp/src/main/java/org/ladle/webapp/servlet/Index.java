@@ -73,7 +73,7 @@ public class Index extends HttpServlet {
     		tx.commit();
     	} catch (HibernateException e) {
     		if (tx!=null) tx.rollback();
-    		e.printStackTrace(); 
+    		e.printStackTrace();
     	} finally {
     		session.close(); 
     	}

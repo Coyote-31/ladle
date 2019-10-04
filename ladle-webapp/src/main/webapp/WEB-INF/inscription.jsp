@@ -61,13 +61,13 @@
 
 				</div>
 
-				<!-- Mail -->
+				<!-- eMail -->
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
-						<span class="input-group-text" id="aria-mail">Mail</span>
+						<span class="input-group-text" id="aria-email">eMail</span>
 					</div>
 					<input type="email" id="email" name="email" maxlength="90" class="form-control" placeholder=""
-						aria-label="Mail" aria-describedby="aria-mail">
+						aria-label="eMail" aria-describedby="aria-email">
 				</div>
 
 				<!-- Ville -->

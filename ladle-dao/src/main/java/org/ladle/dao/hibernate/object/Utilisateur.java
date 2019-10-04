@@ -14,8 +14,8 @@ public class Utilisateur {
 	private String prenom;
 	private String email;
 	private String mdp;
-	private Byte[] salt;
-	private Byte role;
+	private byte[] salt;
+	private byte role;
 	
 	/**
 	 * Constructeurs
@@ -24,7 +24,7 @@ public class Utilisateur {
 	public Utilisateur() {}
 
 	public Utilisateur(Integer villeID, String pseudo, String genre, String nom, String prenom,	
-			String email, String mdp, Byte[] salt, Byte role) {
+			String email, String mdp, byte[] salt, byte role) {
 		super();
 		this.villeID = villeID;
 		this.pseudo = pseudo;
@@ -105,19 +105,19 @@ public class Utilisateur {
 		this.mdp = mdp;
 	}
 
-	public Byte[] getSalt() {
+	public byte[] getSalt() {
 		return salt;
 	}
 
-	public void setSalt(Byte[] salt) {
+	public void setSalt(byte[] salt) {
 		this.salt = salt;
 	}
 
-	public Byte getRole() {
+	public byte getRole() {
 		return role;
 	}
 
-	public void setRole(Byte role) {
+	public void setRole(byte role) {
 		this.role = role;
 	}
 	

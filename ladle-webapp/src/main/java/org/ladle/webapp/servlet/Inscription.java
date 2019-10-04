@@ -7,9 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.jboss.logging.Logger;
+import org.ladle.dao.hibernate.object.Utilisateur;
 
 /**
  * Servlet implementation class Inscription
@@ -31,6 +35,7 @@ public class Inscription extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
@@ -49,6 +54,7 @@ public class Inscription extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		/** ===================================================================================== **/
@@ -66,26 +72,55 @@ public class Inscription extends HttpServlet {
 		String genre = request.getParameter("genre");
 		String prenom = request.getParameter("prenom");
 		String nom = request.getParameter("nom");
-		String mail = request.getParameter("mail");
+		String email = request.getParameter("email");
 		String ville = request.getParameter("ville");
 		String mdp = request.getParameter("mdp");
 		String mdp2 = request.getParameter("mdp2");
-		
+
 		LOG.info("Formulaire : " 
 				+ pseudo + " / "
 				+ genre + " / "
 				+ prenom + " / "
 				+ nom + " / "
-				+ mail + " / "
+				+ email + " / "
 				+ ville + " / "
 				+ mdp + " / "
 				+ mdp2
 				);
 
+		Integer villeID = 666;
+		byte[] salt = {69};
+		byte role = 0;
+		
+
+		addUtilisateur(villeID, pseudo, genre, nom, prenom, email, mdp, salt, role);
 
 
 
 		doGet(request, response);
+	}
+	
+	/* Création d'un nouvel utilisateur dans la BDD */
+	public void addUtilisateur(Integer villeID, String pseudo, String genre, 
+			String nom, String prenom, String email, String mdp, byte[] salt, byte role){
+		
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Integer utilisateurID = null;
+
+		try {
+			tx = session.beginTransaction();
+			Utilisateur utilisateur = new Utilisateur(villeID, pseudo, genre, nom, prenom,	
+					email, mdp, salt, role);
+			utilisateurID = (Integer) session.save(utilisateur);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		} finally {
+			session.close(); 
+		}
+		LOG.info(utilisateurID);
 	}
 
 }
