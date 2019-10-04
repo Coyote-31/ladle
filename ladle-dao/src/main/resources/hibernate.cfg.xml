@@ -38,6 +38,7 @@
 		
 		<!-- List of XML mapping files -->
 		<mapping resource="org/ladle/dao/hibernate/mapping/Region.hbm.xml"/>
+		<mapping resource="org/ladle/dao/hibernate/mapping/Utilisateur.hbm.xml"/>
 		
 	</session-factory>
 </hibernate-configuration>

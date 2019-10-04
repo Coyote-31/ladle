@@ -10,85 +10,88 @@
 
 	<div class="container">
 
-		<h1>Inscription</h1>
+		<h1>Page d'inscription</h1>
 
 		<!-- inputs d'inscription -->
 
-		<form>
+		<form method="post" action="Inscription">
+			<fieldset>
+				<legend>Inscription</legend>
 
-			<!-- Pseudo -->
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="pseudo">Pseudo</span>
+				<!-- Pseudo -->
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="aria-pseudo">Pseudo</span>
+					</div>
+					<input type="text" id="pseudo" name="pseudo" maxlength="45" class="form-control" placeholder=""
+						aria-label="Pseudo" aria-describedby="aria-pseudo">
 				</div>
-				<input type="text" class="form-control" placeholder=""
-					aria-label="Pseudo" aria-describedby="pseudo">
-			</div>
 
- <div class="row">
+				<div class="row">
 
-			<!-- Genre -->
-			<div class="input-group col-md-4 col-lg-3 mb-3">
-				<div class="input-group-prepend">
-					<label class="input-group-text" for="genre">Genre</label>
+					<!-- Genre -->
+					<div class="input-group col-md-4 col-lg-3 mb-3">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="genre">Genre</label>
+						</div>
+						<select class="custom-select" id="genre" name="genre">
+							<option selected>Choisissez...</option>
+							<option value="Madame">Madame</option>
+							<option value="Monsieur">Monsieur</option>
+						</select>
+					</div>
+
+					<!-- Prénom -->
+					<div class="input-group col-md mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="aria-prenom">Prénom</span>
+						</div>
+						<input type="text" id="prenom" name="prenom" maxlength="45" class="form-control" placeholder=""
+							aria-label="Prénom" aria-describedby="aria-prenom">
+					</div>
+
+					<!-- Nom -->
+					<div class="input-group col-md mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="aria-nom">Nom</span>
+						</div>
+						<input type="text" id="nom" name="nom" maxlength="45" class="form-control" placeholder=""
+							aria-label="Nom" aria-describedby="aria-nom">
+					</div>
+
 				</div>
-				<select class="custom-select" id="genre">
-					<option selected>Choisissez...</option>
-					<option value="Madame">Madame</option>
-					<option value="Monsieur">Monsieur</option>
-				</select>
-			</div>
 
-			<!-- Prénom -->
-			<div class="input-group col-md mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="prenom">Prénom</span>
+				<!-- Mail -->
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="aria-mail">Mail</span>
+					</div>
+					<input type="email" id="email" name="email" maxlength="90" class="form-control" placeholder=""
+						aria-label="Mail" aria-describedby="aria-mail">
 				</div>
-				<input type="text" class="form-control" placeholder=""
-					aria-label="Prénom" aria-describedby="prenom">
-			</div>
 
-			<!-- Nom -->
-			<div class="input-group col-md mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="nom">Nom</span>
+				<!-- Ville -->
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="aria-ville">Ville</span>
+					</div>
+					<input type="text" id="ville" name="ville" class="form-control" placeholder=""
+						aria-label="Ville" aria-describedby="aria-ville">
 				</div>
-				<input type="text" class="form-control" placeholder=""
-					aria-label="Nom" aria-describedby="nom">
-			</div>
 
-</div>
-
-			<!-- Mail -->
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="mail">Mail</span>
+				<!-- Mdp x2 -->
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="aria-mdp">Mot de passe</span>
+					</div>
+					<input type="password" id="mdp" name="mdp" maxlength="90" class="form-control" placeholder=""
+						aria-label="Mot de passe" aria-describedby="aria-mdp"> <input
+						type="password" id="mdp2" name="mdp2" maxlength="90" class="form-control" placeholder=""
+						aria-label="Retapez le mot de passe" aria-describedby="aria-mdp">
 				</div>
-				<input type="email" class="form-control" placeholder=""
-					aria-label="Mail" aria-describedby="mail">
-			</div>
 
-			<!-- Ville -->
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="ville">Ville</span>
-				</div>
-				<input type="text" class="form-control" placeholder=""
-					aria-label="Ville" aria-describedby="ville">
-			</div>
-
-			<!-- Mdp x2 -->
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="mdp">Mot de passe</span>
-				</div>
-				<input type="password" class="form-control" placeholder=""
-					aria-label="Mot de passe" aria-describedby="mdp"> <input
-					type="password" class="form-control" placeholder=""
-					aria-label="Retapez le mot de passe" aria-describedby="mdp">
-			</div>
-
-			<button type="submit" class="btn btn-primary">Valider</button>
+				<button type="submit" class="btn btn-primary">Valider</button>
+			</fieldset>
 		</form>
 
 	</div>
