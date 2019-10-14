@@ -1,19 +1,18 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.jboss.logging.Logger;
-import org.ladle.dao.hibernate.object.Utilisateur;
+import org.ladle.beans.User;
+import org.ladle.service.UserHandler;
 
 /**
  * Servlet implementation class Inscription
@@ -57,70 +56,35 @@ public class Inscription extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		/** ===================================================================================== **/
-		try {
-
-			factory = new Configuration().configure().buildSessionFactory();
-
-		} catch (Throwable ex) { 
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex); 
-		}
-
 		/* Récupération des éléments du formulaire d'inscription */
-		String pseudo = request.getParameter("pseudo");
-		String genre = request.getParameter("genre");
-		String prenom = request.getParameter("prenom");
-		String nom = request.getParameter("nom");
-		String email = request.getParameter("email");
-		String ville = request.getParameter("ville");
-		String mdp = request.getParameter("mdp");
-		String mdp2 = request.getParameter("mdp2");
+		
+		User user = new User();
+		
+		user.setPseudo(request.getParameter("pseudo"));
+		user.setGenre(request.getParameter("genre"));
+		user.setPrenom(request.getParameter("prenom"));
+		user.setNom(request.getParameter("nom"));
+		user.setEmail(request.getParameter("email"));
+		user.setVille(request.getParameter("ville"));
+		user.setMdp(request.getParameter("mdp"));
+		user.setMdp2(request.getParameter("mdp2"));
 
 		LOG.info("Formulaire : " 
-				+ pseudo + " / "
-				+ genre + " / "
-				+ prenom + " / "
-				+ nom + " / "
-				+ email + " / "
-				+ ville + " / "
-				+ mdp + " / "
-				+ mdp2
+				+ user.getPseudo() + " / "
+				+ user.getGenre() + " / "
+				+ user.getPrenom() + " / "
+				+ user.getNom() + " / "
+				+ user.getEmail() + " / "
+				+ user.getVille() + " / "
+				+ user.getMdp() + " / "
+				+ user.getMdp2()
 				);
 
-		Integer villeID = 666;
-		byte[] salt = {69};
-		byte role = 0;
 		
-
-		addUtilisateur(villeID, pseudo, genre, nom, prenom, email, mdp, salt, role);
-
-
+		UserHandler userHandler = new UserHandler(user);
+		userHandler.addUser();
 
 		doGet(request, response);
-	}
-	
-	/* Création d'un nouvel utilisateur dans la BDD */
-	public void addUtilisateur(Integer villeID, String pseudo, String genre, 
-			String nom, String prenom, String email, String mdp, byte[] salt, byte role){
-		
-		Session session = factory.openSession();
-		Transaction tx = null;
-		Integer utilisateurID = null;
-
-		try {
-			tx = session.beginTransaction();
-			Utilisateur utilisateur = new Utilisateur(villeID, pseudo, genre, nom, prenom,	
-					email, mdp, salt, role);
-			utilisateurID = (Integer) session.save(utilisateur);
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx!=null) tx.rollback();
-			e.printStackTrace(); 
-		} finally {
-			session.close(); 
-		}
-		LOG.info(utilisateurID);
 	}
 
 }
