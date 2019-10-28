@@ -1,6 +1,8 @@
 package org.ladle.dao.hibernate.object;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -8,19 +10,30 @@ import javax.persistence.Table;
  * @author Coyote
  */
 @Entity
-@Table
+@Table(name="utilisateur")
 public class Utilisateur {
 
+	@Id
+	@Column(name="utilisateur_id")
 	private Integer utilisateurID;
+	@Column(name="ville_id")
 	private Integer villeID;
+	@Column(name="pseudo")
 	private String pseudo;
+	@Column(name="genre")
 	private String genre;
+	@Column(name="nom")
 	private String nom;
+	@Column(name="prenom")
 	private String prenom;
+	@Column(name="email")
 	private String email;
+	@Column(name="mdp")
 	private String mdp;
+	@Column(name="salt")
 	private byte[] salt;
-	private byte role;
+	@Column(name="role")
+	private Integer role;
 	
 	/**
 	 * Constructeurs
@@ -29,7 +42,7 @@ public class Utilisateur {
 	public Utilisateur() {}
 
 	public Utilisateur(Integer villeID, String pseudo, String genre, String nom, String prenom,	
-			String email, String mdp, byte[] salt, byte role) {
+			String email, String mdp, byte[] salt, Integer role) {
 		super();
 		this.villeID = villeID;
 		this.pseudo = pseudo;
@@ -118,11 +131,11 @@ public class Utilisateur {
 		this.salt = salt;
 	}
 
-	public byte getRole() {
+	public Integer getRole() {
 		return role;
 	}
 
-	public void setRole(byte role) {
+	public void setRole(Integer role) {
 		this.role = role;
 	}
 	

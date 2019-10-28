@@ -19,8 +19,8 @@ public class UserDaoImpl implements UserDao {
 
 	private static SessionFactory factory;
 	private static final Logger LOG = Logger.getLogger(UserDaoImpl.class);
-	byte[] salt = {1};
-	byte role = 0;
+	byte[] salt = {1}; //TODO
+	byte role = 0; //TODO
 
 
 	public UserDaoImpl() {
@@ -77,6 +77,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public boolean containsPseudo(String pseudo) {
 
+		/*
 		Session session = factory.openSession();
 		Transaction tx = null;
 		//EntityManager entityManager = getEntityManager();
@@ -97,7 +98,7 @@ public class UserDaoImpl implements UserDao {
 		} finally {
 			session.close();
 		}
-
+*/
 		return false;
 	}
 
