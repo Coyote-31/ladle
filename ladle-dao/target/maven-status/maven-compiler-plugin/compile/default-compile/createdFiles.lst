@@ -1,6 +1,3 @@
-org\ladle\dao\hibernate\object\Utilisateur.class
 org\ladle\dao\hibernate\object\Region.class
-org\ladle\dao\App.class
-org\ladle\dao\hibernate\impl\UserDaoImpl.class
-org\ladle\dao\JPAUtility.class
+org\ladle\dao\hibernate\object\Utilisateur.class
 org\ladle\dao\UserDao.class

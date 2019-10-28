@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.logging.Logger;
-import org.ladle.dao.JPAUtility;
 import org.ladle.dao.hibernate.object.Region;
 
 /**
@@ -38,11 +37,10 @@ public class Index extends HttpServlet {
 
 		/** ===================================================================================== **/
 
-		EntityManager entityManager = JPAUtility.getEntityManager();
-
-		entityManager.getTransaction().begin();
+		EntityManager em = (EntityManager) getServletContext().getAttribute("entityManager");
+		em.getTransaction().begin();
 		
-		List<Region> regionsToSend = entityManager.createQuery( "from Region", Region.class ).getResultList();
+		List<Region> regionsToSend = em.createQuery( "from Region", Region.class ).getResultList();
 
 		for ( Region region : regionsToSend ){
 			System.out.print("ID:" + region.getRegionID()); 
@@ -50,9 +48,8 @@ public class Index extends HttpServlet {
 			System.out.println(" Soundex:" + region.getSoundex());
 		}
 
-		entityManager.getTransaction().commit();
+		em.getTransaction().commit();
 		
-		entityManager.close();
 
 		/** ===================================================================================== **/
 
