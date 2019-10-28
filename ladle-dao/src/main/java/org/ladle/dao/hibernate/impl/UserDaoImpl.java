@@ -1,5 +1,10 @@
 package org.ladle.dao.hibernate.impl;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,15 +18,12 @@ import org.ladle.dao.hibernate.object.Utilisateur;
 public class UserDaoImpl implements UserDao {
 
 	private static SessionFactory factory;
-	private User user;
 	private static final Logger LOG = Logger.getLogger(UserDaoImpl.class);
 	byte[] salt = {1};
 	byte role = 0;
 
 
-	public UserDaoImpl(User user) {
-
-		this.user = user;
+	public UserDaoImpl() {
 
 		/** Initialisation du factory **/
 		try {
@@ -35,7 +37,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void addUser() {
+	public void addUser(User user) {
 
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -70,6 +72,33 @@ public class UserDaoImpl implements UserDao {
 		// todo dao string -> Id
 		int villeId = 666;
 		return villeId;
+	}
+
+	@Override
+	public boolean containsPseudo(String pseudo) {
+
+		Session session = factory.openSession();
+		Transaction tx = null;
+		//EntityManager entityManager = getEntityManager();
+
+		try {
+			tx = session.beginTransaction();
+			
+			String hql = "SELECT U.pseudo FROM utilisateur U WHERE U.pseudo = :pseudo";
+			Query query = entityManager.createQuery(hql);
+			query.setParameter("pseudo", pseudo);
+			
+			List<Utilisateur> results = query.getResultList();
+			
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return false;
 	}
 
 

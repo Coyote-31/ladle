@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.jboss.logging.Logger;
 import org.ladle.beans.User;
 import org.ladle.service.UserHandler;
@@ -80,9 +79,9 @@ public class Inscription extends HttpServlet {
 				+ user.getMdp2()
 				);
 
-		
-		UserHandler userHandler = new UserHandler(user);
-		userHandler.addUser();
+		/* vérification & insertion dans la BDD + Récupération de la liste de validation */
+		UserHandler userHandler = new UserHandler();
+		request.setAttribute("validationList", userHandler.addUser(user));
 
 		doGet(request, response);
 	}

@@ -1,9 +1,14 @@
 package org.ladle.dao.hibernate.object;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * Classe des utilisateurs pour Hibernate
  * @author Coyote
  */
+@Entity
+@Table
 public class Utilisateur {
 
 	private Integer utilisateurID;
