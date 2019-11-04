@@ -1,5 +1,9 @@
 package org.ladle.beans;
 
+/**
+ * Classe utilitaire de stockage d'informations d'un utilisateur.
+ * @author Coyote
+ */
 public class User {
 	
 	private String pseudo;

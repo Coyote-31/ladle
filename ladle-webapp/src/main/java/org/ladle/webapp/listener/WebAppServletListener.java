@@ -33,6 +33,8 @@ public class WebAppServletListener implements ServletContextListener {
 		EntityManager em = (EntityManager) sce.getServletContext().getAttribute("entityManager");
 		em.close();
 		
+		JPAUtility.close();
+		
 		LOG.info("Context destroyed");
 
 	}

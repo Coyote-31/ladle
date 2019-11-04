@@ -29,19 +29,23 @@ public class UserHandler {
 		Map<String, Integer> validationList = new HashMap<>();
 		
 		/* Tests des données et ajout des codes dans la liste de validation */
-		validationList.put("pseudo", testPseudo());
+		validationList.put("pseudo", testPseudo(user));
 		
-		
-		/* Si tout est valide on ajoute dans la bdd */
-		userDao.addUser(user);
+		if (!validationList.containsValue(2))  {
+			
+			/* Si tout est valide on ajoute dans la bdd */
+			userDao.addUser(user);
+		}
 
 		return validationList;
 	}
 
-	private Integer testPseudo() {
+	private Integer testPseudo(User user) {
 		
-		Integer result = 1; // TODO
+		if(userDao.containsPseudo(user.getPseudo())) {
+			return 2;
+		}
 		
-		return result;
+		return 1;
 	}
 }

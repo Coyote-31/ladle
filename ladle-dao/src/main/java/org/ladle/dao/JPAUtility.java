@@ -17,7 +17,7 @@ public class JPAUtility {
 	
 	private JPAUtility() {
 		
-		throw new IllegalStateException("Utility class");
+		throw new IllegalStateException("Utility class static !");
 	}
 
 	
