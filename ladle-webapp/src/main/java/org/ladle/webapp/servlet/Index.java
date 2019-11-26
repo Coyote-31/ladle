@@ -1,17 +1,19 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.logging.Logger;
-import org.ladle.dao.JPAUtility;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.ladle.dao.RegionDao;
 import org.ladle.dao.hibernate.object.Region;
 
 /**
@@ -21,7 +23,11 @@ import org.ladle.dao.hibernate.object.Region;
 public class Index extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger(Index.class);
+	private static final Logger LOG = LogManager.getLogger(Index.class);
+	
+	@EJB(name = "RegionDaoImpl")
+	//@Inject
+	RegionDao regionDao;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -38,27 +44,28 @@ public class Index extends HttpServlet {
 
 		/** ===================================================================================== **/
 
-		EntityManager em = JPAUtility.getEntityManager();
-				//(EntityManager) getServletContext().getAttribute("entityManager");
-		em.getTransaction().begin();
+	//	RegionDao regionDao = new RegionDaoImpl();
 		
-		List<Region> regionsToSend = em.createQuery( "from Region", Region.class ).getResultList();
 
-		for ( Region region : regionsToSend ){
-			System.out.print("ID:" + region.getRegionID()); 
-			System.out.print(" Nom:" + region.getNom()); 
-			System.out.println(" Soundex:" + region.getSoundex());
+		
+		List<Region> regionsToSend = new ArrayList<>();
+		
+		LOG.info("Servlet : index");
+		System.out.println("Servlet Println");
+		
+		try {
+			regionsToSend = regionDao.getAllRegions();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 
-		em.getTransaction().commit();
-		
 
 		/** ===================================================================================== **/
 
 		try {
 
-			Logger logger = Logger.getLogger(Index.class);
-			logger.info("Servlet : index");
+			
 
 			request.setAttribute("myList", regionsToSend);
 

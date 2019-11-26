@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.ladle.beans.User;
 import org.ladle.service.UserHandler;
 
@@ -18,7 +19,7 @@ import org.ladle.service.UserHandler;
 @WebServlet("/Inscription")
 public class Inscription extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger(Inscription.class);
+	private static final Logger LOG = LogManager.getLogger(Inscription.class);
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -66,7 +67,7 @@ public class Inscription extends HttpServlet {
 		user.setMdp(request.getParameter("mdp"));
 		user.setMdp2(request.getParameter("mdp2"));
 
-		LOG.info("Formulaire : " 
+		LOG.debug("Formulaire : " 
 				+ user.getPseudo() + " / "
 				+ user.getGenre() + " / "
 				+ user.getPrenom() + " / "

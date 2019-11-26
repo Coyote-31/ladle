@@ -5,9 +5,10 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0">
 
-	<persistence-unit name="ladleMySQLPU">
+	<persistence-unit name="ladleMySQLPU" transaction-type="JTA">
 		<description>Persistence Unit for ladle on DB MySQL</description>
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<jta-data-source>ladleMySQL</jta-data-source>
 
 		<!-- Entities class -->
 		<class>org.ladle.dao.hibernate.object.Utilisateur</class>
@@ -38,7 +39,7 @@
 			<!-- Database managing : "" | validate | update | create | create-drop -->
 			<property
 				name="hibernate.hbm2ddl.auto"
-				value="validate"/>
+				value=""/>
 
 			<!-- Echo the SQL to stdout -->
 			<property
@@ -61,6 +62,9 @@
 			<property
 				name="hibernate.dbcp.maxWaitMillis"
 				value="-1"/>
+
+			<!-- Debug TomEE Factory -->				
+			<property name="tomee.jpa.factory.lazy" value="true" />
 
 		</properties>
 

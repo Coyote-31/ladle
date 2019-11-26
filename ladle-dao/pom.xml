@@ -10,7 +10,7 @@
 	<!-- =============================================================== -->
 
 	<!-- ===== Informations projet parent ===== -->
-	
+
 	<parent>
 		<groupId>org.ladle</groupId>
 		<artifactId>ladle</artifactId>
@@ -19,7 +19,7 @@
 	</parent>
 
 	<!-- ===== Informations générales ===== -->
-	
+
 	<artifactId>ladle-dao</artifactId>
 	<name>ladle-dao</name>
 	<url>http://ladle.org</url>
@@ -47,16 +47,17 @@
 
 		<!-- ===== Bibliothèques tierces ===== -->
 
-		<!-- Hibernate Core  -->
+		<!-- Hibernate Core -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
+
 
 	</dependencies>
 

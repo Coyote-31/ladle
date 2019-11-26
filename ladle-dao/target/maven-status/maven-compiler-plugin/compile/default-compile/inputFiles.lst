@@ -1,8 +1,9 @@
-D:\Dev\eclipse\eclipse-workspace\ladle\ladle-dao\src\main\java\org\ladle\dao\JPAUtility.java
 D:\Dev\eclipse\eclipse-workspace\ladle\ladle-dao\src\main\java\org\ladle\dao\hibernate\object\Region.java
 D:\Dev\eclipse\eclipse-workspace\ladle\ladle-dao\src\main\java\org\ladle\dao\hibernate\object\package-info.java
 D:\Dev\eclipse\eclipse-workspace\ladle\ladle-dao\src\main\java\org\ladle\dao\hibernate\impl\UserDaoImpl.java
+D:\Dev\eclipse\eclipse-workspace\ladle\ladle-dao\src\main\java\org\ladle\dao\RegionDao.java
 D:\Dev\eclipse\eclipse-workspace\ladle\ladle-dao\src\main\java\org\ladle\dao\App.java
 D:\Dev\eclipse\eclipse-workspace\ladle\ladle-dao\src\main\java\org\ladle\dao\hibernate\object\Utilisateur.java
 D:\Dev\eclipse\eclipse-workspace\ladle\ladle-dao\src\main\java\org\ladle\dao\UserDao.java
 D:\Dev\eclipse\eclipse-workspace\ladle\ladle-dao\src\main\java\org\ladle\dao\hibernate\impl\package-info.java
+D:\Dev\eclipse\eclipse-workspace\ladle\ladle-dao\src\main\java\org\ladle\dao\hibernate\impl\RegionDaoImpl.java
