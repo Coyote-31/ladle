@@ -1,19 +1,25 @@
 package org.ladle.dao.hibernate.impl;
 
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
-import org.jboss.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.ladle.beans.User;
 import org.ladle.dao.UserDao;
 import org.ladle.dao.hibernate.object.Utilisateur;
 
+@Stateful
+//@Named("UserDaoImpl")
 public class UserDaoImpl implements UserDao {
 
-	private static final Logger LOG = Logger.getLogger(UserDaoImpl.class);
+	private static final Logger LOG = LogManager.getLogger(UserDaoImpl.class);
 	
-	@PersistenceContext(unitName = "ladleMySQLPU")
+	@PersistenceContext(unitName = "ladleMySQLPU", type = PersistenceContextType.EXTENDED)
 	private EntityManager em;
 	
 	byte[] salt = {1}; //TODO
@@ -22,9 +28,6 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void addUser(User user) {
-
-
-		em.getTransaction().begin();
 
 		Utilisateur utilisateur = 
 				new Utilisateur(getVilleId(user.getVille()), 
@@ -36,10 +39,13 @@ public class UserDaoImpl implements UserDao {
 						user.getMdp(), 
 						salt, 
 						role);
-
-		em.persist(utilisateur);
-//		em.getTransaction().commit();
-//		em.close();
+		System.out.println(user.getPrenom());
+		try {
+			em.persist(utilisateur);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		LOG.info(utilisateur.getPseudo() + " : Saved");
 	}
@@ -53,23 +59,21 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public boolean containsPseudo(String pseudo) {
 
-//		em = JPAUtility.getEntityManager();
-
 		String hql = "FROM Utilisateur U WHERE U.pseudo = :pseudo";
 		Query query = em.createQuery(hql);
 		query.setParameter("pseudo", pseudo);
 
-		Utilisateur utilisateur = (Utilisateur) query.getSingleResult();
 
-//		em.close();
-
-		if (utilisateur == null) {
+		try {
+			query.getSingleResult();
+		} catch (NoResultException e) {
 			LOG.info("Pseudo = " + pseudo +" libre");
 			return false;
-		} else {
-			LOG.info("Pseudo = " + pseudo +" déjà utilisé");
-			return true;
 		}
+
+			LOG.info("Pseudo = " + pseudo +" déjà utilisé");
+			return true;		
+
 	}
 
 }

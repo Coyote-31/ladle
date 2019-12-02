@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<meta charset="utf-8"/>
 <title>Inscription</title>
 <%@ include file="/WEB-INF/parts/meta.jsp"%>
 </head>

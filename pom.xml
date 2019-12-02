@@ -47,6 +47,7 @@ Projet de formation OpenClassrooms.</description>
 		<hibernate-core.version>5.4.9.Final</hibernate-core.version>
 		<mysql-connector-java.version>8.0.18</mysql-connector-java.version>
 		<javax-ejb.version>3.2.2</javax-ejb.version>
+		<javax-persistence.version>2.2</javax-persistence.version>
 
 	</properties>
 
@@ -154,6 +155,14 @@ Projet de formation OpenClassrooms.</description>
 				<version>${mysql-connector-java.version}</version>
 				<scope>provided</scope>
 			</dependency>
+
+			<!-- JPA - https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+			<dependency>
+				<groupId>javax.persistence</groupId>
+				<artifactId>javax.persistence-api</artifactId>
+				<version>${javax-persistence.version}</version>
+			</dependency>
+			
 			
 
 		</dependencies>

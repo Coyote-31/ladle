@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0"
@@ -14,7 +14,6 @@
 	<parent>
 		<groupId>org.ladle</groupId>
 		<artifactId>ladle</artifactId>
-		<relativePath>../pom.xml</relativePath>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	

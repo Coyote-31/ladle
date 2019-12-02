@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Classe de test de BDD avec hibernate
+ * Classe des régions pour hibernate
  * @author Coyote
  */
 @Entity

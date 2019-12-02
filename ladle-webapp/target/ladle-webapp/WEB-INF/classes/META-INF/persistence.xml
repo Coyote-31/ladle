@@ -14,7 +14,7 @@
 		<class>org.ladle.dao.hibernate.object.Utilisateur</class>
 		<class>org.ladle.dao.hibernate.object.Region</class>
 
-		<!-- Persistence Unit configuaration -->
+		<!-- Persistence Unit configuration -->
 		<properties>
 
 			<!-- JDBC Database connection settings -->

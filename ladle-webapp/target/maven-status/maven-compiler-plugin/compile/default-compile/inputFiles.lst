@@ -2,3 +2,5 @@ D:\Dev\eclipse\eclipse-workspace\ladle\ladle-webapp\src\main\java\org\ladle\weba
 D:\Dev\eclipse\eclipse-workspace\ladle\ladle-webapp\src\main\java\org\ladle\webapp\listener\WebAppServletListener.java
 D:\Dev\eclipse\eclipse-workspace\ladle\ladle-webapp\src\main\java\org\ladle\webapp\servlet\Inscription.java
 D:\Dev\eclipse\eclipse-workspace\ladle\ladle-webapp\src\main\java\org\ladle\webapp\servlet\Index.java
+D:\Dev\eclipse\eclipse-workspace\ladle\ladle-webapp\src\main\java\org\ladle\webapp\filter\package-info.java
+D:\Dev\eclipse\eclipse-workspace\ladle\ladle-webapp\src\main\java\org\ladle\webapp\filter\EncodingFilter.java

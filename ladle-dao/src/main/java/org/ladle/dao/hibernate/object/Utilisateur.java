@@ -12,7 +12,7 @@ import javax.persistence.Table;
  * @author Coyote
  */
 @Entity
-@Table(name="utilisateur")
+@Table(name="[utilisateur]", schema = "[ladle_db]")
 public class Utilisateur {
 
 	@Id

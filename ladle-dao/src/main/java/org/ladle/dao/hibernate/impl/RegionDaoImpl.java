@@ -17,8 +17,6 @@ public class RegionDaoImpl implements RegionDao {
 
 	private static final Logger LOG = LogManager.getLogger(RegionDaoImpl.class);
 
-	// @PersistenceUnit(unitName = "ladleMySQLPU")
-
 	@PersistenceContext(unitName = "ladleMySQLPU", type = PersistenceContextType.EXTENDED)
 	private EntityManager em;
 
@@ -27,11 +25,8 @@ public class RegionDaoImpl implements RegionDao {
 	public List<Region> getAllRegions() {
 
 		List<Region> regionsToSend;
-
-		System.out.println("getAllRegions Println");
 		
 		regionsToSend = em.createQuery( "from Region", Region.class ).getResultList();
-
 
 		for ( Region region : regionsToSend ){
 			LOG.debug("ID:" + region.getRegionID());

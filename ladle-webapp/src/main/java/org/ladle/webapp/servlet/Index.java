@@ -26,15 +26,8 @@ public class Index extends HttpServlet {
 	private static final Logger LOG = LogManager.getLogger(Index.class);
 	
 	@EJB(name = "RegionDaoImpl")
-	//@Inject
 	RegionDao regionDao;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public Index() {
-		super();
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

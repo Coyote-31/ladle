@@ -15,5 +15,10 @@
 			<include-prelude>/WEB-INF/parts/taglibs.jsp</include-prelude>
 		</jsp-property-group>
 	</jsp-config>
+	
+	<filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern />
+	</filter-mapping>
 
 </web-app>
