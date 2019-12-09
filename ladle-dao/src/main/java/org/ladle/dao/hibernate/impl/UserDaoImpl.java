@@ -75,5 +75,25 @@ public class UserDaoImpl implements UserDao {
 			return true;		
 
 	}
+	
+	@Override
+	public boolean containsEmail(String email) {
+
+		String hql = "FROM Utilisateur U WHERE U.email = :email";
+		Query query = em.createQuery(hql);
+		query.setParameter("email", email);
+
+
+		try {
+			query.getSingleResult();
+		} catch (NoResultException e) {
+			LOG.info("Email = " + email +" libre");
+			return false;
+		}
+
+			LOG.info("Email = " + email +" déjà utilisé");
+			return true;		
+
+	}
 
 }

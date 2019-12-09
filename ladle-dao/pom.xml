@@ -52,11 +52,13 @@
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
 
+		<!-- Driver MySQL -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
+		<!-- JPA -->
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>javax.persistence-api</artifactId>

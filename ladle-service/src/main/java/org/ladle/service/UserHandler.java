@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 
+import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.User;
@@ -16,11 +17,8 @@ public class UserHandler {
 	
 	private static final Logger LOG = LogManager.getLogger(UserHandler.class);
 	
-	//@Inject @Named("UserDaoImpl")O
 	@EJB(name = "UserDaoImpl")
 	private UserDao userDao;
-	
-	//private UserDao userDao = new UserDaoImpl();
 	
 	/**
 	 * Lance les tests et ajoute l'utilisateur à la BDD.
@@ -35,7 +33,9 @@ public class UserHandler {
 		Map<String, Integer> validationList = new HashMap<>();
 		
 		/* Tests des données et ajout des codes dans la liste de validation */
-		validationList.put("pseudo", testPseudo(user));
+		validationList.put("pseudoExist", testPseudoExist(user));
+		validationList.put("emailExist", testEmailExist(user));
+		validationList.put("emailIsValid", testEmailIsValid(user));
 		
 		if (!validationList.containsValue(0))  {
 			
@@ -47,7 +47,7 @@ public class UserHandler {
 		return validationList;
 	}
 
-	private Integer testPseudo(User user) {
+	private Integer testPseudoExist(User user) {
 		
 		if(userDao.containsPseudo(user.getPseudo())) {
 			return 0;
@@ -55,4 +55,23 @@ public class UserHandler {
 		
 		return 1;
 	}
+	
+	private Integer testEmailExist(User user) {
+	
+		if(userDao.containsEmail(user.getEmail())) {
+			return 0;
+		}
+		
+		return 1;
+	}
+	
+	private Integer testEmailIsValid(User user) {
+		
+		if(EmailValidator.getInstance().isValid(user.getEmail())) {
+		return 1;
+		}
+		
+		return 0;
+	}
+	
 }

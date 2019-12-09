@@ -49,8 +49,14 @@
 			<groupId>${project.groupId}</groupId>
 			<version>${project.version}</version>
 		</dependency>
-
+		
 		<!-- ===== Bibliothèques tierces ===== -->
+
+		<!-- Email validator https://mvnrepository.com/artifact/commons-validator/commons-validator -->
+		<dependency>
+		    <groupId>commons-validator</groupId>
+		    <artifactId>commons-validator</artifactId>
+		</dependency>
 
 
 	</dependencies>

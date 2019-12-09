@@ -20,6 +20,15 @@
 				<legend>Inscription</legend>
 
 				<!-- Pseudo -->
+				<c:if test="${validationList['pseudoExist'] == 0}">
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Erreur de pseudo !</strong> Le pseudo existe déjà.
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</c:if>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="aria-pseudo">Pseudo</span>
@@ -63,6 +72,24 @@
 				</div>
 
 				<!-- eMail -->
+				<c:if test="${validationList['emailExist'] == 0}">
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Erreur d'Email !</strong> Le mail existe déjà.
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</c:if>
+				<c:if test="${validationList['emailIsValid'] == 0}">
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Erreur d'Email !</strong> Le mail est invalide.
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</c:if>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="aria-email">eMail</span>

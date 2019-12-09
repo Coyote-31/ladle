@@ -17,7 +17,7 @@
 	</jsp-config>
 	
 	<filter-mapping>
-    <filter-name>EncodingFilter</filter-name>
+    <filter-name>encodingFilter</filter-name>
     <url-pattern />
 	</filter-mapping>
 

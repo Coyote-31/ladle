@@ -48,6 +48,8 @@ Projet de formation OpenClassrooms.</description>
 		<mysql-connector-java.version>8.0.18</mysql-connector-java.version>
 		<javax-ejb.version>3.2.2</javax-ejb.version>
 		<javax-persistence.version>2.2</javax-persistence.version>
+		
+		<commons-validator.version>1.4.0</commons-validator.version>
 
 	</properties>
 
@@ -161,6 +163,13 @@ Projet de formation OpenClassrooms.</description>
 				<groupId>javax.persistence</groupId>
 				<artifactId>javax.persistence-api</artifactId>
 				<version>${javax-persistence.version}</version>
+			</dependency>
+			
+			<!-- Email validator https://mvnrepository.com/artifact/commons-validator/commons-validator -->
+			<dependency>
+			    <groupId>commons-validator</groupId>
+			    <artifactId>commons-validator</artifactId>
+			    <version>${commons-validator.version}</version>
 			</dependency>
 			
 			
