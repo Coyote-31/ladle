@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -19,7 +22,7 @@
 			<table class="table">
 				<thead class="thead-dark">
 					<tr>
-						<th scope="col">ID Région</th>
+						<th scope="col">ID RÃ©gion</th>
 						<th scope="col">Nom</th>
 						<th scope="col">Soundex</th>
 					</tr>

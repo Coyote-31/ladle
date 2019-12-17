@@ -20,14 +20,14 @@ public class WebAppServletListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 			
-		LOG.debug("WebAppServletListener : Context initialized");
+		LOG.info("WebAppServletListener : Context initialized");
 
 	}
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
 		
-		LOG.debug("WebAppServletListener : Context destroyed");
+		LOG.info("WebAppServletListener : Context destroyed");
 
 	}
 

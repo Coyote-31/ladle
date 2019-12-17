@@ -67,30 +67,6 @@
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>javax.servlet.jsp-api</artifactId>
 		</dependency>
-
-		<!-- Expression Language - API -->
-		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>el-api</artifactId>
-		</dependency>
-
-		<!-- Taglibs Standard Spec -->
-		<dependency>
-			<groupId>org.apache.taglibs</groupId>
-			<artifactId>taglibs-standard-spec</artifactId>
-		</dependency>
-
-		<!-- Taglibs Standard Impl -->
-		<dependency>
-			<groupId>org.apache.taglibs</groupId>
-			<artifactId>taglibs-standard-impl</artifactId>
-		</dependency>
-		
-		<!-- JSTL -->
-		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>jstl</artifactId>
-		</dependency>
 		
 		<!-- Hibernate Core -->
 		<dependency>

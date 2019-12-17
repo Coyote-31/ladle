@@ -90,6 +90,34 @@ Projet de formation OpenClassrooms.</description>
 		    <artifactId>javax.ejb-api</artifactId>
 		    <version>${javax-ejb.version}</version>
 		</dependency>
+
+		<!-- JSTL https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>jstl</artifactId>
+		    <version>${javax-servlet-jstl.version}</version>
+		</dependency>
+		
+		<!-- Expression Language - https://mvnrepository.com/artifact/javax.el/el-api -->
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<version>${el-api.version}</version>
+		</dependency>
+
+		<!-- Taglibs Standard Spec - https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-spec -->
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-spec</artifactId>
+			<version>${taglibs-standard-spec.version}</version>
+		</dependency>
+
+		<!-- Taglibs Standard Impl - https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-impl -->
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-impl</artifactId>
+			<version>${taglibs-standard-impl.version}</version>
+		</dependency>
 				
 
 	</dependencies>
@@ -113,34 +141,6 @@ Projet de formation OpenClassrooms.</description>
 				<artifactId>javax.servlet.jsp-api</artifactId>
 				<version>${jsp-api.version}</version>
 				<scope>provided</scope>
-			</dependency>
-
-			<!-- Expression Language - https://mvnrepository.com/artifact/javax.el/el-api -->
-			<dependency>
-				<groupId>javax.el</groupId>
-				<artifactId>el-api</artifactId>
-				<version>${el-api.version}</version>
-			</dependency>
-
-			<!-- Taglibs Standard Spec - https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-spec -->
-			<dependency>
-				<groupId>org.apache.taglibs</groupId>
-				<artifactId>taglibs-standard-spec</artifactId>
-				<version>${taglibs-standard-spec.version}</version>
-			</dependency>
-
-			<!-- Taglibs Standard Impl - https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-impl -->
-			<dependency>
-				<groupId>org.apache.taglibs</groupId>
-				<artifactId>taglibs-standard-impl</artifactId>
-				<version>${taglibs-standard-impl.version}</version>
-			</dependency>
-			
-			<!-- JSTL https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl -->
-			<dependency>
-			    <groupId>javax.servlet</groupId>
-			    <artifactId>jstl</artifactId>
-			    <version>${javax-servlet-jstl.version}</version>
 			</dependency>
 
 			<!-- Hibernate Core - https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->

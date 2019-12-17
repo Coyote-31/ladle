@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -22,7 +25,7 @@
 				<!-- Pseudo -->
 				<c:if test="${validationList['pseudoExist'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show" role="alert">
-						<strong>Erreur de pseudo !</strong> Le pseudo existe dÈj‡.
+						<strong>Erreur de pseudo !</strong> Le pseudo existe d√©j√†.
 						<button type="button" class="close" data-dismiss="alert"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -51,13 +54,13 @@
 						</select>
 					</div>
 
-					<!-- PrÈnom -->
+					<!-- Pr√©nom -->
 					<div class="input-group col-md mb-3">
 						<div class="input-group-prepend">
-							<span class="input-group-text" id="aria-prenom">PrÈnom</span>
+							<span class="input-group-text" id="aria-prenom">Pr√©nom</span>
 						</div>
 						<input type="text" id="prenom" name="prenom" maxlength="45" class="form-control" placeholder=""
-							aria-label="PrÈnom" aria-describedby="aria-prenom">
+							aria-label="Pr√©nom" aria-describedby="aria-prenom">
 					</div>
 
 					<!-- Nom -->
@@ -74,7 +77,7 @@
 				<!-- eMail -->
 				<c:if test="${validationList['emailExist'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show" role="alert">
-						<strong>Erreur d'Email !</strong> Le mail existe dÈj‡.
+						<strong>Erreur d'Email !</strong> Le mail existe d√©j√†.
 						<button type="button" class="close" data-dismiss="alert"
 							aria-label="Close">
 						<span aria-hidden="true">&times;</span>

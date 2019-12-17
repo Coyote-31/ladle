@@ -36,37 +36,29 @@ public class Index extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		/** ===================================================================================== **/
-
-	//	RegionDao regionDao = new RegionDaoImpl();
 		
-
 		
 		List<Region> regionsToSend = new ArrayList<>();
 		
-		LOG.info("Servlet : index");
-		System.out.println("Servlet Println");
+		LOG.info("doGet()");
 		
 		try {
 			regionsToSend = regionDao.getAllRegions();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (Exception e) {
+			LOG.error("Error regionDao.getAllRegions()",e);
 		}
 
 
 		/** ===================================================================================== **/
 
-		try {
-
-			
+		try {	
 
 			request.setAttribute("myList", regionsToSend);
 
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/index.jsp" ).forward( request, response );
 
-		} catch (Exception e) {
-			
-			e.printStackTrace();
+		} catch (Exception e) {			
+			LOG.error("Error building index.jsp",e);
 		}
 	}
 

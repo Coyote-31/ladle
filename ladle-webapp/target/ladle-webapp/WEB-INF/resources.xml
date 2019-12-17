@@ -10,7 +10,8 @@
 		removeAbandoned = true
 		removeAbandonedTimeout = 120 -->
 
-		driverClassName = com.mysql.jdbc.Driver
+		<!-- driverClassName = com.mysql.jdbc.Driver -->
+		driverClassName = com.mysql.cj.jdbc.Driver
 		url = jdbc:mysql://localhost:3306/ladle_db?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Europe/Paris
 		username = root
 		password = admin

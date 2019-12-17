@@ -20,7 +20,7 @@
 			<!-- JDBC Database connection settings -->
 			<property
 				name="javax.persistence.jdbc.driver"
-				value="com.mysql.jdbc.Driver"/>
+				value="com.mysql.cj.jdbc.Driver"/>
 			<property
 				name="javax.persistence.jdbc.url"
 				value="jdbc:mysql://localhost:3306/ladle_db?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Europe/Paris"/>
