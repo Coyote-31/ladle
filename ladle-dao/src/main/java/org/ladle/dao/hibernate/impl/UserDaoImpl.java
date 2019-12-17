@@ -13,8 +13,11 @@ import org.ladle.beans.User;
 import org.ladle.dao.UserDao;
 import org.ladle.dao.hibernate.object.Utilisateur;
 
+/**
+ * @author Coyote
+ *
+ */
 @Stateful
-//@Named("UserDaoImpl")
 public class UserDaoImpl implements UserDao {
 
 	private static final Logger LOG = LogManager.getLogger(UserDaoImpl.class);
@@ -39,15 +42,14 @@ public class UserDaoImpl implements UserDao {
 						user.getMdp(), 
 						salt, 
 						role);
-		System.out.println(user.getPrenom());
+		LOG.info(user.getPrenom());
 		try {
 			em.persist(utilisateur);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("em.persist(utilisateur) Failed",e);
 		}
 
-		LOG.info(utilisateur.getPseudo() + " : Saved");
+		LOG.info("%s : Saved", utilisateur.getPseudo());
 	}
 
 	private int getVilleId(String ville) {
@@ -65,14 +67,14 @@ public class UserDaoImpl implements UserDao {
 
 
 		try {
-			query.getSingleResult();
+			query.getSingleResult();			
 		} catch (NoResultException e) {
-			LOG.info("Pseudo = " + pseudo +" libre");
+			LOG.info("Pseudo: %s -> disponible", pseudo);
 			return false;
 		}
-
-			LOG.info("Pseudo = " + pseudo +" déjà utilisé");
-			return true;		
+		
+		LOG.info("Pseudo: %s -> déjà utilisé", pseudo);
+		return true;		
 
 	}
 	
