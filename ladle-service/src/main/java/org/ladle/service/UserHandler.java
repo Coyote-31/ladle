@@ -35,12 +35,13 @@ public class UserHandler {
 	 * 
 	 * @return Une Map [String key, Integer value] de validation du formulaire :</br>
 	 * 			<b>key = </b>
-	 * 			<code>pseudoEmpty/pseudoExist/pseudoLength</br>
-	 * 				   genreEmpty/genreValid</br>
-	 * 				   prenomEmpty/prenomLength</br>
-	 * 				   nomEmpty/nomLength</br>
-	 * 				   emailExist/emailValid</br>
-	 * 				   ville/mdp/mdp2</br></code>
+	 * 			<code>pseudo/pseudoEmpty/pseudoExist/pseudoLength</br>
+	 * 				   genre/genreEmpty/genreValid</br>
+	 * 				   prenom/prenomEmpty/prenomLength</br>
+	 * 				   nom/nomEmpty/nomLength</br>
+	 * 				   email/emailExist/emailValid</br>
+	 * 				   ville</br>
+	 * 				   mdp/mdpLength/mdpEquals</br></code>
 	 * 			<b>value = </b> <code>0 : erreur / 1 : valide</code>
 	 */
 	public Map<String, Integer> addUser(User user) {
@@ -58,16 +59,20 @@ public class UserHandler {
 		/* prenom */
 		validationList.put("prenomEmpty", testPrenomEmpty(user));
 		validationList.put("prenomLength", testPrenomLength(user));
+		validationList.put("prenom", testPrenom());
 		/* nom */
 		validationList.put("nomEmpty", testNomEmpty(user));
 		validationList.put("nomLength", testNomLength(user));
+		validationList.put("nom", testNom());
 		/* email */
 		validationList.put("emailExist", testEmailExist(user));
 		validationList.put("emailValid", testEmailValid(user));
+		validationList.put("email", testEmail());
 		/* ville */
 		/* mdp */
 		validationList.put("mdpLength", testMdpLength(user));
 		validationList.put("mdpEquals", testMdpEquals(user));
+		validationList.put("mdp", testMdp());
 		
 		if (!validationList.containsValue(0))  {
 			
@@ -79,8 +84,7 @@ public class UserHandler {
 		return validationList;
 	}
 
-
-
+	/* === Fonctions pseudo === */
 
 	/**
 	 * Test si le champ pseudo est vide.
@@ -147,6 +151,8 @@ public class UserHandler {
 		}
 		return 0;
 	}
+
+	/* === Fonctions genre === */
 	
 	/**
 	 * Test si le champ genre est vide.
@@ -194,6 +200,8 @@ public class UserHandler {
 		return 0;
 	}
 	
+	/* === Fonctions prenom === */
+	
 	/**
 	 * Test si le champ prenom est vide.
 	 * 
@@ -230,6 +238,21 @@ public class UserHandler {
 	}
 	
 	/**
+	 * Test global du champ prenom.
+	 * 
+	 * @return 0 : error / 1 : valid
+	 */
+	private Integer testPrenom() {
+		if (validationList.get("prenomEmpty") == 1
+			&& validationList.get("prenomLength") == 1) {
+			return 1;
+			}
+		return 0;
+	}
+	
+	/* === Fonctions nom === */
+	
+	/**
 	 * Test si le champ nom est vide.
 	 * 
 	 * @param user Classe des données utilisateur
@@ -260,6 +283,21 @@ public class UserHandler {
 		}
 		return 1;
 	}
+	
+	/**
+	 * Test global du champ nom.
+	 * 
+	 * @return 0 : error / 1 : valid
+	 */
+	private Integer testNom() {
+		if (validationList.get("nomEmpty") == 1
+			&& validationList.get("nomLength") == 1) {
+			return 1;
+			}
+		return 0;
+	}
+	
+	/* === Fonctions email === */
 	
 	/**
 	 * Test si le mail existe déjà dans la bdd.
@@ -295,6 +333,22 @@ public class UserHandler {
 	}
 	
 	/**
+	 * Test global du champ email.
+	 * 
+	 * @return 0 : error / 1 : valid
+	 */
+	private Integer testEmail() {
+		
+		if (validationList.get("emailExist") == 1 
+			&& validationList.get("pseudoValid") == 1) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	/* === Fonctions mdp === */
+	
+	/**
 	 * Test si le mdp a une taille valide. (8 à 40 caractères)
 	 * 
 	 * @param user Classe des données utilisateur
@@ -326,5 +380,17 @@ public class UserHandler {
 		return 0;
 	}
 
-	
+	/**
+	 * Test global des champs mdp.
+	 * 
+	 * @return 0 : error / 1 : valid
+	 */
+	private Integer testMdp() {
+		
+		if (validationList.get("mdpLength") == 1 
+			&& validationList.get("mdpEquals") == 1) {
+			return 1;
+		}
+		return 0;
+	}
 }

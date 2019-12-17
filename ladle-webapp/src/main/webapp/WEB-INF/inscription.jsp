@@ -6,6 +6,8 @@
 <head>
 <meta charset="utf-8" />
 <title>Inscription</title>
+<!-- Fontawesome -->
+<script src="https://kit.fontawesome.com/9371740617.js" crossorigin="anonymous"></script>
 <!-- Inclusion des metas -->
 <%@ include file="/WEB-INF/parts/meta.jsp"%>
 </head>
@@ -210,8 +212,11 @@
 							<span class="input-group-text" id="aria-prenom">Prénom</span>
 						</div>
 						<input type="text" id="prenom" name="prenom" maxlength="40"
-							class="form-control" placeholder="" required aria-label="Prénom"
-							aria-describedby="aria-prenom">
+							class="form-control<c:if 
+						test="${validationList['prenom'] == 1}"> is-valid</c:if><c:if	
+						test="${validationList['prenom'] == 0}"> is-invalid</c:if>"
+						<c:if test="${validationList['prenom'] == 1}"> value="${user.prenom}"</c:if> 
+						placeholder="" required aria-label="Prénom" aria-describedby="aria-prenom">
 					</div>
 
 					<!-- === -->
@@ -224,8 +229,11 @@
 							<span class="input-group-text" id="aria-nom">Nom</span>
 						</div>
 						<input type="text" id="nom" name="nom" maxlength="40"
-							class="form-control" placeholder="" required aria-label="Nom"
-							aria-describedby="aria-nom">
+							class="form-control<c:if 
+						test="${validationList['nom'] == 1}"> is-valid</c:if><c:if	
+						test="${validationList['nom'] == 0}"> is-invalid</c:if>"
+						<c:if test="${validationList['nom'] == 1}"> value="${user.nom}"</c:if> 
+						placeholder="" required aria-label="Nom" aria-describedby="aria-nom">
 					</div>
 
 				</div>
@@ -264,8 +272,11 @@
 						<span class="input-group-text" id="aria-email">Email</span>
 					</div>
 					<input type="email" id="email" name="email" maxlength="90"
-						class="form-control" placeholder="" required aria-label="eMail"
-						aria-describedby="aria-email">
+						class="form-control<c:if 
+						test="${validationList['email'] == 1}"> is-valid</c:if><c:if	
+						test="${validationList['email'] == 0}"> is-invalid</c:if>"
+						<c:if test="${validationList['email'] == 1}"> value="${user.email}"</c:if> 
+						placeholder="" required aria-label="eMail"	aria-describedby="aria-email">
 				</div>
 
 				<!-- ===== -->
@@ -317,14 +328,59 @@
 						<span class="input-group-text" id="aria-mdp">Mot de passe</span>
 					</div>
 					<input type="password" id="mdp" name="mdp" pattern=".{8,40}"
-						title="De 8 à 40 caratères." class="form-control" placeholder=""
-						required aria-label="Mot de passe" aria-describedby="aria-mdp">
-					<input type="password" id="mdp2" name="mdp2" pattern=".{8,40}"
-						title="De 8 à 40 caratères." class="form-control" placeholder=""
-						required aria-label="Retapez le mot de passe"
-						aria-describedby="aria-mdp">
+						title="De 8 à 40 caratères." class="form-control<c:if 
+						test="${validationList['mdpLength'] == 1}"> is-valid</c:if><c:if	
+						test="${validationList['mdpLength'] == 0}"> is-invalid</c:if>"
+						<c:if test="${validationList['mdpLength'] == 1}"> value="${user.mdp}"</c:if> 
+						placeholder="" required aria-label="Mot de passe" aria-describedby="aria-mdp">
+						<div class="input-group-append">
+        			<button id="btnMdp" class="btn btn-outline-warning" type="button" onClick="passwordShowHide(this)">
+        				<i id="pass-status" class="far fa-eye-slash" aria-hidden="true"></i>
+        			</button>
+						</div>
 				</div>
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="aria-mdp">Confirmation</span>
+					</div>
+					<input type="password" id="mdp2" name="mdp2" pattern=".{8,40}"
+						title="De 8 à 40 caratères." class="form-control<c:if 
+						test="${validationList['mdp'] == 1}"> is-valid</c:if><c:if	
+						test="${validationList['mdp'] == 0}"> is-invalid</c:if>"
+						<c:if test="${validationList['mdp'] == 1}"> value="${user.mdp2}"</c:if> 
+						placeholder="" required aria-label="Confirmez le mdp" aria-describedby="aria-mdp">
+						<div class="input-group-append">
+        			<button id="btnMdp2" class="btn btn-outline-warning" type="button" onClick="passwordShowHide(this)">
+        				<i id="pass-status2" class="far fa-eye-slash" aria-hidden="true"></i>
+        			</button>
+						</div>
+				</div>
+				
+				<!-- Script hide/show des champs de mdp -->
+				<script>
+					function passwordShowHide(elem) {
+						
+						if(elem.id == 'btnMdp'){
+							  var passwordInput = document.getElementById('mdp');
+							  var passStatus = document.getElementById('pass-status');
+							  
+						} else {
+							  var passwordInput = document.getElementById('mdp2');
+							  var passStatus = document.getElementById('pass-status2');
+						}
 
+					  if (passwordInput.type == 'password'){
+					    passwordInput.type='text';
+					    passStatus.className='far fa-eye';
+					    
+					  }
+					  else{
+					    passwordInput.type='password';
+					    passStatus.className='far fa-eye-slash';
+					  }
+					}
+				</script>
+				
 				<!-- Script de vérification du mot de passe (mdp == mdp2) -->
 				<script>
 					var mdp = document.getElementById("mdp")
