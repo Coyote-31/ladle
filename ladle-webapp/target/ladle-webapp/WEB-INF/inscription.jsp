@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -72,24 +72,27 @@
 						<span class="input-group-text" id="aria-pseudo">Pseudo</span>
 					</div>
 					<input type="text" id="pseudo" name="pseudo" maxlength="30"
-						class="form-control" placeholder="" required aria-label="Pseudo"
+						class="form-control<c:if 
+						test="${validationList['pseudo'] == 1}"> is-valid</c:if><c:if	
+						test="${validationList['pseudo'] == 0}"> is-invalid</c:if>"
+						<c:if test="${validationList['pseudo'] == 1}"> value="${user.pseudo}"</c:if>
+						placeholder='' required aria-label="Pseudo"
 						aria-describedby="aria-pseudo">
 				</div>
 
 				<!-- ================================================ -->
 				<!-- Liste d'erreurs de la ligne Genre / Prénom / Nom -->
 				<!-- ================================================ -->
-			
+
 				<!-- ----- -->
 				<!-- Genre -->
 				<!-- ----- -->
-			
+
 				<!-- Message d'erreur : Le champ genre est vide -->
 				<c:if test="${validationList['genreEmpty'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
-						<strong>Erreur de genre !</strong> Ce champ ne peut pas être
-						vide.
+						<strong>Erreur de genre !</strong> Ce champ ne peut pas être vide.
 						<button type="button" class="close" data-dismiss="alert"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -98,22 +101,23 @@
 				</c:if>
 
 				<!-- Message d'erreur : Le genre est invalide ("Madame","Monsieur") -->
-				<c:if test="${validationList['genreValid'] == 0 && validationList['genreEmpty'] == 1}">
+				<c:if
+					test="${validationList['genreValid'] == 0 && validationList['genreEmpty'] == 1}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
-						<strong>Erreur de genre !</strong> Veuillez sélectionner Madame
-						ou Monsieur.
+						<strong>Erreur de genre !</strong> Veuillez sélectionner Madame ou
+						Monsieur.
 						<button type="button" class="close" data-dismiss="alert"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 				</c:if>
-				
+
 				<!-- ------ -->
 				<!-- Prénom -->
 				<!-- ------ -->
-				
+
 				<!-- Message d'erreur : Le champ prénom est vide -->
 				<c:if test="${validationList['prenomEmpty'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
@@ -126,7 +130,7 @@
 						</button>
 					</div>
 				</c:if>
-				
+
 				<!-- Message d'erreur : Le prénom fait plus de 40 caractères -->
 				<c:if test="${validationList['prenomLength'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
@@ -138,24 +142,23 @@
 						</button>
 					</div>
 				</c:if>
-								
+
 				<!-- --- -->
 				<!-- Nom -->
 				<!-- --- -->
-				
+
 				<!-- Message d'erreur : Le champ nom est vide -->
 				<c:if test="${validationList['nomEmpty'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
-						<strong>Erreur de nom !</strong> Ce champ ne peut pas être
-						vide.
+						<strong>Erreur de nom !</strong> Ce champ ne peut pas être vide.
 						<button type="button" class="close" data-dismiss="alert"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 				</c:if>
-				
+
 				<!-- Message d'erreur : Le nom fait plus de 40 caractères -->
 				<c:if test="${validationList['nomLength'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
@@ -179,13 +182,24 @@
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="genre">Genre</label>
 						</div>
-						<select class="custom-select" id="genre" name="genre" required>
-							<option value="" selected>Choisissez...</option>
-							<option value="Madame">Madame</option>
-							<option value="Monsieur">Monsieur</option>
+						<select class="custom-select<c:if 
+						test="${validationList['genre'] == 1}"> is-valid</c:if><c:if	
+						test="${validationList['genre'] == 0}"> is-invalid</c:if>"
+						id="genre" name="genre" required>
+							<option value="" 
+							<c:if test="${validationList['genre'] != 1}"> selected</c:if>
+							>Choisissez...</option>
+							<option value="Madame" 
+								<c:if test="${validationList['genre'] == 1 
+														&& user.genre == 'Madame'}"> selected</c:if>
+							>Madame</option>
+							<option value="Monsieur"
+								<c:if test="${validationList['genre'] == 1 
+														&& user.genre == 'Monsieur'}"> selected</c:if>
+							>Monsieur</option>
 						</select>
 					</div>
-
+					
 					<!-- ====== -->
 					<!-- Prénom -->
 					<!-- ====== -->
@@ -231,7 +245,7 @@
 						</button>
 					</div>
 				</c:if>
-				
+
 				<!-- Message d'erreur : Le mail est invalide -->
 				<c:if test="${validationList['emailValid'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
@@ -243,7 +257,7 @@
 						</button>
 					</div>
 				</c:if>
-				
+
 				<!-- formulaire email -->
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
@@ -270,19 +284,63 @@
 				<!-- ====== -->
 				<!-- Mdp x2 -->
 				<!-- ====== -->
-				
-				<!-- formulaire email 2 inputs -->
+
+				<!-- Message d'erreur : Le mdp n'a pas la bonne taille (8 à 40 chars) -->
+				<c:if test="${validationList['mdpLength'] == 0}">
+					<div class="alert alert-danger alert-dismissible fade show"
+						role="alert">
+						<strong>Erreur de mot de passe !</strong> Doit contenir entre 8 et
+						40 caratères.
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</c:if>
+
+				<!-- Message d'erreur : Les mdp ne sont pas identiques -->
+				<c:if test="${validationList['mdpEquals'] == 0}">
+					<div class="alert alert-danger alert-dismissible fade show"
+						role="alert">
+						<strong>Erreur de mot de passe !</strong> Les mots de passe
+						doivent être identiques.
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</c:if>
+
+				<!-- formulaire mdp 2 inputs -->
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="aria-mdp">Mot de passe</span>
 					</div>
-					<input type="password" id="mdp" name="mdp" maxlength="90"
-						class="form-control" placeholder="" required
-						aria-label="Mot de passe" aria-describedby="aria-mdp">
-					<input type="password" id="mdp2" name="mdp2" maxlength="90"
-						class="form-control" placeholder="" required
-						aria-label="Retapez le mot de passe" aria-describedby="aria-mdp">
+					<input type="password" id="mdp" name="mdp" pattern=".{8,40}"
+						title="De 8 à 40 caratères." class="form-control" placeholder=""
+						required aria-label="Mot de passe" aria-describedby="aria-mdp">
+					<input type="password" id="mdp2" name="mdp2" pattern=".{8,40}"
+						title="De 8 à 40 caratères." class="form-control" placeholder=""
+						required aria-label="Retapez le mot de passe"
+						aria-describedby="aria-mdp">
 				</div>
+
+				<!-- Script de vérification du mot de passe (mdp == mdp2) -->
+				<script>
+					var mdp = document.getElementById("mdp")
+					  , mdp2 = document.getElementById("mdp2");
+	
+					function validatePassword(){
+					  if(mdp.value != mdp2.value) {
+					    mdp2.setCustomValidity("Les mots de passe ne sont pas identiques");
+					  } else {
+					    mdp2.setCustomValidity('');
+					  }
+					}
+	
+					mdp.onchange = validatePassword;
+					mdp2.onkeyup = validatePassword;
+				</script>
 
 				<!-- Bouton de validation du formulaire -->
 				<button type="submit" class="btn btn-primary">Valider</button>

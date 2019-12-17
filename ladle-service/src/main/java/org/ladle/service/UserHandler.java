@@ -27,12 +27,14 @@ public class UserHandler {
 	
 	@EJB(name = "UserDaoImpl")
 	private UserDao userDao;
+	/* Création de la map de validation pour la jsp */
+	private Map<String, Integer> validationList = new HashMap<>();
 	
 	/**
 	 * Lance les tests et ajoute l'utilisateur à la BDD.
 	 * 
-	 * @return La map de validation du formulaire :</br>
-	 * 			<b>keys = </b>
+	 * @return Une Map [String key, Integer value] de validation du formulaire :</br>
+	 * 			<b>key = </b>
 	 * 			<code>pseudoEmpty/pseudoExist/pseudoLength</br>
 	 * 				   genreEmpty/genreValid</br>
 	 * 				   prenomEmpty/prenomLength</br>
@@ -42,18 +44,17 @@ public class UserHandler {
 	 * 			<b>value = </b> <code>0 : erreur / 1 : valide</code>
 	 */
 	public Map<String, Integer> addUser(User user) {
-		
-		/* Création de la map de validation pour la jsp */
-		Map<String, Integer> validationList = new HashMap<>();
-		
+			
 		/* Tests des données et ajout des codes dans la liste de validation */
 		/* pseudo */
 		validationList.put("pseudoEmpty", testPseudoEmpty(user));
 		validationList.put("pseudoExist", testPseudoExist(user));
 		validationList.put("pseudoLength", testPseudoLength(user));
+		validationList.put("pseudo", testPseudo());
 		/* genre */
 		validationList.put("genreEmpty", testGenreEmpty(user));
 		validationList.put("genreValid", testGenreValid(user));
+		validationList.put("genre", testGenre());
 		/* prenom */
 		validationList.put("prenomEmpty", testPrenomEmpty(user));
 		validationList.put("prenomLength", testPrenomLength(user));
@@ -65,16 +66,20 @@ public class UserHandler {
 		validationList.put("emailValid", testEmailValid(user));
 		/* ville */
 		/* mdp */
+		validationList.put("mdpLength", testMdpLength(user));
+		validationList.put("mdpEquals", testMdpEquals(user));
 		
 		if (!validationList.containsValue(0))  {
 			
 			/* Si tout est valide on ajoute dans la bdd */
 			userDao.addUser(user);
-			LOG.info("%s ajouté(e) à la bdd.", user.getPseudo());
+			LOG.info("{} ajouté(e) à la bdd.", user.getPseudo());
 		}
 
 		return validationList;
 	}
+
+
 
 
 	/**
@@ -129,6 +134,21 @@ public class UserHandler {
 	}
 	
 	/**
+	 * Test global du champ pseudo.
+	 * 
+	 * @return 0 : error / 1 : valid
+	 */
+	private Integer testPseudo() {
+		
+		if (validationList.get("pseudoEmpty") == 1
+			&& validationList.get("pseudoExist") == 1 
+			&& validationList.get("pseudoLength") == 1) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	/**
 	 * Test si le champ genre est vide.
 	 * 
 	 * @param user Classe des données utilisateur
@@ -155,6 +175,20 @@ public class UserHandler {
 	private Integer testGenreValid(User user) {
 
 		if (user.getGenre().equals("Madame") || user.getGenre().equals("Monsieur")) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	/**
+	 * Test global du champ genre.
+	 * 
+	 * @return 0 : error / 1 : valid
+	 */
+	private Integer testGenre() {
+		
+		if (validationList.get("genreEmpty") == 1
+			&& validationList.get("genreValid") == 1) {
 			return 1;
 		}
 		return 0;
@@ -259,5 +293,38 @@ public class UserHandler {
 		}		
 		return 0;
 	}
+	
+	/**
+	 * Test si le mdp a une taille valide. (8 à 40 caractères)
+	 * 
+	 * @param user Classe des données utilisateur
+	 * @return 0 : error / 1 : valid
+	 * 
+	 * @see org.ladle.beans.User
+	 */
+	private Integer testMdpLength(User user) {
+		
+		if (user.getMdp().length() >= 8 && user.getMdp().length() <= 40) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	/**
+	 * Test si les mdp sont identiques (mdp == mdp2)
+	 * 
+	 * @param user Classe des données utilisateur
+	 * @return 0 : error / 1 : valid
+	 * 
+	 * @see org.ladle.beans.User
+	 */
+	private Integer testMdpEquals(User user) {
+		
+		if (user.getMdp().equals(user.getMdp2())) {
+			return 1;
+		}
+		return 0;
+	}
+
 	
 }

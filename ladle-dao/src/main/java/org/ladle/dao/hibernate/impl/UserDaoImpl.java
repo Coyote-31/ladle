@@ -49,7 +49,7 @@ public class UserDaoImpl implements UserDao {
 			LOG.error("em.persist(utilisateur) Failed",e);
 		}
 
-		LOG.info("%s : Saved", utilisateur.getPseudo());
+		LOG.info("{} : Saved", utilisateur.getPseudo());
 	}
 
 	private int getVilleId(String ville) {
@@ -69,11 +69,11 @@ public class UserDaoImpl implements UserDao {
 		try {
 			query.getSingleResult();			
 		} catch (NoResultException e) {
-			LOG.info("Pseudo: %s -> disponible", pseudo);
+			LOG.info("Pseudo: {} -> disponible", pseudo);
 			return false;
 		}
 		
-		LOG.info("Pseudo: %s -> déjà utilisé", pseudo);
+		LOG.info("Pseudo: {} -> déjà utilisé", pseudo);
 		return true;		
 
 	}
@@ -89,12 +89,11 @@ public class UserDaoImpl implements UserDao {
 		try {
 			query.getSingleResult();
 		} catch (NoResultException e) {
-			LOG.info("Email = " + email +" libre");
+			LOG.info("Email: {} libre", email);
 			return false;
 		}
-
-			LOG.info("Email = " + email +" déjà utilisé");
-			return true;		
+		LOG.info("Email: {} déjà utilisé", email);
+		return true;		
 
 	}
 

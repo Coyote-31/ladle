@@ -32,17 +32,13 @@ public class Inscription extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-
-
-			LOG.info("Servlet : Inscription");
-			System.out.println("Servlet : Inscription");
+			LOG.info("Servlet : doGet()");
 
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/inscription.jsp" ).forward( request, response );
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("inscription.jsp loading failed",e);
 		}
-
 	}
 
 	/**
@@ -52,12 +48,9 @@ public class Inscription extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		/* Récupération des éléments du formulaire d'inscription */
-		LOG.debug("Début de post...");
-		System.out.println("Début de post...");
+		LOG.info("Début de post...");
 		
 		User user = new User();
-		
-		System.out.println(request.getParameter("prenom"));
 		
 		user.setPseudo(request.getParameter("pseudo"));
 		user.setGenre(request.getParameter("genre"));
@@ -68,10 +61,7 @@ public class Inscription extends HttpServlet {
 		user.setMdp(request.getParameter("mdp"));
 		user.setMdp2(request.getParameter("mdp2"));
 
-		LOG.debug("Formulaire envoyé");
-		System.out.println(user.getPrenom());
-		System.out.println("Formulaire envoyé");
-		LOG.info("Formulaire : " 
+		LOG.info("Formulaire envoyé : " 
 				+ user.getPseudo() + " / "
 				+ user.getGenre() + " / "
 				+ user.getPrenom() + " / "
@@ -83,10 +73,8 @@ public class Inscription extends HttpServlet {
 				);
 
 		/* vérification & insertion dans la BDD + Récupération de la liste de validation */
-		//UserHandler userHandler = new UserHandler();
-		
-		
 		request.setAttribute("validationList", userHandler.addUser(user));
+		request.setAttribute("user", user);
 
 		doGet(request, response);
 	}

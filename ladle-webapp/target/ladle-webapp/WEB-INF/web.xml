@@ -18,6 +18,11 @@
 	</jsp-config>
 	 -->
 	 
+ 	<context-param>
+    <param-name>org.apache.myfaces.CACHE_EL_EXPRESSIONS</param-name>
+    <param-value>alwaysRecompile</param-value>
+	</context-param>
+	 
 	<filter-mapping>
     <filter-name>encodingFilter</filter-name>
     <url-pattern />
