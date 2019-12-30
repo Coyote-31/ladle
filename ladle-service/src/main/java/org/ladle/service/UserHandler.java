@@ -1,5 +1,6 @@
 package org.ladle.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,7 +77,17 @@ public class UserHandler {
 		
 		if (!validationList.containsValue(0))  {
 			
-			/* Si tout est valide on ajoute dans la bdd */
+			// Si tout est valide:
+			// Création du sel
+			try {
+				user.setSalt(PasswordHandler.getSalt());
+			} catch (NoSuchAlgorithmException e) {
+				LOG.error("Error generating salt",e);
+			}
+			// Création du mdp sécurisé (SHA-256)
+			user.setMdpSecured(PasswordHandler.getSecurePassword(user));
+			
+			// On ajoute l'utilisateur dans la bdd
 			userDao.addUser(user);
 			LOG.info("{} ajouté(e) à la bdd.", user.getPseudo());
 		}
@@ -340,7 +351,7 @@ public class UserHandler {
 	private Integer testEmail() {
 		
 		if (validationList.get("emailExist") == 1 
-			&& validationList.get("pseudoValid") == 1) {
+			&& validationList.get("emailValid") == 1) {
 			return 1;
 		}
 		return 0;

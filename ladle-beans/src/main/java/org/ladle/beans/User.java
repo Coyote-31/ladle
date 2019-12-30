@@ -14,6 +14,8 @@ public class User {
 	private String ville;
 	private String mdp;
 	private String mdp2;
+	private byte[] salt;
+	private String mdpSecured;
 	
 	public User() {
 		super();
@@ -66,6 +68,22 @@ public class User {
 	}
 	public void setMdp2(String mdp2) {
 		this.mdp2 = mdp2;
+	}
+
+	public byte[] getSalt() {
+		return salt;
+	}
+
+	public void setSalt(byte[] salt) {
+		this.salt = salt;
+	}
+
+	public String getMdpSecured() {
+		return mdpSecured;
+	}
+
+	public void setMdpSecured(String mdpSecured) {
+		this.mdpSecured = mdpSecured;
 	}
 
 }

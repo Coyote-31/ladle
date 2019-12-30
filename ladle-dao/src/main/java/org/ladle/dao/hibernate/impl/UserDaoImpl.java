@@ -25,8 +25,8 @@ public class UserDaoImpl implements UserDao {
 	@PersistenceContext(unitName = "ladleMySQLPU", type = PersistenceContextType.EXTENDED)
 	private EntityManager em;
 	
-	byte[] salt = {1}; //TODO
-	Integer role = 0; //TODO
+	// Niveau du compte : 0 = utilisateur
+	Integer role = 0;
 
 
 	@Override
@@ -39,8 +39,8 @@ public class UserDaoImpl implements UserDao {
 						user.getNom(), 
 						user.getPrenom(),	
 						user.getEmail(), 
-						user.getMdp(), 
-						salt, 
+						user.getMdpSecured(),
+						user.getSalt(),
 						role);
 		LOG.info(user.getPrenom());
 		try {
