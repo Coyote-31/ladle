@@ -1,6 +1,10 @@
 package org.ladle.service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
+import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -25,8 +29,21 @@ public class MailHandler {
 	
 	public static void sendValidationMail(User user) {
 		
-        final String username = "@gmail.com";
-        final String password = "";
+		// Récupération des données de connexion :
+		Properties mailProps = new Properties();
+		try {
+			InputStream input = MailHandler.class.getResourceAsStream("mail-resources.xml");
+			mailProps.loadFromXML(input);
+		} catch (InvalidPropertiesFormatException e1) {
+			LOG.error("Chargement des propriétés : Invalid Format Exception !", e1);
+		} catch (FileNotFoundException e1) {
+			LOG.error("Chargement des propriétés : File Not Found !", e1);
+		} catch (IOException e1) {
+			LOG.error("Chargement des propriétés : Erreur IO !", e1);
+		}
+		
+        final String username = mailProps.getProperty("mailUsername");
+        final String password = mailProps.getProperty("mailPassword");
         final String urlLADLE = "http://localhost:8080/ladle-webapp/email-validation";
 
         Properties prop = new Properties();
@@ -48,23 +65,23 @@ public class MailHandler {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("from@gmail.com"));
+            message.setFrom(new InternetAddress(username));
             message.setRecipients(
                     Message.RecipientType.TO,
-                    InternetAddress.parse("ladle-user1@trash-mail.com")
+                    InternetAddress.parse(user.getEmail())
             );
             message.setSentDate(new Date());
             message.setSubject("Validation LADLE pour " + user.getPseudo());
             
      	   // Send HTML message
      	   message.setContent(
-                   "<h1>Cliquez pour valider l'inscription</h1>"
+                   "<h1>Validation de l'inscription :</h1>"
                    + "<a href='"+ urlLADLE + "?id=" + user.getEmailSHA() +"'>Valider votre compte</a>",
                   "text/html");
 
             Transport.send(message);
 
-            LOG.info("Email envoyé");
+            LOG.info("Email envoyé à {}", user.getEmail());
 
         } catch (MessagingException e) {
             LOG.error("Erreur : Email non envoyé !", e);

@@ -1,3 +1,5 @@
+org\ladle\service\MailHandler$1.class
+org\ladle\service\PasswordHandler.class
 org\ladle\service\App.class
 org\ladle\service\UserHandler.class
-org\ladle\service\PasswordHandler.class
+org\ladle\service\MailHandler.class
