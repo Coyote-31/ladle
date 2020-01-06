@@ -57,7 +57,7 @@ public class Index extends HttpServlet {
 			request.setAttribute("myList", regionsToSend);
 			
 			//TODO
-			MailHandler.sendMail();
+			//MailHandler.sendMail();
 
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/index.jsp" ).forward( request, response );
 

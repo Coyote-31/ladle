@@ -1,6 +1,10 @@
 package org.ladle.service;
 
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,6 +82,7 @@ public class UserHandler {
 		if (!validationList.containsValue(0))  {
 			
 			// Si tout est valide:
+			
 			// Création du sel
 			try {
 				user.setSalt(PasswordHandler.getSalt());
@@ -86,6 +91,21 @@ public class UserHandler {
 			}
 			// Création du mdp sécurisé (SHA-256)
 			user.setMdpSecured(PasswordHandler.getSecurePassword(user));
+			
+			// Ajout de la date de création du compte
+			Date currentDate = new Date();
+			user.setDateCompte(currentDate);
+			
+			// Ajout du SHA de validation du mail
+			user.setEmailSHA(getEmailSHA());
+			
+			// Ajout de la date du mail de confirmation SHA
+			user.setDateEmail(currentDate);
+			
+			// Affiche dans le log la date de création du compte et du mail
+			SimpleDateFormat formater = new SimpleDateFormat("'le' dd MMMM yyyy 'à' hh:mm:ss");
+			String message = formater.format(currentDate);
+			LOG.info("Date du compte : {}", message);
 			
 			// On ajoute l'utilisateur dans la bdd
 			userDao.addUser(user);
@@ -404,4 +424,40 @@ public class UserHandler {
 		}
 		return 0;
 	}
+	
+	/**
+	 * Renvoit le code SHA-256 pour la validation du mail.
+	 * 
+	 * @param user
+	 * @return String(64) le code SHA de validation du mail
+	 */
+	private String getEmailSHA()
+	{
+		String emailSHA = null;
+
+		try {
+			// Create MessageDigest instance for SHA-256
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+			
+			byte[] rdmBytes = new byte[32];
+			sr.nextBytes(rdmBytes);
+			
+			// Get the hash's bytes
+			byte[] bytes = md.digest(rdmBytes);
+            //Convert bytes[] to hexadecimal format
+			StringBuilder sb = new StringBuilder();
+			
+			for(int i=0; i< bytes.length ;i++) {
+				sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+			}
+			
+			emailSHA = sb.toString();
+			
+		} catch (NoSuchAlgorithmException e) {
+			LOG.error("Erreur de génération du SHA du mail",e);
+		}
+		return emailSHA;
+	}
+	
 }

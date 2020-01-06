@@ -49,7 +49,7 @@ public class PasswordHandler {
 			generatedPassword = sb.toString();
 			
 		} catch (NoSuchAlgorithmException e) {
-			LOG.error("Error generating secure password",e);
+			LOG.error("Erreur de génération du mot de passe sécurisé",e);
 		}
 		return generatedPassword;
 	}

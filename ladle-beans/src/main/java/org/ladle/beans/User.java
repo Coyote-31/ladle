@@ -1,5 +1,7 @@
 package org.ladle.beans;
 
+import java.util.Date;
+
 /**
  * Classe utilitaire de stockage d'informations d'un utilisateur.
  * @author Coyote
@@ -16,6 +18,9 @@ public class User {
 	private String mdp2;
 	private byte[] salt;
 	private String mdpSecured;
+	private String emailSHA;
+	private Date dateEmail;
+	private Date dateCompte;
 	
 	public User() {
 		super();
@@ -84,6 +89,30 @@ public class User {
 
 	public void setMdpSecured(String mdpSecured) {
 		this.mdpSecured = mdpSecured;
+	}
+
+	public String getEmailSHA() {
+		return emailSHA;
+	}
+
+	public void setEmailSHA(String emailSHA) {
+		this.emailSHA = emailSHA;
+	}
+
+	public Date getDateEmail() {
+		return dateEmail;
+	}
+
+	public void setDateEmail(Date dateEmail) {
+		this.dateEmail = dateEmail;
+	}
+
+	public Date getDateCompte() {
+		return dateCompte;
+	}
+
+	public void setDateCompte(Date dateCompte) {
+		this.dateCompte = dateCompte;
 	}
 
 }

@@ -41,14 +41,18 @@ public class UserDaoImpl implements UserDao {
 						user.getEmail(), 
 						user.getMdpSecured(),
 						user.getSalt(),
-						role);
+						role,
+						user.getEmailSHA(),
+						user.getDateEmail(),
+						user.getDateCompte());
+		
 		LOG.info(user.getPrenom());
+		
 		try {
 			em.persist(utilisateur);
 		} catch (Exception e) {
 			LOG.error("em.persist(utilisateur) Failed",e);
 		}
-
 		LOG.info("{} : Saved", utilisateur.getPseudo());
 	}
 
