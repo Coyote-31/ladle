@@ -50,6 +50,7 @@ Projet de formation OpenClassrooms.</description>
 		<javax-persistence.version>2.2</javax-persistence.version>
 		
 		<commons-validator.version>1.4.0</commons-validator.version>
+		<javax.mail.version>1.6.2</javax.mail.version>
 
 	</properties>
 
@@ -170,6 +171,13 @@ Projet de formation OpenClassrooms.</description>
 			    <groupId>commons-validator</groupId>
 			    <artifactId>commons-validator</artifactId>
 			    <version>${commons-validator.version}</version>
+			</dependency>
+			
+			<!-- Mail sender https://javaee.github.io/javamail/ -->
+			<dependency>
+			    <groupId>com.sun.mail</groupId>
+          <artifactId>javax.mail</artifactId>
+			    <version>${javax.mail.version}</version>
 			</dependency>
 			
 			

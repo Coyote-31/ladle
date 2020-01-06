@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.dao.RegionDao;
 import org.ladle.dao.hibernate.object.Region;
+import org.ladle.service.MailHandler;
 
 /**
  * Servlet implementation class Index
@@ -54,6 +55,9 @@ public class Index extends HttpServlet {
 		try {	
 
 			request.setAttribute("myList", regionsToSend);
+			
+			//TODO
+			MailHandler.sendMail();
 
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/index.jsp" ).forward( request, response );
 
