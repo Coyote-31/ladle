@@ -13,6 +13,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ladle.beans.User;
 
 public class MailHandler {
 
@@ -22,10 +23,11 @@ public class MailHandler {
 	    throw new IllegalStateException("Utility class");
 	  }
 	
-	public static void sendMail() {
+	public static void sendValidationMail(User user) {
 		
-        final String username = "coyote@gmail.com";
+        final String username = "@gmail.com";
         final String password = "";
+        final String urlLADLE = "http://localhost:8080/ladle-webapp/email-validation";
 
         Properties prop = new Properties();
 		prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -52,9 +54,13 @@ public class MailHandler {
                     InternetAddress.parse("ladle-user1@trash-mail.com")
             );
             message.setSentDate(new Date());
-            message.setSubject("Testing Gmail SSL");
-            message.setText("Dear Mail Crawler,"
-                    + "\n\n Please do not spam my email!");
+            message.setSubject("Validation LADLE pour " + user.getPseudo());
+            
+     	   // Send HTML message
+     	   message.setContent(
+                   "<h1>Cliquez pour valider l'inscription</h1>"
+                   + "<a href='"+ urlLADLE + "?id=" + user.getEmailSHA() +"'>Valider votre compte</a>",
+                  "text/html");
 
             Transport.send(message);
 

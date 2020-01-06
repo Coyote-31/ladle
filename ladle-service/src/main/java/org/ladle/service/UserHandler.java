@@ -103,13 +103,16 @@ public class UserHandler {
 			user.setDateEmail(currentDate);
 			
 			// Affiche dans le log la date de création du compte et du mail
-			SimpleDateFormat formater = new SimpleDateFormat("'le' dd MMMM yyyy 'à' hh:mm:ss");
+			SimpleDateFormat formater = new SimpleDateFormat("dd MMMM yyyy 'à' hh:mm:ss");
 			String message = formater.format(currentDate);
 			LOG.info("Date du compte : {}", message);
 			
 			// On ajoute l'utilisateur dans la bdd
 			userDao.addUser(user);
 			LOG.info("{} ajouté(e) à la bdd.", user.getPseudo());
+			
+			// Envoit le mail de validation du compte mail
+			MailHandler.sendValidationMail(user);
 		}
 
 		return validationList;

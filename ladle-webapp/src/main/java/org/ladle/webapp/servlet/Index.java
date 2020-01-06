@@ -15,7 +15,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.dao.RegionDao;
 import org.ladle.dao.hibernate.object.Region;
-import org.ladle.service.MailHandler;
 
 /**
  * Servlet implementation class Index
