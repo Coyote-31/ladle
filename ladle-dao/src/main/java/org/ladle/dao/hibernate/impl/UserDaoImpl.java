@@ -101,4 +101,32 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+	@Override
+	public boolean emailSHAExist(String emailSHA) {
+
+		String hql = "FROM Utilisateur U WHERE U.emailSHA = :emailSHA";
+		Query query = em.createQuery(hql);
+		query.setParameter("emailSHA", emailSHA);
+
+
+		try {
+			query.getSingleResult();
+		} catch (NoResultException e) {
+			LOG.info("emailSHA: {} absent", emailSHA);
+			return false;
+		}
+		LOG.info("emailSHA: {} existe", emailSHA);
+		return true;
+	}
+
+	@Override
+	public void emailSHADelete(String emailSHA) {
+		
+		String hql = "UPDATE Utilisateur U SET U.emailSHA = NULL WHERE U.emailSHA = :emailSHA";
+		Query query = em.createQuery(hql);
+		query.setParameter("emailSHA", emailSHA);
+
+		query.executeUpdate();
+	}
+
 }

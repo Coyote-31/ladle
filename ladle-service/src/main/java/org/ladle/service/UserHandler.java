@@ -463,4 +463,19 @@ public class UserHandler {
 		return emailSHA;
 	}
 	
+	/**
+	 * Test le SHA du mail et le supprime de la bdd
+	 * @param mailSHA
+	 * @return
+	 */
+	public boolean emailValidation(String emailSHA) {
+		
+		if(userDao.emailSHAExist(emailSHA)) {
+			userDao.emailSHADelete(emailSHA);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 }

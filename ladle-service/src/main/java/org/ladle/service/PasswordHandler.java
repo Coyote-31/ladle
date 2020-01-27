@@ -23,7 +23,7 @@ public class PasswordHandler {
 	}
 
 	/**
-	 * Renvoit le mdp sécurisé en SHA-256 du mot de passe et du sel.
+	 * Renvoit le mdp sécurisé en SHA-256 du mot de passe avec le sel.
 	 * 
 	 * @param user
 	 * @return
