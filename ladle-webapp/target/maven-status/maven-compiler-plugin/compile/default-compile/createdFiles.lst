@@ -1,5 +1,7 @@
-org\ladle\webapp\servlet\MailValidation.class
 org\ladle\webapp\filter\EncodingFilter.class
 org\ladle\webapp\servlet\Index.class
+org\ladle\webapp\servlet\MonCompte.class
 org\ladle\webapp\listener\WebAppServletListener.class
+org\ladle\webapp\servlet\Connexion.class
+org\ladle\webapp\servlet\EmailValidation.class
 org\ladle\webapp\servlet\Inscription.class

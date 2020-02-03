@@ -20,6 +20,7 @@
 
 		<c:if test="${not empty myList}">
 			<table class="table">
+				<caption>Table de test des régions</caption>
 				<thead class="thead-dark">
 					<tr>
 						<th scope="col">ID Région</th>
