@@ -7,10 +7,10 @@
 <title>Accueil</title>
 <%@ include file="/WEB-INF/parts/meta.jsp"%>
 </head>
-<body class="pb-3">
+<body>
 	<%@ include file="/WEB-INF/parts/header.jsp"%>
 
-	<div class="container">
+	<div class="container ladle-bg-main">
 	
 		<h2>Hello World !</h2>
 

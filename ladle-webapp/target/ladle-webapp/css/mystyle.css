@@ -1,42 +1,70 @@
 @charset "UTF-8";
 
-/* ================================================= */
-/* --- Main --- */
-/* ============ */
-
+/* ========================== */
+/* ----------- MAIN --------- */
+/* ========================== */
 html {
-    position: relative;
-    min-height: 100%;
+	/* Debug oldies */
+	position: relative;
+	min-height: 100%;
+	font-size: 100%;
 }
 
 body {
-
+	
+	/* 1em */
+	font-size: 1rem;
+	
+	background-size: cover;
+	background-image: url("../images/ladle_wallpaper_main.jpg");
+	background-color: #E7E9EC;
+	background-position: center;
+	background-attachment: fixed;
+	
 	/* margin-bottom = #footer.height */
-    margin-bottom: 60px;
+	margin-bottom: 60px;
 }
 
-/* ================================================= */
-/* --- Header / NavBar --- */
+.ladle-bg-main {
+	background: rgba(255, 255, 255, 0.9);
+	
+	border: outset 1px #fff;
+	border-radius: 1.5rem / 1.5rem;
+	
+	margin: ;
+}
+
 /* ======================= */
+/* --- HEADER / NAVBAR --- */
+/* ======================= */
+.navbar-brand {
+	margin-top: -1rem;
+	margin-bottom: -1rem;
+}
+
+.modal-content {
+	z-index: 1050;
+}
 
 #header-navbar {
-    background-color: #00ab13 !important;    
+	background-color: #00ab13 !important;
 }
 
-/* ================================================= */
-/* --- Footer --- */
+/* ============ */
+/* --- BODY --- */
+/* ============ */
+
+
+
 /* ============== */
-
+/* --- FOOTER --- */
+/* ============== */
 #footer {
-    background-color: rgb(32, 95, 39);
-    bottom: 0;
-    height: 100px;
-    width: 100%;
+	background-color: rgb(32, 95, 39);
+	bottom: 0;
+	height: 100px;
+	width: 100%;
 }
 
 /* ================================================= */
 /* ================================================= */
-
-.modal {
-	
-}
