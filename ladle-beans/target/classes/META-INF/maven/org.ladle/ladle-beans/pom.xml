@@ -21,8 +21,8 @@
 	
 	<artifactId>ladle-beans</artifactId>
 	<name>ladle-beans</name>
-	<url>http://ladle.org</url>
 	<description>Classes java utilitaires pour le site ladle.</description>
+	<url>http://ladle.org</url>
 	
 	<!-- =============================================================== -->
 	<!-- Properties -->

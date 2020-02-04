@@ -18,7 +18,8 @@
 	</jsp-config>
 	 -->
 	 
- 	<context-param>
+	<!-- -->
+	<context-param>
     <param-name>org.apache.myfaces.CACHE_EL_EXPRESSIONS</param-name>
     <param-value>alwaysRecompile</param-value>
 	</context-param>

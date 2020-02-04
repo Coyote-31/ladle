@@ -6,32 +6,35 @@
 <head>
 <meta charset="utf-8" />
 <title>Inscription</title>
-<!-- Fontawesome -->
+<%-- Fontawesome --%>
 <script src="https://kit.fontawesome.com/9371740617.js" crossorigin="anonymous"></script>
-<!-- Inclusion des metas -->
+<%-- Inclusion des metas --%>
 <%@ include file="/WEB-INF/parts/meta.jsp"%>
 </head>
 
 <body class="pb-3">
 
-	<!-- Inclusion du bandeau de menu -->
+	<%-- Inclusion du bandeau de menu --%>
 	<%@ include file="/WEB-INF/parts/header.jsp"%>
 
 	<div class="container">
 
 		<h1>Page d'inscription</h1>
 
-		<!-- inputs d'inscription -->
+		<%-- inputs d'inscription --%>
 
 		<form method="post" action="Inscription">
 			<fieldset>
 				<legend>Inscription</legend>
 
-				<!-- ====== -->
-				<!-- Pseudo -->
-				<!-- ====== -->
-
-				<!-- Message d'erreur : Le champ pseudo est vide -->
+				<%-- ====== --%>
+				<%-- Pseudo --%>
+				<%-- ====== --%>
+				
+				<%--  --%>
+				
+				
+				<%-- Message d'erreur : Le champ pseudo est vide --%>
 				<c:if test="${validationList['pseudoEmpty'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
@@ -44,7 +47,7 @@
 					</div>
 				</c:if>
 
-				<!-- Message d'erreur : Le pseudo existe déjà -->
+				<%-- Message d'erreur : Le pseudo existe déjà --%>
 				<c:if test="${validationList['pseudoExist'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
@@ -56,7 +59,7 @@
 					</div>
 				</c:if>
 
-				<!-- Message d'erreur : Le pseudo fait plus de 30 caractères -->
+				<%-- Message d'erreur : Le pseudo fait plus de 30 caractères --%>
 				<c:if test="${validationList['pseudoLength'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
@@ -68,7 +71,7 @@
 					</div>
 				</c:if>
 
-				<!-- formulaire pseudo -->
+				<%-- formulaire pseudo --%>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="aria-pseudo">Pseudo</span>
@@ -82,11 +85,11 @@
 						aria-describedby="aria-pseudo">
 				</div>
 
-				<!-- ----- -->
-				<!-- Genre -->
-				<!-- ----- -->
+				<%-- ----- --%>
+				<%-- Genre --%>
+				<%-- ----- --%>
 
-				<!-- Message d'erreur : Le champ genre est vide -->
+				<%-- Message d'erreur : Le champ genre est vide --%>
 				<c:if test="${validationList['genreEmpty'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
@@ -98,7 +101,7 @@
 					</div>
 				</c:if>
 
-				<!-- Message d'erreur : Le genre est invalide ("Madame","Monsieur") -->
+				<%-- Message d'erreur : Le genre est invalide ("Madame","Monsieur") --%>
 				<c:if
 					test="${validationList['genreValid'] == 0 && validationList['genreEmpty'] == 1}">
 					<div class="alert alert-danger alert-dismissible fade show"
@@ -112,11 +115,11 @@
 					</div>
 				</c:if>
 
-				<!-- ------ -->
-				<!-- Prénom -->
-				<!-- ------ -->
+				<%-- ------ --%>
+				<%-- Prénom --%>
+				<%-- ------ --%>
 
-				<!-- Message d'erreur : Le champ prénom est vide -->
+				<%-- Message d'erreur : Le champ prénom est vide --%>
 				<c:if test="${validationList['prenomEmpty'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
@@ -129,7 +132,7 @@
 					</div>
 				</c:if>
 
-				<!-- Message d'erreur : Le prénom fait plus de 40 caractères -->
+				<%-- Message d'erreur : Le prénom fait plus de 40 caractères --%>
 				<c:if test="${validationList['prenomLength'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
@@ -141,11 +144,11 @@
 					</div>
 				</c:if>
 
-				<!-- --- -->
-				<!-- Nom -->
-				<!-- --- -->
+				<%-- --- --%>
+				<%-- Nom --%>
+				<%-- --- --%>
 
-				<!-- Message d'erreur : Le champ nom est vide -->
+				<%-- Message d'erreur : Le champ nom est vide --%>
 				<c:if test="${validationList['nomEmpty'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
@@ -157,7 +160,7 @@
 					</div>
 				</c:if>
 
-				<!-- Message d'erreur : Le nom fait plus de 40 caractères -->
+				<%-- Message d'erreur : Le nom fait plus de 40 caractères --%>
 				<c:if test="${validationList['nomLength'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
@@ -171,11 +174,11 @@
 
 				<div class="row">
 
-					<!-- ===== -->
-					<!-- Genre -->
-					<!-- ===== -->
+					<%-- ===== --%>
+					<%-- Genre --%>
+					<%-- ===== --%>
 
-					<!-- formulaire genre -->
+					<%-- formulaire genre --%>
 					<div class="input-group col-md-4 col-lg-3 mb-3">
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="genre">Genre</label>
@@ -198,11 +201,11 @@
 						</select>
 					</div>
 					
-					<!-- ====== -->
-					<!-- Prénom -->
-					<!-- ====== -->
+					<%-- ====== --%>
+					<%-- Prénom --%>
+					<%-- ====== --%>
 
-					<!-- formulaire prenom -->
+					<%-- formulaire prenom --%>
 					<div class="input-group col-md mb-3">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="aria-prenom">Prénom</span>
@@ -215,11 +218,11 @@
 						placeholder="" required aria-label="Prénom" aria-describedby="aria-prenom">
 					</div>
 
-					<!-- === -->
-					<!-- Nom -->
-					<!-- === -->
+					<%-- === --%>
+					<%-- Nom --%>
+					<%-- === --%>
 
-					<!-- formulaire nom -->
+					<%-- formulaire nom --%>
 					<div class="input-group col-md mb-3">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="aria-nom">Nom</span>
@@ -234,11 +237,11 @@
 
 				</div>
 
-				<!-- ===== -->
-				<!-- Email -->
-				<!-- ===== -->
+				<%-- ===== --%>
+				<%-- Email --%>
+				<%-- ===== --%>
 
-				<!-- Message d'erreur : Le mail existe déjà -->
+				<%-- Message d'erreur : Le mail existe déjà --%>
 				<c:if test="${validationList['emailExist'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
@@ -250,7 +253,7 @@
 					</div>
 				</c:if>
 
-				<!-- Message d'erreur : Le mail est invalide -->
+				<%-- Message d'erreur : Le mail est invalide --%>
 				<c:if test="${validationList['emailValid'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
@@ -262,7 +265,7 @@
 					</div>
 				</c:if>
 
-				<!-- formulaire email -->
+				<%-- formulaire email --%>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="aria-email">Email</span>
@@ -275,11 +278,11 @@
 						placeholder="" required aria-label="eMail"	aria-describedby="aria-email">
 				</div>
 
-				<!-- ===== -->
-				<!-- Ville -->
-				<!-- ===== -->
+				<%-- ===== --%>
+				<%-- Ville --%>
+				<%-- ===== --%>
 
-				<!-- formulaire ville -->
+				<%-- formulaire ville --%>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="aria-ville">Ville</span>
@@ -288,11 +291,11 @@
 						placeholder="" aria-label="Ville" aria-describedby="aria-ville">
 				</div>
 
-				<!-- ====== -->
-				<!-- Mdp x2 -->
-				<!-- ====== -->
+				<%-- ====== --%>
+				<%-- Mdp x2 --%>
+				<%-- ====== --%>
 
-				<!-- Message d'erreur : Le mdp n'a pas la bonne taille (8 à 40 chars) -->
+				<%-- Message d'erreur : Le mdp n'a pas la bonne taille (8 à 40 chars) --%>
 				<c:if test="${validationList['mdpLength'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
@@ -305,7 +308,7 @@
 					</div>
 				</c:if>
 
-				<!-- Message d'erreur : Les mdp ne sont pas identiques -->
+				<%-- Message d'erreur : Les mdp ne sont pas identiques --%>
 				<c:if test="${validationList['mdpEquals'] == 0}">
 					<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
@@ -318,7 +321,7 @@
 					</div>
 				</c:if>
 
-				<!-- formulaire mdp 2 inputs -->
+				<%-- formulaire mdp 2 inputs --%>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="aria-mdp">Mot de passe</span>
@@ -352,7 +355,7 @@
 						</div>
 				</div>
 				
-				<!-- Script hide/show des champs de mdp -->
+				<%-- Script hide/show des champs de mdp --%>
 				<script>
 					function passwordShowHide(elem) {
 						
@@ -377,7 +380,7 @@
 					}
 				</script>
 				
-				<!-- Script de vérification du mot de passe (mdp == mdp2) -->
+				<%-- Script de vérification du mot de passe (mdp == mdp2) --%>
 				<script>
 					var mdp = document.getElementById("mdp")
 					  , mdp2 = document.getElementById("mdp2");
@@ -394,15 +397,15 @@
 					mdp2.onkeyup = validatePassword;
 				</script>
 
-				<!-- Bouton de validation du formulaire -->
+				<%-- Bouton de validation du formulaire --%>
 				<button type="submit" class="btn btn-primary">Valider</button>
 			</fieldset>
 		</form>
 
 	</div>
 
-	<!-- Inclusion du bas de page -->
-	<%@ include file="/WEB-INF/parts/footer.jsp"%>
+	<%-- Inclusion du bas de page --%>
+	<%@ include file="/WEB-INF/parts/footer.jsp" %>
 
 </body>
 </html>

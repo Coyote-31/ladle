@@ -26,7 +26,7 @@ public class Index extends HttpServlet {
 	private static final Logger LOG = LogManager.getLogger(Index.class);
 	
 	@EJB(name = "RegionDaoImpl")
-	RegionDao regionDao;
+	private RegionDao regionDao;
 
 
 	/**
