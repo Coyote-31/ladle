@@ -71,7 +71,8 @@
 		<!-- Hibernate Core -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
+			<artifactId>hibernate-agroal</artifactId>
+      <version>${hibernate-agroal.version}</version>
 		</dependency>
 		
 		<!-- JPA -->

@@ -58,7 +58,8 @@ Projet de formation OpenClassrooms.</description>
 		<taglibs-standard-impl.version>1.2.5</taglibs-standard-impl.version>
 		<javax-servlet-jstl.version>1.2</javax-servlet-jstl.version>
 		
-		<hibernate-core.version>5.4.9.Final</hibernate-core.version>
+		<!--  <hibernate-core.version>5.4.9.Final</hibernate-core.version> -->
+    <hibernate-agroal.version>5.4.11.Final</hibernate-agroal.version>
 		<mysql-connector-java.version>8.0.18</mysql-connector-java.version>
 		<javax-ejb.version>3.2.2</javax-ejb.version>
 		<javax-persistence.version>2.2</javax-persistence.version>
@@ -89,13 +90,22 @@ Projet de formation OpenClassrooms.</description>
 				<version>${jsp-api.version}</version>
 				<scope>provided</scope>
 			</dependency>
-
+      
 			<!-- Hibernate Core - https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
-			<dependency>
+      <!--
+      <dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
 				<version>${hibernate-core.version}</version>
 			</dependency>
+       -->
+
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-agroal</artifactId>
+        <version>${hibernate-agroal.version}</version>
+        <type>pom</type>
+      </dependency>
 
 			<!-- MySQL-Connector-Java - https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 			<dependency>
