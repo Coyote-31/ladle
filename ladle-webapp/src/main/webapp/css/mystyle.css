@@ -22,14 +22,7 @@ body {
 	background-attachment: fixed;
 	
 	/* margin-bottom = #footer.height */
-	margin-bottom: 60px;
-}
-
-.ladle-bg-main {
-	background: rgba(255, 255, 255, 0.9);
-	
-	border: outset 1px #fff;
-	border-radius: 1.5rem / 1.5rem;
+	margin-bottom: 7.6em;
 }
 
 /* ======================= */
@@ -44,6 +37,10 @@ body {
 	z-index: 1050;
 }
 
+footer p {
+	margin-bottom: 0;
+}
+
 #header-navbar {
 	background-color: #00ab13 !important;
 }
@@ -52,15 +49,20 @@ body {
 /* --- BODY --- */
 /* ============ */
 
-
+.ladle-bg-main {
+  background: rgba(255, 255, 255, 0.9);
+  
+  border: outset 1px #fff;
+  border-radius: 1.5rem / 1.5rem;
+}
 
 /* ============== */
 /* --- FOOTER --- */
 /* ============== */
-#footer {
+footer {
 	background-color: rgb(32, 95, 39);
 	bottom: 0;
-	height: 100px;
+	height: 6.6em;
 	width: 100%;
 }
 

@@ -32,7 +32,7 @@ public class Inscription extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-			LOG.info("Servlet : doGet()");
+			LOG.info("doGet()");
 
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/inscription.jsp" ).forward( request, response );
 

@@ -19,55 +19,59 @@ import org.ladle.dao.hibernate.object.Region;
 /**
  * Servlet implementation class Index
  */
+@SuppressWarnings("serial")
 @WebServlet("")
 public class Index extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = LogManager.getLogger(Index.class);
-	
+
 	@EJB(name = "RegionDaoImpl")
 	private RegionDao regionDao;
 
-
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-		/** ===================================================================================== **/
-		
-		
+		/**
+		 * =====================================================================================
+		 **/
+
 		List<Region> regionsToSend = new ArrayList<>();
-		
+
 		LOG.info("doGet()");
-		
+
 		try {
 			regionsToSend = regionDao.getAllRegions();
 		} catch (Exception e) {
-			LOG.error("Error regionDao.getAllRegions()",e);
+			LOG.error("Error regionDao.getAllRegions()", e);
 		}
 
+		/**
+		 * =====================================================================================
+		 **/
 
-		/** ===================================================================================== **/
-
-		try {	
+		try {
 
 			request.setAttribute("myList", regionsToSend);
-			
 
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/index.jsp" ).forward( request, response );
+			this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 
-		} catch (Exception e) {			
-			LOG.error("Error building index.jsp",e);
+		} catch (Exception e) {
+			LOG.error("Error building index.jsp", e);
 		}
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 
 			doGet(request, response);

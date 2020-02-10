@@ -21,6 +21,7 @@ public class EncodingFilter implements Filter {
 	public void init(FilterConfig fConfig) throws ServletException {
 		// If you have any <init-param> in web.xml, then you could get them
 		// here by config.getInitParameter("name") and assign it as field.
+		//TODO
 	}
 
 

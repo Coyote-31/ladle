@@ -6,7 +6,6 @@ import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.dao.RegionDao;
@@ -17,10 +16,13 @@ public class RegionDaoImpl implements RegionDao {
 
 	private static final Logger LOG = LogManager.getLogger(RegionDaoImpl.class);
 
-	@PersistenceContext(unitName = "ladleMySQLPU", type = PersistenceContextType.EXTENDED)
+	@PersistenceContext(unitName = "ladleMySQLPU", type = PersistenceContextType.TRANSACTION)
 	private EntityManager em;
-
-
+	
+	public RegionDaoImpl() {
+		super();
+	}
+	
 	@Override
 	public List<Region> getAllRegions() {
 
@@ -29,11 +31,13 @@ public class RegionDaoImpl implements RegionDao {
 		regionsToSend = em.createQuery( "from Region", Region.class ).getResultList();
 
 		for ( Region region : regionsToSend ){
-			LOG.debug("ID:" + region.getRegionID());
-			LOG.debug(" Nom:" + region.getNom()); 
-			LOG.debug(" Soundex:" + region.getSoundex());
+			LOG.debug("ID: {}", region.getRegionID());
+			LOG.debug(" / Nom: {}", region.getNom()); 
+			LOG.debug(" / Soundex: {}", region.getSoundex());
 		}
 
+		LOG.info("regionsToSend : sending...");
+		
 		return regionsToSend;
 
 	}

@@ -3,6 +3,10 @@
 	<name>ladle</name>
 	<comment></comment>
 	<projects>
+		<project>ladle-beans</project>
+		<project>ladle-dao</project>
+		<project>ladle-service</project>
+		<project>ladle-webapp</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
