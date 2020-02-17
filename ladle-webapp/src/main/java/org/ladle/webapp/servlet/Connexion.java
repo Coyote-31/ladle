@@ -34,10 +34,6 @@ public class Connexion extends HttpServlet {
 
     LOG.info("doGet()");
 
-    // exemple session
-    HttpSession session = request.getSession();
-    session.setAttribute("test", 1);
-
     this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
   }
 
@@ -47,8 +43,29 @@ public class Connexion extends HttpServlet {
    */
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     LOG.info("doPost()");
-    doGet(request, response);
+
+    HttpSession session = request.getSession();
+
+    // Récupération du formulaire
+    String login = request.getParameter("login_InputPseudoEmail");
+    String pwd = request.getParameter("login_InputPassword");
+
+    // Test de validation du formulaire
+    boolean isLoginValid = userHandler.isLoginValid(login, pwd);
+
+    // Update l'attribut de session isLoginValid
+    session.setAttribute("isLoginValid", isLoginValid);
+
+    // Si la connexion est validée
+    if (isLoginValid) {
+
+      // User user = userHandler.getUserByPseudo();
+      // session.setAttribute("user", user);
+    }
+
+    this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
   }
 
 }

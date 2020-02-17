@@ -23,41 +23,41 @@
 
     <%-- Button trigger modal --%>
     <button type="button" class="btn btn-primary" data-toggle="modal"
-      data-target="#loggin_ModalCenter">Connexion</button>
+      data-target="#login_ModalCenter">Connexion</button>
   </div>
 
 </nav>
 
 <%-- Modal connexion --%>
-<div class="modal fade" id="loggin_ModalCenter" tabindex="-1" role="dialog"
-  aria-labelledby="loggin_ModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="login_ModalCenter" tabindex="-1" role="dialog"
+  aria-labelledby="login_ModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="loggin_ModalLongTitle">Modal title</h5>
+        <h5 class="modal-title" id="login_ModalLongTitle">Modal title</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
           aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
 
-        <form>
+        <form action="Connexion">
           <div class="form-row">
 
-            <%-- Input Email --%>
+            <%-- Input Pseudo / Email --%>
             <div class="col-12 col-sm">
               <div class="form-group">
-                <label for="loggin_InputEmail">Email</label>
-                <input type="email" class="form-control form-control-sm" id="loggin_InputEmail"
-                  placeholder="Entrez votre mail">
+                <label for="login_InputPseudoEmail">Pseudo / Email</label>
+                <input type="email" class="form-control form-control-sm" id="login_InputPseudoEmail"
+                  placeholder="Entrez votre pseudo ou mail">
               </div>
             </div>
 
             <%-- Input Password --%>
             <div class="col-12 col-sm">
               <div class="form-group">
-                <label for="loggin_InputPassword">Password</label>
+                <label for="login_InputPassword">Password</label>
                 <input type="password" class="form-control form-control-sm"
-                  id="loggin_InputPassword" placeholder="Mot de passe...">
+                  id="login_InputPassword" placeholder="Mot de passe...">
               </div>
             </div>
 
@@ -67,8 +67,8 @@
             <%-- Input checkBox --%>
             <div class="col">
               <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="loggin_CheckStayConnected">
-                <label class="form-check-label" for="loggin_CheckStayConnected">Rester
+                <input type="checkbox" class="form-check-input" id="login_CheckStayConnected">
+                <label class="form-check-label" for="login_CheckStayConnected">Rester
                   connecté</label>
               </div>
             </div>

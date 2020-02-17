@@ -36,6 +36,10 @@ public class UserHandler {
   /* Création de la map de validation pour la jsp */
   private Map<String, Integer> validationList = new HashMap<>();
 
+  public UserHandler() {
+    super();
+  }
+
   /**
    * Lance les tests et ajoute l'utilisateur à la BDD.
    * 
@@ -454,7 +458,7 @@ public class UserHandler {
   }
 
   /**
-   * Test le SHA du mail et le supprime de la bdd
+   * Test le SHA du mail et le supprime de la bdd.
    * 
    * @param mailSHA
    * @return
@@ -467,6 +471,25 @@ public class UserHandler {
     } else {
       return false;
     }
+  }
+
+  /**
+   * Demande à la DAO si le couple [(Pseudo ou Email) + mdp] existe dans la bdd.
+   * 
+   * @param login : Pseudo ou Email
+   * @param pwd   : Password
+   * @return true : connexion valide <br>
+   *         false : connexion invalide
+   */
+  public boolean isLoginValid(String login, String pwd) {
+
+    String pwdEncryptedByPseudo;
+    String pwdEncryptedByEmail;
+
+    Byte[] saltByPseudo = userDao.getSaltByPseudo(login);
+    Byte[] saltByEmail = userDao.getSaltByEmail(login);
+
+    return false;
   }
 
 }
