@@ -19,31 +19,36 @@ import org.ladle.service.UserHandler;
  */
 @WebServlet("/connexion")
 public class Connexion extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = LogManager.getLogger(Connexion.class);
-       
-	@EJB(name = "UserHandler")
-	UserHandler userHandler;
+  private static final long serialVersionUID = 1L;
+  private static final Logger LOG = LogManager.getLogger(Connexion.class);
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		LOG.info("Servlet [Connexion.java] -> doGet()");
-		
-		// exemple session
-		HttpSession session = request.getSession();
-		session.setAttribute("test", 1);
-		
-		this.getServletContext().getRequestDispatcher( "/WEB-INF/connexion.jsp" ).forward( request, response );
-	}
+  @EJB(name = "UserHandler")
+  UserHandler userHandler;
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);		
-	}
+  /**
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+   *      response)
+   */
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    LOG.info("doGet()");
+
+    // exemple session
+    HttpSession session = request.getSession();
+    session.setAttribute("test", 1);
+
+    this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
+  }
+
+  /**
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+   *      response)
+   */
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    LOG.info("doPost()");
+    doGet(request, response);
+  }
 
 }
