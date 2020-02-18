@@ -9,11 +9,11 @@
 <body class="pb-3">
   <%@ include file="/WEB-INF/parts/header.jsp"%>
 
-  <div class="container">
+  <div class="container ladle-bg-main">
 
     <h1>Connexion :</h1>
-    <p>Connecté : ${ isLoginValid? oui : non }<br>
-       ${ user.pseudo }
+    <p>Connecté : ${ isLoginValid ? "oui" : "non" }<br>
+       Pseudo : ${ user.pseudo }
     </p>
   </div>
 

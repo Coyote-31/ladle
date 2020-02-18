@@ -16,8 +16,8 @@
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav mr-auto pt-2 pt-lg-0">
       <li class="nav-item active"><a class="nav-link" href="./">Accueil</a></li>
-      <li class="nav-item"><a class="nav-link" href="Inscription">Inscription</a></li>
-      <li class="nav-item"><a class="nav-link" href="Connexion">Connexion</a></li>
+      <li class="nav-item"><a class="nav-link" href="inscription">Inscription</a></li>
+      <li class="nav-item"><a class="nav-link" href="connexion">Connexion</a></li>
       <li class="nav-item"><a class="nav-link" href="#">À propos</a></li>
     </ul>
 
@@ -40,15 +40,16 @@
       </div>
       <div class="modal-body">
 
-        <form action="Connexion">
+        <form method="post" action="connexion">
+        <fieldset>
           <div class="form-row">
 
             <%-- Input Pseudo / Email --%>
             <div class="col-12 col-sm">
               <div class="form-group">
                 <label for="login_InputPseudoEmail">Pseudo / Email</label>
-                <input type="email" class="form-control form-control-sm" id="login_InputPseudoEmail"
-                  placeholder="Entrez votre pseudo ou mail">
+                <input type="email" name="login_InputPseudoEmail" id="login_InputPseudoEmail"
+                class="form-control form-control-sm" placeholder="Entrez votre pseudo ou mail">
               </div>
             </div>
 
@@ -56,8 +57,8 @@
             <div class="col-12 col-sm">
               <div class="form-group">
                 <label for="login_InputPassword">Password</label>
-                <input type="password" class="form-control form-control-sm"
-                  id="login_InputPassword" placeholder="Mot de passe...">
+                <input type="password" name="login_InputPassword" id="login_InputPassword"
+                 class="form-control form-control-sm" placeholder="Mot de passe...">
               </div>
             </div>
 
@@ -67,18 +68,20 @@
             <%-- Input checkBox --%>
             <div class="col">
               <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="login_CheckStayConnected">
-                <label class="form-check-label" for="login_CheckStayConnected">Rester
-                  connecté</label>
+                <input type="checkbox" name="login_CheckStayConnected" id="login_CheckStayConnected"
+                 class="form-check-input">
+                <label class="form-check-label" for="login_CheckStayConnected"
+                >Rester connecté</label>
               </div>
             </div>
 
             <%-- Bouton Envoyé --%>
             <div class="col">
-              <button type="submit" class="btn btn-primary">Envoyer</button>
+              <input type="submit" class="btn btn-primary" value="Envoyer">
             </div>
 
           </div>
+          </fieldset>
         </form>
 
       </div>

@@ -1,9 +1,9 @@
 package org.ladle.service;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Base64;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.logging.log4j.LogManager;
@@ -40,7 +40,7 @@ public final class PasswordHandler {
       // Add salt bytes to digest
       md.update(user.getSalt());
       // Get the hash's bytes
-      byte[] bytes = md.digest(Base64.getDecoder().decode(user.getMdp()));
+      byte[] bytes = md.digest(user.getMdp().getBytes(StandardCharsets.UTF_8));
 
       generatedPassword = Hex.encodeHexString(bytes);
 
@@ -55,7 +55,6 @@ public final class PasswordHandler {
    * 
    * @param pwd  le mdp non sécurisé
    * @param salt le sel pour l'encodage
-   * 
    * @return Le mot de passe en hexadecimal
    */
   public static String getSecurePassword(String pwd, byte[] salt) {
@@ -67,7 +66,7 @@ public final class PasswordHandler {
       // Add salt bytes to digest
       md.update(salt);
       // Get the hash's bytes
-      byte[] bytes = md.digest(Base64.getDecoder().decode(pwd));
+      byte[] bytes = md.digest(pwd.getBytes(StandardCharsets.UTF_8));
 
       generatedPassword = Hex.encodeHexString(bytes);
 

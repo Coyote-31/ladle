@@ -24,7 +24,7 @@ public class Connexion extends HttpServlet {
   private static final Logger LOG = LogManager.getLogger(Connexion.class);
 
   @EJB(name = "UserHandler")
-  UserHandler userHandler;
+  private UserHandler userHandler;
 
   /**
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -35,7 +35,7 @@ public class Connexion extends HttpServlet {
 
     LOG.info("doGet()");
 
-    this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
+    getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
   }
 
   /**
@@ -47,17 +47,23 @@ public class Connexion extends HttpServlet {
 
     LOG.info("doPost()");
 
-    HttpSession session = request.getSession();
-
     // Récupération du formulaire
+    // TODO vérif des champs vides
     String login = request.getParameter("login_InputPseudoEmail");
+    LOG.debug("getParam login : {}", login);
+
     String pwd = request.getParameter("login_InputPassword");
+    LOG.debug("getParam pwd : {}", pwd);
 
     // Test de validation du formulaire
     boolean isLoginValid = userHandler.isLoginValid(login, pwd);
+    LOG.debug("isLoginValid : {}", isLoginValid);
 
     // Update l'attribut de session isLoginValid
+    HttpSession session = request.getSession();
     session.setAttribute("isLoginValid", isLoginValid);
+
+    // TODO renvoyer user.login pour la reconnexion
 
     // Si la connexion est validée
     if (isLoginValid) {
@@ -66,7 +72,7 @@ public class Connexion extends HttpServlet {
       session.setAttribute("user", user);
     }
 
-    this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
+    getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
   }
 
 }

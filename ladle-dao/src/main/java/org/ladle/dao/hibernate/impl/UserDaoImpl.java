@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao {
 
   private static final Logger LOG = LogManager.getLogger(UserDaoImpl.class);
 
-  @PersistenceContext(unitName = "ladleMySQLPU", type = PersistenceContextType.EXTENDED)
+  @PersistenceContext(unitName = "ladleMySQLPU", type = PersistenceContextType.TRANSACTION)
   private EntityManager em;
 
   /*
@@ -50,14 +50,12 @@ public class UserDaoImpl implements UserDao {
         user.getNom(), user.getPrenom(), user.getEmail(), user.getMdpSecured(), user.getSalt(), ROLE_UTILISATEUR,
         user.getEmailSHA(), user.getDateEmail(), user.getDateCompte());
 
-    LOG.info(user.getPrenom());
-
     try {
       em.persist(utilisateur);
     } catch (PersistenceException e) {
       LOG.error("Error ! em.persist failed to insert : {}", user.getPseudo(), e);
     }
-    LOG.info("Success ! {} : saved", utilisateur.getPseudo());
+    LOG.info("Nouvel utilisateur dans la bdd : {}", utilisateur.getPseudo());
   }
 
   private int getVilleId(String ville) {
@@ -75,11 +73,12 @@ public class UserDaoImpl implements UserDao {
     try {
       query.getSingleResult();
     } catch (NoResultException e) {
-      LOG.info("Pseudo: {} -> disponible", pseudo);
+      LOG.debug("Pseudo: {} -> disponible", pseudo);
+      LOG.trace(e);
       return false;
     }
 
-    LOG.info("Pseudo: {} -> déjà utilisé", pseudo);
+    LOG.debug("Pseudo: {} -> déjà utilisé", pseudo);
     return true;
   }
 
@@ -93,10 +92,11 @@ public class UserDaoImpl implements UserDao {
     try {
       query.getSingleResult();
     } catch (NoResultException e) {
-      LOG.info("Email: {} libre", email, e);
+      LOG.debug("Email: {} libre", email);
+      LOG.trace(e);
       return false;
     }
-    LOG.info("Email: {} déjà utilisé", email);
+    LOG.debug("Email: {} déjà utilisé", email);
     return true;
   }
 
@@ -110,10 +110,11 @@ public class UserDaoImpl implements UserDao {
     try {
       query.getSingleResult();
     } catch (NoResultException e) {
-      LOG.info("emailSHA: {} absent", emailSHA, e);
+      LOG.debug("emailSHA: {} absent", emailSHA, e);
+      LOG.trace(e);
       return false;
     }
-    LOG.info("emailSHA: {} existe", emailSHA);
+    LOG.debug("emailSHA: {} existe", emailSHA);
     return true;
   }
 
@@ -141,11 +142,11 @@ public class UserDaoImpl implements UserDao {
       query.getSingleResult();
 
     } catch (NoResultException e) {
-      LOG.info("login by pseudo fail : {} / {}", pseudo, mdpSecured);
-      LOG.debug(e);
+      LOG.debug("login by pseudo fail : {} / {}", pseudo, mdpSecured);
+      LOG.trace(e);
       return false;
     }
-    LOG.info("login by pseudo valid : {} / {}", pseudo, mdpSecured);
+    LOG.debug("login by pseudo valid : {} / {}", pseudo, mdpSecured);
     return true;
   }
 
@@ -162,11 +163,11 @@ public class UserDaoImpl implements UserDao {
       query.getSingleResult();
 
     } catch (NoResultException e) {
-      LOG.info("login by email fail : {} / {}", email, mdpSecured);
-      LOG.debug(e);
+      LOG.debug("login by email fail : {} / {}", email, mdpSecured);
+      LOG.trace(e);
       return false;
     }
-    LOG.info("login by email valid : {} / {}", email, mdpSecured);
+    LOG.debug("login by email valid : {} / {}", email, mdpSecured);
     return true;
   }
 
@@ -187,24 +188,27 @@ public class UserDaoImpl implements UserDao {
       @SuppressWarnings("unchecked")
       List<byte[]> resultsRaw = query.getResultList();
       results = Collections.checkedList(resultsRaw, byte[].class);
+      LOG.debug("getSaltByPseudo() -> Number of results = {}", results.size());
 
     } catch (IllegalStateException | PersistenceException | ClassCastException e) {
-      LOG.catching(e);
+      LOG.error("getSaltByPseudo() failed -> return = {}", salt, e);
       return salt;
     }
 
     // Récupération du sel par le pseudo
     if (results.size() == 1) {
+      LOG.debug("getSaltByPseudo() match -> return = {}", results.get(0));
       return results.get(0);
 
       // Il n'y a pas de correspondance avec le pseudo
     } else if (results.isEmpty()) {
+      LOG.debug("getSaltByPseudo() empty -> return = {}", salt);
       return salt;
 
       // Plusieurs correspondances sont trouvées -> NonUniqueResultException
     } else {
       String message = "Grave ! Le pseudo : " + pseudo + " existe en plusieurs exemplaires dans la BDD.";
-      LOG.warn(message);
+      LOG.error(message);
       throw new NonUniqueResultException(message);
     }
   }
@@ -226,24 +230,27 @@ public class UserDaoImpl implements UserDao {
       @SuppressWarnings("unchecked")
       List<byte[]> resultsRaw = query.getResultList();
       results = Collections.checkedList(resultsRaw, byte[].class);
+      LOG.debug("getSaltByEmail() -> Number of results = {}", results.size());
 
     } catch (IllegalStateException | PersistenceException | ClassCastException e) {
-      LOG.catching(e);
+      LOG.error("getSaltByEmail() failed -> return = {}", salt, e);
       return salt;
     }
 
     // Récupération du sel par l'email
     if (results.size() == 1) {
+      LOG.debug("getSaltByEmail() match -> return = {}", results.get(0));
       return results.get(0);
 
       // Il n'y a pas de correspondance avec l'email
     } else if (results.isEmpty()) {
+      LOG.debug("getSaltByEmail() empty -> return = {}", salt);
       return salt;
 
       // Plusieurs correspondances sont trouvées -> NonUniqueResultException
     } else {
       String message = "Grave ! L'email : " + email + " existe en plusieurs exemplaires dans la BDD.";
-      LOG.warn(message);
+      LOG.error(message);
       throw new NonUniqueResultException(message);
     }
   }

@@ -22,7 +22,6 @@ import org.ladle.dao.UserDao;
  * Classe de gestion des données utilisateur et de leur persistence.
  * 
  * @author Coyote
- * 
  * @see org.ladle.beans.User
  * @see org.ladle.dao.hibernate.impl.UserDaoImpl
  */
@@ -130,7 +129,6 @@ public class UserHandler {
    * 
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
-   * 
    * @see org.ladle.beans.User
    */
   private Integer testPseudoEmpty(User user) {
@@ -146,7 +144,6 @@ public class UserHandler {
    * 
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
-   * 
    * @see org.ladle.beans.User
    */
   private Integer testPseudoExist(User user) {
@@ -162,7 +159,6 @@ public class UserHandler {
    * 
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
-   * 
    * @see org.ladle.beans.User
    */
   private Integer testPseudoLength(User user) {
@@ -197,7 +193,6 @@ public class UserHandler {
    * 
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
-   * 
    * @see org.ladle.beans.User
    */
   private Integer testGenreEmpty(User user) {
@@ -213,7 +208,6 @@ public class UserHandler {
    * 
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
-   * 
    * @see org.ladle.beans.User
    */
   private Integer testGenreValid(User user) {
@@ -244,7 +238,6 @@ public class UserHandler {
    * 
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
-   * 
    * @see org.ladle.beans.User
    */
   private Integer testPrenomEmpty(User user) {
@@ -260,7 +253,6 @@ public class UserHandler {
    * 
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
-   * 
    * @see org.ladle.beans.User
    */
   private Integer testPrenomLength(User user) {
@@ -293,7 +285,6 @@ public class UserHandler {
    * 
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
-   * 
    * @see org.ladle.beans.User
    */
   private Integer testNomEmpty(User user) {
@@ -309,7 +300,6 @@ public class UserHandler {
    * 
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
-   * 
    * @see org.ladle.beans.User
    */
   private Integer testNomLength(User user) {
@@ -339,7 +329,6 @@ public class UserHandler {
    * 
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
-   * 
    * @see org.ladle.beans.User
    */
   private Integer testEmailExist(User user) {
@@ -355,7 +344,6 @@ public class UserHandler {
    * 
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
-   * 
    * @see org.ladle.beans.User
    * @see org.apache.commons.validator.routines.EmailValidator
    */
@@ -387,7 +375,6 @@ public class UserHandler {
    * 
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
-   * 
    * @see org.ladle.beans.User
    */
   private Integer testMdpLength(User user) {
@@ -403,10 +390,9 @@ public class UserHandler {
    * 
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
-   * 
    * @see org.ladle.beans.User
    */
-  private Integer testMdpEquals(User user) {
+  private static Integer testMdpEquals(User user) {
 
     if (user.getMdp().equals(user.getMdp2())) {
       return 1;
@@ -485,6 +471,7 @@ public class UserHandler {
 
     // Test le mdp sécurisé par pseudo
     byte[] saltByPseudo = userDao.getSaltByPseudo(login);
+    LOG.debug("saltByPseudo : {}", saltByPseudo);
 
     if (saltByPseudo != null) {
       String pwdEncryptedByPseudo = PasswordHandler.getSecurePassword(login, saltByPseudo);
@@ -493,6 +480,7 @@ public class UserHandler {
 
     // Test le mdp sécurisé par email
     byte[] saltByEmail = userDao.getSaltByEmail(login);
+    LOG.debug("saltByEmail : {}", saltByEmail);
 
     if (saltByEmail != null) {
       String pwdEncryptedByEmail = PasswordHandler.getSecurePassword(login, saltByEmail);
@@ -512,7 +500,8 @@ public class UserHandler {
    */
   public User getUserOnLogin(String login, String pwd) {
 
-    User user = null;
+    User user = new User();
+    user.setPseudo("TEST");
 
     return user;
   }

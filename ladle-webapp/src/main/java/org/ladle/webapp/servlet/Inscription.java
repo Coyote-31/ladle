@@ -17,66 +17,84 @@ import org.ladle.service.UserHandler;
 /**
  * Servlet implementation class Inscription
  */
-@WebServlet("/Inscription")
+@WebServlet("/inscription")
 public class Inscription extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = LogManager.getLogger(Inscription.class);
+  private static final long serialVersionUID = 1L;
+  private static final Logger LOG = LogManager.getLogger(Inscription.class);
 
-	@EJB(name = "UserHandler")
-	UserHandler userHandler;
+  @EJB(name = "UserHandler")
+  UserHandler userHandler;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  /**
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+   *      response)
+   */
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		try {
-			LOG.info("doGet()");
+    LOG.debug("doGet()");
 
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/inscription.jsp" ).forward( request, response );
+    try {
+      getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(request, response);
 
-		} catch (Exception e) {
-			LOG.error("inscription.jsp loading failed",e);
-		}
-	}
+    } catch (Exception e) {
+      LOG.error("inscription.jsp loading failed", e);
+    }
+  }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  /**
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+   *      response)
+   */
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		/* Récupération des éléments du formulaire d'inscription */
-		LOG.info("Début de post...");
-		
-		User user = new User();
-		
-		user.setPseudo(request.getParameter("pseudo"));
-		user.setGenre(request.getParameter("genre"));
-		user.setPrenom(request.getParameter("prenom"));
-		user.setNom(request.getParameter("nom"));
-		user.setEmail(request.getParameter("email"));
-		user.setVille(request.getParameter("ville"));
-		user.setMdp(request.getParameter("mdp"));
-		user.setMdp2(request.getParameter("mdp2"));
+    /* Récupération des éléments du formulaire d'inscription */
+    LOG.debug("Début de post...");
 
-		LOG.info("Formulaire envoyé : " 
-				+ user.getPseudo() + " / "
-				+ user.getGenre() + " / "
-				+ user.getPrenom() + " / "
-				+ user.getNom() + " / "
-				+ user.getEmail() + " / "
-				+ user.getVille() + " / "
-				+ user.getMdp() + " / "
-				+ user.getMdp2()
-				);
+    User user = new User();
 
-		/* vérification & insertion dans la BDD + Récupération de la liste de validation */
-		request.setAttribute("validationList", userHandler.addUser(user));
-		request.setAttribute("user", user);
+    user.setPseudo(request.getParameter("pseudo"));
+    user.setGenre(request.getParameter("genre"));
+    user.setPrenom(request.getParameter("prenom"));
+    user.setNom(request.getParameter("nom"));
+    user.setEmail(request.getParameter("email"));
+    user.setVille(request.getParameter("ville"));
+    user.setMdp(request.getParameter("mdp"));
+    user.setMdp2(request.getParameter("mdp2"));
 
-		doGet(request, response);
-	}
+    LOG.debug("Formulaire envoyé : "
+              + user.getPseudo()
+              + " / "
+              + user.getGenre()
+              + " / "
+              + user.getPrenom()
+              + " / "
+              + user.getNom()
+              + " / "
+              + user.getEmail()
+              + " / "
+              + user.getVille()
+              + " / "
+              + user.getMdp()
+              + " / "
+              + user.getMdp2());
+
+    // Vérification & insertion dans la BDD + Récupération de la liste de validation
+    request.setAttribute("validationList", userHandler.addUser(user));
+
+    LOG.debug("user.salt : {}", user.getSalt());
+
+    // Sécurise l'objet user en enlevant les mdp non cryptés
+    user.setMdp(null);
+    user.setMdp2(null);
+    request.setAttribute("user", user);
+
+    try {
+      getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
+    } catch (ServletException | IOException | IllegalStateException e) {
+      LOG.error(e);
+    }
+  }
 
 }
