@@ -18,14 +18,25 @@ public interface UserDao {
   void emailSHADelete(String emailSHA);
 
   /**
-   * Vérifie dans la bdd si le couple [(Pseudo ou Email) + mdp] existe.
+   * Vérifie dans la bdd si le couple <code>pseudo + mdp</code> existe.
    * 
-   * @param login : Pseudo ou Email
-   * @param pwd   : Password
+   * @param pseudo     : le pseudo à tester
+   * @param mdpSecured : le password encrypté en SHA256
    * @return true : connexion valide <br>
    *         false : connexion invalide
    */
-  boolean isLoginValid(String login, String pwd);
+  boolean isLoginByPseudoValid(String pseudo, String mdpSecured);
+
+  /**
+   * Vérifie dans la bdd si le couple <code>email + mdp</code> existe.
+   * 
+   * @param login      : l'email à tester
+   * @param mdpSecured : le password encrypté en SHA256
+   * @return true : connexion valide <br>
+   *         false : connexion invalide
+   * 
+   */
+  boolean isLoginByEmailValid(String email, String mdpSecured);
 
   /**
    * Récupère le sel à partir d'un pseudo
@@ -33,7 +44,7 @@ public interface UserDao {
    * @param pseudo
    * @return Le sel
    */
-  Byte[] getSaltByPseudo(String pseudo);
+  byte[] getSaltByPseudo(String pseudo);
 
   /**
    * Récupère le sel à partir d'un email
@@ -41,6 +52,6 @@ public interface UserDao {
    * @param email
    * @return Le sel
    */
-  Byte[] getSaltByEmail(String email);
+  byte[] getSaltByEmail(String email);
 
 }

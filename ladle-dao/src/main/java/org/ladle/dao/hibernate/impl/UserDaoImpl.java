@@ -1,12 +1,15 @@
 package org.ladle.dao.hibernate.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +20,6 @@ import org.ladle.dao.hibernate.object.Utilisateur;
 
 /**
  * @author Coyote
- *
  */
 @Stateful
 public class UserDaoImpl implements UserDao {
@@ -27,38 +29,48 @@ public class UserDaoImpl implements UserDao {
   @PersistenceContext(unitName = "ladleMySQLPU", type = PersistenceContextType.EXTENDED)
   private EntityManager em;
 
-  // Niveau du compte : 0 = utilisateur
-  Integer role = 0;
+  /*
+   * Niveau des comptes :
+   * 0 = utilisateur
+   * 1 = membre
+   * 2 = admin
+   */
+  private static final Integer ROLE_UTILISATEUR = 0;
+  private static final String PSEUDO = "pseudo";
+
+  // Default constructor
+  public UserDaoImpl() {
+    super();
+  }
 
   @Override
   public void addUser(User user) {
 
     Utilisateur utilisateur = new Utilisateur(getVilleId(user.getVille()), user.getPseudo(), user.getGenre(),
-        user.getNom(), user.getPrenom(), user.getEmail(), user.getMdpSecured(), user.getSalt(), role,
+        user.getNom(), user.getPrenom(), user.getEmail(), user.getMdpSecured(), user.getSalt(), ROLE_UTILISATEUR,
         user.getEmailSHA(), user.getDateEmail(), user.getDateCompte());
 
     LOG.info(user.getPrenom());
 
     try {
       em.persist(utilisateur);
-    } catch (Exception e) {
-      LOG.error("em.persist(utilisateur) Failed", e);
+    } catch (PersistenceException e) {
+      LOG.error("Error ! em.persist failed to insert : {}", user.getPseudo(), e);
     }
-    LOG.info("{} : Saved", utilisateur.getPseudo());
+    LOG.info("Success ! {} : saved", utilisateur.getPseudo());
   }
 
   private int getVilleId(String ville) {
-    // todo dao string -> Id
-    int villeId = 666;
-    return villeId;
+    // TODO dao string -> Id
+    return 666;
   }
 
   @Override
   public boolean containsPseudo(String pseudo) {
 
-    String hql = "FROM Utilisateur U WHERE U.pseudo = :pseudo";
+    String hql = "FROM Utilisateur U WHERE U.pseudo = :" + PSEUDO;
     Query query = em.createQuery(hql);
-    query.setParameter("pseudo", pseudo);
+    query.setParameter(PSEUDO, pseudo);
 
     try {
       query.getSingleResult();
@@ -81,7 +93,7 @@ public class UserDaoImpl implements UserDao {
     try {
       query.getSingleResult();
     } catch (NoResultException e) {
-      LOG.info("Email: {} libre", email);
+      LOG.info("Email: {} libre", email, e);
       return false;
     }
     LOG.info("Email: {} déjà utilisé", email);
@@ -98,7 +110,7 @@ public class UserDaoImpl implements UserDao {
     try {
       query.getSingleResult();
     } catch (NoResultException e) {
-      LOG.info("emailSHA: {} absent", emailSHA);
+      LOG.info("emailSHA: {} absent", emailSHA, e);
       return false;
     }
     LOG.info("emailSHA: {} existe", emailSHA);
@@ -117,60 +129,122 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public boolean isLoginValid(String login, String pwd) {
+  public boolean isLoginByPseudoValid(String pseudo, String mdpSecured) {
 
-    String hql = "FROM Utilisateur U "
-                 + "WHERE (U.pseudo = :name OR U.email = :name ) AND U.mdp = :pwd";
+    String hql = "FROM Utilisateur U WHERE U.pseudo = :" + PSEUDO + " AND U.mdp = :pwd";
 
     Query query = em.createQuery(hql);
-    query.setParameter("name", login);
-    query.setParameter("pwd", pwd);
+    query.setParameter(PSEUDO, pseudo);
+    query.setParameter("pwd", mdpSecured);
 
     try {
       query.getSingleResult();
 
     } catch (NoResultException e) {
-      LOG.info("login fail : {} / {}", login, pwd);
+      LOG.info("login by pseudo fail : {} / {}", pseudo, mdpSecured);
       LOG.debug(e);
       return false;
     }
-    LOG.info("login valid : {} / {}", login, pwd);
+    LOG.info("login by pseudo valid : {} / {}", pseudo, mdpSecured);
     return true;
   }
 
   @Override
-  public Byte[] getSaltByPseudo(String pseudo) {
+  public boolean isLoginByEmailValid(String email, String mdpSecured) {
 
-    Byte[] salt = null;
-
-    String hql = "SELECT U.salt FROM Utilisateur U "
-                 + "WHERE U.pseudo = :pseudo";
+    String hql = "FROM Utilisateur U WHERE U.email = :email AND U.mdp = :pwd";
 
     Query query = em.createQuery(hql);
-    query.setParameter("pseudo", pseudo);
-
-    List<String> results;
+    query.setParameter("email", email);
+    query.setParameter("pwd", mdpSecured);
 
     try {
-      results = query.getResultList();
+      query.getSingleResult();
 
-      if (results.size() == 1) {
-
-        results.get(0);
-      }
-
-    } catch (Exception e) {
-
+    } catch (NoResultException e) {
+      LOG.info("login by email fail : {} / {}", email, mdpSecured);
       LOG.debug(e);
-      return salt;
+      return false;
     }
-    return salt;
+    LOG.info("login by email valid : {} / {}", email, mdpSecured);
+    return true;
   }
 
   @Override
-  public Byte[] getSaltByEmail(String email) {
-    // TODO Auto-generated method stub
-    return null;
+  public byte[] getSaltByPseudo(String pseudo) {
+
+    String hql = "SELECT U.salt FROM Utilisateur U WHERE U.pseudo = :" + PSEUDO;
+
+    Query query = em.createQuery(hql, byte[].class);
+    query.setParameter(PSEUDO, pseudo);
+
+    List<byte[]> results;
+    byte[] salt = null;
+
+    try {
+
+      // Conformation en byte[]
+      @SuppressWarnings("unchecked")
+      List<byte[]> resultsRaw = query.getResultList();
+      results = Collections.checkedList(resultsRaw, byte[].class);
+
+    } catch (IllegalStateException | PersistenceException | ClassCastException e) {
+      LOG.catching(e);
+      return salt;
+    }
+
+    // Récupération du sel par le pseudo
+    if (results.size() == 1) {
+      return results.get(0);
+
+      // Il n'y a pas de correspondance avec le pseudo
+    } else if (results.isEmpty()) {
+      return salt;
+
+      // Plusieurs correspondances sont trouvées -> NonUniqueResultException
+    } else {
+      String message = "Grave ! Le pseudo : " + pseudo + " existe en plusieurs exemplaires dans la BDD.";
+      LOG.warn(message);
+      throw new NonUniqueResultException(message);
+    }
   }
 
+  @Override
+  public byte[] getSaltByEmail(String email) {
+
+    String hql = "SELECT U.salt FROM Utilisateur U WHERE U.email = :email";
+
+    Query query = em.createQuery(hql, byte[].class);
+    query.setParameter("email", email);
+
+    List<byte[]> results;
+    byte[] salt = null;
+
+    try {
+
+      // Conformation en byte[]
+      @SuppressWarnings("unchecked")
+      List<byte[]> resultsRaw = query.getResultList();
+      results = Collections.checkedList(resultsRaw, byte[].class);
+
+    } catch (IllegalStateException | PersistenceException | ClassCastException e) {
+      LOG.catching(e);
+      return salt;
+    }
+
+    // Récupération du sel par l'email
+    if (results.size() == 1) {
+      return results.get(0);
+
+      // Il n'y a pas de correspondance avec l'email
+    } else if (results.isEmpty()) {
+      return salt;
+
+      // Plusieurs correspondances sont trouvées -> NonUniqueResultException
+    } else {
+      String message = "Grave ! L'email : " + email + " existe en plusieurs exemplaires dans la BDD.";
+      LOG.warn(message);
+      throw new NonUniqueResultException(message);
+    }
+  }
 }

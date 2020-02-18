@@ -183,8 +183,8 @@ public class UserHandler {
    */
   private Integer testPseudo() {
 
-    if (validationList.get("pseudoEmpty") == 1 && validationList.get("pseudoExist") == 1
-        && validationList.get("pseudoLength") == 1) {
+    if ((validationList.get("pseudoEmpty") == 1) && (validationList.get("pseudoExist") == 1)
+        && (validationList.get("pseudoLength") == 1)) {
       return 1;
     }
     return 0;
@@ -231,7 +231,7 @@ public class UserHandler {
    */
   private Integer testGenre() {
 
-    if (validationList.get("genreEmpty") == 1 && validationList.get("genreValid") == 1) {
+    if ((validationList.get("genreEmpty") == 1) && (validationList.get("genreValid") == 1)) {
       return 1;
     }
     return 0;
@@ -280,7 +280,7 @@ public class UserHandler {
    * @return 0 : error / 1 : valid
    */
   private Integer testPrenom() {
-    if (validationList.get("prenomEmpty") == 1 && validationList.get("prenomLength") == 1) {
+    if ((validationList.get("prenomEmpty") == 1) && (validationList.get("prenomLength") == 1)) {
       return 1;
     }
     return 0;
@@ -326,7 +326,7 @@ public class UserHandler {
    * @return 0 : error / 1 : valid
    */
   private Integer testNom() {
-    if (validationList.get("nomEmpty") == 1 && validationList.get("nomLength") == 1) {
+    if ((validationList.get("nomEmpty") == 1) && (validationList.get("nomLength") == 1)) {
       return 1;
     }
     return 0;
@@ -374,7 +374,7 @@ public class UserHandler {
    */
   private Integer testEmail() {
 
-    if (validationList.get("emailExist") == 1 && validationList.get("emailValid") == 1) {
+    if ((validationList.get("emailExist") == 1) && (validationList.get("emailValid") == 1)) {
       return 1;
     }
     return 0;
@@ -392,7 +392,7 @@ public class UserHandler {
    */
   private Integer testMdpLength(User user) {
 
-    if (user.getMdp().length() >= 8 && user.getMdp().length() <= 40) {
+    if ((user.getMdp().length() >= 8) && (user.getMdp().length() <= 40)) {
       return 1;
     }
     return 0;
@@ -421,7 +421,7 @@ public class UserHandler {
    */
   private Integer testMdp() {
 
-    if (validationList.get("mdpLength") == 1 && validationList.get("mdpEquals") == 1) {
+    if ((validationList.get("mdpLength") == 1) && (validationList.get("mdpEquals") == 1)) {
       return 1;
     }
     return 0;
@@ -483,13 +483,38 @@ public class UserHandler {
    */
   public boolean isLoginValid(String login, String pwd) {
 
-    String pwdEncryptedByPseudo;
-    String pwdEncryptedByEmail;
+    // Test le mdp sécurisé par pseudo
+    byte[] saltByPseudo = userDao.getSaltByPseudo(login);
 
-    Byte[] saltByPseudo = userDao.getSaltByPseudo(login);
-    Byte[] saltByEmail = userDao.getSaltByEmail(login);
+    if (saltByPseudo != null) {
+      String pwdEncryptedByPseudo = PasswordHandler.getSecurePassword(login, saltByPseudo);
+      return userDao.isLoginByPseudoValid(login, pwdEncryptedByPseudo);
+    }
 
+    // Test le mdp sécurisé par email
+    byte[] saltByEmail = userDao.getSaltByEmail(login);
+
+    if (saltByEmail != null) {
+      String pwdEncryptedByEmail = PasswordHandler.getSecurePassword(login, saltByEmail);
+      return userDao.isLoginByEmailValid(login, pwdEncryptedByEmail);
+    }
+
+    // Aucune correspondance de pseudo ou email dans la BDD
     return false;
+  }
+
+  /**
+   * Renvoit un objet User lié à un login + password.
+   * 
+   * @param login
+   * @param pwd
+   * @return Un User avec toutes les informations
+   */
+  public User getUserOnLogin(String login, String pwd) {
+
+    User user = null;
+
+    return user;
   }
 
 }

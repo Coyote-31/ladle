@@ -25,10 +25,11 @@ public final class PasswordHandler {
   }
 
   /**
-   * Renvoit le mdp sécurisé en SHA-256 du mot de passe avec le sel.
+   * Renvoit le mdp sécurisé en SHA-256 du mot de passe avec le sel de
+   * <code>user</code>.
    * 
-   * @param user
-   * @return
+   * @param user doit contenir <code>mdp</code> et <code>salt</code>
+   * @return Le mot de passe en hexadecimal
    */
   public static String getSecurePassword(User user) {
     String generatedPassword = null;
@@ -40,6 +41,33 @@ public final class PasswordHandler {
       md.update(user.getSalt());
       // Get the hash's bytes
       byte[] bytes = md.digest(Base64.getDecoder().decode(user.getMdp()));
+
+      generatedPassword = Hex.encodeHexString(bytes);
+
+    } catch (NoSuchAlgorithmException e) {
+      LOG.error("Erreur de génération du mot de passe sécurisé", e);
+    }
+    return generatedPassword;
+  }
+
+  /**
+   * Renvoit le mdp sécurisé en SHA-256 d'un <code>pwd + salt</code>.
+   * 
+   * @param pwd  le mdp non sécurisé
+   * @param salt le sel pour l'encodage
+   * 
+   * @return Le mot de passe en hexadecimal
+   */
+  public static String getSecurePassword(String pwd, byte[] salt) {
+    String generatedPassword = null;
+
+    try {
+      // Create MessageDigest instance for SHA-256
+      MessageDigest md = MessageDigest.getInstance("SHA-256");
+      // Add salt bytes to digest
+      md.update(salt);
+      // Get the hash's bytes
+      byte[] bytes = md.digest(Base64.getDecoder().decode(pwd));
 
       generatedPassword = Hex.encodeHexString(bytes);
 
