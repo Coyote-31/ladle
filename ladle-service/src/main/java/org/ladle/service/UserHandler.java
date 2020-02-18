@@ -474,7 +474,8 @@ public class UserHandler {
     LOG.debug("saltByPseudo : {}", saltByPseudo);
 
     if (saltByPseudo != null) {
-      String pwdEncryptedByPseudo = PasswordHandler.getSecurePassword(login, saltByPseudo);
+      String pwdEncryptedByPseudo = PasswordHandler.getSecurePassword(pwd, saltByPseudo);
+      LOG.debug("pwdEncryptedByPseudo = {}", pwdEncryptedByPseudo);
       return userDao.isLoginByPseudoValid(login, pwdEncryptedByPseudo);
     }
 
@@ -483,7 +484,8 @@ public class UserHandler {
     LOG.debug("saltByEmail : {}", saltByEmail);
 
     if (saltByEmail != null) {
-      String pwdEncryptedByEmail = PasswordHandler.getSecurePassword(login, saltByEmail);
+      String pwdEncryptedByEmail = PasswordHandler.getSecurePassword(pwd, saltByEmail);
+      LOG.debug("pwdEncryptedByEmail = {}", pwdEncryptedByEmail);
       return userDao.isLoginByEmailValid(login, pwdEncryptedByEmail);
     }
 
