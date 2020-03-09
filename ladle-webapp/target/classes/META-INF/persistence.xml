@@ -11,8 +11,8 @@
 		<jta-data-source>ladleMySQLPU</jta-data-source>
 
 		<!-- Entities class -->
-		<class>org.ladle.dao.hibernate.object.Utilisateur</class>
-		<class>org.ladle.dao.hibernate.object.Region</class>
+		<class>org.ladle.beans.jpa.Utilisateur</class>
+		<class>org.ladle.beans.jpa.Region</class>
 
 		<!-- Persistence Unit configuration -->
 		<properties>

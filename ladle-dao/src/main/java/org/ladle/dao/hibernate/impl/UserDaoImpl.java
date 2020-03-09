@@ -15,8 +15,8 @@ import javax.persistence.Query;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.User;
+import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.dao.UserDao;
-import org.ladle.dao.hibernate.object.Utilisateur;
 
 /**
  * @author Coyote

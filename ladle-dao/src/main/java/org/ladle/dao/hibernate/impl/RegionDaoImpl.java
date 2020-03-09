@@ -11,8 +11,8 @@ import javax.persistence.PersistenceException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ladle.beans.jpa.Region;
 import org.ladle.dao.RegionDao;
-import org.ladle.dao.hibernate.object.Region;
 
 @Stateful
 public class RegionDaoImpl implements RegionDao {
