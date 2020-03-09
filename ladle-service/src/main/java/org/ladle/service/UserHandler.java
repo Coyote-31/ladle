@@ -3,8 +3,8 @@ package org.ladle.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +16,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.User;
+import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.dao.UserDao;
 
 /**
@@ -38,6 +39,8 @@ public class UserHandler {
   public UserHandler() {
     super();
   }
+
+  private static final Integer ROLE_UTILISATEUR = 0;
 
   /**
    * Lance les tests et ajoute l'utilisateur à la BDD.
@@ -97,7 +100,7 @@ public class UserHandler {
       user.setMdpSecured(PasswordHandler.getSecurePassword(user));
 
       // Ajout de la date de création du compte
-      Date currentDate = new Date();
+      ZonedDateTime currentDate = ZonedDateTime.now();
       user.setDateCompte(currentDate);
 
       // Ajout du SHA de validation du mail
@@ -107,12 +110,21 @@ public class UserHandler {
       user.setDateEmail(currentDate);
 
       // Affiche dans le log la date de création du compte et du mail
-      SimpleDateFormat formater = new SimpleDateFormat("dd MMMM yyyy 'à' hh:mm:ss");
-      String message = formater.format(currentDate);
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy 'à' hh:mm:ss");
+      String message = currentDate.format(formatter);
       LOG.info("Date du compte : {}", message);
 
+      // Transfert du bean User vers le bean Utilisateur
+
+      // TODO VilleDAO
+      user.setVilleID(666);
+
+      Utilisateur utilisateur = new Utilisateur(user.getVilleID(), user.getPseudo(), user.getGenre(), user.getNom(),
+          user.getPrenom(), user.getEmail(), user.getMdpSecured(), user.getSalt(), ROLE_UTILISATEUR, user.getEmailSHA(),
+          user.getDateEmail(), user.getDateCompte());
+
       // On ajoute l'utilisateur dans la bdd
-      userDao.addUser(user);
+      userDao.addUser(utilisateur);
       LOG.info("{} ajouté(e) à la bdd.", user.getPseudo());
 
       // Envoit le mail de validation du compte mail

@@ -14,7 +14,6 @@ import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.ladle.beans.User;
 import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.dao.UserDao;
 
@@ -35,7 +34,7 @@ public class UserDaoImpl implements UserDao {
    * 1 = membre
    * 2 = admin
    */
-  private static final Integer ROLE_UTILISATEUR = 0;
+
   private static final String PSEUDO = "pseudo";
 
   // Default constructor
@@ -44,23 +43,14 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public void addUser(User user) {
-
-    Utilisateur utilisateur = new Utilisateur(getVilleId(user.getVille()), user.getPseudo(), user.getGenre(),
-        user.getNom(), user.getPrenom(), user.getEmail(), user.getMdpSecured(), user.getSalt(), ROLE_UTILISATEUR,
-        user.getEmailSHA(), user.getDateEmail(), user.getDateCompte());
+  public void addUser(Utilisateur utilisateur) {
 
     try {
       em.persist(utilisateur);
     } catch (PersistenceException e) {
-      LOG.error("Error ! em.persist failed to insert : {}", user.getPseudo(), e);
+      LOG.error("Error ! em.persist failed to insert : {}", utilisateur.getPseudo(), e);
     }
     LOG.info("Nouvel utilisateur dans la bdd : {}", utilisateur.getPseudo());
-  }
-
-  private int getVilleId(String ville) {
-    // TODO dao string -> Id
-    return 666;
   }
 
   @Override

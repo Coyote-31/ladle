@@ -1,15 +1,13 @@
 package org.ladle.beans;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 /**
  * Classe utilitaire de stockage d'informations d'un utilisateur.
- * 
+ *
  * @author Coyote
  */
-@SuppressWarnings("serial")
-public class User implements Serializable {
+public class User {
 
   private String login;
   private String pseudo;
@@ -18,13 +16,14 @@ public class User implements Serializable {
   private String nom;
   private String email;
   private String ville;
+  private Integer villeID;
   private String mdp;
   private String mdp2;
   private byte[] salt;
   private String mdpSecured;
   private String emailSHA;
-  private Date dateEmail;
-  private Date dateCompte;
+  private ZonedDateTime dateEmail;
+  private ZonedDateTime dateCompte;
 
   public User() {
     super();
@@ -86,6 +85,14 @@ public class User implements Serializable {
     this.ville = ville;
   }
 
+  public Integer getVilleID() {
+    return villeID;
+  }
+
+  public void setVilleID(Integer villeID) {
+    this.villeID = villeID;
+  }
+
   public String getMdp() {
     return mdp;
   }
@@ -103,11 +110,11 @@ public class User implements Serializable {
   }
 
   public byte[] getSalt() {
-    return salt;
+    return salt.clone();
   }
 
   public void setSalt(byte[] salt) {
-    this.salt = salt;
+    this.salt = salt.clone();
   }
 
   public String getMdpSecured() {
@@ -126,19 +133,19 @@ public class User implements Serializable {
     this.emailSHA = emailSHA;
   }
 
-  public Date getDateEmail() {
+  public ZonedDateTime getDateEmail() {
     return dateEmail;
   }
 
-  public void setDateEmail(Date dateEmail) {
+  public void setDateEmail(ZonedDateTime dateEmail) {
     this.dateEmail = dateEmail;
   }
 
-  public Date getDateCompte() {
+  public ZonedDateTime getDateCompte() {
     return dateCompte;
   }
 
-  public void setDateCompte(Date dateCompte) {
+  public void setDateCompte(ZonedDateTime dateCompte) {
     this.dateCompte = dateCompte;
   }
 
