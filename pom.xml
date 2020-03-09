@@ -64,6 +64,7 @@ Projet de formation OpenClassrooms.</description>
 		<javax-persistence.version>2.2</javax-persistence.version>
 		
 		<commons-validator.version>1.4.0</commons-validator.version>
+    <commons-codec.version>1.14</commons-codec.version>
 		<javax.mail.version>1.6.2</javax.mail.version>
 
 	</properties>
@@ -113,14 +114,14 @@ Projet de formation OpenClassrooms.</description>
 				<version>${javax-persistence.version}</version>
 			</dependency>
 			
-			<!-- Email validator https://mvnrepository.com/artifact/commons-validator/commons-validator -->
+			<!-- Email validator - https://mvnrepository.com/artifact/commons-validator/commons-validator -->
 			<dependency>
 			    <groupId>commons-validator</groupId>
 			    <artifactId>commons-validator</artifactId>
 			    <version>${commons-validator.version}</version>
 			</dependency>
 			
-			<!-- Mail sender https://javaee.github.io/javamail/ -->
+			<!-- Mail sender - https://javaee.github.io/javamail/ -->
 			<dependency>
 			    <groupId>com.sun.mail</groupId>
           <artifactId>javax.mail</artifactId>
@@ -185,6 +186,13 @@ Projet de formation OpenClassrooms.</description>
 			<artifactId>taglibs-standard-impl</artifactId>
 			<version>${taglibs-standard-impl.version}</version>
 		</dependency>
+    
+    <!-- Hexadecimal convertion - https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+    <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>${commons-codec.version}</version>
+    </dependency>
 				
 
 	</dependencies>

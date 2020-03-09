@@ -17,13 +17,13 @@
 	<%-- Inclusion du bandeau de menu --%>
 	<%@ include file="/WEB-INF/parts/header.jsp"%>
 
-	<div class="container">
+	<div class="container ladle-bg-main">
 
 		<h1>Page d'inscription</h1>
 
 		<%-- inputs d'inscription --%>
 
-		<form method="post" action="Inscription">
+		<form method="post" action="inscription">
 			<fieldset>
 				<legend>Inscription</legend>
 

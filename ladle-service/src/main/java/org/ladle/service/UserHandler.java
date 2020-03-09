@@ -20,7 +20,7 @@ import org.ladle.dao.UserDao;
 
 /**
  * Classe de gestion des données utilisateur et de leur persistence.
- * 
+ *
  * @author Coyote
  * @see org.ladle.beans.User
  * @see org.ladle.dao.hibernate.impl.UserDaoImpl
@@ -41,7 +41,7 @@ public class UserHandler {
 
   /**
    * Lance les tests et ajoute l'utilisateur à la BDD.
-   * 
+   *
    * @return Une Map [String key, Integer value] de validation du formulaire
    *         :</br>
    *         <b>key = </b> <code>pseudo/pseudoEmpty/pseudoExist/pseudoLength</br>
@@ -126,7 +126,7 @@ public class UserHandler {
 
   /**
    * Test si le champ pseudo est vide.
-   * 
+   *
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
@@ -141,7 +141,7 @@ public class UserHandler {
 
   /**
    * Test si le Pseudo existe déjà dans la bdd.
-   * 
+   *
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
@@ -156,7 +156,7 @@ public class UserHandler {
 
   /**
    * Test la longueur du pseudo. Max = 30.
-   * 
+   *
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
@@ -174,7 +174,7 @@ public class UserHandler {
 
   /**
    * Test global du champ pseudo.
-   * 
+   *
    * @return 0 : error / 1 : valid
    */
   private Integer testPseudo() {
@@ -190,7 +190,7 @@ public class UserHandler {
 
   /**
    * Test si le champ genre est vide.
-   * 
+   *
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
@@ -205,7 +205,7 @@ public class UserHandler {
 
   /**
    * Test si le champ genre est vide.
-   * 
+   *
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
@@ -220,7 +220,7 @@ public class UserHandler {
 
   /**
    * Test global du champ genre.
-   * 
+   *
    * @return 0 : error / 1 : valid
    */
   private Integer testGenre() {
@@ -235,7 +235,7 @@ public class UserHandler {
 
   /**
    * Test si le champ prenom est vide.
-   * 
+   *
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
@@ -250,7 +250,7 @@ public class UserHandler {
 
   /**
    * Test la longeur du prénom. (max = 40)
-   * 
+   *
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
@@ -268,7 +268,7 @@ public class UserHandler {
 
   /**
    * Test global du champ prenom.
-   * 
+   *
    * @return 0 : error / 1 : valid
    */
   private Integer testPrenom() {
@@ -282,7 +282,7 @@ public class UserHandler {
 
   /**
    * Test si le champ nom est vide.
-   * 
+   *
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
@@ -297,7 +297,7 @@ public class UserHandler {
 
   /**
    * Test la longueur du nom. (max = 40)
-   * 
+   *
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
@@ -312,7 +312,7 @@ public class UserHandler {
 
   /**
    * Test global du champ nom.
-   * 
+   *
    * @return 0 : error / 1 : valid
    */
   private Integer testNom() {
@@ -326,7 +326,7 @@ public class UserHandler {
 
   /**
    * Test si le mail existe déjà dans la bdd.
-   * 
+   *
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
@@ -341,7 +341,7 @@ public class UserHandler {
 
   /**
    * Test si le mail a un format valide.
-   * 
+   *
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
@@ -357,7 +357,7 @@ public class UserHandler {
 
   /**
    * Test global du champ email.
-   * 
+   *
    * @return 0 : error / 1 : valid
    */
   private Integer testEmail() {
@@ -372,7 +372,7 @@ public class UserHandler {
 
   /**
    * Test si le mdp a une taille valide. (8 à 40 caractères)
-   * 
+   *
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
@@ -387,7 +387,7 @@ public class UserHandler {
 
   /**
    * Test si les mdp sont identiques (mdp == mdp2)
-   * 
+   *
    * @param user Classe des données utilisateur
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
@@ -402,7 +402,7 @@ public class UserHandler {
 
   /**
    * Test global des champs mdp.
-   * 
+   *
    * @return 0 : error / 1 : valid
    */
   private Integer testMdp() {
@@ -415,7 +415,7 @@ public class UserHandler {
 
   /**
    * Renvoit le code SHA-256 pour la validation du mail.
-   * 
+   *
    * @param user
    * @return String(64) le code SHA de validation du mail
    */
@@ -445,7 +445,7 @@ public class UserHandler {
 
   /**
    * Test le SHA du mail et le supprime de la bdd.
-   * 
+   *
    * @param mailSHA
    * @return
    */
@@ -461,7 +461,7 @@ public class UserHandler {
 
   /**
    * Demande à la DAO si le couple [(Pseudo ou Email) + mdp] existe dans la bdd.
-   * 
+   *
    * @param login : Pseudo ou Email
    * @param pwd   : Password
    * @return true : connexion valide <br>
@@ -495,7 +495,7 @@ public class UserHandler {
 
   /**
    * Renvoit un objet User lié à un login + password.
-   * 
+   *
    * @param login
    * @param pwd
    * @return Un User avec toutes les informations
