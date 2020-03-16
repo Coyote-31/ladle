@@ -83,15 +83,13 @@ public class Inscription extends HttpServlet {
     // Vérification & insertion dans la BDD + Récupération de la liste de validation
     request.setAttribute("validationList", userHandler.addUser(user));
 
-    LOG.debug("user.salt : {}", user.getSalt());
-
     // Sécurise l'objet user en enlevant les mdp non cryptés
     user.setMdp(null);
     user.setMdp2(null);
     request.setAttribute("user", user);
 
     try {
-      getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
+      getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(request, response);
     } catch (ServletException | IOException | IllegalStateException e) {
       LOG.error(e);
     }

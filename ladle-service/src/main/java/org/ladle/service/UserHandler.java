@@ -63,6 +63,7 @@ public class UserHandler {
     validationList.put("pseudoEmpty", testPseudoEmpty(user));
     validationList.put("pseudoExist", testPseudoExist(user));
     validationList.put("pseudoLength", testPseudoLength(user));
+    validationList.put("pseudoNotEmail", testPseudoNotEmail(user));
     validationList.put("pseudo", testPseudo());
     /* genre */
     validationList.put("genreEmpty", testGenreEmpty(user));
@@ -93,6 +94,8 @@ public class UserHandler {
       // Création du sel
       try {
         user.setSalt(PasswordHandler.getSalt());
+        LOG.debug("user.salt : {}", user.getSalt());
+
       } catch (NoSuchAlgorithmException e) {
         LOG.error("Error generating salt", e);
       }
@@ -185,6 +188,22 @@ public class UserHandler {
   }
 
   /**
+   * Test si le pseudo ressemble à un email.
+   *
+   * @param user Classe des données utilisateur
+   * @return 0 : error / 1 : valid
+   * @see org.ladle.beans.User
+   */
+  private static Integer testPseudoNotEmail(User user) {
+
+    // Si le pseudo ne ressemble pas à un email renvoit 1 valid
+    if (!EmailValidator.getInstance().isValid(user.getPseudo())) {
+      return 1;
+    }
+    return 0;
+  }
+
+  /**
    * Test global du champ pseudo.
    *
    * @return 0 : error / 1 : valid
@@ -192,7 +211,7 @@ public class UserHandler {
   private Integer testPseudo() {
 
     if ((validationList.get("pseudoEmpty") == 1) && (validationList.get("pseudoExist") == 1)
-        && (validationList.get("pseudoLength") == 1)) {
+        && (validationList.get("pseudoLength") == 1) && (validationList.get("pseudoNotEmail") == 1)) {
       return 1;
     }
     return 0;

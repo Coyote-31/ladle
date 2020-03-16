@@ -70,6 +70,18 @@
 						</button>
 					</div>
 				</c:if>
+        
+        <%-- Message d'erreur : Le pseudo ressemble à un email --%>
+        <c:if test="${validationList['pseudoNotEmail'] == 0}">
+          <div class="alert alert-danger alert-dismissible fade show"
+            role="alert">
+            <strong>Erreur de pseudo !</strong> Le pseudo ne doit pas être un email.
+            <button type="button" class="close" data-dismiss="alert"
+              aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </c:if>
 
 				<%-- formulaire pseudo --%>
 				<div class="input-group mb-3">
