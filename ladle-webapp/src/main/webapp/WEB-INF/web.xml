@@ -7,45 +7,12 @@
 	version="3.1">
 
 	<display-name>LADLE Web Application</display-name>
-
-	<!-- Configuration du taglib -->
-	<!-- 
-	<jsp-config>
-		<jsp-property-group>
-			<url-pattern>*.jsp</url-pattern>
-			<include-prelude>/WEB-INF/parts/taglibs.jsp</include-prelude>
-		</jsp-property-group>
-	</jsp-config>
-	 -->
 	 
-	<!-- -->
+	<!-- Optimize : prevent create EL Expressions unnecessaryly -->
 	<context-param>
     <param-name>org.apache.myfaces.CACHE_EL_EXPRESSIONS</param-name>
     <param-value>alwaysRecompile</param-value>
 	</context-param>
-	 
-	<filter-mapping>
-    <filter-name>encodingFilter</filter-name>
-    <url-pattern />
-	</filter-mapping>
-
-  <servlet>
-     <servlet-name>jsp</servlet-name>
-     <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
-     <init-param>
-         <param-name>fork</param-name>
-         <param-value>false</param-value>
-     </init-param>
-     <init-param>
-         <param-name>xpoweredBy</param-name>
-         <param-value>false</param-value>
-     </init-param>
-     <init-param>
-         <param-name>development</param-name>
-         <param-value>true</param-value>
-     </init-param>
-     <load-on-startup>3</load-on-startup>
-  </servlet>
 	
   <jsp-config>
     <jsp-property-group>
