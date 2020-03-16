@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="fr">
 <head>
 <meta charset="utf-8" />
@@ -13,7 +12,7 @@
 </head>
 
 <body class="pb-3">
-
+  
 	<%-- Inclusion du bandeau de menu --%>
 	<%@ include file="/WEB-INF/parts/header.jsp"%>
 
@@ -89,9 +88,9 @@
 						<span class="input-group-text" id="aria-pseudo">Pseudo</span>
 					</div>
 					<input type="text" id="pseudo" name="pseudo" maxlength="30"
-						class="form-control<c:if 
-						test="${validationList['pseudo'] == 1}"> is-valid</c:if><c:if	
-						test="${validationList['pseudo'] == 0}"> is-invalid</c:if>"
+						class="form-control
+            <c:if test="${validationList['pseudo'] == 1}"> is-valid</c:if>
+            <c:if test="${validationList['pseudo'] == 0}"> is-invalid</c:if>"
 						<c:if test="${validationList['pseudo'] == 1}"> value="${user.pseudo}"</c:if>
 						placeholder='' required aria-label="Pseudo"
 						aria-describedby="aria-pseudo">
@@ -342,7 +341,6 @@
 						title="De 8 à 40 caratères." class="form-control<c:if 
 						test="${validationList['mdpLength'] == 1}"> is-valid</c:if><c:if	
 						test="${validationList['mdpLength'] == 0}"> is-invalid</c:if>"
-						<c:if test="${validationList['mdpLength'] == 1}"> value="${user.mdp}"</c:if> 
 						placeholder="" required aria-label="Mot de passe" aria-describedby="aria-mdp">
 						<div class="input-group-append">
         			<button id="btnMdp" class="btn btn-outline-warning" type="button" onClick="passwordShowHide(this)">
@@ -355,10 +353,8 @@
 						<span class="input-group-text" id="aria-mdp">Confirmation</span>
 					</div>
 					<input type="password" id="mdp2" name="mdp2" pattern=".{8,40}"
-						title="De 8 à 40 caratères." class="form-control<c:if 
-						test="${validationList['mdp'] == 1}"> is-valid</c:if><c:if	
-						test="${validationList['mdp'] == 0}"> is-invalid</c:if>"
-						<c:if test="${validationList['mdp'] == 1}"> value="${user.mdp2}"</c:if> 
+						title="De 8 à 40 caratères." class="form-control
+            <c:if	test="${validationList['mdp'] == 0}"> is-invalid</c:if>"
 						placeholder="" required aria-label="Confirmez le mdp" aria-describedby="aria-mdp">
 						<div class="input-group-append">
         			<button id="btnMdp2" class="btn btn-outline-warning" type="button" onClick="passwordShowHide(this)">

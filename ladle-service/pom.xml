@@ -21,8 +21,8 @@
 	
 	<artifactId>ladle-service</artifactId>
 	<name>ladle-service</name>
-	<url>http://ladle.org</url>
 	<description>Gestionnaire d'application du site LADLE.</description>
+	<url>http://ladle.org</url>
 
 	<!-- =============================================================== -->
 	<!-- Properties -->

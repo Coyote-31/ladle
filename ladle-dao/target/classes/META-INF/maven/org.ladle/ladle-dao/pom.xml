@@ -21,8 +21,8 @@
 
 	<artifactId>ladle-dao</artifactId>
 	<name>ladle-dao</name>
-	<url>http://ladle.org</url>
 	<description>DAO pour le site ladle.</description>
+	<url>http://ladle.org</url>
 
 	<!-- =============================================================== -->
 	<!-- Properties -->

@@ -25,8 +25,8 @@
 	<!-- ===== Informations générales du module ===== -->
 
 	<name>ladle-webapp</name>
-	<url>http://ladle.org</url>
 	<description>Application Web du site LADLE.</description>
+	<url>http://ladle.org</url>
 
 	<!-- =============================================================== -->
 	<!-- Properties -->
