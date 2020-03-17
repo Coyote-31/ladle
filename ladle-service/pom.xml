@@ -6,10 +6,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- =============================================================== -->
-	<!-- Informations du projet -->
+	<!-- Project Definition -->
 	<!-- =============================================================== -->
 
-	<!-- ===== Informations projet parent ===== -->
+	<!-- ===== Parent project info ===== -->
 	
 	<parent>
 		<groupId>org.ladle</groupId>
@@ -17,26 +17,20 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<!-- ===== Informations générales ===== -->
+	<!-- ===== General info ===== -->
 	
 	<artifactId>ladle-service</artifactId>
 	<name>ladle-service</name>
 	<description>Gestionnaire d'application du site LADLE.</description>
 	<url>http://ladle.org</url>
 
-	<!-- =============================================================== -->
-	<!-- Properties -->
-	<!-- =============================================================== -->
-
-	<properties></properties>
-
-	<!-- =============================================================== -->
-	<!-- Gestion des dépendances -->
-	<!-- =============================================================== -->
+  <!-- =============================================================== -->
+  <!-- Dependencies -->
+  <!-- =============================================================== -->
 
 	<dependencies>
 
-		<!-- ===== Modules ===== -->
+		<!-- ===== Project modules ===== -->
 
 		<dependency>
 			<artifactId>ladle-dao</artifactId>
@@ -50,7 +44,7 @@
 			<version>${project.version}</version>
 		</dependency>
 		
-		<!-- ===== Bibliothèques tierces ===== -->
+		<!-- ===== Other dependencies ===== -->
 
 		<!-- Email validator https://mvnrepository.com/artifact/commons-validator/commons-validator -->
 		<dependency>
@@ -58,13 +52,13 @@
 		    <artifactId>commons-validator</artifactId>
 		</dependency>
 		
-		<!-- Mail sender https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
-		<dependency>
-		    <groupId>com.sun.mail</groupId>
-		    <artifactId>javax.mail</artifactId>
-		</dependency>
-
-
+    
+    <!-- Hexadecimal conversion -->
+    <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+    </dependency>
+  
 	</dependencies>
 
 </project>

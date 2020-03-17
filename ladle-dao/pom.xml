@@ -6,10 +6,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- =============================================================== -->
-	<!-- Informations du projet -->
+	<!-- Project Definition -->
 	<!-- =============================================================== -->
 
-	<!-- ===== Informations projet parent ===== -->
+	<!-- ===== Parent project info ===== -->
 
 	<parent>
 		<groupId>org.ladle</groupId>
@@ -17,26 +17,20 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<!-- ===== Informations générales ===== -->
+	<!-- ===== General info ===== -->
 
 	<artifactId>ladle-dao</artifactId>
 	<name>ladle-dao</name>
 	<description>DAO pour le site ladle.</description>
 	<url>http://ladle.org</url>
 
-	<!-- =============================================================== -->
-	<!-- Properties -->
-	<!-- =============================================================== -->
-
-	<properties></properties>
-
-	<!-- =============================================================== -->
-	<!-- Gestion des dépendances -->
-	<!-- =============================================================== -->
+  <!-- =============================================================== -->
+  <!-- Dependencies -->
+  <!-- =============================================================== -->
 
 	<dependencies>
 
-		<!-- ===== Modules ===== -->
+		<!-- ===== Project modules ===== -->
 
 		<dependency>
 			<artifactId>ladle-beans</artifactId>
@@ -44,26 +38,20 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<!-- ===== Bibliothèques tierces ===== -->
-
-		<!-- Hibernate Core -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-agroal</artifactId>
-      <version>${hibernate-agroal.version}</version>
-		</dependency>
+		<!-- ===== Other dependencies ===== -->
 
 		<!-- Driver MySQL -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-
-		<!-- JPA -->
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>javax.persistence-api</artifactId>
-		</dependency>
+    
+    <!-- Hibernate Core -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-agroal</artifactId>
+      <type>pom</type>
+    </dependency>
 
 	</dependencies>
 

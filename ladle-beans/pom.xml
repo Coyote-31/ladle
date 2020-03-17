@@ -6,10 +6,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- =============================================================== -->
-	<!-- Informations du projet -->
+	<!-- Project Definition -->
 	<!-- =============================================================== -->
 
-	<!-- ===== Informations projet parent ===== -->
+	<!-- ===== Parent project info ===== -->
 	
 	<parent>
 		<groupId>org.ladle</groupId>
@@ -17,7 +17,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	
-	<!-- ===== Informations générales ===== -->
+	<!-- ===== General info ===== -->
 	
 	<artifactId>ladle-beans</artifactId>
 	<name>ladle-beans</name>
@@ -25,24 +25,12 @@
 	<url>http://ladle.org</url>
 	
 	<!-- =============================================================== -->
-	<!-- Properties -->
-	<!-- =============================================================== -->
-	
-	<properties></properties>
-	
-	<!-- =============================================================== -->
-	<!-- Gestion des dépendances -->
+	<!-- Dependencies -->
 	<!-- =============================================================== -->
 
 	<dependencies>
 
-		<!-- ===== Bibliothèques tierces ===== -->
-		
-    <!-- JPA -->
-    <dependency>
-      <groupId>javax.persistence</groupId>
-      <artifactId>javax.persistence-api</artifactId>
-    </dependency>
+		<!-- ===== Other dependencies ===== -->
     
 	</dependencies>
 	
