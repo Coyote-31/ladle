@@ -29,11 +29,14 @@
       <property
         name="hibernate.connection.password" 
         value="admin"/>
+      <property
+        name="hibernate.dialect" 
+        value="org.hibernate.dialect.MySQL8Dialect"/>
 
 			<!-- Echo the SQL to stdout -->
 			<property
 				name="hibernate.show_sql"
-				value="true"/>
+				value="false"/>
 
 			<!-- dbcp connection pool configuration -->
 			<property

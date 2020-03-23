@@ -56,13 +56,6 @@
       <artifactId>taglibs-standard-impl</artifactId>
     </dependency>
 
-    <!-- Hibernate Core - https://bintray.com/hibernate/artifacts/hibernate-orm/ -->
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-agroal</artifactId>
-      <type>pom</type>
-    </dependency>
-
 	</dependencies>
 
 	<!-- =============================================================== -->
