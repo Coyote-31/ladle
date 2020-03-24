@@ -1,64 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
           http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
-        version="2.2">
+  version="2.2">
 
-	<persistence-unit name="ladleMySQLPU" transaction-type="JTA">
-		<description>Persistence Unit for ladle on DB MySQL</description>
-		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<jta-data-source>ladleMySQLPU</jta-data-source>
+  <persistence-unit name="ladleMySQLPU" transaction-type="JTA">
+    <description>Persistence Unit for ladle on DB MySQL</description>
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <jta-data-source>LadleJtaDatabase</jta-data-source>
 
 		<!-- Entities class -->
-		<class>org.ladle.beans.jpa.Utilisateur</class>
-		<class>org.ladle.beans.jpa.Region</class>
+    <class>org.ladle.beans.jpa.Utilisateur</class>
+    <class>org.ladle.beans.jpa.Region</class>
 
 		<!-- Persistence Unit configuration -->
-		<properties>
+    <properties>
 
       <!-- Hibernate Database connection settings -->
-      <property
-        name="hibernate.connection.driver_class" 
-        value="com.mysql.cj.jdbc.Driver"/>
-      <property
-        name="hibernate.connection.url" 
-        value="jdbc:mysql://localhost:3306/ladle_db?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Europe/Paris"/>
-      <property
-        name="hibernate.connection.username" 
-        value="root"/>
-      <property
-        name="hibernate.connection.password" 
-        value="admin"/>
-      <property
-        name="hibernate.dialect" 
-        value="org.hibernate.dialect.MySQL8Dialect"/>
-
-			<!-- Echo the SQL to stdout -->
-			<property
-				name="hibernate.show_sql"
-				value="false"/>
+      <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver" />
+      <property name="hibernate.connection.url"
+        value="jdbc:mysql://localhost:3306/ladle_db?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Europe/Paris" />
+      <property name="hibernate.connection.username" value="root" />
+      <property name="hibernate.connection.password" value="admin" />
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
+        
+      <!-- Automatically validates or exports schema DDL -->
+      <!-- none | validate | update | create | create-drop -->
+      <property name="hibernate.hbm2ddl.auto" value="" />
+      
+      <!-- Echo the SQL to stdout -->
+      <property name="hibernate.show_sql" value="false" />
 
 			<!-- dbcp connection pool configuration -->
-			<property
-				name="hibernate.dbcp.initialSize"
-				value="5"/>
-			<property
-				name="hibernate.dbcp.maxTotal"
-				value="20"/>
-			<property
-				name="hibernate.dbcp.maxIdle"
-				value="10"/>
-			<property
-				name="hibernate.dbcp.minIdle"
-				value="5"/>
-			<property
-				name="hibernate.dbcp.maxWaitMillis"
-				value="-1"/>
+      <property name="hibernate.dbcp.initialSize" value="5" />
+      <property name="hibernate.dbcp.maxTotal" value="20" />
+      <property name="hibernate.dbcp.maxIdle" value="10" />
+      <property name="hibernate.dbcp.minIdle" value="5" />
+      <property name="hibernate.dbcp.maxWaitMillis" value="-1" />
 
-			<!-- Debug TomEE Factory -->				
-			<property name="tomee.jpa.factory.lazy" value="true" />
+			<!-- Debug TomEE Factory -->
+      <property name="tomee.jpa.factory.lazy" value="true" />
 
-		</properties>
+    </properties>
 
-	</persistence-unit>
+  </persistence-unit>
 </persistence> 

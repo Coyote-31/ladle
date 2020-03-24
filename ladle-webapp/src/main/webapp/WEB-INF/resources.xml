@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <Resource id="LadleJtaDatabase" type="DataSource">
-      JdbcDriver  com.mysql.jdbc.Driver
+      JdbcDriver  com.mysql.cj.jdbc.Driver
       JdbcUrl jdbc:mysql://localhost:3306/ladle_db?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Europe/Paris&amp;autoReconnect=true
       UserName root
       Password admin
