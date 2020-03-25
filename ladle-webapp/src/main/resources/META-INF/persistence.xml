@@ -34,12 +34,12 @@
       <property name="hibernate.show_sql" value="false" />
       <property name="hibernate.format_sql" value="true" />
 
-			<!-- dbcp connection pool configuration
-      <property name="hibernate.dbcp.initialSize" value="5" />
-      <property name="hibernate.dbcp.maxTotal" value="20" />
-      <property name="hibernate.dbcp.maxIdle" value="10" />
-      <property name="hibernate.dbcp.minIdle" value="5" />
-      <property name="hibernate.dbcp.maxWaitMillis" value="-1" /> -->
+			<!-- dbcp connection pool configuration  -->
+      <property name="hibernate.dbcp.initialSize" value="2" />
+      <property name="hibernate.dbcp.maxTotal" value="8" />
+      <property name="hibernate.dbcp.maxIdle" value="4" />
+      <property name="hibernate.dbcp.minIdle" value="2" />
+      <property name="hibernate.dbcp.maxWaitMillis" value="-1" />
 
 			<!-- Debug TomEE Factory -->
       <property name="tomee.jpa.factory.lazy" value="true" />

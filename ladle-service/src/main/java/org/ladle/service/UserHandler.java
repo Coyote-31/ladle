@@ -33,14 +33,15 @@ public class UserHandler {
 
   @EJB(name = "UserDaoImpl")
   private UserDao userDao;
+
   /* Création de la map de validation pour la jsp */
   private Map<String, Integer> validationList = new HashMap<>();
+
+  private static final Integer ROLE_UTILISATEUR = 0;
 
   public UserHandler() {
     super();
   }
-
-  private static final Integer ROLE_UTILISATEUR = 0;
 
   /**
    * Lance les tests et ajoute l'utilisateur à la BDD.

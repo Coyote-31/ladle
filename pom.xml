@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+>
+  <modelVersion>4.0.0</modelVersion>
 
 	<!-- =============================================================== -->
 	<!-- Project Definition -->
@@ -11,17 +10,17 @@
 
 	<!-- ===== Packaging information ===== -->
 
-	<groupId>org.ladle</groupId>
-	<artifactId>ladle</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+  <groupId>org.ladle</groupId>
+  <artifactId>ladle</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
 	<!-- ===== General info ===== -->
 
-	<name>ladle</name>
-	<description>Site Web communautaire pour l'association : Les Amis De L'Escalade. 
+  <name>ladle</name>
+  <description>Site Web communautaire pour l'association : Les Amis De L'Escalade. 
     Projet de formation OpenClassrooms.</description>
-	<url>http://ladle.org</url>
+  <url>http://ladle.org</url>
 
 
 
@@ -30,59 +29,57 @@
 	<!-- =============================================================== -->
 
 	<!-- ===== Modules ===== -->
-	<modules>
-		<module>ladle-webapp</module>
-		<module>ladle-service</module>
-		<module>ladle-dao</module>
-		<module>ladle-beans</module>
-	</modules>
+  <modules>
+    <module>ladle-webapp</module>
+    <module>ladle-service</module>
+    <module>ladle-dao</module>
+    <module>ladle-beans</module>
+  </modules>
 
 	<!-- =============================================================== -->
 	<!-- Properties -->
 	<!-- =============================================================== -->
 
-	<properties>
+  <properties>
 
 		<!-- ===== General ===== -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 
 		<!-- ===== Dependencies version definition ===== -->
     
     <!-- ===== Managed ===== -->
     <!-- module : ladle-webapp -->
-		<taglibs-standard-impl.version>1.2.5</taglibs-standard-impl.version>
+    <taglibs-standard-impl.version>1.2.5</taglibs-standard-impl.version>
     <!-- module : ladle-service -->
-		<commons-validator.version>1.4.0</commons-validator.version>
-    <javax.mail.version>1.6.2</javax.mail.version>
+    <commons-validator.version>1.4.0</commons-validator.version>
     <commons-codec.version>1.14</commons-codec.version>
+    <javax.mail.version>1.6.2</javax.mail.version>
     <!-- module : ladle-dao -->
     <hibernate.version>5.4.11.Final</hibernate.version>
-		<mysql-connector-java.version>8.0.18</mysql-connector-java.version>
+    <mysql-connector-java.version>8.0.18</mysql-connector-java.version>
     <!-- module : ladle-beans -->
     <!-- multiple modules -->
 
     <!-- ===== Global ===== -->
-		<junit.version>4.12</junit.version>
-		<log4j.version>2.12.1</log4j.version>
-		<javaee-api.version>8.0.1</javaee-api.version>
+    <junit.version>4.12</junit.version>
+    <log4j.version>2.12.1</log4j.version>
+    <javaee-api.version>8.0.1</javaee-api.version>
     
     <!-- ===== Build ===== -->
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-		
-	</properties>
+
+  </properties>
 
   <!-- =============================================================== -->
   <!-- Managed Dependencies -->
   <!-- =============================================================== -->
 
-	<dependencyManagement>
-		<dependencies>
+  <dependencyManagement>
+    <dependencies>
 
       <!-- ===== Module : ladle-webapp ===== -->
-      
-			
       
       <!-- Taglibs Standard Impl - https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-impl -->
       <dependency>
@@ -91,37 +88,39 @@
         <version>${taglibs-standard-impl.version}</version>
       </dependency>
 					
+          
       <!-- ===== Module : ladle-service ===== -->
 
 			<!-- Email validator - https://mvnrepository.com/artifact/commons-validator/commons-validator -->
-			<dependency>
-			    <groupId>commons-validator</groupId>
-			    <artifactId>commons-validator</artifactId>
-			    <version>${commons-validator.version}</version>
-			</dependency>
-      
+      <dependency>
+        <groupId>commons-validator</groupId>
+        <artifactId>commons-validator</artifactId>
+        <version>${commons-validator.version}</version>
+      </dependency>
+
+      <!-- Hexadecimal conversion - https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>${commons-codec.version}</version>
+      </dependency>
+
+      <!-- Javax Mail - Fix https://stackoverflow.com/a/34594762/9945960 -->
       <dependency>
         <groupId>com.sun.mail</groupId>
         <artifactId>javax.mail</artifactId>
         <version>${javax.mail.version}</version>
       </dependency>
 
-      <!-- Hexadecimal conversion - https://mvnrepository.com/artifact/commons-codec/commons-codec -->
-      <dependency>
-          <groupId>commons-codec</groupId>
-          <artifactId>commons-codec</artifactId>
-          <version>${commons-codec.version}</version>
-      </dependency>
-
       <!-- ===== Module : ladle-dao ===== -->
 
 			<!-- MySQL-Connector-Java - https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>${mysql-connector-java.version}</version>
-				<scope>provided</scope>
-			</dependency>
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>${mysql-connector-java.version}</version>
+        <scope>provided</scope>
+      </dependency>
             
       <!-- Hibernate Core - https://bintray.com/hibernate/artifacts/hibernate-orm/ -->
       <dependency>
@@ -131,53 +130,53 @@
         <type>pom</type>
       </dependency>			
       
+      
       <!-- ===== Module : ladle-beans ===== -->
       
       <!-- ===== Multiple modules ===== -->
-      
 
-		</dependencies>
-	</dependencyManagement>
+    </dependencies>
+  </dependencyManagement>
 
   <!-- =============================================================== -->
   <!-- Global Dependencies -->
   <!-- =============================================================== -->
 
-	<dependencies>
+  <dependencies>
 
 		<!-- Junit -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
 		
 		<!-- Logger log4j - https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-core</artifactId>
-		    <version>${log4j.version}</version>
-		</dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>${log4j.version}</version>
+    </dependency>
 		
     <!-- J2EE API - https://mvnrepository.com/artifact/javax/javaee-api -->
     <!-- Infos: https://stackoverflow.com/a/24240056/9945960 -->
     <dependency>
-        <groupId>javax</groupId>
-        <artifactId>javaee-api</artifactId>
-        <version>${javaee-api.version}</version>
-        <scope>provided</scope>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>${javaee-api.version}</version>
+      <scope>provided</scope>
     </dependency>
 
 
-	</dependencies>
+  </dependencies>
 
 	<!-- =============================================================== -->
 	<!-- Réglages du Build -->
 	<!-- =============================================================== -->
-  
-	<build>
-		<plugins>
+
+  <build>
+    <plugins>
 
 			<!-- Maven-compiler -->
       <plugin>
@@ -189,10 +188,10 @@
           <target>1.8</target>
         </configuration>
       </plugin>
-      
 
-		</plugins>
-	</build>
+
+    </plugins>
+  </build>
 
 	<!-- =============================================================== -->
 	<!-- Divers -->
