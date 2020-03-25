@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <Resource id="LadleJtaDatabase" type="DataSource">
-      JdbcDriver  com.mysql.cj.jdbc.Driver
-      JdbcUrl jdbc:mysql://localhost:3306/ladle_db?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Europe/Paris&amp;autoReconnect=true
-      UserName root
-      Password admin
-      validationQuery = SELECT 1
-      JtaManaged true
+  
+    <!-- Connection -->
+    jdbcDriver = com.mysql.cj.jdbc.Driver
+    jdbcUrl = jdbc:mysql://localhost:3306/ladle_db?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Europe/Paris&amp;autoReconnect=true
+    userName = root
+    password = admin
+    
+    <!-- Configuration -->
+    jtaManaged = true
+    DataSourceCreator = tomcat
+    validationQuery = SELECT 1
   </Resource>
 </resources>

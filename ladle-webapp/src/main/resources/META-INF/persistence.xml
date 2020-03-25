@@ -6,7 +6,8 @@
   version="2.2">
 
   <persistence-unit name="ladleMySQLPU" transaction-type="JTA">
-    <description>Persistence Unit for ladle on DB MySQL</description>
+    <description>Persistence Unit for ladle_db with MySQL</description>
+    <!--  <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>  -->
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <jta-data-source>LadleJtaDatabase</jta-data-source>
 
@@ -31,13 +32,14 @@
       
       <!-- Echo the SQL to stdout -->
       <property name="hibernate.show_sql" value="false" />
+      <property name="hibernate.format_sql" value="true" />
 
-			<!-- dbcp connection pool configuration -->
+			<!-- dbcp connection pool configuration
       <property name="hibernate.dbcp.initialSize" value="5" />
       <property name="hibernate.dbcp.maxTotal" value="20" />
       <property name="hibernate.dbcp.maxIdle" value="10" />
       <property name="hibernate.dbcp.minIdle" value="5" />
-      <property name="hibernate.dbcp.maxWaitMillis" value="-1" />
+      <property name="hibernate.dbcp.maxWaitMillis" value="-1" /> -->
 
 			<!-- Debug TomEE Factory -->
       <property name="tomee.jpa.factory.lazy" value="true" />

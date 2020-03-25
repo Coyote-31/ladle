@@ -49,7 +49,7 @@
     <!-- Hibernate Core -->
     <dependency>
       <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-agroal</artifactId>
+      <artifactId>hibernate-core</artifactId>
       <type>pom</type>
     </dependency>
 

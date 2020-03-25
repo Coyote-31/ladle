@@ -55,9 +55,10 @@
 		<taglibs-standard-impl.version>1.2.5</taglibs-standard-impl.version>
     <!-- module : ladle-service -->
 		<commons-validator.version>1.4.0</commons-validator.version>
+    <javax.mail.version>1.6.2</javax.mail.version>
     <commons-codec.version>1.14</commons-codec.version>
     <!-- module : ladle-dao -->
-    <hibernate.version>5.4.12.Final</hibernate.version>
+    <hibernate.version>5.4.11.Final</hibernate.version>
 		<mysql-connector-java.version>8.0.18</mysql-connector-java.version>
     <!-- module : ladle-beans -->
     <!-- multiple modules -->
@@ -98,6 +99,12 @@
 			    <artifactId>commons-validator</artifactId>
 			    <version>${commons-validator.version}</version>
 			</dependency>
+      
+      <dependency>
+        <groupId>com.sun.mail</groupId>
+        <artifactId>javax.mail</artifactId>
+        <version>${javax.mail.version}</version>
+      </dependency>
 
       <!-- Hexadecimal conversion - https://mvnrepository.com/artifact/commons-codec/commons-codec -->
       <dependency>
@@ -119,7 +126,7 @@
       <!-- Hibernate Core - https://bintray.com/hibernate/artifacts/hibernate-orm/ -->
       <dependency>
         <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-agroal</artifactId>
+        <artifactId>hibernate-core</artifactId>
         <version>${hibernate.version}</version>
         <type>pom</type>
       </dependency>			
