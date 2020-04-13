@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.ladle.beans.User;
+import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.UserHandler;
 
 /**
@@ -68,8 +68,8 @@ public class Connexion extends HttpServlet {
     // Si la connexion est validée
     if (isLoginValid) {
 
-      User user = userHandler.getUserOnLogin(login, pwd);
-      session.setAttribute("user", user);
+      Utilisateur utilisateur = userHandler.getUtilisateurOnLogin(login);
+      session.setAttribute("utilisateur", utilisateur);
     }
 
     getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);

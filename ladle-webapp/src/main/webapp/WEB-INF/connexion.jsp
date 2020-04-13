@@ -13,7 +13,7 @@
 
     <h1>Connexion :</h1>
     <p>Connecté : ${ isLoginValid ? "oui" : "non" }<br>
-       Pseudo : ${ user.pseudo }
+       Pseudo : ${ utilisateur.pseudo }
     </p>
   </div>
 

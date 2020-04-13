@@ -244,4 +244,33 @@ public class UserDaoImpl implements UserDao {
       throw new NonUniqueResultException(message);
     }
   }
+
+  @Override
+  public Utilisateur getUtilisateurByLogin(String login) {
+
+    String hql = "FROM Utilisateur U WHERE U.email = :login OR U.pseudo = :login";
+
+    Query query = em.createQuery(hql);
+    query.setParameter("login", login);
+
+    Utilisateur utilisateur = new Utilisateur();
+
+    try {
+      utilisateur = (Utilisateur) query.getSingleResult();
+
+    } catch (NoResultException e) {
+      LOG.debug("login not exist : {}", login);
+      LOG.trace(e);
+      return null;
+
+    } catch (NonUniqueResultException e) {
+      LOG.error("Error ! Multiple login result : {}", login);
+      LOG.error(e);
+      return null;
+    }
+
+    LOG.debug("login exist : {}", login);
+    return utilisateur;
+  }
+
 }

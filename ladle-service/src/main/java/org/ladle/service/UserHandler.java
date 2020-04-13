@@ -499,7 +499,7 @@ public class UserHandler {
    * @return true : connexion valide <br>
    *         false : connexion invalide
    */
-  public boolean isLoginValid(String login, String pwd) {
+  public boolean isLoginValidDepreciated(String login, String pwd) {
 
     // Test le mdp sécurisé par pseudo
     byte[] saltByPseudo = userDao.getSaltByPseudo(login);
@@ -526,6 +526,36 @@ public class UserHandler {
   }
 
   /**
+   * Demande à la DAO si le couple [(Pseudo ou Email) + mdp] existe dans la bdd.
+   *
+   * @param login : Pseudo ou Email
+   * @param pwd   : Password
+   * @return true : connexion valide <br>
+   *         false : connexion invalide
+   */
+  public boolean isLoginValid(String login, String pwd) {
+
+    Utilisateur utilisateur = getUtilisateurOnLogin(login);
+
+    // Si un utilisateur existe avec ce login
+    if (utilisateur != null) {
+      byte[] salt = utilisateur.getSalt();
+      LOG.debug("salt : {}", salt);
+
+      String pwdEncrypted = PasswordHandler.getSecurePassword(pwd, salt);
+      LOG.debug("pwdEncrypted = {}", pwdEncrypted);
+
+      if (utilisateur.getMdp().equals(pwdEncrypted)) {
+        return true;
+      }
+
+    }
+
+    // Aucune correspondance de pseudo ou email dans la BDD
+    return false;
+  }
+
+  /**
    * Renvoit un objet User lié à un login + password.
    *
    * @param login
@@ -538,6 +568,18 @@ public class UserHandler {
     user.setPseudo("TEST");
 
     return user;
+  }
+
+  /**
+   * Renvoit un objet Utilisateur lié à un login + password.
+   *
+   * @param login
+   * @param pwd
+   * @return Un Utilisateur avec toutes les informations
+   */
+  public Utilisateur getUtilisateurOnLogin(String login) {
+
+    return userDao.getUtilisateurByLogin(login);
   }
 
 }

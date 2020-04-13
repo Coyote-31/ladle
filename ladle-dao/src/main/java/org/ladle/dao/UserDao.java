@@ -53,4 +53,11 @@ public interface UserDao {
    */
   byte[] getSaltByEmail(String email);
 
+  /**
+   * Renvoit un utilisateur depuis la bdd à partir d'un login
+   *
+   * @param login
+   * @return L'utilisateur depuis la bdd
+   */
+  Utilisateur getUtilisateurByLogin(String login);
 }

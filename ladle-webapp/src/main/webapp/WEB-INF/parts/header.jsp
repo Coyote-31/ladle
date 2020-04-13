@@ -48,7 +48,7 @@
             <div class="col-12 col-sm">
               <div class="form-group">
                 <label for="login_InputPseudoEmail">Pseudo / Email</label>
-                <input type="email" name="login_InputPseudoEmail" id="login_InputPseudoEmail"
+                <input type="text" name="login_InputPseudoEmail" id="login_InputPseudoEmail"
                 class="form-control form-control-sm" placeholder="Entrez votre pseudo ou mail">
               </div>
             </div>

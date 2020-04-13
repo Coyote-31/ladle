@@ -1,5 +1,6 @@
 package org.ladle.beans.jpa;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
@@ -14,9 +15,10 @@ import javax.persistence.Table;
  *
  * @author Coyote
  */
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "[utilisateur]", schema = "[ladle_db]")
-public class Utilisateur {
+public class Utilisateur implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
