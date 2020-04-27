@@ -48,6 +48,8 @@ public class Utilisateur implements Serializable {
   private ZonedDateTime dateEmail;
   @Column(name = "date_compte")
   private ZonedDateTime dateCompte;
+  @Column(name = "token_login")
+  private String tokenLogin;
 
   /**
    * Constructeurs
@@ -179,6 +181,14 @@ public class Utilisateur implements Serializable {
 
   public void setDateCompte(ZonedDateTime dateCompte) {
     this.dateCompte = dateCompte;
+  }
+
+  public String getTokenLogin() {
+    return tokenLogin;
+  }
+
+  public void setTokenLogin(String tokenLogin) {
+    this.tokenLogin = tokenLogin;
   }
 
 }
