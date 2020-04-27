@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,6 +43,17 @@ public class Index extends HttpServlet {
     List<Region> regionsToSend;
     regionsToSend = regionDao.getAllRegions();
     request.setAttribute("myList", regionsToSend);
+
+    HttpSession session = request.getSession();
+
+    // Si action = deconnexion déconnecte l'utilisateur
+    LOG.trace("Action value {}", request.getParameter("action"));
+
+    if ("deconnexion".equals(request.getParameter("action"))) {
+      LOG.debug("Inside deconnexion action");
+
+      session.setAttribute("isLoginValid", false);
+    }
 
     // ================================================
 

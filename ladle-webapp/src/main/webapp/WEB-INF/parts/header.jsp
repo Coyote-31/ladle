@@ -21,9 +21,22 @@
       <li class="nav-item"><a class="nav-link" href="#">À propos</a></li>
     </ul>
 
-    <%-- Button trigger modal --%>
-    <button type="button" class="btn btn-primary" data-toggle="modal"
-      data-target="#login_ModalCenter">Connexion</button>
+    <c:if test="${!isLoginValid}">
+      <%-- Button trigger modal --%>
+      <button type="button" class="btn btn-primary" data-toggle="modal"
+        data-target="#login_ModalCenter">Connexion</button>
+    </c:if>
+    
+    <c:if test="${isLoginValid}">
+    
+      <%-- Button 'Mon Compte' --%>
+      <button type="button" class="btn btn-primary" onclick="location.href='mon-compte'">Mon Compte</button>
+      
+      <%-- Button 'Deconnexion' --%>
+      <button type="button" class="btn btn-primary" 
+        onclick="window.location.href = '/ladle/?action=deconnexion'" >Deconnexion</button>
+    
+    </c:if>
   </div>
 
 </nav>
