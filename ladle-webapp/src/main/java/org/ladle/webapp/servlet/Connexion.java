@@ -77,46 +77,49 @@ public class Connexion extends HttpServlet {
       Utilisateur utilisateur = userHandler.getUtilisateurOnLogin(login);
       session.setAttribute("utilisateur", utilisateur);
 
-      // Si "rester connecté" est coché
-      if ("true".equals(stayConnected)) {
-        // gestion des cookies de connexion
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-          for (Cookie cookie : cookies) {
-            if ("login".equals(cookie.getName())) {
-              cookie.setValue(login);
-              cookie.setMaxAge(60 * 60 * 24 * 30);
-              LOG.debug("Update cookieLogin : {}", cookie.getValue());
-              cookieLoginExist = true;
-            }
-          }
-        }
+      // Sinon réinitialise l'attribut "utilisateur"
+    } else {
+      session.setAttribute("utilisateur", null);
+    }
 
-        if (!cookieLoginExist) {
-          Cookie cookieLogin = new Cookie("login", login);
-          cookieLogin.setMaxAge(60 * 60 * 24 * 30);
-          response.addCookie(cookieLogin);
-          LOG.debug("Add cookieLogin : {}", cookieLogin.getValue());
-        }
-
-      } else {
-        // suppression des cookies de connexion
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-          for (Cookie cookie : cookies) {
-            if ("login".equals(cookie.getName())) {
-              cookie.setValue(null);
-              cookie.setMaxAge(0);
-              response.addCookie(cookie);
-              LOG.debug("Delete cookieLogin");
-            }
+    // Si "rester connecté" est coché
+    if ("true".equals(stayConnected)) {
+      // gestion des cookies de connexion
+      Cookie[] cookies = request.getCookies();
+      if (cookies != null) {
+        for (Cookie cookie : cookies) {
+          if ("login".equals(cookie.getName())) {
+            cookie.setValue(login);
+            cookie.setMaxAge(60 * 60 * 24 * 30);
+            LOG.debug("Update cookieLogin : {}", cookie.getValue());
+            cookieLoginExist = true;
           }
         }
       }
 
+      if (!cookieLoginExist) {
+        Cookie cookieLogin = new Cookie("login", login);
+        cookieLogin.setMaxAge(60 * 60 * 24 * 30);
+        response.addCookie(cookieLogin);
+        LOG.debug("Add cookieLogin : {}", cookieLogin.getValue());
+      }
+
+    } else {
+      // suppression des cookies de connexion
+      Cookie[] cookies = request.getCookies();
+      if (cookies != null) {
+        for (Cookie cookie : cookies) {
+          if ("login".equals(cookie.getName())) {
+            cookie.setValue(null);
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+            LOG.debug("Delete cookieLogin");
+          }
+        }
+      }
     }
 
-    getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
+    getServletContext().getRequestDispatcher("/WEB-INF/mon-compte.jsp").forward(request, response);
   }
 
 }
