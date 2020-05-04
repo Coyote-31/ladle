@@ -35,7 +35,7 @@ public class Index extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    LOG.debug("doGet()");
+    LOG.debug("Servlet [Index] -> doGet()");
 
     // ================================================
     // Test un SELECT avec l'objet Region sur la bdd
@@ -72,7 +72,7 @@ public class Index extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    LOG.debug("doPost()");
+    LOG.debug("Servlet [Index] -> doPost()");
 
     try {
       doGet(request, response);

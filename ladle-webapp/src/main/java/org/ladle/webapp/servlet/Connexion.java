@@ -34,7 +34,7 @@ public class Connexion extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    LOG.info("doGet()");
+    LOG.debug("Servlet [Connexion] -> doGet()");
 
     getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
   }
@@ -46,7 +46,7 @@ public class Connexion extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    LOG.info("doPost()");
+    LOG.debug("Servlet [Connexion] -> doPost()");
 
     // Récupération du formulaire
     // TODO vérif des champs vides
@@ -58,6 +58,14 @@ public class Connexion extends HttpServlet {
 
     String stayConnected = request.getParameter("login_CheckStayConnected");
     LOG.debug("getParam stayConnected : {}", stayConnected);
+
+    // Récupère la derniere uri request
+    String lastRequestedPathUri = (String) request.getAttribute("lastRequestedPathUri");
+
+    if (lastRequestedPathUri == null) {
+      lastRequestedPathUri = "/";
+    }
+    LOG.debug("lastRequestedPathUri : {}", lastRequestedPathUri);
 
     // Test de validation du formulaire
     boolean isLoginValid = userHandler.isLoginValid(login, pwd);
@@ -119,7 +127,7 @@ public class Connexion extends HttpServlet {
       }
     }
 
-    getServletContext().getRequestDispatcher("/WEB-INF/mon-compte.jsp").forward(request, response);
+    getServletContext().getRequestDispatcher(lastRequestedPathUri).forward(request, response);
   }
 
 }

@@ -32,7 +32,7 @@ public class Inscription extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    LOG.debug("doGet()");
+    LOG.debug("Servlet [Inscription] -> doGet()");
 
     try {
       getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(request, response);
@@ -50,7 +50,7 @@ public class Inscription extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     /* Récupération des éléments du formulaire d'inscription */
-    LOG.debug("Début de post...");
+    LOG.debug("Servlet [Inscription] -> doPost()");
 
     User user = new User();
 

@@ -18,27 +18,33 @@ import org.ladle.service.UserHandler;
  */
 @WebServlet("/mon-compte")
 public class MonCompte extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = LogManager.getLogger(MonCompte.class);
-       
-	@EJB(name = "UserHandler")
-	UserHandler userHandler;
+  private static final long serialVersionUID = 1L;
+  private static final Logger LOG = LogManager.getLogger(MonCompte.class);
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		LOG.info("Servlet [MonCompte.java] -> doGet()");
-		
-		this.getServletContext().getRequestDispatcher( "/WEB-INF/mon-compte.jsp" ).forward( request, response );
-	}
+  @EJB(name = "UserHandler")
+  UserHandler userHandler;
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
+  /**
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+   *      response)
+   */
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    LOG.debug("Servlet [MonCompte] -> doGet()");
+
+    getServletContext().getRequestDispatcher("/WEB-INF/mon-compte.jsp").forward(request, response);
+  }
+
+  /**
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+   *      response)
+   */
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    LOG.debug("Servlet [MonCompte] -> doPost()");
+    doGet(request, response);
+  }
 
 }
