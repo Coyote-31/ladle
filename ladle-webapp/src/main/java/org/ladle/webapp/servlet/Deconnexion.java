@@ -8,21 +8,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.service.UserHandler;
 
 /**
- * Servlet implementation class MonCompte
+ * Servlet implementation class Deconnexion
  */
-@WebServlet("/mon-compte")
-public class MonCompte extends HttpServlet {
+@WebServlet("/deconnexion")
+public class Deconnexion extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private static final Logger LOG = LogManager.getLogger(MonCompte.class);
+  private static final Logger LOG = LogManager.getLogger(Deconnexion.class);
 
   @EJB(name = "UserHandler")
-  UserHandler userHandler;
+  private UserHandler userHandler;
 
   /**
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -31,9 +32,15 @@ public class MonCompte extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    LOG.debug("Servlet [MonCompte] -> doGet()");
+    LOG.debug("Servlet [Deconnexion] -> doGet()");
 
-    getServletContext().getRequestDispatcher("/WEB-INF/mon-compte.jsp").forward(request, response);
+    HttpSession session = request.getSession();
+
+    // Reinitialise les attributs de session
+    session.setAttribute("isLoginValid", false);
+    session.setAttribute("utilisateur", null);
+
+    getServletContext().getRequestDispatcher("/").forward(request, response);
   }
 
   /**
@@ -43,8 +50,9 @@ public class MonCompte extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    LOG.debug("Servlet [MonCompte] -> doPost()");
-    doGet(request, response);
+    LOG.debug("Servlet [Deconnexion] -> doPost()");
+
+    getServletContext().getRequestDispatcher("/").forward(request, response);
   }
 
 }

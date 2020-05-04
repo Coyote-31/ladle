@@ -34,7 +34,7 @@
       
       <%-- Button 'Deconnexion' --%>
       <button type="button" class="btn btn-primary" 
-        onclick="window.location.href = '/ladle/?action=deconnexion'" >Deconnexion</button>
+        onclick="window.location.href = 'deconnexion'" >Deconnexion</button>
     
     </c:if>
   </div>

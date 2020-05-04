@@ -17,7 +17,7 @@ import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.UserHandler;
 
 /**
- * Servlet implementation class MailValidation
+ * Servlet implementation class Connexion
  */
 @WebServlet("/connexion")
 public class Connexion extends HttpServlet {
@@ -48,6 +48,8 @@ public class Connexion extends HttpServlet {
 
     LOG.debug("Servlet [Connexion] -> doPost()");
 
+    HttpSession session = request.getSession();
+
     // Récupération du formulaire
     // TODO vérif des champs vides
     String login = request.getParameter("login_InputPseudoEmail");
@@ -59,20 +61,11 @@ public class Connexion extends HttpServlet {
     String stayConnected = request.getParameter("login_CheckStayConnected");
     LOG.debug("getParam stayConnected : {}", stayConnected);
 
-    // Récupère la derniere uri request
-    String lastRequestedPathUri = (String) request.getAttribute("lastRequestedPathUri");
-
-    if (lastRequestedPathUri == null) {
-      lastRequestedPathUri = "/";
-    }
-    LOG.debug("lastRequestedPathUri : {}", lastRequestedPathUri);
-
     // Test de validation du formulaire
     boolean isLoginValid = userHandler.isLoginValid(login, pwd);
     LOG.debug("isLoginValid : {}", isLoginValid);
 
     // Update l'attribut de session isLoginValid
-    HttpSession session = request.getSession();
     session.setAttribute("isLoginValid", isLoginValid);
 
     // Variable de cookie de connexion
@@ -127,7 +120,7 @@ public class Connexion extends HttpServlet {
       }
     }
 
-    getServletContext().getRequestDispatcher(lastRequestedPathUri).forward(request, response);
+    getServletContext().getRequestDispatcher("/").forward(request, response);
   }
 
 }

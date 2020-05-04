@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.ladle.service.UserHandler;
 
 /**
- * Servlet implementation class MailValidation
+ * Servlet implementation class EmailValidation
  */
 @WebServlet("/email-validation")
 public class EmailValidation extends HttpServlet {
