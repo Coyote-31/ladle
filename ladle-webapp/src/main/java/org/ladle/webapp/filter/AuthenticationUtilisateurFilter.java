@@ -2,6 +2,7 @@ package org.ladle.webapp.filter;
 
 import java.io.IOException;
 
+import javax.ejb.EJB;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ladle.service.CookieHandler;
+import org.ladle.service.UserHandler;
 
 /**
  * This filter secure access to page with authentification for users (role=0).
@@ -25,6 +28,9 @@ public class AuthenticationUtilisateurFilter implements Filter {
   private static final Logger LOG = LogManager.getLogger(AuthenticationUtilisateurFilter.class);
 
   private HttpServletRequest httpRequest;
+
+  @EJB(name = "UserHandler")
+  private UserHandler userHandler;
 
   private static final String[] loginRequiredURLs = {
       "/mon-compte", "/login"
@@ -49,12 +55,10 @@ public class AuthenticationUtilisateurFilter implements Filter {
 
     HttpSession session = httpRequest.getSession(false);
 
-    // TODO Vérifier le test isLoggedIn
-
     boolean isLoggedIn = false;
     if ((session != null) && (session.getAttribute("isLoginValid") != null)) {
 
-      isLoggedIn = (session.getAttribute("isLoginValid").equals(true));
+      isLoggedIn = session.getAttribute("isLoginValid").equals(true);
     }
 
     String loginURI = httpRequest.getContextPath() + "/connexion";
@@ -67,12 +71,28 @@ public class AuthenticationUtilisateurFilter implements Filter {
       httpRequest.getRequestDispatcher("/mon-compte").forward(request, response);
 
     } else if (!isLoggedIn && isLoginRequired()) {
-      // the user is not logged in, and the requested page requires
-      // authentication, then forward to the connexion page
-      String loginPage = "/connexion";
-      RequestDispatcher dispatcher = httpRequest.getRequestDispatcher(loginPage);
+      // User is not logged in and the requested page requires authentication,
 
-      dispatcher.forward(request, response);
+      String[] loginArray = CookieHandler.getLogin(httpRequest);
+
+      if (userHandler.isValidTokenLogin(loginArray[0], loginArray[1])) {
+
+        // met à jours la variable isLoginValid
+        if (session != null) {
+          session.setAttribute("isLoginValid", true);
+        }
+
+        // continue la requete
+        chain.doFilter(request, response);
+
+      } else {
+        // forward to the connexion page
+        String loginPage = "/connexion";
+        RequestDispatcher dispatcher = httpRequest.getRequestDispatcher(loginPage);
+
+        dispatcher.forward(request, response);
+      }
+
     } else {
       // for other requested pages that do not require authentication
       // or the user is already logged in, continue to the destination

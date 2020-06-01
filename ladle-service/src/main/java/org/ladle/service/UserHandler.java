@@ -472,6 +472,9 @@ public class UserHandler {
     } catch (NoSuchAlgorithmException e) {
       LOG.error("Erreur de génération du SHA du mail", e);
     }
+
+    // TODO Tester la BDD unique emailSHA sinon recommence une fois.
+
     return emailSHA;
   }
 
@@ -580,6 +583,44 @@ public class UserHandler {
   public Utilisateur getUtilisateurOnLogin(String login) {
 
     return userDao.getUtilisateurByLogin(login);
+  }
+
+  public void updateUtilisateur(Utilisateur utilisateur) {
+
+    userDao.updateUtilisateur(utilisateur);
+  }
+
+  /**
+   * Renvoit un token aléatoire pour la connexion par cookie
+   *
+   * @return
+   */
+  public String generateTokenLogin() {
+
+    String tokenLogin = null;
+
+    try {
+      // Create MessageDigest instance for SHA-256
+      MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+      SecureRandom secureRandom = new SecureRandom();
+      byte[] randomBytes = new byte[32];
+      secureRandom.nextBytes(randomBytes);
+
+      // Get the hash's bytes from secure random
+      byte[] bytes = md.digest(randomBytes);
+
+      tokenLogin = Hex.encodeHexString(bytes);
+
+    } catch (NoSuchAlgorithmException e) {
+      LOG.error("Error on generating tokenLogin", e);
+    }
+    return tokenLogin;
+  }
+
+  public boolean isValidTokenLogin(String login, String tokenLogin) {
+
+    return userDao.isValidTokenLogin(login, tokenLogin);
   }
 
 }

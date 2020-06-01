@@ -60,4 +60,20 @@ public interface UserDao {
    * @return L'utilisateur depuis la bdd
    */
   Utilisateur getUtilisateurByLogin(String login);
+
+  /**
+   * Met à jour les données d'un utilisateur
+   *
+   * @param utilisateur
+   */
+  void updateUtilisateur(Utilisateur utilisateur);
+
+  /**
+   * Renvoit vrai si la connexion avec le token est valide
+   *
+   * @param login
+   * @param loginToken
+   * @return
+   */
+  boolean isValidTokenLogin(String login, String tokenLogin);
 }

@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.persistence.TransactionRequiredException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -271,6 +272,46 @@ public class UserDaoImpl implements UserDao {
 
     LOG.debug("login exist : {}", login);
     return utilisateur;
+  }
+
+  @Override
+  public void updateUtilisateur(Utilisateur utilisateur) {
+
+    try {
+      em.merge(utilisateur);
+
+    } catch (IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("Error ! em.merge failed to update user : {}", utilisateur.getPseudo(), e);
+    }
+    LOG.debug("Update user : {}", utilisateur.getPseudo());
+  }
+
+  @Override
+  public boolean isValidTokenLogin(String login, String tokenLogin) {
+
+    String hql = "FROM Utilisateur U WHERE ( U.email = :login OR U.pseudo = :login ) "
+                 + "AND U.tokenLogin = :tokenLogin";
+
+    Query query = em.createQuery(hql);
+    query.setParameter("login", login);
+    query.setParameter("tokenLogin", tokenLogin);
+
+    try {
+      query.getSingleResult();
+
+    } catch (NoResultException e) {
+      LOG.debug("login by token fail : {} / {}", login, tokenLogin);
+      LOG.trace(e);
+      return false;
+
+    } catch (NonUniqueResultException e) {
+      LOG.error("Error ! Login by token mutiple results for : login = {} / token = {}", login, tokenLogin);
+      LOG.error(e);
+      return false;
+    }
+
+    LOG.debug("login by token valid : {} / {}", login, tokenLogin);
+    return true;
   }
 
 }

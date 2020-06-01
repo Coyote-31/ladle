@@ -45,9 +45,9 @@ public class Utilisateur implements Serializable {
   @Column(name = "email_sha")
   private String emailSHA;
   @Column(name = "date_email")
-  private ZonedDateTime dateEmail;
+  private transient ZonedDateTime dateEmail;
   @Column(name = "date_compte")
-  private ZonedDateTime dateCompte;
+  private transient ZonedDateTime dateCompte;
   @Column(name = "token_login")
   private String tokenLogin;
 

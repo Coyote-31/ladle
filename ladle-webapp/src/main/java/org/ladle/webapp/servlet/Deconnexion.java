@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ladle.service.CookieHandler;
 import org.ladle.service.UserHandler;
 
 /**
@@ -39,6 +40,9 @@ public class Deconnexion extends HttpServlet {
     // Reinitialise les attributs de session
     session.setAttribute("isLoginValid", false);
     session.setAttribute("utilisateur", null);
+
+    // Supprime les cookies
+    CookieHandler.deleteLogin(request, response);
 
     getServletContext().getRequestDispatcher("/").forward(request, response);
   }

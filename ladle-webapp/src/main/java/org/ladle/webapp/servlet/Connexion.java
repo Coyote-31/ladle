@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Utilisateur;
+import org.ladle.service.CookieHandler;
 import org.ladle.service.UserHandler;
 
 /**
@@ -68,56 +68,38 @@ public class Connexion extends HttpServlet {
     // Update l'attribut de session isLoginValid
     session.setAttribute("isLoginValid", isLoginValid);
 
-    // Variable de cookie de connexion
-    boolean cookieLoginExist = false;
-
     // Si la connexion est validée
     if (isLoginValid) {
 
       // Ajoute la variable des données utilisateur
       Utilisateur utilisateur = userHandler.getUtilisateurOnLogin(login);
-      session.setAttribute("utilisateur", utilisateur);
 
-      // Sinon réinitialise l'attribut "utilisateur"
+      // Si "rester connecté" est coché
+      if ("true".equals(stayConnected)) {
+
+        // Création du token de login
+        utilisateur.setTokenLogin(userHandler.generateTokenLogin());
+
+        // Mise à jour de l'utilisateur dans la session et la BDD
+        userHandler.updateUtilisateur(utilisateur);
+        session.setAttribute("utilisateur", utilisateur);
+
+        // Add/Update les cookies "login" et "tokenLogin"
+        CookieHandler.updateLogin(login, utilisateur.getTokenLogin(), request, response);
+
+      } else {
+        // Supprime les cookies "login" et "tokenLogin"
+        CookieHandler.deleteLogin(request, response);
+
+        // Mise à jour de l'utilisateur dans la session
+        session.setAttribute("utilisateur", utilisateur);
+      }
+
     } else {
+      // Réinitialise l'attribut "utilisateur"
       session.setAttribute("utilisateur", null);
-    }
-
-    // Si "rester connecté" est coché
-    if ("true".equals(stayConnected)) {
-      // gestion des cookies de connexion
-      Cookie[] cookies = request.getCookies();
-      if (cookies != null) {
-        for (Cookie cookie : cookies) {
-          if ("login".equals(cookie.getName())) {
-            cookie.setValue(login);
-            cookie.setMaxAge(60 * 60 * 24 * 30);
-            LOG.debug("Update cookieLogin : {}", cookie.getValue());
-            cookieLoginExist = true;
-          }
-        }
-      }
-
-      if (!cookieLoginExist) {
-        Cookie cookieLogin = new Cookie("login", login);
-        cookieLogin.setMaxAge(60 * 60 * 24 * 30);
-        response.addCookie(cookieLogin);
-        LOG.debug("Add cookieLogin : {}", cookieLogin.getValue());
-      }
-
-    } else {
-      // suppression des cookies de connexion
-      Cookie[] cookies = request.getCookies();
-      if (cookies != null) {
-        for (Cookie cookie : cookies) {
-          if ("login".equals(cookie.getName())) {
-            cookie.setValue(null);
-            cookie.setMaxAge(0);
-            response.addCookie(cookie);
-            LOG.debug("Delete cookieLogin");
-          }
-        }
-      }
+      // Supprime les cookies "login" et "tokenLogin"
+      CookieHandler.deleteLogin(request, response);
     }
 
     getServletContext().getRequestDispatcher("/").forward(request, response);
