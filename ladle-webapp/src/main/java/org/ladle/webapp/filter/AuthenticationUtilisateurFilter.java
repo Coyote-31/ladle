@@ -56,6 +56,8 @@ public class AuthenticationUtilisateurFilter implements Filter {
     HttpSession session = httpRequest.getSession(false);
 
     boolean isLoggedIn = false;
+
+    // Put "isLoginValid" in "isLoggedIn"
     if ((session != null) && (session.getAttribute("isLoginValid") != null)) {
 
       isLoggedIn = session.getAttribute("isLoginValid").equals(true);
