@@ -71,8 +71,19 @@ public class Connexion extends HttpServlet {
     // Si la connexion est validée
     if (isLoginValid) {
 
-      // Ajoute la variable des données utilisateur
+      // Récupère les données utilisateur
       Utilisateur utilisateur = userHandler.getUtilisateurOnLogin(login);
+
+      // Test si l'utilisateur n'a pas encore validé son adresse mail
+      if (utilisateur.getEmailSHA() != null) {
+
+        // Annule l'attribut de validité de connexion
+        session.setAttribute("isLoginValid", false);
+        // Redirige vers la page d'erreur
+        request.setAttribute("errorSHAOnLogin", true);
+        getServletContext().getRequestDispatcher("/email-validation").forward(request, response);
+
+      }
 
       // Si "rester connecté" est coché
       if ("true".equals(stayConnected)) {
@@ -100,6 +111,9 @@ public class Connexion extends HttpServlet {
       session.setAttribute("utilisateur", null);
       // Supprime les cookies "login" et "tokenLogin"
       CookieHandler.deleteLogin(request, response);
+      //
+      request.setAttribute("errorLoginInvalid", true);
+      getServletContext().getRequestDispatcher("/connexion").forward(request, response);
     }
 
     getServletContext().getRequestDispatcher("/").forward(request, response);

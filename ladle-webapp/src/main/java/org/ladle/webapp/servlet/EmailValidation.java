@@ -43,6 +43,12 @@ public class EmailValidation extends HttpServlet {
     // Envoit à la jsp de la réponse
     request.setAttribute("emailValide", emailValide);
 
+    // Gestion d'une redirection de connexion avec SHA mail non validé
+    if ("true".equals(request.getAttribute("errorOnLogin"))) {
+      // Envoit à la jsp de la réponse
+      request.setAttribute("errorOnLogin", true);
+    }
+
     getServletContext().getRequestDispatcher("/WEB-INF/email-validation.jsp").forward(request, response);
   }
 

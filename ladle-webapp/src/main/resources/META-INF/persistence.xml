@@ -25,6 +25,7 @@
       <property name="hibernate.connection.username" value="root" />
       <property name="hibernate.connection.password" value="admin" />
       <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
+      <property name="hibernate.jdbc.time_zone" value="Europe/Paris"/>
         
       <!-- Automatically validates or exports schema DDL -->
       <!-- none | validate | update | create | create-drop -->

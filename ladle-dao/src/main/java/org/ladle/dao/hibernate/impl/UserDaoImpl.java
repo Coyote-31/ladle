@@ -44,14 +44,18 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public void addUser(Utilisateur utilisateur) {
+  public boolean addUser(Utilisateur utilisateur) {
 
     try {
+      LOG.debug("Debug date : {}", utilisateur.getDateEmail());
       em.persist(utilisateur);
+      LOG.info("Nouvel utilisateur dans la bdd : {}", utilisateur.getPseudo());
+      return true;
+
     } catch (PersistenceException e) {
       LOG.error("Error ! em.persist failed to insert : {}", utilisateur.getPseudo(), e);
+      return false;
     }
-    LOG.info("Nouvel utilisateur dans la bdd : {}", utilisateur.getPseudo());
   }
 
   @Override

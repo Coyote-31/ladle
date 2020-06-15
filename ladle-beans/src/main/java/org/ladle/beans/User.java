@@ -1,6 +1,6 @@
 package org.ladle.beans;
 
-import java.time.ZonedDateTime;
+import java.sql.Date;
 
 /**
  * Classe utilitaire de stockage d'informations d'un utilisateur.
@@ -22,8 +22,8 @@ public class User {
   private byte[] salt;
   private String mdpSecured;
   private String emailSHA;
-  private ZonedDateTime dateEmail;
-  private ZonedDateTime dateCompte;
+  private Date dateEmail;
+  private Date dateCompte;
 
   public User() {
     super();
@@ -133,20 +133,20 @@ public class User {
     this.emailSHA = emailSHA;
   }
 
-  public ZonedDateTime getDateEmail() {
-    return dateEmail;
+  public Date getDateEmail() {
+    return (Date) dateEmail.clone();
   }
 
-  public void setDateEmail(ZonedDateTime dateEmail) {
-    this.dateEmail = dateEmail;
+  public void setDateEmail(Date dateEmail) {
+    this.dateEmail = (Date) dateEmail.clone();
   }
 
-  public ZonedDateTime getDateCompte() {
-    return dateCompte;
+  public Date getDateCompte() {
+    return (Date) dateCompte.clone();
   }
 
-  public void setDateCompte(ZonedDateTime dateCompte) {
-    this.dateCompte = dateCompte;
+  public void setDateCompte(Date dateCompte) {
+    this.dateCompte = (Date) dateCompte.clone();
   }
 
 }

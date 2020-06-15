@@ -1,7 +1,7 @@
 package org.ladle.beans.jpa;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,9 +45,9 @@ public class Utilisateur implements Serializable {
   @Column(name = "email_sha")
   private String emailSHA;
   @Column(name = "date_email")
-  private transient ZonedDateTime dateEmail;
+  private Date dateEmail;
   @Column(name = "date_compte")
-  private transient ZonedDateTime dateCompte;
+  private Date dateCompte;
   @Column(name = "token_login")
   private String tokenLogin;
 
@@ -58,8 +58,19 @@ public class Utilisateur implements Serializable {
   public Utilisateur() {
   }
 
-  public Utilisateur(Integer villeID, String pseudo, String genre, String nom, String prenom, String email, String mdp,
-      byte[] salt, Integer role, String emailSHA, ZonedDateTime dateEmail, ZonedDateTime dateCompte) {
+  public Utilisateur(
+      Integer villeID,
+      String pseudo,
+      String genre,
+      String nom,
+      String prenom,
+      String email,
+      String mdp,
+      byte[] salt,
+      Integer role,
+      String emailSHA,
+      Date dateEmail,
+      Date dateCompte) {
     super();
     this.villeID = villeID;
     this.pseudo = pseudo;
@@ -167,20 +178,20 @@ public class Utilisateur implements Serializable {
     this.emailSHA = emailSHA;
   }
 
-  public ZonedDateTime getDateEmail() {
-    return dateEmail;
+  public Date getDateEmail() {
+    return (Date) dateEmail.clone();
   }
 
-  public void setDateEmail(ZonedDateTime dateEmail) {
-    this.dateEmail = dateEmail;
+  public void setDateEmail(Date dateEmail) {
+    this.dateEmail = (Date) dateEmail.clone();
   }
 
-  public ZonedDateTime getDateCompte() {
-    return dateCompte;
+  public Date getDateCompte() {
+    return (Date) dateCompte.clone();
   }
 
-  public void setDateCompte(ZonedDateTime dateCompte) {
-    this.dateCompte = dateCompte;
+  public void setDateCompte(Date dateCompte) {
+    this.dateCompte = (Date) dateCompte.clone();
   }
 
   public String getTokenLogin() {

@@ -7,7 +7,7 @@ import org.ladle.beans.jpa.Utilisateur;
 @Local
 public interface UserDao {
 
-  void addUser(Utilisateur utilisateur);
+  boolean addUser(Utilisateur utilisateur);
 
   boolean containsPseudo(String pseudo);
 

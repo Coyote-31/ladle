@@ -10,6 +10,12 @@
   <%@ include file="/WEB-INF/parts/header.jsp"%>
   
   <div class="container ladle-bg-main">
+  
+    <%-- Erreur de login invalid --%>
+    
+    <c:if test="${errorLoginInvalid}">
+      <p>Erreur ! Echec de connexion. Le pseudo/mail ou le mot de passe est invalide.</p>
+    </c:if>
     
     <%-- Formulaire de connexion --%>
     <form method="post" action="connexion">
