@@ -1,7 +1,7 @@
 package org.ladle.beans.jpa;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,9 +45,9 @@ public class Utilisateur implements Serializable {
   @Column(name = "email_sha")
   private String emailSHA;
   @Column(name = "date_email")
-  private Date dateEmail;
+  private Timestamp dateEmail;
   @Column(name = "date_compte")
-  private Date dateCompte;
+  private Timestamp dateCompte;
   @Column(name = "token_login")
   private String tokenLogin;
 
@@ -69,8 +69,8 @@ public class Utilisateur implements Serializable {
       byte[] salt,
       Integer role,
       String emailSHA,
-      Date dateEmail,
-      Date dateCompte) {
+      Timestamp dateEmail,
+      Timestamp dateCompte) {
     super();
     this.villeID = villeID;
     this.pseudo = pseudo;
@@ -178,20 +178,20 @@ public class Utilisateur implements Serializable {
     this.emailSHA = emailSHA;
   }
 
-  public Date getDateEmail() {
-    return (Date) dateEmail.clone();
+  public Timestamp getDateEmail() {
+    return (Timestamp) dateEmail.clone();
   }
 
-  public void setDateEmail(Date dateEmail) {
-    this.dateEmail = (Date) dateEmail.clone();
+  public void setDateEmail(Timestamp dateEmail) {
+    this.dateEmail = (Timestamp) dateEmail.clone();
   }
 
-  public Date getDateCompte() {
-    return (Date) dateCompte.clone();
+  public Timestamp getDateCompte() {
+    return (Timestamp) dateCompte.clone();
   }
 
-  public void setDateCompte(Date dateCompte) {
-    this.dateCompte = (Date) dateCompte.clone();
+  public void setDateCompte(Timestamp dateCompte) {
+    this.dateCompte = (Timestamp) dateCompte.clone();
   }
 
   public String getTokenLogin() {

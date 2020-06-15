@@ -3,7 +3,7 @@ package org.ladle.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -104,7 +104,7 @@ public class UserHandler {
       user.setMdpSecured(PasswordHandler.getSecurePassword(user));
 
       // Ajout de la date de création du compte
-      Date currentDate = new Date(System.currentTimeMillis());
+      Timestamp currentDate = new Timestamp(System.currentTimeMillis());
       user.setDateCompte(currentDate);
 
       // Ajout du SHA de validation du mail

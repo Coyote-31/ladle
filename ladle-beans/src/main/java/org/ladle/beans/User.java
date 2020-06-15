@@ -1,6 +1,6 @@
 package org.ladle.beans;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Classe utilitaire de stockage d'informations d'un utilisateur.
@@ -22,8 +22,8 @@ public class User {
   private byte[] salt;
   private String mdpSecured;
   private String emailSHA;
-  private Date dateEmail;
-  private Date dateCompte;
+  private Timestamp dateEmail;
+  private Timestamp dateCompte;
 
   public User() {
     super();
@@ -133,20 +133,20 @@ public class User {
     this.emailSHA = emailSHA;
   }
 
-  public Date getDateEmail() {
-    return (Date) dateEmail.clone();
+  public Timestamp getDateEmail() {
+    return (Timestamp) dateEmail.clone();
   }
 
-  public void setDateEmail(Date dateEmail) {
-    this.dateEmail = (Date) dateEmail.clone();
+  public void setDateEmail(Timestamp dateEmail) {
+    this.dateEmail = (Timestamp) dateEmail.clone();
   }
 
-  public Date getDateCompte() {
-    return (Date) dateCompte.clone();
+  public Timestamp getDateCompte() {
+    return (Timestamp) dateCompte.clone();
   }
 
-  public void setDateCompte(Date dateCompte) {
-    this.dateCompte = (Date) dateCompte.clone();
+  public void setDateCompte(Timestamp dateCompte) {
+    this.dateCompte = (Timestamp) dateCompte.clone();
   }
 
 }
