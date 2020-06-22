@@ -35,18 +35,14 @@ public class EmailValidation extends HttpServlet {
 
     // Récupération du SHA du mail de validation
     String emailSHA = request.getParameter("id");
-    LOG.info("Mail SHA : {}", emailSHA);
+    LOG.debug("Mail SHA : {}", emailSHA);
+
     // Vérification de la présence dans la bdd
     // et validation du mail
-    boolean emailValide = userHandler.emailValidation(emailSHA);
-
-    // Envoit à la jsp de la réponse
-    request.setAttribute("emailValide", emailValide);
-
-    // Gestion d'une redirection de connexion avec SHA mail non validé
-    if ("true".equals(request.getAttribute("errorOnLogin"))) {
+    if (emailSHA != null) {
+      boolean emailValide = userHandler.emailValidation(emailSHA);
       // Envoit à la jsp de la réponse
-      request.setAttribute("errorOnLogin", true);
+      request.setAttribute("emailValide", emailValide);
     }
 
     getServletContext().getRequestDispatcher("/WEB-INF/email-validation.jsp").forward(request, response);

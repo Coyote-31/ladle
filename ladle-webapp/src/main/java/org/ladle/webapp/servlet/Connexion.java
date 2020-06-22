@@ -80,8 +80,9 @@ public class Connexion extends HttpServlet {
         // Annule l'attribut de validité de connexion
         session.setAttribute("isLoginValid", false);
         // Redirige vers la page d'erreur
-        request.setAttribute("errorSHAOnLogin", true);
+        request.setAttribute("errorEmailSHAOnLogin", true);
         getServletContext().getRequestDispatcher("/email-validation").forward(request, response);
+        return;
 
       }
 
@@ -106,17 +107,20 @@ public class Connexion extends HttpServlet {
         session.setAttribute("utilisateur", utilisateur);
       }
 
+      getServletContext().getRequestDispatcher("/").forward(request, response);
+
     } else {
       // Réinitialise l'attribut "utilisateur"
       session.setAttribute("utilisateur", null);
       // Supprime les cookies "login" et "tokenLogin"
       CookieHandler.deleteLogin(request, response);
-      //
+      // Ajout de la variable d'erreur "errorLoginInvalid"
       request.setAttribute("errorLoginInvalid", true);
-      getServletContext().getRequestDispatcher("/connexion").forward(request, response);
+      // Renvoit le dernier login dans le formulaire
+      request.setAttribute("lastLoginPseudoMail", login);
+
+      doGet(request, response);
     }
 
-    getServletContext().getRequestDispatcher("/").forward(request, response);
   }
-
 }
