@@ -239,7 +239,8 @@
           <div class="input-group-prepend">
             <span class="input-group-text" id="aria-ville">Ville</span>
           </div>
-          <input type="text" id="ville" name="ville" class="form-control" placeholder="" aria-label="Ville"
+          <input type="text" id="ville" name="ville" class="form-control" value="${user.ville}" 
+          placeholder="" aria-label="Ville"
             aria-describedby="aria-ville">
         </div>
 
@@ -332,7 +333,7 @@
                                     function validatePassword() {
                                         if (mdp.value != mdp2.value) {
                                             mdp2
-                                                    .setCustomValidity("Les mots de passe ne sont pas identiques");
+                                                    .setCustomValidity("Les mots de passe ne sont pas identiques !");
                                         } else {
                                             mdp2.setCustomValidity('');
                                         }
