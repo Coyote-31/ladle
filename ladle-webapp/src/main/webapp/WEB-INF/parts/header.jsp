@@ -16,15 +16,19 @@
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav mr-auto pt-2 pt-lg-0">
       <li class="nav-item active"><a class="nav-link" href="./">Accueil</a></li>
-      <li class="nav-item"><a class="nav-link" href="inscription">Inscription</a></li>
-      <li class="nav-item"><a class="nav-link" href="connexion">Connexion</a></li>
       <li class="nav-item"><a class="nav-link" href="#">À propos</a></li>
     </ul>
 
     <c:if test="${!isLoginValid}">
+    
       <%-- Button trigger modal --%>
       <button type="button" class="btn btn-primary" data-toggle="modal"
         data-target="#login_ModalCenter">Connexion</button>
+      
+      <%-- Button 'Inscription' --%>
+      <button type="button" class="btn btn-primary" 
+        onclick="window.location.href = 'inscription'" >Inscription</button>
+        
     </c:if>
     
     <c:if test="${isLoginValid}">

@@ -63,13 +63,34 @@ public class AuthenticationUtilisateurFilter implements Filter {
       isLoggedIn = session.getAttribute("isLoginValid").equals(true);
     }
 
+    // Connexion paths
     String loginURI = httpRequest.getContextPath() + "/connexion";
     boolean isLoginRequest = httpRequest.getRequestURI().equals(loginURI);
     boolean isLoginPage = httpRequest.getRequestURI().endsWith("connexion.jsp");
 
-    if (isLoggedIn && (isLoginRequest || isLoginPage)) {
+    boolean isLoginPath;
+
+    if (isLoginRequest || isLoginPage) {
+      isLoginPath = true;
+    } else {
+      isLoginPath = false;
+    }
+
+    // Inscription paths
+    String inscriptionURI = httpRequest.getContextPath() + "/inscription";
+    boolean isInscriptionRequest = httpRequest.getRequestURI().equals(inscriptionURI);
+    boolean isInscriptionPage = httpRequest.getRequestURI().endsWith("inscription.jsp");
+
+    boolean isInscriptionPath;
+    if (isInscriptionRequest || isInscriptionPage) {
+      isInscriptionPath = true;
+    } else {
+      isInscriptionPath = false;
+    }
+
+    if (isLoggedIn && (isLoginPath || isInscriptionPath)) {
       // the user is already logged in and he's trying to login again
-      // then forward to the mon-compte page
+      // or go on 'inscription' then forward to the mon-compte page
       httpRequest.getRequestDispatcher("/mon-compte").forward(request, response);
 
     } else if (!isLoggedIn && isLoginRequired()) {
