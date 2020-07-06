@@ -105,7 +105,7 @@ public class UserDaoImpl implements UserDao {
     try {
       query.getSingleResult();
     } catch (NoResultException e) {
-      LOG.debug("emailSHA: {} absent", emailSHA, e);
+      LOG.debug("emailSHA: {} absent", emailSHA);
       LOG.trace(e);
       return false;
     }

@@ -57,7 +57,7 @@ public class UserHandler {
    * 				   mdp/mdpLength/mdpEquals</br></code> <b>value = </b>
    *         <code>0 : erreur / 1 : valide</code>
    */
-  public Map<String, Integer> addUser(User user) {
+  public Map<String, Integer> addUser(User user) throws Error {
 
     /* Tests des données et ajout des codes dans la liste de validation */
     /* pseudo */
@@ -123,7 +123,8 @@ public class UserHandler {
       // Transfert du bean User vers le bean Utilisateur
 
       // TODO VilleDAO
-      user.setVilleID(666);
+      final int TMP_VILLE_NUM = 666;
+      user.setVilleID(TMP_VILLE_NUM);
 
       Utilisateur utilisateur = new Utilisateur(
           user.getVilleID(),
@@ -139,16 +140,10 @@ public class UserHandler {
           user.getDateEmail(),
           user.getDateCompte());
 
-      try {
-        // On ajoute l'utilisateur dans la bdd
-        if (userDao.addUser(utilisateur)) {
-          // Envoit le mail de validation du compte mail
-          MailHandler.sendValidationMail(user);
-        }
-
-      } catch (Exception e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+      // On ajoute l'utilisateur dans la bdd
+      if (userDao.addUser(utilisateur)) {
+        // Envoit le mail de validation du compte mail
+        MailHandler.sendValidationMail(user);
       }
     }
 
@@ -164,7 +159,7 @@ public class UserHandler {
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
    */
-  private Integer testPseudoEmpty(User user) {
+  private static Integer testPseudoEmpty(User user) {
 
     if (user.getPseudo().isEmpty()) {
       return 0;
@@ -194,12 +189,12 @@ public class UserHandler {
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
    */
-  private Integer testPseudoLength(User user) {
+  private static Integer testPseudoLength(User user) {
 
     /* Taille maximum du pseudo */
-    int maxLength = 30;
+    final int MAX_LENGTH = 30;
 
-    if (user.getPseudo().length() > maxLength) {
+    if (user.getPseudo().length() > MAX_LENGTH) {
       return 0;
     }
     return 1;
@@ -244,7 +239,7 @@ public class UserHandler {
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
    */
-  private Integer testGenreEmpty(User user) {
+  private static Integer testGenreEmpty(User user) {
 
     if (user.getGenre().isEmpty()) {
       return 0;
@@ -259,9 +254,9 @@ public class UserHandler {
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
    */
-  private Integer testGenreValid(User user) {
+  private static Integer testGenreValid(User user) {
 
-    if (user.getGenre().equals("Madame") || user.getGenre().equals("Monsieur")) {
+    if ("Madame".equals(user.getGenre()) || "Monsieur".equals(user.getGenre())) {
       return 1;
     }
     return 0;
@@ -289,7 +284,7 @@ public class UserHandler {
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
    */
-  private Integer testPrenomEmpty(User user) {
+  private static Integer testPrenomEmpty(User user) {
 
     if (user.getPrenom().isEmpty()) {
       return 0;
@@ -304,12 +299,12 @@ public class UserHandler {
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
    */
-  private Integer testPrenomLength(User user) {
+  private static Integer testPrenomLength(User user) {
 
     /* Taille maximum du prénom */
-    Integer maxLength = 40;
+    final Integer MAX_LENGTH = 40;
 
-    if (user.getPrenom().length() > maxLength) {
+    if (user.getPrenom().length() > MAX_LENGTH) {
       return 0;
     }
     return 1;
@@ -336,7 +331,7 @@ public class UserHandler {
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
    */
-  private Integer testNomEmpty(User user) {
+  private static Integer testNomEmpty(User user) {
 
     if (user.getNom().isEmpty()) {
       return 0;
@@ -351,9 +346,10 @@ public class UserHandler {
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
    */
-  private Integer testNomLength(User user) {
+  private static Integer testNomLength(User user) {
 
-    if (user.getNom().length() > 40) {
+    final int MAX_LENGTH = 40;
+    if (user.getNom().length() > MAX_LENGTH) {
       return 0;
     }
     return 1;
@@ -396,7 +392,7 @@ public class UserHandler {
    * @see org.ladle.beans.User
    * @see org.apache.commons.validator.routines.EmailValidator
    */
-  private Integer testEmailValid(User user) {
+  private static Integer testEmailValid(User user) {
 
     if (EmailValidator.getInstance().isValid(user.getEmail())) {
       return 1;
@@ -426,9 +422,12 @@ public class UserHandler {
    * @return 0 : error / 1 : valid
    * @see org.ladle.beans.User
    */
-  private Integer testMdpLength(User user) {
+  private static Integer testMdpLength(User user) {
 
-    if ((user.getMdp().length() >= 8) && (user.getMdp().length() <= 40)) {
+    final int MIN_LENGTH = 8;
+    final int MAX_LENGTH = 40;
+
+    if ((user.getMdp().length() >= MIN_LENGTH) && (user.getMdp().length() <= MAX_LENGTH)) {
       return 1;
     }
     return 0;
@@ -468,29 +467,44 @@ public class UserHandler {
    * @param user
    * @return String(64) le code SHA de validation du mail
    */
-  private static String getEmailSHA() {
+  private String getEmailSHA() throws Error {
 
     final int RDM_BYTES_SIZE = 32;
     String emailSHA = null;
 
-    try {
-      // Create MessageDigest instance for SHA-256
-      MessageDigest md = MessageDigest.getInstance("SHA-256");
-      SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+    final int MAX_LOOP = 50;
+    int antiLoop = 0;
 
-      byte[] rdmBytes = new byte[RDM_BYTES_SIZE];
-      sr.nextBytes(rdmBytes);
+    // Loop until emailSHA is unique in DB
+    while ((emailSHA == null) && (antiLoop < MAX_LOOP)) {
 
-      // Get the hash's bytes
-      byte[] bytes = md.digest(rdmBytes);
+      try {
+        // Create MessageDigest instance for SHA-256
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
 
-      emailSHA = Hex.encodeHexString(bytes);
+        byte[] rdmBytes = new byte[RDM_BYTES_SIZE];
+        sr.nextBytes(rdmBytes);
 
-    } catch (NoSuchAlgorithmException e) {
-      LOG.error("Erreur de génération du SHA du mail", e);
+        // Get the hash's bytes
+        byte[] bytes = md.digest(rdmBytes);
+
+        emailSHA = Hex.encodeHexString(bytes);
+
+      } catch (NoSuchAlgorithmException e) {
+        LOG.error("Erreur de génération du SHA du mail", e);
+      }
+
+      if (userDao.emailSHAExist(emailSHA)) {
+        emailSHA = null;
+      }
+
+      antiLoop++;
     }
 
-    // TODO Tester la BDD unique emailSHA sinon recommence une fois.
+    if (antiLoop >= MAX_LOOP) {
+      throw new Error("Error ! EmailSHA generation exceed 50 try");
+    }
 
     return emailSHA;
   }
@@ -576,21 +590,6 @@ public class UserHandler {
   }
 
   /**
-   * Renvoit un objet User lié à un login + password.
-   *
-   * @param login
-   * @param pwd
-   * @return Un User avec toutes les informations
-   */
-  public User getUserOnLogin(String login, String pwd) {
-
-    User user = new User();
-    user.setPseudo("TEST");
-
-    return user;
-  }
-
-  /**
    * Renvoit un objet Utilisateur lié à un login + password.
    *
    * @param login
@@ -615,13 +614,14 @@ public class UserHandler {
   public String generateTokenLogin() {
 
     String tokenLogin = null;
+    final int BYTE_ARRAY_LENGTH = 32;
 
     try {
       // Create MessageDigest instance for SHA-256
       MessageDigest md = MessageDigest.getInstance("SHA-256");
 
       SecureRandom secureRandom = new SecureRandom();
-      byte[] randomBytes = new byte[32];
+      byte[] randomBytes = new byte[BYTE_ARRAY_LENGTH];
       secureRandom.nextBytes(randomBytes);
 
       // Get the hash's bytes from secure random

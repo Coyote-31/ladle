@@ -51,7 +51,6 @@ public class Connexion extends HttpServlet {
     HttpSession session = request.getSession();
 
     // Récupération du formulaire
-    // TODO vérif des champs vides
     String login = request.getParameter("login_InputPseudoEmail");
     LOG.debug("getParam login : {}", login);
 
