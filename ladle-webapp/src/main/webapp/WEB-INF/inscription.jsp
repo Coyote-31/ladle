@@ -20,6 +20,16 @@
 
     <h1>Page d'inscription</h1>
 
+    <%-- Erreur interne --%>
+    <c:if test="${internalError}">
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Erreur serveur !</strong> Une erreur interne au serveur empêche de terminer 
+        l'inscription. veuillez essayer de nouveau ultérieurement ou contacter un administrateur.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+          aria-hidden="true">&times;</span></button>
+      </div>
+    </c:if>
+
     <%-- inputs d'inscription --%>
 
     <form method="post" action="inscription">
@@ -113,13 +123,15 @@
           test="${validationList['genre'] == 1}"> is-valid</c:if><c:if  
           test="${validationList['genre'] == 0}"> is-invalid</c:if>'
             id="genre" name="genre" required>
-            <option value="" <c:if test="${validationList['genre'] != 1}"> selected</c:if>>Choisissez...</option>
+            <option value="" 
+              <c:if test="${validationList['genre'] != 1}"> selected</c:if>>
+              Choisissez...</option>
             <option value="Madame"
-              <c:if test="${validationList['genre'] == 1 
-                          && user.genre == 'Madame'}"> selected</c:if>>Madame</option>
+              <c:if test="${validationList['genre'] == 1 && user.genre == 'Madame'}"> selected</c:if>>
+              Madame</option>
             <option value="Monsieur"
-              <c:if test="${validationList['genre'] == 1 
-                          && user.genre == 'Monsieur'}"> selected</c:if>>Monsieur</option>
+              <c:if test="${validationList['genre'] == 1 && user.genre == 'Monsieur'}"> selected</c:if>>
+              Monsieur</option>
           </select>
         </div>
 

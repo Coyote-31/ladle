@@ -3,6 +3,7 @@ package org.ladle.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.SQLDataException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -57,7 +58,7 @@ public class UserHandler {
    * 				   mdp/mdpLength/mdpEquals</br></code> <b>value = </b>
    *         <code>0 : erreur / 1 : valide</code>
    */
-  public Map<String, Integer> addUser(User user) throws Error {
+  public Map<String, Integer> addUser(User user) throws SQLDataException {
 
     /* Tests des données et ajout des codes dans la liste de validation */
     /* pseudo */
@@ -467,7 +468,7 @@ public class UserHandler {
    * @param user
    * @return String(64) le code SHA de validation du mail
    */
-  private String getEmailSHA() throws Error {
+  private String getEmailSHA() throws SQLDataException {
 
     final int RDM_BYTES_SIZE = 32;
     String emailSHA = null;
@@ -503,7 +504,7 @@ public class UserHandler {
     }
 
     if (antiLoop >= MAX_LOOP) {
-      throw new Error("Error ! EmailSHA generation exceed 50 try");
+      throw new SQLDataException("Error ! EmailSHA generation exceed 50 try");
     }
 
     return emailSHA;

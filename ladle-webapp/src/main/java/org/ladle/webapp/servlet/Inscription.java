@@ -1,6 +1,7 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
+import java.sql.SQLDataException;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -23,7 +24,7 @@ public class Inscription extends HttpServlet {
   private static final Logger LOG = LogManager.getLogger(Inscription.class);
 
   @EJB(name = "UserHandler")
-  UserHandler userHandler;
+  private UserHandler userHandler;
 
   /**
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -37,7 +38,7 @@ public class Inscription extends HttpServlet {
     try {
       getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(request, response);
 
-    } catch (Exception e) {
+    } catch (ServletException | IOException e) {
       LOG.error("inscription.jsp loading failed", e);
     }
   }
@@ -63,25 +64,24 @@ public class Inscription extends HttpServlet {
     user.setMdp(request.getParameter("mdp"));
     user.setMdp2(request.getParameter("mdp2"));
 
-    LOG.debug("Formulaire envoyé : "
-              + user.getPseudo()
-              + " / "
-              + user.getGenre()
-              + " / "
-              + user.getPrenom()
-              + " / "
-              + user.getNom()
-              + " / "
-              + user.getEmail()
-              + " / "
-              + user.getVille()
-              + " / "
-              + user.getMdp()
-              + " / "
-              + user.getMdp2());
+    LOG.debug("Formulaire envoyé : {} | {} | {} | {} | {} | {} | {} | {}",
+        user.getPseudo(),
+        user.getGenre(),
+        user.getPrenom(),
+        user.getNom(),
+        user.getEmail(),
+        user.getVille(),
+        user.getMdp(),
+        user.getMdp2());
 
     // Vérification & insertion dans la BDD + Récupération de la liste de validation
-    request.setAttribute("validationList", userHandler.addUser(user));
+    try {
+      request.setAttribute("validationList", userHandler.addUser(user));
+
+    } catch (SQLDataException e1) {
+      LOG.error("Error from : userHandler.addUser(user)", e1);
+      request.setAttribute("internalError", true);
+    }
 
     // Sécurise l'objet user en enlevant les mdp non cryptés
     user.setMdp(null);
