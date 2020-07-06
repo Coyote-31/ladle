@@ -2,6 +2,7 @@ package org.ladle.webapp.servlet;
 
 import java.io.IOException;
 import java.sql.SQLDataException;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -75,8 +76,15 @@ public class Inscription extends HttpServlet {
         user.getMdp2());
 
     // Vérification & insertion dans la BDD + Récupération de la liste de validation
+
+    Map<String, Integer> validationList = null;
+
     try {
-      request.setAttribute("validationList", userHandler.addUser(user));
+      validationList = userHandler.addUser(user);
+      request.setAttribute("validationList", validationList);
+
+      // Attribut pour l'affichage de la validation de l'inscription
+      request.setAttribute("isInscriptionValid", !validationList.containsValue(0));
 
     } catch (SQLDataException e1) {
       LOG.error("Error from : userHandler.addUser(user)", e1);

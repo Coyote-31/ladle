@@ -17,8 +17,18 @@
   <%@ include file="/WEB-INF/parts/header.jsp"%>
 
   <div class="container ladle-bg-main">
-
-    <h1>Page d'inscription</h1>
+  
+    <%-- Affichage de la validation de l'inscription --%>
+    <c:if test="${isInscriptionValid}">
+      <div>Bienvenue ${user.pseudo} ! Vous êtes désormais inscrit !<br>
+       IMPORTANT ! L'inscription doit être finalisée en cliquant sur le lien de validation dans le mail 
+       envoyé à l'adresse suivante : ${user.email}
+      </div>
+    </c:if>
+    
+    <%-- Affichage du formulaire d'inscription --%>
+    <c:if test="${!isInscriptionValid}">
+      <h1>Page d'inscription</h1>
 
     <%-- Erreur interne --%>
     <c:if test="${internalError}">
@@ -202,7 +212,7 @@
             <input type="text" id="nom" name="nom" maxlength="40"
               class="form-control
               <c:if test="${validationList['nom'] == 1}"> is-valid</c:if>
-              <c:if	test="${validationList['nom'] == 0}"> is-invalid</c:if>"
+              <c:if test="${validationList['nom'] == 0}"> is-invalid</c:if>"
               value="${user.nom}" placeholder="" required aria-label="Nom" aria-describedby="aria-nom">
           </div>
 
@@ -237,8 +247,8 @@
           </div>
           <input type="email" id="email" name="email" maxlength="90"
             class='form-control<c:if 
-						test="${validationList['email'] == 1}"> is-valid</c:if><c:if	
-						test="${validationList['email'] == 0}"> is-invalid</c:if>'
+            test="${validationList['email'] == 1}"> is-valid</c:if><c:if  
+            test="${validationList['email'] == 0}"> is-invalid</c:if>'
             value="${user.email}" placeholder="" required aria-label="eMail" aria-describedby="aria-email">
         </div>
 
@@ -285,8 +295,8 @@
           </div>
           <input type="password" id="mdp" name="mdp" pattern=".{8,40}" title="De 8 à 40 caratères."
             class='form-control<c:if 
-						test="${validationList['mdpLength'] == 1}"> is-valid</c:if><c:if	
-						test="${validationList['mdpLength'] == 0}"> is-invalid</c:if>'
+            test="${validationList['mdpLength'] == 1}"> is-valid</c:if><c:if  
+            test="${validationList['mdpLength'] == 0}"> is-invalid</c:if>'
             placeholder="" required aria-label="Mot de passe" aria-describedby="aria-mdp">
           <div class="input-group-append">
             <button id="btnMdp" class="btn btn-outline-warning" type="button" onClick="passwordShowHide(this)">
@@ -300,7 +310,7 @@
           </div>
           <input type="password" id="mdp2" name="mdp2" pattern=".{8,40}" title="De 8 à 40 caratères."
             class='form-control
-            <c:if	test="${validationList['mdp'] == 0}"> is-invalid</c:if>'
+            <c:if test="${validationList['mdp'] == 0}"> is-invalid</c:if>'
             placeholder="" required aria-label="Confirmez le mdp" aria-describedby="aria-mdp">
           <div class="input-group-append">
             <button id="btnMdp2" class="btn btn-outline-warning" type="button" onClick="passwordShowHide(this)">
@@ -359,7 +369,9 @@
         <button type="submit" class="btn btn-primary">Valider</button>
       </fieldset>
     </form>
-
+      
+    </c:if>
+    
   </div>
 
   <%-- Inclusion du bas de page --%>
