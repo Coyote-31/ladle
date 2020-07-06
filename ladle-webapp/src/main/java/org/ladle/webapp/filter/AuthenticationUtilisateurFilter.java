@@ -53,7 +53,7 @@ public class AuthenticationUtilisateurFilter implements Filter {
       return;
     }
 
-    HttpSession session = httpRequest.getSession(false);
+    HttpSession session = httpRequest.getSession(true);
 
     boolean isLoggedIn = false;
 
@@ -82,6 +82,7 @@ public class AuthenticationUtilisateurFilter implements Filter {
     boolean isInscriptionPage = httpRequest.getRequestURI().endsWith("inscription.jsp");
 
     boolean isInscriptionPath;
+
     if (isInscriptionRequest || isInscriptionPage) {
       isInscriptionPath = true;
     } else {
@@ -91,18 +92,22 @@ public class AuthenticationUtilisateurFilter implements Filter {
     if (isLoggedIn && (isLoginPath || isInscriptionPath)) {
       // the user is already logged in and he's trying to login again
       // or go on 'inscription' then forward to the mon-compte page
+      LOG.debug("Inside : close 1");
       httpRequest.getRequestDispatcher("/mon-compte").forward(request, response);
 
     } else if (!isLoggedIn && isLoginRequired()) {
       // User is not logged in and the requested page requires authentication,
 
+      LOG.debug("Inside : close 2");
       String[] loginArray = CookieHandler.getLogin(httpRequest);
 
       if (userHandler.isValidTokenLogin(loginArray[0], loginArray[1])) {
 
-        // met à jours la variable isLoginValid
+        // met à jours les variables de connexion
         if (session != null) {
           session.setAttribute("isLoginValid", true);
+          session.setAttribute("utilisateur", userHandler.getUtilisateurOnLogin(loginArray[0]));
+          LOG.debug("{} is now connected", loginArray[0]);
         }
 
         // continue la requete
@@ -116,7 +121,29 @@ public class AuthenticationUtilisateurFilter implements Filter {
         dispatcher.forward(request, response);
       }
 
+    } else if (!isLoggedIn) {
+      // other request page where the user is not logged
+      // try to loggin him from cookies
+      if (session == null) {
+        LOG.debug("session = null");
+      } else {
+        LOG.debug("session = !null");
+      }
+      LOG.debug("Inside : close 3");
+      String[] loginArray = CookieHandler.getLogin(httpRequest);
+
+      // met à jours les variables de connexion
+      if (userHandler.isValidTokenLogin(loginArray[0], loginArray[1]) && (session != null)) {
+
+        session.setAttribute("isLoginValid", true);
+        session.setAttribute("utilisateur", userHandler.getUtilisateurOnLogin(loginArray[0]));
+        LOG.debug("{} is now connected", loginArray[0]);
+      }
+      // continue la requete
+      chain.doFilter(request, response);
+
     } else {
+      LOG.debug("Inside : close 4");
       // for other requested pages that do not require authentication
       // or the user is already logged in, continue to the destination
       chain.doFilter(request, response);

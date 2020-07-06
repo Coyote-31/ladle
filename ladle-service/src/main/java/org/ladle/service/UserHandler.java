@@ -638,7 +638,11 @@ public class UserHandler {
 
   public boolean isValidTokenLogin(String login, String tokenLogin) {
 
+    if ((login == null) || (tokenLogin == null)) {
+      return false;
+    }
     return userDao.isValidTokenLogin(login, tokenLogin);
+
   }
 
 }
