@@ -1,6 +1,5 @@
 package org.ladle.beans.jpa;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -15,10 +14,9 @@ import javax.persistence.Table;
  *
  * @author Coyote
  */
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "[utilisateur]", schema = "[ladle_db]")
-public class Utilisateur implements Serializable {
+public class Utilisateur {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -82,8 +80,8 @@ public class Utilisateur implements Serializable {
     this.salt = salt.clone();
     this.role = role;
     this.emailSHA = emailSHA;
-    this.dateEmail = dateEmail;
-    this.dateCompte = dateCompte;
+    this.dateEmail = (Timestamp) dateEmail.clone();
+    this.dateCompte = (Timestamp) dateCompte.clone();
   }
 
   /**
