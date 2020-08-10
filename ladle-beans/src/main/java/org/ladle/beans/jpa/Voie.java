@@ -20,13 +20,13 @@ public class Voie {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "voie_id")
   private Integer voieID;
-  @Column(name = "secteur_id")
+  @Column(name = "secteur_id", nullable = false)
   private Integer secteurID;
-  @Column(name = "numero")
+  @Column(name = "numero", length = 8, nullable = false)
   private String numero;
-  @Column(name = "cotation")
+  @Column(name = "cotation", length = 8)
   private String cotation;
-  @Column(name = "nom")
+  @Column(name = "nom", length = 45)
   private String nom;
   @Column(name = "hauteur")
   private Integer hauteur;

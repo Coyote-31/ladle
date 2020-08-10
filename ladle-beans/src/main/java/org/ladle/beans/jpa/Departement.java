@@ -20,13 +20,13 @@ public class Departement {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "departement_id")
   private Integer departementID;
-  @Column(name = "region_code")
+  @Column(name = "region_code", length = 3, nullable = false)
   private String regionCode;
-  @Column(name = "departement_code")
+  @Column(name = "departement_code", length = 3, nullable = false)
   private String departementCode;
-  @Column(name = "nom")
+  @Column(name = "nom", nullable = false)
   private String nom;
-  @Column(name = "soundex")
+  @Column(name = "soundex", nullable = false)
   private String soundex;
 
   /**

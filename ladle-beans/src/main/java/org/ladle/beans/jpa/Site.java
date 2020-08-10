@@ -23,13 +23,13 @@ public class Site {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "site_id")
   private Integer siteID;
-  @Column(name = "ville_id")
+  @Column(name = "ville_id", nullable = false)
   private Integer villeID;
-  @Column(name = "nom")
+  @Column(name = "nom", length = 45, nullable = false)
   private String nom;
-  @Column(name = "officiel")
+  @Column(name = "officiel", nullable = false)
   private boolean officiel;
-  @Column(name = "date_last_maj")
+  @Column(name = "date_last_maj", nullable = false)
   private Date dateLastMaj;
   @Column(name = "descriptif")
   private String descriptif;

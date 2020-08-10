@@ -22,15 +22,17 @@ public class Ville {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ville_id")
   private Integer villeID;
-  @Column(name = "departement_code")
+  @Column(name = "departement_code", length = 3, nullable = false)
   private String departementCode;
-  @Column(name = "nom")
+  @Column(name = "cp", length = 5, nullable = false)
+  private String cp;
+  @Column(name = "nom", nullable = false)
   private String nom;
-  @Column(name = "soundex")
+  @Column(name = "soundex", nullable = false)
   private String soundex;
-  @Column(name = "latitude")
+  @Column(name = "latitude", nullable = false)
   private BigDecimal latitude;
-  @Column(name = "longitude")
+  @Column(name = "longitude", nullable = false)
   private BigDecimal longitude;
 
   /**
@@ -72,6 +74,14 @@ public class Ville {
 
   public void setDepartementCode(String departementCode) {
     this.departementCode = departementCode;
+  }
+
+  public String getCp() {
+    return cp;
+  }
+
+  public void setCp(String cp) {
+    this.cp = cp;
   }
 
   public String getNom() {

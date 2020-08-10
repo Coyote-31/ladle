@@ -22,11 +22,11 @@ public class Secteur {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "secteur_id")
   private Integer secteurID;
-  @Column(name = "site_id")
+  @Column(name = "site_id", nullable = false)
   private Integer siteID;
-  @Column(name = "nom")
+  @Column(name = "nom", length = 45, nullable = false)
   private String nom;
-  @Column(name = "date_last_maj")
+  @Column(name = "date_last_maj", nullable = false)
   private Date dateLastMaj;
   @Column(name = "descriptif")
   private String descriptif;
