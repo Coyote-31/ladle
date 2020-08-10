@@ -44,12 +44,14 @@ public class Ville {
 
   public Ville(
       String departementCode,
+      String cp,
       String nom,
       String soundex,
       BigDecimal latitude,
       BigDecimal longitude) {
     super();
     this.departementCode = departementCode;
+    this.cp = cp;
     this.nom = nom;
     this.soundex = soundex;
     this.latitude = latitude;
