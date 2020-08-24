@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -20,8 +22,9 @@ public class Departement {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "departement_id")
   private Integer departementID;
-  @Column(name = "region_code", length = 3, nullable = false)
-  private String regionCode;
+  @ManyToOne
+  @JoinColumn(name = "region_code", referencedColumnName = "region_code")
+  private Region region;
   @Column(name = "departement_code", length = 3, nullable = false)
   private String departementCode;
   @Column(name = "nom", nullable = false)
@@ -37,12 +40,12 @@ public class Departement {
   }
 
   public Departement(
-      String regionCode,
+      Region region,
       String departementCode,
       String nom,
       String soundex) {
     super();
-    this.regionCode = regionCode;
+    this.region = region;
     this.departementCode = departementCode;
     this.nom = nom;
     this.soundex = soundex;
@@ -60,12 +63,12 @@ public class Departement {
     this.departementID = departementID;
   }
 
-  public String getRegionCode() {
-    return regionCode;
+  public Region getRegion() {
+    return region;
   }
 
-  public void setRegionCode(String regionCode) {
-    this.regionCode = regionCode;
+  public void setRegion(Region region) {
+    this.region = region;
   }
 
   public String getDepartementCode() {

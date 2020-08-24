@@ -50,10 +50,4 @@ public class RegionDaoImpl implements RegionDao {
 
   }
 
-  @Override
-  public void find(Region region) {
-    // TODO Auto-generated method stub
-
-  }
-
 }

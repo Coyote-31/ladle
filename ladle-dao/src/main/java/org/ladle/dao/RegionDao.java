@@ -11,6 +11,4 @@ public interface RegionDao {
 
   List<Region> getAllRegions();
 
-  void find(Region region);
-
 }
