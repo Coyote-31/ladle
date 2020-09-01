@@ -16,6 +16,7 @@
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav mr-auto pt-2 pt-lg-0">
       <li class="nav-item active"><a class="nav-link" href="./">Accueil</a></li>
+      <li class="nav-item"><a class="nav-link" href="./recherche-site-secteur">Recherche</a></li>
       <li class="nav-item"><a class="nav-link" href="#">À propos</a></li>
     </ul>
 
