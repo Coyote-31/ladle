@@ -1,10 +1,14 @@
 package org.ladle.beans.jpa;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -12,16 +16,18 @@ import javax.persistence.Table;
  *
  * @author Coyote
  */
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "[voie]", schema = "[ladle_db]")
-public class Voie {
+public class Voie implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "voie_id")
   private Integer voieID;
-  @Column(name = "secteur_id", nullable = false)
-  private Integer secteurID;
+  @ManyToOne
+  @JoinColumn(name = "secteur_id", nullable = false)
+  private Secteur secteur;
   @Column(name = "numero", length = 8, nullable = false)
   private String numero;
   @Column(name = "cotation", length = 8)
@@ -43,7 +49,7 @@ public class Voie {
   }
 
   public Voie(
-      Integer secteurID,
+      Secteur secteur,
       String numero,
       String cotation,
       String nom,
@@ -51,7 +57,7 @@ public class Voie {
       Integer degaine,
       String remarque) {
     super();
-    this.secteurID = secteurID;
+    this.secteur = secteur;
     this.numero = numero;
     this.cotation = cotation;
     this.nom = nom;
@@ -72,12 +78,12 @@ public class Voie {
     this.voieID = voieID;
   }
 
-  public Integer getSecteurID() {
-    return secteurID;
+  public Secteur getSecteur() {
+    return secteur;
   }
 
-  public void setSecteurID(Integer secteurID) {
-    this.secteurID = secteurID;
+  public void setSecteur(Secteur secteur) {
+    this.secteur = secteur;
   }
 
   public String getNumero() {

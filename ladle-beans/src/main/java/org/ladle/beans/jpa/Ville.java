@@ -1,12 +1,18 @@
 package org.ladle.beans.jpa;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -14,16 +20,18 @@ import javax.persistence.Table;
  *
  * @author Coyote
  */
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "[ville]", schema = "[ladle_db]")
-public class Ville {
+public class Ville implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ville_id")
   private Integer villeID;
-  @Column(name = "departement_code", length = 3, nullable = false)
-  private String departementCode;
+  @ManyToOne
+  @JoinColumn(name = "departement_code", referencedColumnName = "departement_code", nullable = false)
+  private Departement departement;
   @Column(name = "cp", length = 5, nullable = false)
   private String cp;
   @Column(name = "nom", nullable = false)
@@ -34,6 +42,8 @@ public class Ville {
   private BigDecimal latitude;
   @Column(name = "longitude", nullable = false)
   private BigDecimal longitude;
+  @OneToMany(mappedBy = "ville")
+  private List<Site> sites;
 
   /**
    * Constructeurs
@@ -43,14 +53,14 @@ public class Ville {
   }
 
   public Ville(
-      String departementCode,
+      Departement departement,
       String cp,
       String nom,
       String soundex,
       BigDecimal latitude,
       BigDecimal longitude) {
     super();
-    this.departementCode = departementCode;
+    this.departement = departement;
     this.cp = cp;
     this.nom = nom;
     this.soundex = soundex;
@@ -70,12 +80,12 @@ public class Ville {
     this.villeID = villeID;
   }
 
-  public String getDepartementCode() {
-    return departementCode;
+  public Departement getDepartement() {
+    return departement;
   }
 
-  public void setDepartementCode(String departementCode) {
-    this.departementCode = departementCode;
+  public void setDepartement(Departement departement) {
+    this.departement = departement;
   }
 
   public String getCp() {
@@ -116,6 +126,25 @@ public class Ville {
 
   public void setLongitude(BigDecimal longitude) {
     this.longitude = longitude;
+  }
+
+  public List<Site> getSites() {
+    List<Site> sitesCPY = new ArrayList<>();
+
+    for (Site site : sites) {
+      sitesCPY.add(site);
+    }
+    return sitesCPY;
+  }
+
+  public void addSite(Site site) {
+    sites.add(site);
+    site.setVille(this);
+  }
+
+  public void removeSite(Site site) {
+    sites.remove(site);
+    site.setVille(null);
   }
 
 }

@@ -19,11 +19,10 @@ import org.hibernate.annotations.NaturalId;
  *
  * @author Coyote
  */
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "[region]", schema = "[ladle_db]")
 public class Region implements Serializable {
-
-  private static final long serialVersionUID = 1L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,8 +45,9 @@ public class Region implements Serializable {
   public Region() {
   }
 
-  public Region(String nom, String soundex) {
+  public Region(String regionCode, String nom, String soundex) {
     super();
+    this.regionCode = regionCode;
     this.nom = nom;
     this.soundex = soundex;
   }

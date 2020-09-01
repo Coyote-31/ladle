@@ -1,13 +1,19 @@
 package org.ladle.beans.jpa;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -15,16 +21,18 @@ import javax.persistence.Table;
  *
  * @author Coyote
  */
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "[site]", schema = "[ladle_db]")
-public class Site {
+public class Site implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "site_id")
   private Integer siteID;
-  @Column(name = "ville_id", nullable = false)
-  private Integer villeID;
+  @ManyToOne
+  @JoinColumn(name = "ville_id", nullable = false)
+  private Ville ville;
   @Column(name = "nom", length = 45, nullable = false)
   private String nom;
   @Column(name = "officiel", nullable = false)
@@ -39,6 +47,8 @@ public class Site {
   private BigDecimal latitude;
   @Column(name = "longitude")
   private BigDecimal longitude;
+  @OneToMany(mappedBy = "site")
+  private List<Secteur> secteurs;
 
   /**
    * Constructeurs
@@ -48,7 +58,7 @@ public class Site {
   }
 
   public Site(
-      Integer villeID,
+      Ville ville,
       String nom,
       boolean officiel,
       Date dateLastMaj,
@@ -57,7 +67,7 @@ public class Site {
       BigDecimal latitude,
       BigDecimal longitude) {
     super();
-    this.villeID = villeID;
+    this.ville = ville;
     this.nom = nom;
     this.officiel = officiel;
     this.dateLastMaj = (Date) dateLastMaj.clone();
@@ -79,12 +89,12 @@ public class Site {
     this.siteID = siteID;
   }
 
-  public Integer getVilleID() {
-    return villeID;
+  public Ville getVille() {
+    return ville;
   }
 
-  public void setVilleID(Integer villeID) {
-    this.villeID = villeID;
+  public void setVille(Ville ville) {
+    this.ville = ville;
   }
 
   public String getNom() {
@@ -141,6 +151,25 @@ public class Site {
 
   public void setLongitude(BigDecimal longitude) {
     this.longitude = longitude;
+  }
+
+  public List<Secteur> getSecteurs() {
+    List<Secteur> secteursCPY = new ArrayList<>();
+
+    for (Secteur secteur : secteurs) {
+      secteursCPY.add(secteur);
+    }
+    return secteursCPY;
+  }
+
+  public void addSecteur(Secteur secteur) {
+    secteurs.add(secteur);
+    secteur.setSite(this);
+  }
+
+  public void removeSecteur(Secteur secteur) {
+    secteurs.remove(secteur);
+    secteur.setSite(null);
   }
 
 }

@@ -1,12 +1,18 @@
 package org.ladle.beans.jpa;
 
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -14,16 +20,18 @@ import javax.persistence.Table;
  *
  * @author Coyote
  */
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "[secteur]", schema = "[ladle_db]")
-public class Secteur {
+public class Secteur implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "secteur_id")
   private Integer secteurID;
-  @Column(name = "site_id", nullable = false)
-  private Integer siteID;
+  @ManyToOne
+  @JoinColumn(name = "site_id", nullable = false)
+  private Site site;
   @Column(name = "nom", length = 45, nullable = false)
   private String nom;
   @Column(name = "date_last_maj", nullable = false)
@@ -34,6 +42,8 @@ public class Secteur {
   private String acces;
   @Column(name = "plan")
   private byte[] plan;
+  @OneToMany(mappedBy = "secteur")
+  private List<Voie> voies;
 
   /**
    * Constructeurs
@@ -43,14 +53,14 @@ public class Secteur {
   }
 
   public Secteur(
-      Integer siteID,
+      Site site,
       String nom,
       Date dateLastMaj,
       String descriptif,
       String acces,
       byte[] plan) {
     super();
-    this.siteID = siteID;
+    this.site = site;
     this.nom = nom;
     this.dateLastMaj = (Date) dateLastMaj.clone();
     this.descriptif = descriptif;
@@ -70,12 +80,12 @@ public class Secteur {
     this.secteurID = secteurID;
   }
 
-  public Integer getSiteID() {
-    return siteID;
+  public Site getSite() {
+    return site;
   }
 
-  public void setSiteID(Integer siteID) {
-    this.siteID = siteID;
+  public void setSite(Site site) {
+    this.site = site;
   }
 
   public String getNom() {
@@ -116,6 +126,25 @@ public class Secteur {
 
   public void setPlan(byte[] plan) {
     this.plan = plan.clone();
+  }
+
+  public List<Voie> getVoies() {
+    List<Voie> voiesCPY = new ArrayList<>();
+
+    for (Voie voie : voies) {
+      voiesCPY.add(voie);
+    }
+    return voiesCPY;
+  }
+
+  public void addVoie(Voie voie) {
+    voies.add(voie);
+    voie.setSecteur(this);
+  }
+
+  public void removeVoie(Voie voie) {
+    voies.remove(voie);
+    voie.setSecteur(null);
   }
 
 }
