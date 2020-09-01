@@ -15,6 +15,10 @@
     <class>org.ladle.beans.jpa.Utilisateur</class>
     <class>org.ladle.beans.jpa.Region</class>
     <class>org.ladle.beans.jpa.Departement</class>
+    <class>org.ladle.beans.jpa.Ville</class>
+    <class>org.ladle.beans.jpa.Site</class>
+    <class>org.ladle.beans.jpa.Secteur</class>
+    <class>org.ladle.beans.jpa.Voie</class>
 
 		<!-- Persistence Unit configuration -->
     <properties>
