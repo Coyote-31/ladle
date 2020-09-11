@@ -3,7 +3,7 @@ package org.ladle.dao.hibernate.impl;
 import java.util.Collections;
 import java.util.List;
 
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
@@ -21,7 +21,7 @@ import org.ladle.dao.UserDao;
 /**
  * @author Coyote
  */
-@Stateful
+@Stateless
 public class UserDaoImpl implements UserDao {
 
   private static final Logger LOG = LogManager.getLogger(UserDaoImpl.class);

@@ -3,7 +3,7 @@ package org.ladle.dao.hibernate.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Region;
 import org.ladle.dao.RechercheSiteSecteurDao;
 
-@Stateful
+@Stateless
 public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
 
   private static final Logger LOG = LogManager.getLogger(RechercheSiteSecteurDaoImpl.class);

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -27,7 +27,7 @@ import org.ladle.dao.UserDao;
  * @see org.ladle.beans.User
  * @see org.ladle.dao.hibernate.impl.UserDaoImpl
  */
-@Stateful
+@Stateless
 public class UserHandler {
 
   private static final Logger LOG = LogManager.getLogger(UserHandler.class);

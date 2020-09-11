@@ -3,7 +3,7 @@ package org.ladle.service;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +15,7 @@ import org.ladle.dao.RechercheSiteSecteurDao;
  *
  * @author Coyote
  */
-@Stateful
+@Stateless
 public class RechercheSiteSecteurHandler {
 
   private static final Logger LOG = LogManager.getLogger(RechercheSiteSecteurHandler.class);
