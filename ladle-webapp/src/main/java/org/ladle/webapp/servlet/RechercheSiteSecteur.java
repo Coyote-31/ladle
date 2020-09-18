@@ -1,6 +1,7 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ladle.beans.jpa.Departement;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
 /**
@@ -49,6 +51,11 @@ public class RechercheSiteSecteur extends HttpServlet {
 
     LOG.debug("Servlet [RechercheSiteSecteur] -> doPost()");
 
+    // Création des constantes
+    final String SELECTED_REGION = "selectedRegion";
+    final String SELECTED_DEPT = "selectedDepartement";
+    final String INPUTED_CP = "inputedCodePostal";
+
     // Récupération des données du post
     String selectedRegion = request.getParameter("inputGroupSelectRegion");
     String selectedDepartement = request.getParameter("inputGroupSelectDepartement");
@@ -62,16 +69,27 @@ public class RechercheSiteSecteur extends HttpServlet {
     if ("region".equals(formChangeOn)) {
 
       // Renvoit des données à la jsp
-      request.setAttribute("selectedRegion", selectedRegion);
-      request.setAttribute("inputedCodePostal", inputedCodePostal);
+      request.setAttribute(SELECTED_REGION, selectedRegion);
 
       // Génération des listes de sélection
       request.setAttribute("regions", rechercheSiteSecteurHandler.getAllRegions());
       // Gestion du cas de sélection : toutes les regions
       if ("all".equals(selectedRegion)) {
         request.setAttribute("departements", rechercheSiteSecteurHandler.getAllDepartements());
+        request.setAttribute(SELECTED_DEPT, selectedDepartement);
+
+        // Gestion du cas de sélection : une seule région
       } else {
+        List<Departement> departements = rechercheSiteSecteurHandler.getDepartementsByRegionCode(selectedRegion);
         request.setAttribute("departements", rechercheSiteSecteurHandler.getDepartementsByRegionCode(selectedRegion));
+
+        // Si le Dept sélectionné est "tous" ou est contenu dans la liste de résultats
+        if ("all".equals(selectedDepartement)
+            || departements.stream().anyMatch(d -> d.getDepartementCode().equals(selectedDepartement))) {
+          request.setAttribute(SELECTED_DEPT, selectedDepartement);
+        } else {
+          request.setAttribute(SELECTED_DEPT, "all");
+        }
       }
 
       getServletContext().getRequestDispatcher("/WEB-INF/recherche-site-secteur.jsp").forward(request, response);
