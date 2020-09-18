@@ -44,8 +44,8 @@ public class AuthenticationUtilisateurFilter implements Filter {
     // Récupere la request
     String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
 
-    LOG.debug("getRequestURI = {}", httpRequest.getRequestURI());
-    LOG.debug("getContextPath = {}", httpRequest.getContextPath());
+    LOG.trace("getRequestURI = {}", httpRequest.getRequestURI());
+    LOG.trace("getContextPath = {}", httpRequest.getContextPath());
 
     // Exclude admin security level pages
     if (path.startsWith("/admin/")) {
@@ -92,13 +92,13 @@ public class AuthenticationUtilisateurFilter implements Filter {
     if (isLoggedIn && (isLoginPath || isInscriptionPath)) {
       // the user is already logged in and he's trying to login again
       // or go on 'inscription' then forward to the mon-compte page
-      LOG.debug("Inside : close 1");
+      LOG.trace("Inside : close 1");
       httpRequest.getRequestDispatcher("/mon-compte").forward(request, response);
 
     } else if (!isLoggedIn && isLoginRequired()) {
       // User is not logged in and the requested page requires authentication,
 
-      LOG.debug("Inside : close 2");
+      LOG.trace("Inside : close 2");
       String[] loginArray = CookieHandler.getLogin(httpRequest);
 
       if (userHandler.isValidTokenLogin(loginArray[0], loginArray[1])) {
@@ -125,11 +125,11 @@ public class AuthenticationUtilisateurFilter implements Filter {
       // other request page where the user is not logged
       // try to loggin him from cookies
       if (session == null) {
-        LOG.debug("session = null");
+        LOG.trace("session = null");
       } else {
-        LOG.debug("session = !null");
+        LOG.trace("session = !null");
       }
-      LOG.debug("Inside : close 3");
+      LOG.trace("Inside : close 3");
       String[] loginArray = CookieHandler.getLogin(httpRequest);
 
       // met à jours les variables de connexion
@@ -143,7 +143,7 @@ public class AuthenticationUtilisateurFilter implements Filter {
       chain.doFilter(request, response);
 
     } else {
-      LOG.debug("Inside : close 4");
+      LOG.trace("Inside : close 4");
       // for other requested pages that do not require authentication
       // or the user is already logged in, continue to the destination
       chain.doFilter(request, response);
