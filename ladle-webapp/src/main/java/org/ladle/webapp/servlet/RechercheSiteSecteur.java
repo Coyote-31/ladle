@@ -35,6 +35,7 @@ public class RechercheSiteSecteur extends HttpServlet {
     LOG.debug("Servlet [RechercheSiteSecteur] -> doGet()");
 
     request.setAttribute("regions", rechercheSiteSecteurHandler.getAllRegions());
+    request.setAttribute("departements", rechercheSiteSecteurHandler.getAllDepartements());
 
     getServletContext().getRequestDispatcher("/WEB-INF/recherche-site-secteur.jsp").forward(request, response);
   }
@@ -47,6 +48,35 @@ public class RechercheSiteSecteur extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     LOG.debug("Servlet [RechercheSiteSecteur] -> doPost()");
+
+    // Récupération des données du post
+    String selectedRegion = request.getParameter("inputGroupSelectRegion");
+    String selectedDepartement = request.getParameter("inputGroupSelectDepartement");
+    String inputedCodePostal = request.getParameter("inputCodePostal");
+
+    // Variable de détection des changements sur le formulaire
+    String formChangeOn = request.getParameter("formChangeOn");
+    LOG.debug("getParam formChangeOn : {}", formChangeOn);
+
+    // Si changement de Région
+    if ("region".equals(formChangeOn)) {
+
+      // Renvoit des données à la jsp
+      request.setAttribute("selectedRegion", selectedRegion);
+      request.setAttribute("inputedCodePostal", inputedCodePostal);
+
+      // Génération des listes de sélection
+      request.setAttribute("regions", rechercheSiteSecteurHandler.getAllRegions());
+      // Gestion du cas de sélection : toutes les regions
+      if ("all".equals(selectedRegion)) {
+        request.setAttribute("departements", rechercheSiteSecteurHandler.getAllDepartements());
+      } else {
+        request.setAttribute("departements", rechercheSiteSecteurHandler.getDepartementsByRegionCode(selectedRegion));
+      }
+
+      getServletContext().getRequestDispatcher("/WEB-INF/recherche-site-secteur.jsp").forward(request, response);
+      return;
+    }
 
     doGet(request, response);
   }
