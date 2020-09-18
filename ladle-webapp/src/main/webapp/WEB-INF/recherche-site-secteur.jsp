@@ -24,7 +24,7 @@
           <select class="custom-select" id="inputGroupSelectRegion" name="inputGroupSelectRegion"
           onchange="this.form.formChangeOn.value = 'region'; this.form.submit();">
             <option <c:if test="${selectedRegion == 'all' || empty selectedRegion}">selected</c:if> 
-            value="all">Toutes...</option>
+            value="all">Toutes ...</option>
             <c:forEach items="${regions}" var="region">
               <option <c:if test="${selectedRegion == region.regionCode}">selected</c:if> 
               value="${region.regionCode}">
@@ -38,9 +38,10 @@
           <div class="input-group-prepend">
             <label class="input-group-text" for="inputGroupSelectDepartement">Département</label>
           </div>
-          <select class="custom-select" id="inputGroupSelectDepartement" name="inputGroupSelectDepartement">
+          <select class="custom-select" id="inputGroupSelectDepartement" name="inputGroupSelectDepartement" 
+          onchange="this.form.formChangeOn.value = 'departement'; this.form.submit();">
             <option <c:if test="${selectedDepartement == 'all' || empty selectedDepartement}">selected</c:if> 
-            value="all">Tous...</option>
+            value="all">Tous ...</option>
               <c:forEach items="${departements}" var="departement">
                 <option <c:if test="${selectedDepartement == departement.departementCode}">selected</c:if> 
                 value="${departement.departementCode}">

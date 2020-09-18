@@ -65,14 +65,15 @@ public class RechercheSiteSecteur extends HttpServlet {
     String formChangeOn = request.getParameter("formChangeOn");
     LOG.debug("getParam formChangeOn : {}", formChangeOn);
 
+    // Génération de la liste de sélection des Régions
+    request.setAttribute("regions", rechercheSiteSecteurHandler.getAllRegions());
+
     // Si changement de Région
     if ("region".equals(formChangeOn)) {
 
-      // Renvoit des données à la jsp
+      // Renvoit de la Région sélectionnée à la jsp
       request.setAttribute(SELECTED_REGION, selectedRegion);
 
-      // Génération des listes de sélection
-      request.setAttribute("regions", rechercheSiteSecteurHandler.getAllRegions());
       // Gestion du cas de sélection : toutes les regions
       if ("all".equals(selectedRegion)) {
         request.setAttribute("departements", rechercheSiteSecteurHandler.getAllDepartements());
@@ -81,7 +82,7 @@ public class RechercheSiteSecteur extends HttpServlet {
         // Gestion du cas de sélection : une seule région
       } else {
         List<Departement> departements = rechercheSiteSecteurHandler.getDepartementsByRegionCode(selectedRegion);
-        request.setAttribute("departements", rechercheSiteSecteurHandler.getDepartementsByRegionCode(selectedRegion));
+        request.setAttribute("departements", departements);
 
         // Si le Dept sélectionné est "tous" ou est contenu dans la liste de résultats
         if ("all".equals(selectedDepartement)
@@ -92,11 +93,25 @@ public class RechercheSiteSecteur extends HttpServlet {
         }
       }
 
-      getServletContext().getRequestDispatcher("/WEB-INF/recherche-site-secteur.jsp").forward(request, response);
-      return;
+      // Si changement de Département
+    } else if ("departement".equals(formChangeOn)) {
+      request.setAttribute(SELECTED_REGION, selectedRegion);
+      request.setAttribute(SELECTED_DEPT, selectedDepartement);
+
+      // Si la Région sélectionné est "tous" recharge la liste complète
+      if ("all".equals(selectedRegion)) {
+        request.setAttribute("departements", rechercheSiteSecteurHandler.getAllDepartements());
+        // Sinon récupère les departements de la region spécifique
+      } else {
+        request.setAttribute("departements", rechercheSiteSecteurHandler.getDepartementsByRegionCode(selectedRegion));
+      }
+
+      // Si pas de changement c'est un post du formulaire
+    } else {
+      // TODO
     }
 
-    doGet(request, response);
+    getServletContext().getRequestDispatcher("/WEB-INF/recherche-site-secteur.jsp").forward(request, response);
   }
 
 }
