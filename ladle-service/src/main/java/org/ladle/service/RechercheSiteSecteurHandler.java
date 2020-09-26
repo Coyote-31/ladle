@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Departement;
 import org.ladle.beans.jpa.Region;
+import org.ladle.beans.jpa.Ville;
 import org.ladle.dao.RechercheSiteSecteurDao;
 
 /**
@@ -34,6 +35,10 @@ public class RechercheSiteSecteurHandler {
 
   public List<Departement> getDepartementsByRegionCode(String regionCode) {
     return rechercheSiteSecteurDao.getDepartementsByRegionCode(regionCode);
+  }
+
+  public List<Ville> getVillesByCP(String codePostal) {
+    return rechercheSiteSecteurDao.getVillesByCP(codePostal);
   }
 
 }

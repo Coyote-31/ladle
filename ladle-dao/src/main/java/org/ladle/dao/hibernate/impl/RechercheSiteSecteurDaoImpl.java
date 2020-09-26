@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Departement;
 import org.ladle.beans.jpa.Region;
+import org.ladle.beans.jpa.Ville;
 import org.ladle.dao.RechercheSiteSecteurDao;
 
 @Stateless
@@ -33,7 +34,7 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
     List<Region> regions = new ArrayList<>();
 
     try {
-      regions = em.createQuery("from Region as r order by r.regionCode", Region.class).getResultList();
+      regions = em.createQuery("from Region as r order by r.nom", Region.class).getResultList();
 
     } catch (IllegalStateException | PersistenceException | ClassCastException e) {
       LOG.error("getResultList() : failed", e);
@@ -75,6 +76,24 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
     }
 
     return departements;
+  }
+
+  @Override
+  public List<Ville> getVillesByCP(String codePostal) {
+
+    List<Ville> villes = new ArrayList<>();
+
+    try {
+      villes = em
+          .createQuery("FROM Ville as V WHERE V.cp = :cp ORDER BY V.nom", Ville.class)
+          .setParameter("cp", codePostal)
+          .getResultList();
+
+    } catch (IllegalStateException | PersistenceException | ClassCastException e) {
+      LOG.error("getVillesByCP() : failed", e);
+    }
+
+    return villes;
   }
 
 }
