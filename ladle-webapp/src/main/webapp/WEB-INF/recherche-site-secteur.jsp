@@ -55,12 +55,17 @@
           <div class="input-group-prepend">
             <span class="input-group-text" id="code-postal">Code postal</span>
           </div>
-          <input type="text" class="form-control" id="inputCodePostal" name="inputCodePostal" 
+          <input type="text" 
+          class="form-control${
+          not empty villes ? ' is-valid' : ''
+          }${
+          (empty villes and not empty inputedCodePostal) ? ' is-invalid' : ''
+          }"
+          id="inputCodePostal" name="inputCodePostal" 
           placeholder="ex. 31000"
           <c:if test="${not empty inputedCodePostal}">value="${inputedCodePostal}"</c:if>
-          maxlength="5" pattern="[0-9][0-9][0-9][0-9][0-9]" 
-          oninvalid="setCustomValidity('Code postal invalide ! Il doit contenir exactement 5 chiffres (ex. 31000).')" 
-          oninput="setCustomValidity(''); codePostalSender(this.form);"
+          maxlength="5" pattern="[0-9][0-9][0-9][0-9][0-9]"
+          oninput="codePostalSender(this.form);"
           aria-label="Code Postal" aria-describedby="code-postal">
         </div>
 
@@ -98,17 +103,25 @@
   </div>
   
   <script type="text/javascript">
-    function codePostalSender(myForm) {
-      if(myForm.inputCodePostal.value.length == 5){
-          if(myForm.inputCodePostal.checkValidity()) {
-         myForm.formChangeOn.value = "code-postal"; 
-         myForm.submit();
-        } else {
-            myForm.inputCodePostal
-            .setCustomValidity('Code postal invalide ! Il doit contenir exactement 5 chiffres (ex. 31000).');
-        }
+
+  function codePostalSender(myForm) {
+    if (myForm.inputCodePostal.value.length == 5) {
+      if (myForm.inputCodePostal.checkValidity()) {
+          myForm.formChangeOn.value = "code-postal";
+          myForm.submit();
+      } else {
+        myForm.inputCodePostal.setCustomValidity(
+          'Code postal invalide ! Il doit contenir exactement 5 chiffres (ex. 31000).');
+        myForm.inputCodePostal.reportValidity();
+        myForm.inputCodePostal.classList.remove('is-valid');
+        myForm.inputCodePostal.classList.add('is-invalid');
       }
+    } else {
+        myForm.inputCodePostal.setCustomValidity('');
+        myForm.inputCodePostal.classList.remove('is-valid');
+        myForm.inputCodePostal.classList.remove('is-invalid');
     }
+  }
   </script>
 
   <%@ include file="/WEB-INF/parts/footer.jsp"%>
