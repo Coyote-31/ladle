@@ -76,7 +76,7 @@
           </div>
           <select class="custom-select" id="inputGroupSelectVille" name="inputGroupSelectVille"
           <c:if test="${empty villes}">disabled</c:if>>
-            <option <c:if test="${selectedVille == 'all' || empty selectedVille}">selected</c:if> 
+            <option <c:if test="${empty selectedVille}">selected</c:if> 
             value="all">Toutes ...</option>
               <c:forEach items="${villes}" var="ville">
                 <option <c:if test="${selectedVille == ville.villeID}">selected</c:if> 
@@ -101,7 +101,29 @@
       </fieldset>
     </form>
   </div>
-  
+ 
+  <%-- Affichage des résultats de la recherche --%>
+  <%-- 
+        Avec en index :
+          0 = Region
+          1 = Departement
+          2 = Ville
+          3 = Site
+          4 = Secteur
+  --%>
+  <c:if test="${not empty searchResults}">
+    <div class="container ladle-bg-main">
+      <table class="table">
+        <c:forEach items="${searchResults}" var="searchResult">
+          <tr>
+            <th scope="row">${searchResult[0].nom}</th>
+            <td>${searchResult[1].nom}</td>
+          </tr>
+        </c:forEach>
+      </table>
+    </div>
+  </c:if>
+
   <script type="text/javascript">
 
   function codePostalSender(myForm) {

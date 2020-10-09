@@ -96,4 +96,53 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
     return villes;
   }
 
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<Object[]> searchByForm(String selectedRegion, String selectedDepartement,
+      String inputedCodePostal,
+      String selectedVille) {
+
+    List<Object[]> searchResults = new ArrayList<>();
+
+    int nbrOfResults = 0;
+
+    // Conversion du all et du null de la variable ville
+    Integer selectedVilleInteger;
+    if ((selectedVille != null) && !"all".equals(selectedVille)) {
+      selectedVilleInteger = Integer.valueOf(selectedVille);
+    } else {
+      selectedVilleInteger = null;
+    }
+
+    String hqlQuery = "SELECT r, d, v, si, sec "
+                      + "FROM Region r "
+                      + "JOIN r.departements d "
+                      + "   WITH d.departementCode = :departementCode OR :departementCode is null "
+                      + "JOIN d.villes v "
+                      + "   WITH (v.cp = :cp OR :cp is null ) "
+                      + "   AND (v.id = :ville OR :ville is null) "
+                      + "JOIN v.sites si "
+                      + "JOIN si.secteurs sec "
+                      + "WHERE r.regionCode = :regionCode OR :regionCode is null ";
+
+    try {
+      searchResults = em.createQuery(hqlQuery)
+          .setParameter("regionCode", selectedRegion)
+          .setParameter("departementCode", selectedDepartement)
+          .setParameter("cp", inputedCodePostal)
+          .setParameter("ville", selectedVilleInteger)
+          .getResultList();
+
+      nbrOfResults = searchResults.size();
+
+    } catch (IllegalArgumentException | IllegalStateException | PersistenceException | ClassCastException e) {
+      LOG.error("searchByForm() : failed", e);
+    }
+
+    LOG.debug("searchByForm() {} results. With region:{}, dept:{}, cp:{}, ville:{}",
+        nbrOfResults, selectedRegion, selectedDepartement, inputedCodePostal, selectedVille);
+
+    return searchResults;
+  }
+
 }

@@ -20,6 +20,7 @@ import org.ladle.dao.RechercheSiteSecteurDao;
 @Stateless
 public class RechercheSiteSecteurHandler {
 
+  @SuppressWarnings("unused")
   private static final Logger LOG = LogManager.getLogger(RechercheSiteSecteurHandler.class);
 
   @EJB(name = "RechercheSiteSecteurDaoImpl")
@@ -39,6 +40,47 @@ public class RechercheSiteSecteurHandler {
 
   public List<Ville> getVillesByCP(String codePostal) {
     return rechercheSiteSecteurDao.getVillesByCP(codePostal);
+  }
+
+  /**
+   * Renvoit une liste d'objet[]<br>
+   * Avec en index :<br>
+   * <code>
+   * 0 = Region<br>
+   * 1 = Departement<br>
+   * 2 = Ville<br>
+   * 3 = Site<br>
+   * 4 = Secteur<br>
+   * </code>
+   *
+   * @param selectedRegion
+   * @param selectedDepartement
+   * @param inputedCodePostal
+   * @param selectedVille
+   * @return
+   */
+  public List<Object[]> searchByForm(String selectedRegion, String selectedDepartement, String inputedCodePostal,
+      String selectedVille) {
+
+    // Gestion des paramètres null et 'all'
+    if ("all".equals(selectedRegion)) {
+      selectedRegion = null;
+    }
+    if ("all".equals(selectedDepartement)) {
+      selectedDepartement = null;
+    }
+    if ("all".equals(selectedVille)) {
+      selectedVille = null;
+    }
+    if ("".equals(inputedCodePostal)) {
+      inputedCodePostal = null;
+    }
+
+    return rechercheSiteSecteurDao.searchByForm(
+        selectedRegion,
+        selectedDepartement,
+        inputedCodePostal,
+        selectedVille);
   }
 
 }

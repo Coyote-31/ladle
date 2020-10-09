@@ -19,4 +19,24 @@ public interface RechercheSiteSecteurDao {
 
   List<Ville> getVillesByCP(String codePostal);
 
+  /**
+   * Renvoit une liste d'objet[]<br>
+   * Avec en index :<br>
+   * <code>
+   * 0 = Region<br>
+   * 1 = Departement<br>
+   * 2 = Ville<br>
+   * 3 = Site<br>
+   * 4 = Secteur<br>
+   * </code>
+   *
+   * @param selectedRegion
+   * @param selectedDepartement
+   * @param inputedCodePostal
+   * @param selectedVille
+   * @return
+   */
+  List<Object[]> searchByForm(String selectedRegion, String selectedDepartement, String inputedCodePostal,
+      String selectedVille);
+
 }

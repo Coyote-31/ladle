@@ -1,6 +1,7 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -71,6 +72,8 @@ public class RechercheSiteSecteur extends HttpServlet {
 
     // Génération de la liste de sélection des Régions
     request.setAttribute("regions", rechercheSiteSecteurHandler.getAllRegions());
+    // Génération d'une liste de ville vide
+    List<Ville> villes = new ArrayList<>();
 
     // Si changement de Région
     switch (formChangeOn) {
@@ -118,7 +121,7 @@ public class RechercheSiteSecteur extends HttpServlet {
       case "code-postal":
 
         // Récupère la liste des villes avec ce CP
-        List<Ville> villes = rechercheSiteSecteurHandler.getVillesByCP(inputedCodePostal);
+        villes = rechercheSiteSecteurHandler.getVillesByCP(inputedCodePostal);
 
         // Si le CP est valide et contient des villes
         if (!villes.isEmpty()) {
@@ -151,6 +154,9 @@ public class RechercheSiteSecteur extends HttpServlet {
           // Si le CP est invalide
         } else {
 
+          // Ajoute l'erreur
+          request.setAttribute(INPUTED_CP, inputedCodePostal);
+
           // Resélectionne la région et le département précédent
           request.setAttribute(SELECTED_REGION, selectedRegion);
           request.setAttribute(SELECTED_DEPT, selectedDepartement);
@@ -174,7 +180,41 @@ public class RechercheSiteSecteur extends HttpServlet {
 
       // Si pas de changement c'est un post du formulaire complet
       default:
-        // TODO
+
+        // Recharge les listes de critères :
+
+        // Si la région sélectionné est "all"
+        // recharge la liste complète des départements
+        if ("all".equals(selectedRegion)) {
+          request.setAttribute("departements", rechercheSiteSecteurHandler.getAllDepartements());
+
+          // Sinon récupère les departements de la region spécifique
+        } else {
+          request.setAttribute("departements",
+              rechercheSiteSecteurHandler.getDepartementsByRegionCode(selectedRegion));
+        }
+        // Si le CP est valide récupère la liste des villes avec le CP
+        // et renvoit à la jsp la liste des villes
+        if (inputedCodePostal != null) {
+          villes = rechercheSiteSecteurHandler.getVillesByCP(inputedCodePostal);
+          request.setAttribute("villes", villes);
+        }
+
+        // recharge les critères de recherches
+        request.setAttribute(SELECTED_REGION, selectedRegion);
+        request.setAttribute(SELECTED_DEPT, selectedDepartement);
+        request.setAttribute(INPUTED_CP, inputedCodePostal);
+        if ("all".equals(selectedVille)) {
+          selectedVille = null;
+        }
+        request.setAttribute(SELECTED_VILLE, selectedVille);
+
+        // retourne la liste des secteurs trouvés (row sql)
+        request.setAttribute("searchResults", rechercheSiteSecteurHandler.searchByForm(
+            selectedRegion,
+            selectedDepartement,
+            inputedCodePostal,
+            selectedVille));
     }
 
     getServletContext().getRequestDispatcher("/WEB-INF/recherche-site-secteur.jsp").forward(request, response);
