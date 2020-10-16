@@ -43,7 +43,7 @@ public class RechercheSiteSecteurHandler {
   }
 
   /**
-   * Renvoit une liste d'objet[]<br>
+   * Retourne une liste d'objet[]<br>
    * Avec en index :<br>
    * <code>
    * 0 = Region<br>

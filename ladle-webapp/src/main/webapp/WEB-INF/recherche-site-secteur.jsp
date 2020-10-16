@@ -105,23 +105,58 @@
  
   <%-- Affichage des résultats de la recherche --%>
   <%-- 
-        Avec en index :
-          0 = Region
-          1 = Departement
-          2 = Ville
-          3 = Site
-          4 = Secteur
+        Avec en index : 0 = Region
+                        1 = Departement
+                        2 = Ville
+                        3 = Site
+                        4 = Secteur
   --%>
   <c:if test="${not empty searchResults}">
     <div class="container ladle-bg-main">
-      <table class="table">
-        <c:forEach items="${searchResults}" var="searchResult">
-          <tr>
-            <th scope="row">${searchResult[0].nom}</th>
-            <td>${searchResult[1].nom}</td>
-          </tr>
+    
+      <h1>Résultat de la recherche :</h1>
+      
+      <%-- Boucle des Régions --%>
+      <c:forEach items="${searchResultRegions}" var="searchResultRegion">
+      <h2>${searchResultRegion.nom} (${searchResultRegion.regionCode})</h2>
+      
+        <%-- Boucle des Départements --%>
+        <c:forEach items="${searchResultDepartements}" var="searchResultDepartement">
+          <c:if test="${searchResultRegion.regionCode == searchResultDepartement.region.regionCode}">
+            <h3>${searchResultDepartement.nom} (${searchResultDepartement.departementCode})</h3>
+          </c:if>
+          
+          <%-- Boucle des Villes --%>
+          <c:forEach items="${searchResultVilles}" var="searchResultVille">
+            <c:if test="${searchResultDepartement.departementCode == searchResultVille.departement.departementCode}">
+              <h4>${searchResultVille.nom} (${searchResultVille.cp})</h4>
+            </c:if>
+            
+            <%-- Boucle des Sites --%>
+            <c:forEach items="${searchResultSites}" var="searchResultSite">
+              <c:if test="${searchResultVille.villeID == searchResultSite.ville.villeID}">
+                <h5>${searchResultSite.nom} (${searchResultSite.officiel})</h5>
+              </c:if>
+      
+              <%-- Boucle des Secteurs --%>
+              <c:forEach items="${searchResults}" var="searchResult">
+                <c:if test="${searchResultSite.siteID == searchResult[4].site.siteID}">
+                  <tr>
+                    <th scope="row">${searchResult[4].nom}</th>
+                    <td>${searchResult[4].descriptif}</td>
+                    <td>ID = ${searchResult[4].secteurID}</td>
+                  </tr>
+                </c:if>
+              </c:forEach>
+              
+            </c:forEach>
+            
+          </c:forEach>
+          
         </c:forEach>
-      </table>
+        
+      </c:forEach>
+      
     </div>
   </c:if>
 

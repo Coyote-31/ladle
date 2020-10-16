@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Departement;
+import org.ladle.beans.jpa.Region;
+import org.ladle.beans.jpa.Site;
 import org.ladle.beans.jpa.Ville;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
@@ -59,6 +61,13 @@ public class RechercheSiteSecteur extends HttpServlet {
     final String SELECTED_DEPT = "selectedDepartement";
     final String INPUTED_CP = "inputedCodePostal";
     final String SELECTED_VILLE = "selectedVille";
+
+    // Création des constantes l'index de l'Objet de la liste de résultat
+    final int INDEX_REGION = 0;
+    final int INDEX_DEPARTEMENT = 1;
+    final int INDEX_VILLE = 2;
+    final int INDEX_SITE = 3;
+    final int INDEX_SECTEUR = 4;
 
     // Récupération des données du post
     String selectedRegion = request.getParameter("inputGroupSelectRegion");
@@ -209,12 +218,65 @@ public class RechercheSiteSecteur extends HttpServlet {
         }
         request.setAttribute(SELECTED_VILLE, selectedVille);
 
-        // retourne la liste des secteurs trouvés (row sql)
-        request.setAttribute("searchResults", rechercheSiteSecteurHandler.searchByForm(
+        //// Récupération et mise en forme du résultat pour l'envoit à la JSP
+
+        // Récupère la liste des secteurs trouvés (row sql)
+        List<Object[]> searchResults = rechercheSiteSecteurHandler.searchByForm(
             selectedRegion,
             selectedDepartement,
             inputedCodePostal,
-            selectedVille));
+            selectedVille);
+
+        // Création et envoit de la liste des différentes régions
+        List<Region> searchResultRegions = new ArrayList<>();
+
+        for (Object[] searchResult : searchResults) {
+          // Si la région du résultat n'est pas encore présente la rajoute à la liste
+          if (!searchResultRegions.contains(searchResult[INDEX_REGION])) {
+            searchResultRegions.add((Region) searchResult[INDEX_REGION]);
+          }
+        }
+        LOG.debug("searchResultRegions.size() : {}", searchResultRegions.size());
+        request.setAttribute("searchResultRegions", searchResultRegions);
+
+        // Création de la liste des différents départements
+        List<Departement> searchResultDepartements = new ArrayList<>();
+
+        for (Object[] searchResult : searchResults) {
+          // Si le département du résultat n'est pas encore présent le rajoute à la liste
+          if (!searchResultDepartements.contains(searchResult[INDEX_DEPARTEMENT])) {
+            searchResultDepartements.add((Departement) searchResult[INDEX_DEPARTEMENT]);
+          }
+        }
+        LOG.debug("searchResultDepartements.size() : {}", searchResultDepartements.size());
+        request.setAttribute("searchResultDepartements", searchResultDepartements);
+
+        // Création de la liste des différents villes
+        List<Ville> searchResultVilles = new ArrayList<>();
+
+        for (Object[] searchResult : searchResults) {
+          // Si le site du résultat n'est pas encore présent le rajoute à la liste
+          if (!searchResultVilles.contains(searchResult[INDEX_VILLE])) {
+            searchResultVilles.add((Ville) searchResult[INDEX_VILLE]);
+          }
+        }
+        LOG.debug("searchResultVilles.size() : {}", searchResultVilles.size());
+        request.setAttribute("searchResultVilles", searchResultVilles);
+
+        // Création de la liste des différents sites
+        List<Site> searchResultSites = new ArrayList<>();
+
+        for (Object[] searchResult : searchResults) {
+          // Si le site du résultat n'est pas encore présent le rajoute à la liste
+          if (!searchResultSites.contains(searchResult[INDEX_SITE])) {
+            searchResultSites.add((Site) searchResult[INDEX_SITE]);
+          }
+        }
+        LOG.debug("searchResultSites.size() : {}", searchResultSites.size());
+        request.setAttribute("searchResultSites", searchResultSites);
+
+        // retourne la liste des secteurs trouvés (row sql)
+        request.setAttribute("searchResults", searchResults);
     }
 
     getServletContext().getRequestDispatcher("/WEB-INF/recherche-site-secteur.jsp").forward(request, response);

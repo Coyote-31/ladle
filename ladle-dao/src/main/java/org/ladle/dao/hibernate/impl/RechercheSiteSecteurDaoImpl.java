@@ -98,7 +98,9 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
 
   @SuppressWarnings("unchecked")
   @Override
-  public List<Object[]> searchByForm(String selectedRegion, String selectedDepartement,
+  public List<Object[]> searchByForm(
+      String selectedRegion,
+      String selectedDepartement,
       String inputedCodePostal,
       String selectedVille) {
 
