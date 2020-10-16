@@ -128,8 +128,7 @@
         <artifactId>hibernate-core</artifactId>
         <version>${hibernate.version}</version>
         <type>pom</type>
-      </dependency>			
-      
+      </dependency>
       
       <!-- ===== Module : ladle-beans ===== -->
       
