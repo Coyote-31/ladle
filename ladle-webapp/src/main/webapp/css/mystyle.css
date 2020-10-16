@@ -3,6 +3,7 @@
 /* ========================== */
 /* ----------- MAIN --------- */
 /* ========================== */
+
 html {
 	/* Debug oldies */
 	position: relative;
@@ -28,6 +29,7 @@ body {
 /* ======================= */
 /* --- HEADER / NAVBAR --- */
 /* ======================= */
+
 .navbar-brand {
 	margin-top: -1rem;
 	margin-bottom: -1rem;
@@ -54,11 +56,13 @@ footer p {
   
   border: outset 1px #fff;
   border-radius: 1.5rem / 1.5rem;
+  padding: 1rem 1.5rem;
 }
 
 /* ============== */
 /* --- FOOTER --- */
 /* ============== */
+
 footer {
 	background-color: rgb(32, 95, 39);
 	bottom: 0;
@@ -68,3 +72,11 @@ footer {
 
 /* ================================================= */
 /* ================================================= */
+
+/* =============== */
+/* --- Buttons --- */
+/* =============== */
+
+.btn {
+  margin-left: 1rem;
+}

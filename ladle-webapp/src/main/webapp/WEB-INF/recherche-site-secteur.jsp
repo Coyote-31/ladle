@@ -4,6 +4,7 @@
 <html lang="fr">
 <head>
 <title>Recherche Site/Secteur</title>
+<link rel="icon" href="favicon.ico">
 <%@ include file="/WEB-INF/parts/meta.jsp"%>
 </head>
 <body>
