@@ -111,53 +111,61 @@
                         3 = Site
                         4 = Secteur
   --%>
-  <c:if test="${not empty searchResults}">
+  <c:if test="${not empty searchResultSecteurs}">
     <div class="container ladle-bg-main">
     
       <h1>Résultat de la recherche :</h1>
       
       <%-- Boucle des Régions --%>
       <c:forEach items="${searchResultRegions}" var="searchResultRegion">
-      <h2>${searchResultRegion.nom} (${searchResultRegion.regionCode})</h2>
+      <div class="container ladle-bg-main">
+        <h2>${searchResultRegion.nom} (${searchResultRegion.regionCode})</h2>
       
         <%-- Boucle des Départements --%>
         <c:forEach items="${searchResultDepartements}" var="searchResultDepartement">
           <c:if test="${searchResultRegion.regionCode == searchResultDepartement.region.regionCode}">
-            <h3>${searchResultDepartement.nom} (${searchResultDepartement.departementCode})</h3>
-          </c:if>
+            <div class="container ladle-bg-main">
+              <h3>${searchResultDepartement.nom} (${searchResultDepartement.departementCode})</h3>
           
           <%-- Boucle des Villes --%>
           <c:forEach items="${searchResultVilles}" var="searchResultVille">
             <c:if test="${searchResultDepartement.departementCode == searchResultVille.departement.departementCode}">
-              <h4>${searchResultVille.nom} (${searchResultVille.cp})</h4>
-            </c:if>
+              <div class="container ladle-bg-main">
+                <h4>${searchResultVille.nom} (${searchResultVille.cp})</h4>
             
             <%-- Boucle des Sites --%>
             <c:forEach items="${searchResultSites}" var="searchResultSite">
               <c:if test="${searchResultVille.villeID == searchResultSite.ville.villeID}">
-                <h5>${searchResultSite.nom} (${searchResultSite.officiel})</h5>
-              </c:if>
+                <div class="container ladle-bg-main">
+                  <h5>${searchResultSite.nom} (${searchResultSite.officiel})</h5>
+              
       
               <%-- Boucle des Secteurs --%>
-              <c:forEach items="${searchResults}" var="searchResult">
-                <c:if test="${searchResultSite.siteID == searchResult[4].site.siteID}">
-                  <tr>
-                    <th scope="row">${searchResult[4].nom}</th>
-                    <td>${searchResult[4].descriptif}</td>
-                    <td>ID = ${searchResult[4].secteurID}</td>
-                  </tr>
+              <c:forEach items="${searchResultSecteurs}" var="searchResultSecteur">
+                <c:if test="${searchResultSite.siteID == searchResultSecteur.site.siteID}">
+                  <div class="container ladle-bg-main">
+                    <table>
+                      <tr>
+                        <th scope="row">${searchResultSecteur.nom}</th>
+                        <td>${searchResultSecteur.descriptif}</td>
+                        <td>ID = ${searchResultSecteur.secteurID}</td>
+                      </tr>
+                    </table>
+                  </div>
                 </c:if>
-              </c:forEach>
-              
+               </c:forEach>
+              </div>
+             </c:if>
             </c:forEach>
-            
-          </c:forEach>
-          
-        </c:forEach>
-        
+           </div> 
+          </c:if>
+         </c:forEach>
+        </div>
+       </c:if>
       </c:forEach>
-      
-    </div>
+      </div>
+      </c:forEach>
+      </div>
   </c:if>
 
   <script type="text/javascript">

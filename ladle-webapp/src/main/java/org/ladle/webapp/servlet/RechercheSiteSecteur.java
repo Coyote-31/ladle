@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Departement;
 import org.ladle.beans.jpa.Region;
+import org.ladle.beans.jpa.Secteur;
 import org.ladle.beans.jpa.Site;
 import org.ladle.beans.jpa.Ville;
 import org.ladle.service.RechercheSiteSecteurHandler;
@@ -275,8 +276,17 @@ public class RechercheSiteSecteur extends HttpServlet {
         LOG.debug("searchResultSites.size() : {}", searchResultSites.size());
         request.setAttribute("searchResultSites", searchResultSites);
 
-        // retourne la liste des secteurs trouvés (row sql)
-        request.setAttribute("searchResults", searchResults);
+        // Création de la liste des différents secteurs
+        List<Secteur> searchResultSecteurs = new ArrayList<>();
+
+        for (Object[] searchResult : searchResults) {
+          // Si le site du résultat n'est pas encore présent le rajoute à la liste
+          if (!searchResultSecteurs.contains(searchResult[INDEX_SECTEUR])) {
+            searchResultSecteurs.add((Secteur) searchResult[INDEX_SECTEUR]);
+          }
+        }
+        LOG.debug("searchResultSecteurs.size() : {}", searchResultSecteurs.size());
+        request.setAttribute("searchResultSecteurs", searchResultSecteurs);
     }
 
     getServletContext().getRequestDispatcher("/WEB-INF/recherche-site-secteur.jsp").forward(request, response);
