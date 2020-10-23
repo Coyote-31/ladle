@@ -11,8 +11,10 @@ import javax.persistence.PersistenceException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.ladle.beans.jpa.Departement;
 import org.ladle.beans.jpa.Region;
+import org.ladle.beans.jpa.Site;
 import org.ladle.beans.jpa.Ville;
 import org.ladle.dao.RechercheSiteSecteurDao;
 
@@ -145,6 +147,28 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
         nbrOfResults, selectedRegion, selectedDepartement, inputedCodePostal, selectedVille);
 
     return searchResults;
+  }
+
+  @Override
+  public Site getSiteByID(String siteID) {
+
+    Site site = null;
+
+    LOG.debug("dao siteID : {}", siteID);
+
+    try {
+      site = em
+          .createQuery("FROM Site as S WHERE S.siteID = :siteID", Site.class)
+          .setParameter("siteID", Integer.valueOf(siteID))
+          .getSingleResult();
+      // site = em.find(Site.class, 1);
+      Hibernate.initialize(site.getSecteurs());
+
+    } catch (IllegalStateException | PersistenceException | ClassCastException e) {
+      LOG.error("getSiteByID() : failed", e);
+    }
+
+    return site;
   }
 
 }

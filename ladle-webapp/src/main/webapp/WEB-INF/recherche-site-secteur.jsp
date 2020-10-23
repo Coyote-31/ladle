@@ -137,7 +137,8 @@
             <c:forEach items="${searchResultSites}" var="searchResultSite">
               <c:if test="${searchResultVille.villeID == searchResultSite.ville.villeID}">
                 <div class="container ladle-bg-main">
-                  <h5>${searchResultSite.nom} (${searchResultSite.officiel})</h5>
+                  <h5><a class="nav-link" href="./site?siteID=${searchResultSite.siteID}">
+                  ${searchResultSite.nom} (${searchResultSite.officiel})</a></h5>
               
       
               <%-- Boucle des Secteurs --%>

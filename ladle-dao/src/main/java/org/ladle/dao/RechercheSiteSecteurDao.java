@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import org.ladle.beans.jpa.Departement;
 import org.ladle.beans.jpa.Region;
+import org.ladle.beans.jpa.Site;
 import org.ladle.beans.jpa.Ville;
 
 @Local
@@ -38,5 +39,13 @@ public interface RechercheSiteSecteurDao {
    */
   List<Object[]> searchByForm(String selectedRegion, String selectedDepartement, String inputedCodePostal,
       String selectedVille);
+
+  /**
+   * Retourne le Site grâce à son ID
+   *
+   * @param siteID
+   * @return
+   */
+  Site getSiteByID(String siteID);
 
 }

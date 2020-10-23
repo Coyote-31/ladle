@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<title>Site/Secteur</title>
+<title>Secteur</title>
+<link rel="icon" href="favicon.ico">
 <%@ include file="/WEB-INF/parts/meta.jsp" %>
 </head>
 <body>
@@ -11,8 +12,7 @@
 
   <div class="container ladle-bg-main">
 
-    <h1>Sites :</h1>
-    <h2>Secteurs :</h2>
+    <h1>Secteur :</h1>
 
   </div>
 
