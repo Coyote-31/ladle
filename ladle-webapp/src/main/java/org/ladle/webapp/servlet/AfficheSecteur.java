@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ladle.beans.jpa.Secteur;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
 /**
@@ -33,6 +34,19 @@ public class AfficheSecteur extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     LOG.debug("Servlet [AfficheSecteur] -> doGet()");
+
+    // Récupère l'id du Secteur
+    String secteurID = request.getParameter("secteurID");
+    LOG.debug("secteurID {}", secteurID);
+
+    // Récupère depuis la BDD les informations du secteur
+    Secteur secteur = rechercheSiteSecteurHandler.getSecteurByID(secteurID);
+
+    // Envoit le secteur à la jsp
+    request.setAttribute("secteur", secteur);
+
+    // Récupère les id des secteurs non-filtrés
+    // String[] secteursID = request.getParameterValues("secteursID");
 
     try {
       getServletContext().getRequestDispatcher("/WEB-INF/secteur.jsp").forward(request, response);

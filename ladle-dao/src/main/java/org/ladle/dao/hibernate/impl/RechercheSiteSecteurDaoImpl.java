@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.ladle.beans.jpa.Departement;
 import org.ladle.beans.jpa.Region;
+import org.ladle.beans.jpa.Secteur;
 import org.ladle.beans.jpa.Site;
 import org.ladle.beans.jpa.Ville;
 import org.ladle.dao.RechercheSiteSecteurDao;
@@ -169,6 +170,32 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
     }
 
     return site;
+  }
+
+  @Override
+  public Secteur getSecteurByID(String secteurID) {
+
+    Secteur secteur = null;
+
+    LOG.debug("dao secteurID : {}", secteurID);
+
+    try {
+
+      // secteur = em
+      // .createQuery("FROM Secteur as S WHERE S.secteurID = :secteurID",
+      // Secteur.class)
+      // .setParameter("secteurID", Integer.valueOf(secteurID))
+      // .getSingleResult();
+
+      secteur = em.find(Secteur.class, Integer.valueOf(secteurID));
+      // Initialise la liste des voies
+      Hibernate.initialize(secteur.getVoies());
+
+    } catch (IllegalStateException | PersistenceException | ClassCastException e) {
+      LOG.error("getSiteByID() : failed", e);
+    }
+
+    return secteur;
   }
 
 }

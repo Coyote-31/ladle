@@ -137,7 +137,7 @@
             <c:forEach items="${searchResultSites}" var="searchResultSite">
               <c:if test="${searchResultVille.villeID == searchResultSite.ville.villeID}">
                 <div class="container ladle-bg-main">
-                  <h5><a class="nav-link" href="./site?siteID=${searchResultSite.siteID}">
+                  <h5><a href="./site?siteID=${searchResultSite.siteID}">
                   ${searchResultSite.nom} (${searchResultSite.officiel})</a></h5>
               
       
@@ -147,7 +147,9 @@
                   <div class="container ladle-bg-main">
                     <table>
                       <tr>
-                        <th scope="row">${searchResultSecteur.nom}</th>
+                        <th scope="row"><a href="./secteur?secteurID=${searchResultSecteur.secteurID}">
+                          ${searchResultSecteur.nom}
+                        </a></th>
                         <td>${searchResultSecteur.descriptif}</td>
                         <td>ID = ${searchResultSecteur.secteurID}</td>
                       </tr>

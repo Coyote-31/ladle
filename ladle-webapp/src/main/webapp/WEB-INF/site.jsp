@@ -14,7 +14,7 @@
   <div class="container ladle-bg-main">
 
     <h1>Site :</h1>
-    ${site.nom} <br>
+    <h2>${site.nom}</h2><br>
     ${site.officiel} <br>
     <fmt:formatDate value="${site.dateLastMaj}" type="date" /> <br>
     ${site.descriptif} <br>
@@ -23,7 +23,7 @@
     
     <ul>
       <c:forEach items="${site.secteurs}" var="secteur">
-        <li>${secteur.nom} : ${secteur.descriptif}</li>
+        <li><a href="./secteur?secteurID=${secteur.secteurID}">${secteur.nom}</a> : ${secteur.descriptif}</li>
       </c:forEach>
     </ul>
 

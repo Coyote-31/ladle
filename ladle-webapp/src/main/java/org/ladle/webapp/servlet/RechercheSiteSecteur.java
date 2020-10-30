@@ -83,7 +83,7 @@ public class RechercheSiteSecteur extends HttpServlet {
     // Génération de la liste de sélection des Régions
     request.setAttribute("regions", rechercheSiteSecteurHandler.getAllRegions());
     // Génération d'une liste de ville vide
-    List<Ville> villes = new ArrayList<>();
+    List<Ville> villes = null;
 
     // Si changement de Région
     switch (formChangeOn) {

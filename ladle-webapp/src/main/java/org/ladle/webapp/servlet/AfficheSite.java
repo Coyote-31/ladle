@@ -42,7 +42,7 @@ public class AfficheSite extends HttpServlet {
     // Récupère depuis la BDD les informations du site
     Site site = rechercheSiteSecteurHandler.getSiteByID(siteID);
 
-    // Envoit le secteur à la jsp
+    // Envoit le site à la jsp
     request.setAttribute("site", site);
 
     // Récupère les id des secteurs non-filtrés

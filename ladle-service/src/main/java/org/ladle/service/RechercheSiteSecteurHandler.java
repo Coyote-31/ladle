@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Departement;
 import org.ladle.beans.jpa.Region;
+import org.ladle.beans.jpa.Secteur;
 import org.ladle.beans.jpa.Site;
 import org.ladle.beans.jpa.Ville;
 import org.ladle.dao.RechercheSiteSecteurDao;
@@ -95,6 +96,16 @@ public class RechercheSiteSecteurHandler {
    */
   public Site getSiteByID(String siteID) {
     return rechercheSiteSecteurDao.getSiteByID(siteID);
+  }
+
+  /**
+   * Retourne le Secteur grâce à son ID
+   *
+   * @param secteurID
+   * @return
+   */
+  public Secteur getSecteurByID(String secteurID) {
+    return rechercheSiteSecteurDao.getSecteurByID(secteurID);
   }
 
 }

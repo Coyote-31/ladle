@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import org.ladle.beans.jpa.Departement;
 import org.ladle.beans.jpa.Region;
+import org.ladle.beans.jpa.Secteur;
 import org.ladle.beans.jpa.Site;
 import org.ladle.beans.jpa.Ville;
 
@@ -47,5 +48,13 @@ public interface RechercheSiteSecteurDao {
    * @return
    */
   Site getSiteByID(String siteID);
+
+  /**
+   * Retourne le Secteur grâce à son ID
+   *
+   * @param secteurID
+   * @return
+   */
+  Secteur getSecteurByID(String secteurID);
 
 }
