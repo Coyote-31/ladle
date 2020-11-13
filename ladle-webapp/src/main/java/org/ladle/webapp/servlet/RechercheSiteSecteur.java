@@ -23,10 +23,10 @@ import org.ladle.service.RechercheSiteSecteurHandler;
 /**
  * Servlet implementation class RechercheSiteSecteur
  */
+@SuppressWarnings("serial")
 @WebServlet("/recherche-site-secteur")
 public class RechercheSiteSecteur extends HttpServlet {
 
-  private static final long serialVersionUID = 1L;
   private static final Logger LOG = LogManager.getLogger(RechercheSiteSecteur.class);
 
   @EJB(name = "RechercheSiteSecteurHandler")
@@ -62,6 +62,9 @@ public class RechercheSiteSecteur extends HttpServlet {
     final String SELECTED_DEPT = "selectedDepartement";
     final String INPUTED_CP = "inputedCodePostal";
     final String SELECTED_VILLE = "selectedVille";
+    final String SELECTED_COTA_EQUAL = "selectedCotaEqual";
+    final String SELECTED_COTA_NUM = "selectedCotaNum";
+    final String SELECTED_COTA_CHAR = "selectedCotaChar";
 
     // Création des constantes l'index de l'Objet de la liste de résultat
     final int INDEX_REGION = 0;
@@ -74,6 +77,9 @@ public class RechercheSiteSecteur extends HttpServlet {
     String selectedRegion = request.getParameter("inputGroupSelectRegion");
     String selectedDepartement = request.getParameter("inputGroupSelectDepartement");
     String inputedCodePostal = request.getParameter("inputCodePostal");
+    if ("".equals(inputedCodePostal)) {
+      inputedCodePostal = null;
+    }
     String selectedVille = request.getParameter("inputGroupSelectVille");
 
     // Variable de détection des changements sur le formulaire
@@ -84,6 +90,19 @@ public class RechercheSiteSecteur extends HttpServlet {
     request.setAttribute("regions", rechercheSiteSecteurHandler.getAllRegions());
     // Génération d'une liste de ville vide
     List<Ville> villes = null;
+
+    // Gestion des champs du formulaire cotation :
+    String selectedCotaEqual = request.getParameter("inputGroupSelectCotaEqual");
+    request.setAttribute(SELECTED_COTA_EQUAL, selectedCotaEqual);
+    LOG.debug("selectedCotaEqual : {}", selectedCotaEqual);
+    String selectedCotaNum = request.getParameter("inputGroupSelectCotaNum");
+    request.setAttribute(SELECTED_COTA_NUM, selectedCotaNum);
+    LOG.debug("selectedCotaNum : {}", selectedCotaNum);
+    String selectedCotaChar = request.getParameter("inputGroupSelectCotaChar");
+    request.setAttribute(SELECTED_COTA_CHAR, selectedCotaChar);
+    LOG.debug("selectedCotaChar : {}", selectedCotaChar);
+    String selectedCotaNumChar = selectedCotaNum + selectedCotaChar;
+    LOG.debug("selectedCotaNumChar : {}", selectedCotaNumChar);
 
     // Si changement de Région
     switch (formChangeOn) {
@@ -226,7 +245,9 @@ public class RechercheSiteSecteur extends HttpServlet {
             selectedRegion,
             selectedDepartement,
             inputedCodePostal,
-            selectedVille);
+            selectedVille,
+            selectedCotaEqual,
+            selectedCotaNumChar);
 
         // Création et envoit de la liste des différentes régions
         List<Region> searchResultRegions = new ArrayList<>();

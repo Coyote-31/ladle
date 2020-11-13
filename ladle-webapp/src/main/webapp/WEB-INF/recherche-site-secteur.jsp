@@ -87,6 +87,52 @@
         </div>
         
         <%-- Cotation --%>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="">Cotation</span>
+          </div>
+          <select class="custom-select" id="inputGroupSelectCotaEqual" name="inputGroupSelectCotaEqual" 
+          aria-label="Signe du comparateur de cotation">
+            <option ${empty selectedCotaEqual or selectedCotaEqual == "supEq" ? "selected":""}
+            value="supEq">Supérieure ou égale à :</option>
+            <option ${selectedCotaEqual == "infEq" ? "selected":""}
+            value="infEq">Inférieur ou égale à :</option>
+            <option ${selectedCotaEqual == "equal" ? "selected":""}
+            value="equal">Égale à :</option>
+          </select>
+          <select class="custom-select" id="inputGroupSelectCotaNum"  name="inputGroupSelectCotaNum" 
+          aria-label="Comparateur de cotation : nombre">
+            <option ${empty selectedCotaNum or selectedCotaNum == "3" ? "selected":""}
+              value="3">3</option>
+            <option ${selectedCotaNum == "4" ? "selected":""}
+              value="4">4</option>
+            <option ${selectedCotaNum == "5" ? "selected":""}
+              value="5">5</option>
+            <option ${selectedCotaNum == "6" ? "selected":""}
+              value="6">6</option>
+            <option ${selectedCotaNum == "7" ? "selected":""}
+              value="7">7</option>
+            <option ${selectedCotaNum == "8" ? "selected":""}
+              value="8">8</option>
+            <option ${selectedCotaNum == "9" ? "selected":""}
+              value="9">9</option>
+          </select>
+          <select class="custom-select" id="inputGroupSelectCotaChar" name="inputGroupSelectCotaChar" 
+          aria-label="Comparateur de cotation : lettre">
+            <option ${empty selectedCotaChar or selectedCotaChar == "a" ? "selected":""}
+              value="a">a</option>
+            <option ${selectedCotaChar == "a+" ? "selected":""}
+              value="a+">a+</option>
+            <option ${selectedCotaChar == "b"  ? "selected":""}
+              value="b">b</option>
+            <option ${selectedCotaChar == "b+" ? "selected":""}
+              value="b+">b+</option>
+            <option ${selectedCotaChar == "c"  ? "selected":""}
+              value="c">c</option>
+            <option ${selectedCotaChar == "c+" ? "selected":""}
+              value="c+">c+</option>
+          </select>
+        </div>
 
         <%-- Nombre de Secteurs --%>
 

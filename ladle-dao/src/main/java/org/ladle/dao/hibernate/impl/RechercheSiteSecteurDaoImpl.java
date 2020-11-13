@@ -105,7 +105,9 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
       String selectedRegion,
       String selectedDepartement,
       String inputedCodePostal,
-      String selectedVille) {
+      String selectedVille,
+      String selectedCotaEqual,
+      String selectedCotaNumChar) {
 
     List<Object[]> searchResults = new ArrayList<>();
 
@@ -119,7 +121,24 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
       selectedVilleInteger = null;
     }
 
-    String hqlQuery = "SELECT r, d, v, si, sec "
+    // Formattage du signe de cotation
+    String selectedCotaSign;
+    switch (selectedCotaEqual) {
+      case "supEq":
+        selectedCotaSign = ">=";
+        break;
+      case "infEq":
+        selectedCotaSign = "<=";
+        break;
+      case "equal":
+        selectedCotaSign = "=";
+        break;
+      default:
+        selectedCotaSign = ">=";
+        break;
+    }
+
+    String hqlQuery = "SELECT r, d, v, si, sec, vx "
                       + "FROM Region r "
                       + "JOIN r.departements d "
                       + "   WITH d.departementCode = :departementCode OR :departementCode is null "
@@ -128,6 +147,8 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
                       + "   AND (v.id = :ville OR :ville is null) "
                       + "JOIN v.sites si "
                       + "JOIN si.secteurs sec "
+                      + "JOIN sec.voies vx "
+                      + "   WITH (vx.cotation " + selectedCotaSign + " :cotaNumChar) "
                       + "WHERE r.regionCode = :regionCode OR :regionCode is null ";
 
     try {
@@ -136,6 +157,7 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
           .setParameter("departementCode", selectedDepartement)
           .setParameter("cp", inputedCodePostal)
           .setParameter("ville", selectedVilleInteger)
+          .setParameter("cotaNumChar", selectedCotaNumChar)
           .getResultList();
 
       nbrOfResults = searchResults.size();
@@ -162,7 +184,7 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
           .createQuery("FROM Site as S WHERE S.siteID = :siteID", Site.class)
           .setParameter("siteID", Integer.valueOf(siteID))
           .getSingleResult();
-      // site = em.find(Site.class, 1);
+
       Hibernate.initialize(site.getSecteurs());
 
     } catch (IllegalStateException | PersistenceException | ClassCastException e) {
@@ -180,12 +202,6 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
     LOG.debug("dao secteurID : {}", secteurID);
 
     try {
-
-      // secteur = em
-      // .createQuery("FROM Secteur as S WHERE S.secteurID = :secteurID",
-      // Secteur.class)
-      // .setParameter("secteurID", Integer.valueOf(secteurID))
-      // .getSingleResult();
 
       secteur = em.find(Secteur.class, Integer.valueOf(secteurID));
       // Initialise la liste des voies

@@ -36,10 +36,17 @@ public interface RechercheSiteSecteurDao {
    * @param selectedDepartement
    * @param inputedCodePostal
    * @param selectedVille
+   * @param selectedCotaNumChar
+   * @param selectedCotaEqual
    * @return
    */
-  List<Object[]> searchByForm(String selectedRegion, String selectedDepartement, String inputedCodePostal,
-      String selectedVille);
+  List<Object[]> searchByForm(
+      String selectedRegion,
+      String selectedDepartement,
+      String inputedCodePostal,
+      String selectedVille,
+      String selectedCotaEqual,
+      String selectedCotaNumChar);
 
   /**
    * Retourne le Site grâce à son ID

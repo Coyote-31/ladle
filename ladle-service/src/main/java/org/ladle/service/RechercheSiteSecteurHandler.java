@@ -59,13 +59,17 @@ public class RechercheSiteSecteurHandler {
    * @param selectedDepartement
    * @param inputedCodePostal
    * @param selectedVille
+   * @param selectedCotaNumChar
+   * @param selectedCotaEqual
    * @return
    */
   public List<Object[]> searchByForm(
       String selectedRegion,
       String selectedDepartement,
       String inputedCodePostal,
-      String selectedVille) {
+      String selectedVille,
+      String selectedCotaEqual,
+      String selectedCotaNumChar) {
 
     // Gestion des paramètres null et 'all'
     if ("all".equals(selectedRegion)) {
@@ -85,7 +89,9 @@ public class RechercheSiteSecteurHandler {
         selectedRegion,
         selectedDepartement,
         inputedCodePostal,
-        selectedVille);
+        selectedVille,
+        selectedCotaEqual,
+        selectedCotaNumChar);
   }
 
   /**
