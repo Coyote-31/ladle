@@ -107,7 +107,9 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
       String inputedCodePostal,
       String selectedVille,
       String selectedCotaEqual,
-      String selectedCotaNumChar) {
+      String selectedCotaNumChar,
+      String selectedSectEqual,
+      String selectedSectNum) {
 
     List<Object[]> searchResults = new ArrayList<>();
 
@@ -138,6 +140,31 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
         break;
     }
 
+    // Formattage du signe du nombre de secteur
+    String selectedSectSign;
+    switch (selectedSectEqual) {
+      case "supEq":
+        selectedSectSign = ">=";
+        break;
+      case "infEq":
+        selectedSectSign = "<=";
+        break;
+      case "equal":
+        selectedSectSign = "=";
+        break;
+      default:
+        selectedSectSign = ">=";
+        break;
+    }
+
+    // Conversion de la variable selectedSectNum en integer
+    Integer selectedSectNumInteger;
+    if ((selectedSectNum != null)) {
+      selectedSectNumInteger = Integer.valueOf(selectedSectNum);
+    } else {
+      selectedSectNumInteger = null;
+    }
+
     String hqlQuery = "SELECT r, d, v, si, sec, vx "
                       + "FROM Region r "
                       + "JOIN r.departements d "
@@ -146,6 +173,7 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
                       + "   WITH (v.cp = :cp OR :cp is null ) "
                       + "   AND (v.id = :ville OR :ville is null) "
                       + "JOIN v.sites si "
+                      + "   WITH (size(si.secteurs) " + selectedSectSign + " :cotaSectNum) "
                       + "JOIN si.secteurs sec "
                       + "JOIN sec.voies vx "
                       + "   WITH (vx.cotation " + selectedCotaSign + " :cotaNumChar) "
@@ -158,6 +186,7 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
           .setParameter("cp", inputedCodePostal)
           .setParameter("ville", selectedVilleInteger)
           .setParameter("cotaNumChar", selectedCotaNumChar)
+          .setParameter("cotaSectNum", selectedSectNumInteger)
           .getResultList();
 
       nbrOfResults = searchResults.size();
@@ -166,8 +195,16 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
       LOG.error("searchByForm() : failed", e);
     }
 
-    LOG.debug("searchByForm() {} results. With region:{}, dept:{}, cp:{}, ville:{}",
-        nbrOfResults, selectedRegion, selectedDepartement, inputedCodePostal, selectedVille);
+    LOG.debug("searchByForm() {} results. With region:{}, dept:{}, cp:{}, ville:{}, cotation{}{}, nrbSecteurs{}{}",
+        nbrOfResults,
+        selectedRegion,
+        selectedDepartement,
+        inputedCodePostal,
+        selectedVille,
+        selectedCotaSign,
+        selectedCotaNumChar,
+        selectedSectSign,
+        selectedSectNum);
 
     return searchResults;
   }

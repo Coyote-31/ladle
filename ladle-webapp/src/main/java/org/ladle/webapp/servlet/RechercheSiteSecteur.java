@@ -65,6 +65,8 @@ public class RechercheSiteSecteur extends HttpServlet {
     final String SELECTED_COTA_EQUAL = "selectedCotaEqual";
     final String SELECTED_COTA_NUM = "selectedCotaNum";
     final String SELECTED_COTA_CHAR = "selectedCotaChar";
+    final String SELECTED_SECT_EQUAL = "selectedSectEqual";
+    final String SELECTED_SECT_NUM = "selectedSectNum";
 
     // Création des constantes l'index de l'Objet de la liste de résultat
     final int INDEX_REGION = 0;
@@ -103,6 +105,14 @@ public class RechercheSiteSecteur extends HttpServlet {
     LOG.debug("selectedCotaChar : {}", selectedCotaChar);
     String selectedCotaNumChar = selectedCotaNum + selectedCotaChar;
     LOG.debug("selectedCotaNumChar : {}", selectedCotaNumChar);
+
+    // Gestion des champs du formulaire nombre de secteurs :
+    String selectedSectEqual = request.getParameter("inputGroupSelectSectEqual");
+    request.setAttribute(SELECTED_SECT_EQUAL, selectedSectEqual);
+    LOG.debug("selectedSectEqual : {}", selectedSectEqual);
+    String selectedSectNum = request.getParameter("inputGroupSelectSectNum");
+    request.setAttribute(SELECTED_SECT_NUM, selectedSectNum);
+    LOG.debug("selectedSectNum : {}", selectedSectNum);
 
     // Si changement de Région
     switch (formChangeOn) {
@@ -247,7 +257,9 @@ public class RechercheSiteSecteur extends HttpServlet {
             inputedCodePostal,
             selectedVille,
             selectedCotaEqual,
-            selectedCotaNumChar);
+            selectedCotaNumChar,
+            selectedSectEqual,
+            selectedSectNum);
 
         // Création et envoit de la liste des différentes régions
         List<Region> searchResultRegions = new ArrayList<>();

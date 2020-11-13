@@ -135,6 +135,42 @@
         </div>
 
         <%-- Nombre de Secteurs --%>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="">Nbr de secteurs :</span>
+          </div>
+          <select class="custom-select" id="inputGroupSelectSectEqual" name="inputGroupSelectSectEqual" 
+          aria-label="Signe du comparateur du nombre de secteurs">
+            <option ${empty selectedSectEqual or selectedSectEqual == "supEq" ? "selected":""}
+            value="supEq">Supérieure ou égale à :</option>
+            <option ${selectedSectEqual == "infEq" ? "selected":""}
+            value="infEq">Inférieur ou égale à :</option>
+            <option ${selectedSectEqual == "equal" ? "selected":""}
+            value="equal">Égale à :</option>
+          </select>
+          
+          <select class="custom-select" id="inputGroupSelectSectNum"  name="inputGroupSelectSectNum" 
+          aria-label="Comparateur du nombre de secteurs : nombre">
+            <option ${empty selectedSectNum or selectedSectNum == "1" ? "selected":""}
+              value="1">1</option>
+            <option ${selectedSectNum == "2" ? "selected":""}
+              value="2">2</option>
+            <option ${selectedSectNum == "3" ? "selected":""}
+              value="3">3</option>
+            <option ${selectedSectNum == "4" ? "selected":""}
+              value="4">4</option>
+            <option ${selectedSectNum == "5" ? "selected":""}
+              value="5">5</option>
+            <option ${selectedSectNum == "6" ? "selected":""}
+              value="6">6</option>
+            <option ${selectedSectNum == "7" ? "selected":""}
+              value="7">7</option>
+            <option ${selectedSectNum == "8" ? "selected":""}
+              value="8">8</option>
+            <option ${selectedSectNum == "9" ? "selected":""}
+              value="9">9</option>
+          </select>
+        </div>
 
         <%-- Officiel LADLE --%>
         
