@@ -67,8 +67,9 @@ public class RechercheSiteSecteur extends HttpServlet {
     final String SELECTED_COTA_CHAR = "selectedCotaChar";
     final String SELECTED_SECT_EQUAL = "selectedSectEqual";
     final String SELECTED_SECT_NUM = "selectedSectNum";
+    final String SELECTED_OFFICIEL = "selectedOfficiel";
 
-    // Création des constantes l'index de l'Objet de la liste de résultat
+    // Création des constantes pour l'index de l'Objet de la liste de résultat
     final int INDEX_REGION = 0;
     final int INDEX_DEPARTEMENT = 1;
     final int INDEX_VILLE = 2;
@@ -88,12 +89,12 @@ public class RechercheSiteSecteur extends HttpServlet {
     String formChangeOn = request.getParameter("formChangeOn");
     LOG.debug("getParam formChangeOn : {}", formChangeOn);
 
-    // Génération de la liste de sélection des Régions
+    // Génération de la liste de sélection des "Régions"
     request.setAttribute("regions", rechercheSiteSecteurHandler.getAllRegions());
     // Génération d'une liste de ville vide
     List<Ville> villes = null;
 
-    // Gestion des champs du formulaire cotation :
+    // Gestion des champs du formulaire "cotation" :
     String selectedCotaEqual = request.getParameter("inputGroupSelectCotaEqual");
     request.setAttribute(SELECTED_COTA_EQUAL, selectedCotaEqual);
     LOG.debug("selectedCotaEqual : {}", selectedCotaEqual);
@@ -106,13 +107,18 @@ public class RechercheSiteSecteur extends HttpServlet {
     String selectedCotaNumChar = selectedCotaNum + selectedCotaChar;
     LOG.debug("selectedCotaNumChar : {}", selectedCotaNumChar);
 
-    // Gestion des champs du formulaire nombre de secteurs :
+    // Gestion des champs du formulaire "nombre de secteurs" :
     String selectedSectEqual = request.getParameter("inputGroupSelectSectEqual");
     request.setAttribute(SELECTED_SECT_EQUAL, selectedSectEqual);
     LOG.debug("selectedSectEqual : {}", selectedSectEqual);
     String selectedSectNum = request.getParameter("inputGroupSelectSectNum");
     request.setAttribute(SELECTED_SECT_NUM, selectedSectNum);
     LOG.debug("selectedSectNum : {}", selectedSectNum);
+
+    // Gestion du champ du formulaire "officiel" :
+    String selectedOfficiel = request.getParameter("inputGroupSelectOfficiel");
+    request.setAttribute(SELECTED_OFFICIEL, selectedOfficiel);
+    LOG.debug("selectedOfficiel : {}", selectedOfficiel);
 
     // Si changement de Région
     switch (formChangeOn) {
@@ -259,7 +265,8 @@ public class RechercheSiteSecteur extends HttpServlet {
             selectedCotaEqual,
             selectedCotaNumChar,
             selectedSectEqual,
-            selectedSectNum);
+            selectedSectNum,
+            selectedOfficiel);
 
         // Création et envoit de la liste des différentes régions
         List<Region> searchResultRegions = new ArrayList<>();

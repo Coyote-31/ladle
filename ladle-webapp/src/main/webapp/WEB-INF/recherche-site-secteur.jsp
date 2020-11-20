@@ -172,7 +172,22 @@
           </select>
         </div>
 
-        <%-- Officiel LADLE --%>
+        <%-- Site d'escalade Officiel --%>
+        
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="">Site officiel :</span>
+          </div>
+          <select class="custom-select" id="inputGroupSelectOfficiel" name="inputGroupSelectOfficiel" 
+          aria-label="Définit si le site doit être officiel">
+            <option ${empty selectedOfficiel or selectedOfficiel == "all" ? "selected":""}
+            value="all">Indifférent...</option>
+            <option ${selectedOfficiel == "yes" ? "selected":""}
+            value="yes">Oui</option>
+            <option ${selectedOfficiel == "no" ? "selected":""}
+            value="no">Non</option>
+          </select>
+        </div>
         
         <%-- Variables pour les maj du formulaire --%>
         

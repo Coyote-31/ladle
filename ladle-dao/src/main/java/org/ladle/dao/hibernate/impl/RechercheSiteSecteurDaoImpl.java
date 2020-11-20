@@ -109,7 +109,8 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
       String selectedCotaEqual,
       String selectedCotaNumChar,
       String selectedSectEqual,
-      String selectedSectNum) {
+      String selectedSectNum,
+      String selectedOfficiel) {
 
     List<Object[]> searchResults = new ArrayList<>();
 
@@ -165,6 +166,24 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
       selectedSectNumInteger = null;
     }
 
+    // Formattage de la variable Officiel (site)
+    Boolean selectedOfficielBool;
+    switch (selectedOfficiel) {
+      case "all":
+        selectedOfficielBool = null;
+        break;
+      case "yes":
+        selectedOfficielBool = true;
+        break;
+      case "no":
+        selectedOfficielBool = false;
+        break;
+      default:
+        selectedOfficielBool = null;
+        break;
+    }
+
+    // Requête HQL :
     String hqlQuery = "SELECT r, d, v, si, sec, vx "
                       + "FROM Region r "
                       + "JOIN r.departements d "
@@ -174,6 +193,7 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
                       + "   AND (v.id = :ville OR :ville is null) "
                       + "JOIN v.sites si "
                       + "   WITH (size(si.secteurs) " + selectedSectSign + " :cotaSectNum) "
+                      + "   AND (si.officiel = :officiel OR :officiel is null) "
                       + "JOIN si.secteurs sec "
                       + "JOIN sec.voies vx "
                       + "   WITH (vx.cotation " + selectedCotaSign + " :cotaNumChar) "
@@ -187,6 +207,7 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
           .setParameter("ville", selectedVilleInteger)
           .setParameter("cotaNumChar", selectedCotaNumChar)
           .setParameter("cotaSectNum", selectedSectNumInteger)
+          .setParameter("officiel", selectedOfficielBool)
           .getResultList();
 
       nbrOfResults = searchResults.size();
@@ -195,7 +216,8 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
       LOG.error("searchByForm() : failed", e);
     }
 
-    LOG.debug("searchByForm() {} results. With region:{}, dept:{}, cp:{}, ville:{}, cotation{}{}, nrbSecteurs{}{}",
+    LOG.debug("searchByForm() {} results.\n    -> With region:{}, dept:{}, cp:{}, ville:{},"
+              + "cotation{}{}, nrbSecteurs{}{}, officiel:{}",
         nbrOfResults,
         selectedRegion,
         selectedDepartement,
@@ -204,7 +226,8 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
         selectedCotaSign,
         selectedCotaNumChar,
         selectedSectSign,
-        selectedSectNum);
+        selectedSectNum,
+        selectedOfficielBool);
 
     return searchResults;
   }
