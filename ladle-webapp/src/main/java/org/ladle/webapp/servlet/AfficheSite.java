@@ -1,6 +1,9 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -46,7 +49,17 @@ public class AfficheSite extends HttpServlet {
     request.setAttribute("site", site);
 
     // Récupère les id des secteurs non-filtrés
-    // String[] secteursID = request.getParameterValues("secteursID");
+    String[] secteursID = request.getParameterValues("secteursID");
+    String debugStringSecteursID = Arrays.toString(secteursID);
+    LOG.debug("secteursID : {}", debugStringSecteursID);
+    List<String> listSecteursID = new ArrayList<>();
+    for (String secteurID : secteursID) {
+      if (!secteurID.isEmpty()) {
+        listSecteursID.add(secteurID);
+      }
+    }
+    LOG.debug("listSecteursID : {}", listSecteursID);
+    request.setAttribute("listFilterSecteursID", listSecteursID);
 
     try {
       getServletContext().getRequestDispatcher("/WEB-INF/site.jsp").forward(request, response);

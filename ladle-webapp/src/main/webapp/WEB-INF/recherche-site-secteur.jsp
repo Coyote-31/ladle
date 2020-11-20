@@ -234,7 +234,11 @@
             <c:forEach items="${searchResultSites}" var="searchResultSite">
               <c:if test="${searchResultVille.villeID == searchResultSite.ville.villeID}">
                 <div class="container ladle-bg-main">
-                  <h5><a href="./site?siteID=${searchResultSite.siteID}">
+                  <h5><a href="./site?siteID=${searchResultSite.siteID}<c:forEach 
+                    items="${searchResultSecteurs}" var="searchResultSecteur">
+                    ${searchResultSite.siteID == searchResultSecteur.site.siteID ? 
+                    '&secteursID='+=searchResultSecteur.secteurID:''}
+                  </c:forEach>">
                   ${searchResultSite.nom} (${searchResultSite.officiel})</a></h5>
               
       

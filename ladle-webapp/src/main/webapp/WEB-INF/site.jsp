@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -21,13 +22,48 @@
     ${site.ville.nom} <br>
     ${site.acces} <br>
     
+    <div class="form-check my-3">
+      <input class="form-check-input" type="checkbox" value="" checked="checked" 
+        onClick="filterSecteurs()" onKeyDown="filterSecteurs()" id="checkFilter">
+      <label class="form-check-label" for="checkFilter">
+        Filtrer selon la recherche.
+      </label>
+    </div>
+    
+    
     <ul>
       <c:forEach items="${site.secteurs}" var="secteur">
-        <li><a href="./secteur?secteurID=${secteur.secteurID}">${secteur.nom}</a> : ${secteur.descriptif}</li>
+        <li class="liSecteur<c:forEach items="${listFilterSecteursID}" var="filterID">
+            ${filterID == secteur.secteurID ? ' secteurResult' : ''}
+          </c:forEach>"
+            ${fn:contains(listFilterSecteursID, secteur.secteurID) ? '' : 'hidden'}
+        >
+          <a href="./secteur?secteurID=${secteur.secteurID}">${secteur.nom}</a> : ${secteur.descriptif}
+        </li>
       </c:forEach>
     </ul>
 
   </div>
+  
+  <script type="text/javascript">
+  
+    function filterSecteurs() {
+        const liSecteurs = document.getElementsByClassName('liSecteur');
+        
+        for(const liSecteur of liSecteurs){
+            
+            if (!liSecteur.classList.contains('secteurResult')){
+                
+                if (checkFilter.checked == true){
+                    liSecteur.hidden = true;
+                } else {
+                    liSecteur.hidden = false;
+                }
+            }
+        }
+     }
+  
+   </script>
 
   <%@ include file="/WEB-INF/parts/footer.jsp" %>
 
