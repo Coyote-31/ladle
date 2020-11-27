@@ -3,6 +3,7 @@ package org.ladle.beans.jpa;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -120,8 +121,8 @@ public class Secteur implements Serializable {
     this.acces = acces;
   }
 
-  public byte[] getPlan() {
-    return plan.clone();
+  public String getPlan() {
+    return Base64.getEncoder().encodeToString(plan);
   }
 
   public void setPlan(byte[] plan) {

@@ -216,7 +216,7 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
       LOG.error("searchByForm() : failed", e);
     }
 
-    LOG.debug("searchByForm() {} results.\n    -> With region:{}, dept:{}, cp:{}, ville:{},"
+    LOG.debug("searchByForm() {} results.\n    -> With region:{}, dept:{}, cp:{}, ville:{}, "
               + "cotation{}{}, nrbSecteurs{}{}, officiel:{}",
         nbrOfResults,
         selectedRegion,

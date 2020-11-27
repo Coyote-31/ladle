@@ -20,6 +20,7 @@
     ${secteur.descriptif} <br>
     ${secteur.site.ville.nom} <br>
     ${secteur.acces} <br>
+    <img src="data:image/jpg;base64,${secteur.plan}" width="800" height="492" alt="Plan du secteur.">
     
     <table class="table">
         <caption>voies</caption>
