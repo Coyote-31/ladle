@@ -271,6 +271,14 @@
       </c:forEach>
       </div>
   </c:if>
+  
+  <%-- Affichage si le résultat de la recherche est vide --%>
+  <c:if test="${searchResultEmpty}">
+    <div class="container ladle-bg-main">
+      <p><strong>La recherche n'a retournée aucun résultat.</strong><br>
+      Veuillez essayer avec d'autres critères.</p>
+    </div>
+  </c:if>
 
   <script type="text/javascript">
 

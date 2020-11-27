@@ -268,6 +268,11 @@ public class RechercheSiteSecteur extends HttpServlet {
             selectedSectNum,
             selectedOfficiel);
 
+        // Test si le résultat est vide
+        if (searchResults.isEmpty()) {
+          request.setAttribute("searchResultEmpty", true);
+        }
+
         // Création et envoit de la liste des différentes régions
         List<Region> searchResultRegions = new ArrayList<>();
 
