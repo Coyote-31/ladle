@@ -70,4 +70,20 @@ public interface RechercheSiteSecteurDao {
    */
   Secteur getSecteurByID(String secteurID);
 
+  /**
+   * Renvoit une liste de villes correspondant au nom (19 resultats max)
+   *
+   * @param name
+   * @return
+   */
+  List<Ville> getVillesByNom(String nom);
+
+  /**
+   * Renvoit une ville depuis son ID
+   *
+   * @param id
+   * @return
+   */
+  Ville getVilleByID(String id);
+
 }

@@ -58,10 +58,8 @@
           </div>
           <input type="text" 
           class="form-control${
-          not empty villes ? ' is-valid' : ''
-          }${
-          (empty villes and not empty inputedCodePostal) ? ' is-invalid' : ''
-          }"
+          cpIsValid == true ? ' is-valid' : '' 
+          }${ cpIsValid == false ? ' is-invalid' : '' }"
           id="inputCodePostal" name="inputCodePostal" 
           placeholder="ex. 31000"
           <c:if test="${not empty inputedCodePostal}">value="${inputedCodePostal}"</c:if>
@@ -71,21 +69,48 @@
         </div>
 
         <%-- Ville --%>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelectVille">Ville</label>
+        <div class="row">
+          <div class="col">
+            <div class="input-group mb-3">
+
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputTextVille">Ville</label>
+              </div>
+              <input type="text" class="form-control${
+                villeNameError ? ' is-invalid' : '' }" id="inputTextVille" name="inputTextVille"
+                value="${ not empty inputedVille ? inputedVille : '' }"
+                onchange="this.form.formChangeOn.value = 'searchVille';">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary ml-0" type="button" 
+                  id="btnSearchVille" name="btnSearchVille" aria-label="Recherche ville"
+                  onclick="this.form.formChangeOn.value = 'searchVille'; this.form.submit();">
+                  <i class="fas fa-search" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+            
           </div>
-          <select class="custom-select" id="inputGroupSelectVille" name="inputGroupSelectVille"
-          <c:if test="${empty villes}">disabled</c:if>>
-            <option <c:if test="${empty selectedVille}">selected</c:if> 
-            value="all">Toutes ...</option>
-              <c:forEach items="${villes}" var="ville">
-                <option <c:if test="${selectedVille == ville.villeID}">selected</c:if> 
-                value="${ville.villeID}">${ville.nom}</option>
-              </c:forEach>
-          </select>
+
+          <div class="col">
+            <div class="input-group mb-3">
+
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelectVille">Sélection</label>
+              </div>
+              <select class="custom-select" ${ villeSelectHighlight ? ' autofocus="autofocus" ' : ''} 
+              id="inputGroupSelectVille" name="inputGroupSelectVille"
+              oninput="this.form.formChangeOn.value = 'selectVille'; this.form.submit();"
+                <c:if test="${empty villes}">disabled</c:if>>
+                <option <c:if test="${empty selectedVille}">selected</c:if> value="all">Toutes ...</option>
+                <c:forEach items="${villes}" var="ville">
+                  <option <c:if test="${selectedVille == ville.villeID}"
+                  >selected</c:if> value="${ville.villeID}">${ville.cp} - ${ville.nom}</option>
+                </c:forEach>
+              </select>
+            </div>
+          </div>
         </div>
-        
+
         <%-- Cotation --%>
         <div class="input-group mb-3">
           <div class="input-group-prepend">

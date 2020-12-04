@@ -274,4 +274,43 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
     return secteur;
   }
 
+  @Override
+  public List<Ville> getVillesByNom(String nom) {
+
+    final int MAX_RESULTS = 19;
+    List<Ville> villes = new ArrayList<>();
+
+    try {
+      villes = em
+          .createQuery("FROM Ville as V "
+                       + "WHERE V.nom LIKE CONCAT('%',:nom,'%') ORDER BY LENGTH(V.nom)",
+              Ville.class)
+          .setParameter("nom", nom)
+          .setMaxResults(MAX_RESULTS).getResultList();
+
+    } catch (IllegalStateException | PersistenceException | ClassCastException e) {
+      LOG.error("getVillesByNom() : failed", e);
+    }
+
+    return villes;
+  }
+
+  @Override
+  public Ville getVilleByID(String id) {
+
+    Ville ville = null;
+
+    LOG.debug("dao villeID : {}", id);
+
+    try {
+
+      ville = em.find(Ville.class, Integer.valueOf(id));
+
+    } catch (IllegalStateException | PersistenceException | ClassCastException e) {
+      LOG.error("getVilleByID() : failed", e);
+    }
+
+    return ville;
+  }
+
 }

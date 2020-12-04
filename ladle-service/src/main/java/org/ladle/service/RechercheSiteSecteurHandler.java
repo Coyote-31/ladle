@@ -123,4 +123,24 @@ public class RechercheSiteSecteurHandler {
     return rechercheSiteSecteurDao.getSecteurByID(secteurID);
   }
 
+  /**
+   * Renvoit une liste de villes correspondant au nom (19 resultats max)
+   *
+   * @param name
+   * @return
+   */
+  public List<Ville> getVillesByNom(String nom) {
+    return rechercheSiteSecteurDao.getVillesByNom(nom);
+  }
+
+  /**
+   * Renvoit une ville depuis son ID
+   *
+   * @param selectedVille
+   * @return
+   */
+  public Ville getVilleByID(String id) {
+    return rechercheSiteSecteurDao.getVilleByID(id);
+  }
+
 }

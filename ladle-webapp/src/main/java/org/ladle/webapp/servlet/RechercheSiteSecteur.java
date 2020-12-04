@@ -68,6 +68,7 @@ public class RechercheSiteSecteur extends HttpServlet {
     final String SELECTED_SECT_EQUAL = "selectedSectEqual";
     final String SELECTED_SECT_NUM = "selectedSectNum";
     final String SELECTED_OFFICIEL = "selectedOfficiel";
+    final String INPUTED_VILLE = "inputedVille";
 
     // Création des constantes pour l'index de l'Objet de la liste de résultat
     final int INDEX_REGION = 0;
@@ -83,6 +84,10 @@ public class RechercheSiteSecteur extends HttpServlet {
     if ("".equals(inputedCodePostal)) {
       inputedCodePostal = null;
     }
+
+    // Gestion de la ville
+    String inputedVille = request.getParameter("inputTextVille");
+    request.setAttribute(INPUTED_VILLE, inputedVille);
     String selectedVille = request.getParameter("inputGroupSelectVille");
 
     // Variable de détection des changements sur le formulaire
@@ -171,6 +176,9 @@ public class RechercheSiteSecteur extends HttpServlet {
         // Si le CP est valide et contient des villes
         if (!villes.isEmpty()) {
 
+          // active is-valid
+          request.setAttribute("cpIsValid", true);
+
           // Si le critère région était "all"
           if ("all".equals(selectedRegion)) {
 
@@ -199,7 +207,10 @@ public class RechercheSiteSecteur extends HttpServlet {
           // Si le CP est invalide
         } else {
 
-          // Ajoute l'erreur
+          // active is-invalid
+          request.setAttribute("cpIsValid", false);
+
+          // Réaffiche le code postal
           request.setAttribute(INPUTED_CP, inputedCodePostal);
 
           // Resélectionne la région et le département précédent
@@ -220,6 +231,55 @@ public class RechercheSiteSecteur extends HttpServlet {
 
         // Renvoit à la jsp la liste des villes
         request.setAttribute("villes", villes);
+
+        break;
+
+      // Si recherche de ville
+      case "searchVille":
+
+        // Recherche de la ville dans la bdd
+        List<Ville> villesByNom = rechercheSiteSecteurHandler.getVillesByNom(inputedVille);
+        LOG.debug("For InputedVille : {} -> {} results", inputedVille, villesByNom.size());
+
+        // Si il n'y a pas de résultat
+        if (villesByNom.isEmpty()) {
+          // Renvoit l'erreur à la jsp
+          request.setAttribute("villeNameError", true);
+
+          // Sinon revoit les villes et focus le select de ville
+        } else {
+          request.setAttribute("villes", villesByNom);
+          request.setAttribute("villeSelectHighlight", true);
+        }
+
+        // Renvoit les sélections et les listes region/departement
+        request.setAttribute(SELECTED_REGION, selectedRegion);
+        request.setAttribute(SELECTED_DEPT, selectedDepartement);
+
+        // Si le critère région était "all"
+        if ("all".equals(selectedRegion)) {
+          // Récupère la liste complète des départements
+          request.setAttribute("departements", rechercheSiteSecteurHandler.getAllDepartements());
+
+          // Sinon récupère la liste des départements de la région sélectionnée
+        } else {
+          request.setAttribute("departements",
+              rechercheSiteSecteurHandler.getDepartementsByRegionCode(selectedRegion));
+        }
+
+        break;
+
+      // Si sélection d'une ville dans la liste
+      case "selectVille":
+
+        Ville villeByID = rechercheSiteSecteurHandler.getVilleByID(selectedVille);
+        // Sélection automatique des critères précédents (region/departement/cp)
+        request.setAttribute(SELECTED_REGION, villeByID.getDepartement().getRegion().getRegionCode());
+        request.setAttribute("departements",
+            rechercheSiteSecteurHandler
+                .getDepartementsByRegionCode(villeByID.getDepartement().getRegion().getRegionCode()));
+        request.setAttribute(SELECTED_DEPT, villeByID.getDepartement().getDepartementCode());
+        request.setAttribute(INPUTED_CP, villeByID.getCp());
 
         break;
 

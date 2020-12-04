@@ -1,17 +1,20 @@
-<!-- Required meta tags -->
+<%-- Required meta tags --%>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- Bootstrap CSS -->
+<%-- Bootstrap CSS --%>
 <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/flatly/bootstrap.min.css"
   rel="stylesheet"
   integrity="sha384-T5jhQKMh96HMkXwqVMSjF3CmLcL1nT9//tCqu9By5XSdj7CwR0r+F3LTzUdfkkQf"
   crossorigin="anonymous">
+  
+<%-- Fontawesome --%>
+<script src="https://kit.fontawesome.com/2d8c05dd63.js" crossorigin="anonymous"></script>
 
-<!-- Custom CSS -->
+<%-- Custom CSS --%>
 <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 
-<!-- FavIcons -->
+<%-- FavIcons --%>
 <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
