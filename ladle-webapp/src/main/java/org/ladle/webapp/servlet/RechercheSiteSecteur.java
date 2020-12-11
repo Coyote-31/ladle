@@ -272,14 +272,54 @@ public class RechercheSiteSecteur extends HttpServlet {
       // Si sélection d'une ville dans la liste
       case "selectVille":
 
-        Ville villeByID = rechercheSiteSecteurHandler.getVilleByID(selectedVille);
-        // Sélection automatique des critères précédents (region/departement/cp)
-        request.setAttribute(SELECTED_REGION, villeByID.getDepartement().getRegion().getRegionCode());
-        request.setAttribute("departements",
-            rechercheSiteSecteurHandler
-                .getDepartementsByRegionCode(villeByID.getDepartement().getRegion().getRegionCode()));
-        request.setAttribute(SELECTED_DEPT, villeByID.getDepartement().getDepartementCode());
-        request.setAttribute(INPUTED_CP, villeByID.getCp());
+        // Si selectedVille est "all"
+        if ("all".equals(selectedVille)) {
+          // Sélection des critères précédents (region/departement/cp)
+          request.setAttribute(SELECTED_REGION, selectedRegion);
+          request.setAttribute("departements",
+              rechercheSiteSecteurHandler.getDepartementsByRegionCode(selectedRegion));
+          request.setAttribute(SELECTED_DEPT, selectedDepartement);
+          request.setAttribute(INPUTED_CP, inputedCodePostal);
+          request.setAttribute(SELECTED_VILLE, null);
+
+          // Renvoit de la liste de villes :
+          // Si le champs inputTextVille n'est pas vide recherche depuis le nom recherché
+          if (!inputedVille.isEmpty()) {
+            request.setAttribute("villes", rechercheSiteSecteurHandler.getVillesByNom(inputedVille));
+            LOG.debug("List villes load from getVillesByNom({})", inputedVille);
+
+            // Sinon fait la recherche depuis le code postal
+          } else {
+            request.setAttribute("villes", rechercheSiteSecteurHandler.getVillesByCP(inputedCodePostal));
+            LOG.debug("List villes load from getVillesByCP({})", inputedCodePostal);
+          }
+
+          // Sinon c'est que selectedVille est un id de ville
+        } else {
+          Ville villeByID;
+          villeByID = rechercheSiteSecteurHandler.getVilleByID(selectedVille);
+          // Sélection automatique des critères précédents (region/departement/cp)
+          request.setAttribute(SELECTED_REGION, villeByID.getDepartement().getRegion().getRegionCode());
+          request.setAttribute("departements",
+              rechercheSiteSecteurHandler
+                  .getDepartementsByRegionCode(villeByID.getDepartement().getRegion().getRegionCode()));
+          request.setAttribute(SELECTED_DEPT, villeByID.getDepartement().getDepartementCode());
+          request.setAttribute(INPUTED_CP, villeByID.getCp());
+          request.setAttribute(SELECTED_VILLE, selectedVille);
+
+          // Renvoit de la liste de villes :
+          // Si le champs inputTextVille n'est pas vide recherche depuis le nom recherché
+          if (!inputedVille.isEmpty()) {
+            request.setAttribute("villes", rechercheSiteSecteurHandler.getVillesByNom(inputedVille));
+            LOG.debug("List villes load from getVillesByNom({})", inputedVille);
+
+            // Sinon fait la recherche depuis le code postal de la ville sélectionnée
+          } else {
+            request.setAttribute("villes", rechercheSiteSecteurHandler.getVillesByCP(villeByID.getCp()));
+            LOG.debug("List villes load from getVillesByCP({})", villeByID.getCp());
+          }
+
+        }
 
         break;
 

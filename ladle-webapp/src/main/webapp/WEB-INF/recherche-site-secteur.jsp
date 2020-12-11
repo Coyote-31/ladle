@@ -101,7 +101,8 @@
               id="inputGroupSelectVille" name="inputGroupSelectVille"
               oninput="this.form.formChangeOn.value = 'selectVille'; this.form.submit();"
                 <c:if test="${empty villes}">disabled</c:if>>
-                <option <c:if test="${empty selectedVille}">selected</c:if> value="all">Toutes ...</option>
+                <option <c:if test="${empty selectedVille}">selected</c:if> 
+                value="all">Toutes ...</option>
                 <c:forEach items="${villes}" var="ville">
                   <option <c:if test="${selectedVille == ville.villeID}"
                   >selected</c:if> value="${ville.villeID}">${ville.cp} - ${ville.nom}</option>
