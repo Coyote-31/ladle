@@ -1,8 +1,12 @@
 package org.ladle.webapp.servlet;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Base64;
 
 import javax.ejb.EJB;
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,8 +49,24 @@ public class AfficheSecteur extends HttpServlet {
     // Envoit le secteur à la jsp
     request.setAttribute("secteur", secteur);
 
-    // Récupère les id des secteurs non-filtrés
-    // String[] secteursID = request.getParameterValues("secteursID");
+    if (!secteur.getPlan().isEmpty()) {
+      // Récupère les dimensions de l'image du secteur (si elle existe)
+      try {
+        BufferedImage bufferedSecteurPlan = ImageIO
+            .read(new ByteArrayInputStream(Base64.getDecoder().decode(secteur.getPlan())));
+
+        Integer secteurPlanWidth = bufferedSecteurPlan.getWidth();
+        LOG.debug("secteurPlanWidth : {}", secteurPlanWidth);
+        request.setAttribute("secteurPlanWidth", secteurPlanWidth);
+
+        Integer secteurPlanHeight = bufferedSecteurPlan.getHeight();
+        LOG.debug("secteurPlanHeight : {}", secteurPlanHeight);
+        request.setAttribute("secteurPlanHeight", secteurPlanHeight);
+
+      } catch (IOException e) {
+        LOG.error("Error IO on BufferedImage to get heigth and width", e);
+      }
+    }
 
     try {
       getServletContext().getRequestDispatcher("/WEB-INF/secteur.jsp").forward(request, response);
