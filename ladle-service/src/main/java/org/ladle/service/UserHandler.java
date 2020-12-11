@@ -7,6 +7,7 @@ import java.sql.SQLDataException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
@@ -18,6 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.User;
 import org.ladle.beans.jpa.Utilisateur;
+import org.ladle.beans.jpa.Ville;
 import org.ladle.dao.UserDao;
 
 /**
@@ -83,7 +85,14 @@ public class UserHandler {
     validationList.put("emailExist", testEmailExist(user));
     validationList.put("emailValid", testEmailValid(user));
     validationList.put("email", testEmail());
-    /* ville */
+    /* cp */
+    validationList.put("cpEmpty", testCpEmpty(user));
+    validationList.put("cpValid", testCpValid(user));
+    validationList.put("cp", testCp());
+    /* ville id */
+    validationList.put("villeIdEmpty", testVilleIdEmpty(user));
+    validationList.put("villeIdValid", testVilleIdValid(user));
+    validationList.put("villeId", testVilleId());
     /* mdp */
     validationList.put("mdpLength", testMdpLength(user));
     validationList.put("mdpEquals", testMdpEquals(user));
@@ -122,11 +131,6 @@ public class UserHandler {
       LOG.debug("Date du mail : {}", message);
 
       // Transfert du bean User vers le bean Utilisateur
-
-      // TODO VilleDAO
-      final int TMP_VILLE_NUM = 666;
-      user.setVilleID(TMP_VILLE_NUM);
-
       Utilisateur utilisateur = new Utilisateur(
           user.getVilleID(),
           user.getPseudo(),
@@ -224,8 +228,8 @@ public class UserHandler {
    */
   private Integer testPseudo() {
 
-    if ((validationList.get("pseudoEmpty") == 1) && (validationList.get("pseudoExist") == 1)
-        && (validationList.get("pseudoLength") == 1) && (validationList.get("pseudoNotEmail") == 1)) {
+    if (validationList.get("pseudoEmpty") == 1 && validationList.get("pseudoExist") == 1
+        && validationList.get("pseudoLength") == 1 && validationList.get("pseudoNotEmail") == 1) {
       return 1;
     }
     return 0;
@@ -270,7 +274,7 @@ public class UserHandler {
    */
   private Integer testGenre() {
 
-    if ((validationList.get("genreEmpty") == 1) && (validationList.get("genreValid") == 1)) {
+    if (validationList.get("genreEmpty") == 1 && validationList.get("genreValid") == 1) {
       return 1;
     }
     return 0;
@@ -317,7 +321,7 @@ public class UserHandler {
    * @return 0 : error / 1 : valid
    */
   private Integer testPrenom() {
-    if ((validationList.get("prenomEmpty") == 1) && (validationList.get("prenomLength") == 1)) {
+    if (validationList.get("prenomEmpty") == 1 && validationList.get("prenomLength") == 1) {
       return 1;
     }
     return 0;
@@ -362,7 +366,7 @@ public class UserHandler {
    * @return 0 : error / 1 : valid
    */
   private Integer testNom() {
-    if ((validationList.get("nomEmpty") == 1) && (validationList.get("nomLength") == 1)) {
+    if (validationList.get("nomEmpty") == 1 && validationList.get("nomLength") == 1) {
       return 1;
     }
     return 0;
@@ -408,10 +412,101 @@ public class UserHandler {
    */
   private Integer testEmail() {
 
-    if ((validationList.get("emailExist") == 1) && (validationList.get("emailValid") == 1)) {
+    if (validationList.get("emailExist") == 1 && validationList.get("emailValid") == 1) {
       return 1;
     }
     return 0;
+  }
+
+  /* === Fonctions cp === */
+
+  /**
+   * Test si le champ code postal est vide
+   *
+   * @param user
+   * @return 0 : error / 1 : valid
+   */
+  private static Integer testCpEmpty(User user) {
+
+    if (user.getCp().isEmpty()) {
+      return 0;
+    }
+    return 1;
+  }
+
+  /**
+   * Test si le code postal existe dans la bdd
+   *
+   * @param user
+   * @return 0 : error / 1 : valid
+   */
+  public Integer testCpValid(User user) {
+
+    if (userDao.isValidCp(user.getCp())) {
+      return 1;
+    }
+    return 0;
+  }
+
+  /**
+   * Test global du champ code postal
+   *
+   * @return 0 : error / 1 : valid
+   */
+  private Integer testCp() {
+
+    if (validationList.get("cpEmpty") == 1 && validationList.get("cpValid") == 1) {
+      return 1;
+    }
+    return 0;
+  }
+
+  /* === Fonctions ville === */
+
+  /**
+   * Test si le champ de sélection de la ville est vide ou à 0 (unselected)
+   *
+   * @param user
+   * @return 0 : error / 1 : valid
+   */
+  private static Integer testVilleIdEmpty(User user) {
+
+    if (user.getVilleID() == null || user.getVilleID() == 0) {
+      return 0;
+    }
+    return 1;
+  }
+
+  /**
+   * Test si la ville existe dans la bdd
+   *
+   * @param user
+   * @return 0 : error / 1 : valid
+   */
+  private Integer testVilleIdValid(User user) {
+
+    if (userDao.isValidVilleId(user.getVilleID())) {
+      return 1;
+    }
+    return 0;
+  }
+
+  /**
+   * Test global du champ ville
+   *
+   * @return 0 : error / 1 : valid
+   */
+  private Integer testVilleId() {
+
+    if (validationList.get("villeIdEmpty") == 1 && validationList.get("villeIdValid") == 1) {
+      return 1;
+    }
+    return 0;
+  }
+
+  public List<Ville> getVillesByCp(String cp) {
+
+    return userDao.getVillesByCp(cp);
   }
 
   /* === Fonctions mdp === */
@@ -428,7 +523,7 @@ public class UserHandler {
     final int MIN_LENGTH = 8;
     final int MAX_LENGTH = 40;
 
-    if ((user.getMdp().length() >= MIN_LENGTH) && (user.getMdp().length() <= MAX_LENGTH)) {
+    if (user.getMdp().length() >= MIN_LENGTH && user.getMdp().length() <= MAX_LENGTH) {
       return 1;
     }
     return 0;
@@ -456,7 +551,7 @@ public class UserHandler {
    */
   private Integer testMdp() {
 
-    if ((validationList.get("mdpLength") == 1) && (validationList.get("mdpEquals") == 1)) {
+    if (validationList.get("mdpLength") == 1 && validationList.get("mdpEquals") == 1) {
       return 1;
     }
     return 0;
@@ -477,7 +572,7 @@ public class UserHandler {
     int antiLoop = 0;
 
     // Loop until emailSHA is unique in DB
-    while ((emailSHA == null) && (antiLoop < MAX_LOOP)) {
+    while (emailSHA == null && antiLoop < MAX_LOOP) {
 
       try {
         // Create MessageDigest instance for SHA-256
@@ -638,7 +733,7 @@ public class UserHandler {
 
   public boolean isValidTokenLogin(String login, String tokenLogin) {
 
-    if ((login == null) || (tokenLogin == null)) {
+    if (login == null || tokenLogin == null) {
       return false;
     }
     return userDao.isValidTokenLogin(login, tokenLogin);

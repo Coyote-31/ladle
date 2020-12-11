@@ -1,8 +1,11 @@
 package org.ladle.dao;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import org.ladle.beans.jpa.Utilisateur;
+import org.ladle.beans.jpa.Ville;
 
 @Local
 public interface UserDao {
@@ -36,6 +39,30 @@ public interface UserDao {
    *         false : connexion invalide
    */
   boolean isLoginByEmailValid(String email, String mdpSecured);
+
+  /**
+   * Test si le code postal existe dans la bdd
+   *
+   * @param cp
+   * @return
+   */
+  boolean isValidCp(String cp);
+
+  /**
+   * Test si l'ID de la ville existe dans la bdd
+   *
+   * @param villeID
+   * @return
+   */
+  boolean isValidVilleId(Integer villeID);
+
+  /**
+   * Renvoit la liste des villes avec ce code postal
+   *
+   * @param cp
+   * @return
+   */
+  List<Ville> getVillesByCp(String cp);
 
   /**
    * Récupère le sel à partir d'un pseudo
@@ -76,4 +103,5 @@ public interface UserDao {
    * @return
    */
   boolean isValidTokenLogin(String login, String tokenLogin);
+
 }

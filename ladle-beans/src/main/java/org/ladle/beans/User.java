@@ -15,6 +15,7 @@ public class User {
   private String prenom;
   private String nom;
   private String email;
+  private String cp;
   private String ville;
   private Integer villeID;
   private String mdp;
@@ -75,6 +76,14 @@ public class User {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getCp() {
+    return cp;
+  }
+
+  public void setCp(String cp) {
+    this.cp = cp;
   }
 
   public String getVille() {

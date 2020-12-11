@@ -61,40 +61,73 @@ public class Inscription extends HttpServlet {
     user.setPrenom(request.getParameter("prenom"));
     user.setNom(request.getParameter("nom"));
     user.setEmail(request.getParameter("email"));
-    user.setVille(request.getParameter("ville"));
+    user.setCp(request.getParameter("cp"));
+    // Gère le cas de l'ID ville (String -> Integer)
+    Integer decodedVilleID = 0;
+    String stringVilleID = request.getParameter("ville");
+    LOG.debug("stringVilleID = {}", stringVilleID);
+    if (stringVilleID != null) {
+      try {
+        decodedVilleID = Integer.decode(stringVilleID);
+      } catch (NumberFormatException eDecodeVilleID) {
+        LOG.error("Failed to decode {}, to integer", request.getParameter("ville"));
+        LOG.trace(eDecodeVilleID);
+      }
+    }
+    user.setVilleID(decodedVilleID);
     user.setMdp(request.getParameter("mdp"));
     user.setMdp2(request.getParameter("mdp2"));
 
-    LOG.debug("Formulaire envoyé : {} | {} | {} | {} | {} | {} | {} | {}",
+    LOG.debug("Formulaire envoyé : {} | {} | {} | {} | {} | {} | {} | {} | {}",
         user.getPseudo(),
         user.getGenre(),
         user.getPrenom(),
         user.getNom(),
         user.getEmail(),
-        user.getVille(),
+        user.getCp(),
+        user.getVilleID(),
         user.getMdp(),
         user.getMdp2());
 
-    // Vérification & insertion dans la BDD + Récupération de la liste de validation
+    // Si c'est une recherche de ville depuis le cp
+    if ("code-postal".equals(request.getParameter("formChangeOn"))) {
 
-    Map<String, Integer> validationList = null;
+      // Test si le cp est valide sinon renvoit une erreur à la jsp
+      boolean cpIsValid;
+      if (userHandler.testCpValid(user) == 1) {
+        cpIsValid = true;
+      } else {
+        cpIsValid = false;
+      }
+      request.setAttribute("villeSelectHighlight", cpIsValid);
+      request.setAttribute("cpIsValid", cpIsValid);
 
-    try {
-      validationList = userHandler.addUser(user);
-      request.setAttribute("validationList", validationList);
+      // Sinon c'est un post du formulaire complet :
+      // Vérification & insertion dans la BDD + Récupération de la liste de validation
+    } else {
 
-      // Attribut pour l'affichage de la validation de l'inscription
-      request.setAttribute("isInscriptionValid", !validationList.containsValue(0));
+      Map<String, Integer> validationList = null;
 
-    } catch (SQLDataException e1) {
-      LOG.error("Error from : userHandler.addUser(user)", e1);
-      request.setAttribute("internalError", true);
+      try {
+        validationList = userHandler.addUser(user);
+        request.setAttribute("validationList", validationList);
+
+        // Attribut pour l'affichage de la validation de l'inscription
+        request.setAttribute("isInscriptionValid", !validationList.containsValue(0));
+
+      } catch (SQLDataException e1) {
+        LOG.error("Error from : userHandler.addUser(user)", e1);
+        request.setAttribute("internalError", true);
+      }
     }
 
     // Sécurise l'objet user en enlevant les mdp non cryptés
     user.setMdp(null);
     user.setMdp2(null);
     request.setAttribute("user", user);
+
+    // Renvoit la liste des villes depuis le CP du user
+    request.setAttribute("villes", userHandler.getVillesByCp(user.getCp()));
 
     try {
       getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(request, response);

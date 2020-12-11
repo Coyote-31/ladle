@@ -1,5 +1,6 @@
 package org.ladle.dao.hibernate.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,11 +12,13 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.persistence.QueryTimeoutException;
 import javax.persistence.TransactionRequiredException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Utilisateur;
+import org.ladle.beans.jpa.Ville;
 import org.ladle.dao.UserDao;
 
 /**
@@ -164,6 +167,81 @@ public class UserDaoImpl implements UserDao {
     }
     LOG.debug("login by email valid : {} / {}", email, mdpSecured);
     return true;
+  }
+
+  @Override
+  public boolean isValidCp(String cp) {
+
+    Integer nbrResults = 0;
+
+    String hql = "FROM Ville V WHERE V.cp = :cp";
+
+    Query query = em.createQuery(hql);
+    query.setParameter("cp", cp);
+
+    try {
+      nbrResults = query.getResultList().size();
+
+    } catch (QueryTimeoutException e) {
+      LOG.error("isValidCp({}) failed", cp);
+      LOG.trace(e);
+      return false;
+    }
+    if (nbrResults == 0) {
+      LOG.debug("isValidCp({}) : {}", cp, false);
+      return false;
+
+    } else {
+      LOG.debug("isValidCp({}) : {}", cp, true);
+      return true;
+    }
+
+  }
+
+  @Override
+  public boolean isValidVilleId(Integer villeID) {
+
+    Integer nbrResults = 0;
+
+    String hql = "FROM Ville V WHERE V.villeID = :villeID";
+
+    Query query = em.createQuery(hql);
+    query.setParameter("villeID", villeID);
+
+    try {
+      nbrResults = query.getResultList().size();
+
+    } catch (QueryTimeoutException e) {
+      LOG.error("isValidVilleId({}) failed", villeID);
+      LOG.trace(e);
+      return false;
+    }
+    if (nbrResults == 0) {
+      LOG.debug("isValidVilleId({}) : {}", villeID, false);
+      return false;
+
+    } else {
+      LOG.debug("isValidVilleId({}) : {}", villeID, true);
+      return true;
+    }
+  }
+
+  @Override
+  public List<Ville> getVillesByCp(String cp) {
+
+    List<Ville> villes = new ArrayList<>();
+
+    try {
+      villes = em
+          .createQuery("FROM Ville as V WHERE V.cp = :cp ORDER BY V.nom", Ville.class)
+          .setParameter("cp", cp)
+          .getResultList();
+
+    } catch (IllegalStateException | PersistenceException | ClassCastException e) {
+      LOG.error("getVillesByCp() : failed", e);
+    }
+
+    return villes;
   }
 
   @Override

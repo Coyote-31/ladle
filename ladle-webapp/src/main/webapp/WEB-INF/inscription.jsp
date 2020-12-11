@@ -134,13 +134,13 @@
           test="${validationList['genre'] == 0}"> is-invalid</c:if>'
             id="genre" name="genre" required>
             <option value="" 
-              <c:if test="${validationList['genre'] != 1}"> selected</c:if>>
+              <c:if test="${user.genre != 'Madame' && user.genre != 'Monsieur' }"> selected</c:if>>
               Choisissez...</option>
             <option value="Madame"
-              <c:if test="${validationList['genre'] == 1 && user.genre == 'Madame'}"> selected</c:if>>
+              <c:if test="${user.genre == 'Madame'}"> selected</c:if>>
               Madame</option>
             <option value="Monsieur"
-              <c:if test="${validationList['genre'] == 1 && user.genre == 'Monsieur'}"> selected</c:if>>
+              <c:if test="${user.genre == 'Monsieur'}"> selected</c:if>>
               Monsieur</option>
           </select>
         </div>
@@ -255,15 +255,60 @@
         <%-- ===== --%>
         <%-- Ville --%>
         <%-- ===== --%>
-
-        <%-- formulaire ville --%>
+        
+        <%-- Message d'erreur : Le CP est invalide --%>
+        <c:if test="${validationList['cpValid'] == 0}">
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Erreur de Code Postal !</strong> Le CP est invalide.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          </div>
+        </c:if>
+        
+        <%-- input CP --%>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="aria-ville">Ville</span>
+            <span class="input-group-text" id="code-postal">Code postal</span>
           </div>
-          <input type="text" id="ville" name="ville" class="form-control" value="${user.ville}" 
-          placeholder="" aria-label="Ville"
-            aria-describedby="aria-ville">
+          <input type="text" 
+          class="form-control${
+          validationList['cp'] == 1 || cpIsValid == true ? ' is-valid' : '' 
+          }${ validationList['cp'] == 0 || cpIsValid == false ? ' is-invalid' : '' }"
+          id="cp" name="cp" placeholder="ex. 31000"
+          <c:if test="${not empty user.cp}">value="${user.cp}"</c:if>
+          maxlength="5" pattern="[0-9][0-9][0-9][0-9][0-9]"
+          oninput="codePostalSender(this.form);"
+          aria-label="Code Postal" aria-describedby="code-postal">
+        </div>
+        
+        
+        <%-- Message d'erreur : La ville n'est pas sélectionné invalide --%>
+        <c:if test="${validationList['villeId'] == 0}">
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Erreur !</strong> Veuillez sélectionner une ville dans la liste.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          </div>
+        </c:if>
+
+        <%-- select ville --%>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="ville">Ville</label>
+          </div>
+          <select class="custom-select${
+          validationList['villeId'] == 1 ? ' is-valid' : '' 
+          }${ validationList['villeId'] == 0 ? ' is-invalid' : '' }"
+          ${ villeSelectHighlight ? ' autofocus="autofocus" ' : ''} 
+          id="ville" name="ville"
+            <c:if test="${empty villes}">disabled</c:if>>
+            <option <c:if test="${empty user.villeID}">selected</c:if> 
+            value="0">Sélection ...</option>
+            <c:forEach items="${villes}" var="ville">
+              <option <c:if test="${user.villeID == ville.villeID}">selected</c:if> 
+              value="${ville.villeID}">${ville.cp} - ${ville.nom}</option>
+            </c:forEach>
+          </select>
         </div>
 
         <%-- ====== --%>
@@ -318,52 +363,9 @@
             </button>
           </div>
         </div>
-
-        <%-- Script hide/show des champs de mdp --%>
-        <script type="text/javascript">
-                                    function passwordShowHide(elem) {
-
-                                        if (elem.id == 'btnMdp') {
-                                            var passwordInput = document
-                                                    .getElementById('mdp');
-                                            var passStatus = document
-                                                    .getElementById('pass-status');
-
-                                        } else {
-                                            var passwordInput = document
-                                                    .getElementById('mdp2');
-                                            var passStatus = document
-                                                    .getElementById('pass-status2');
-                                        }
-
-                                        if (passwordInput.type == 'password') {
-                                            passwordInput.type = 'text';
-                                            passStatus.className = 'far fa-eye';
-
-                                        } else {
-                                            passwordInput.type = 'password';
-                                            passStatus.className = 'far fa-eye-slash';
-                                        }
-                                    }
-                                </script>
-
-        <%-- Script de vérification du mot de passe (mdp == mdp2) --%>
-        <script type="text/javascript">
-                                    var mdp = document.getElementById("mdp"), mdp2 = document
-                                            .getElementById("mdp2");
-
-                                    function validatePassword() {
-                                        if (mdp.value != mdp2.value) {
-                                            mdp2
-                                                    .setCustomValidity("Les mots de passe ne sont pas identiques !");
-                                        } else {
-                                            mdp2.setCustomValidity('');
-                                        }
-                                    }
-
-                                    mdp.onchange = validatePassword;
-                                    mdp2.onkeyup = validatePassword;
-                                </script>
+        
+        <%-- Variables pour les maj du formulaire --%>
+        <input type="hidden" name="formChangeOn" value="">
 
         <%-- Bouton de validation du formulaire --%>
         <button type="submit" class="btn btn-primary">Valider</button>
@@ -373,6 +375,71 @@
     </c:if>
     
   </div>
+  
+  <script type="text/javascript">
+    <%-- Script de recherche de la ville depuis le cp --%>
+    function codePostalSender(myForm) {
+      if (myForm.cp.value.length == 5) {
+        if (myForm.cp.checkValidity()) {
+            myForm.formChangeOn.value = "code-postal";
+            myForm.submit();
+        } else {
+          myForm.cp.setCustomValidity(
+            'Code postal invalide ! Il doit contenir exactement 5 chiffres (ex. 31000).');
+          myForm.cp.reportValidity();
+          myForm.cp.classList.remove('is-valid');
+          myForm.cp.classList.add('is-invalid');
+        }
+      } else {
+          myForm.cp.setCustomValidity('');
+          myForm.cp.classList.remove('is-valid');
+          myForm.cp.classList.remove('is-invalid');
+      }
+    }
+  
+    <%-- Script hide/show des champs de mdp --%>
+    function passwordShowHide(elem) {
+
+        if (elem.id == 'btnMdp') {
+            var passwordInput = document
+                    .getElementById('mdp');
+            var passStatus = document
+                    .getElementById('pass-status');
+
+        } else {
+            var passwordInput = document
+                    .getElementById('mdp2');
+            var passStatus = document
+                    .getElementById('pass-status2');
+        }
+
+        if (passwordInput.type == 'password') {
+            passwordInput.type = 'text';
+            passStatus.className = 'far fa-eye';
+
+        } else {
+            passwordInput.type = 'password';
+            passStatus.className = 'far fa-eye-slash';
+        }
+    }
+
+    <%-- Script de vérification du mot de passe (mdp == mdp2) --%>
+
+    var mdp = document.getElementById("mdp"), mdp2 = document
+            .getElementById("mdp2");
+
+    function validatePassword() {
+        if (mdp.value != mdp2.value) {
+            mdp2
+                    .setCustomValidity("Les mots de passe ne sont pas identiques !");
+        } else {
+            mdp2.setCustomValidity('');
+        }
+    }
+
+    mdp.onchange = validatePassword;
+    mdp2.onkeyup = validatePassword;
+  </script>
 
   <%-- Inclusion du bas de page --%>
   <%@ include file="/WEB-INF/parts/footer.jsp"%>
