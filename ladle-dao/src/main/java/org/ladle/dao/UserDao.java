@@ -65,6 +65,14 @@ public interface UserDao {
   List<Ville> getVillesByCp(String cp);
 
   /**
+   * Renvoit l'objet ville depuis son ID
+   *
+   * @param villeID
+   * @return Ville object
+   */
+  Ville getVilleById(Integer villeID);
+
+  /**
    * Récupère le sel à partir d'un pseudo
    *
    * @param pseudo

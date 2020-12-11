@@ -22,7 +22,7 @@ public class MonCompte extends HttpServlet {
   private static final Logger LOG = LogManager.getLogger(MonCompte.class);
 
   @EJB(name = "UserHandler")
-  UserHandler userHandler;
+  private UserHandler userHandler;
 
   /**
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse

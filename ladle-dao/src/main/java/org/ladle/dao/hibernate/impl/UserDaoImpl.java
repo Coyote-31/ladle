@@ -245,6 +245,21 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
+  public Ville getVilleById(Integer villeID) {
+
+    Ville ville = null;
+
+    try {
+      ville = em.find(Ville.class, villeID);
+
+    } catch (IllegalArgumentException e) {
+      LOG.error("getVilleById({}) : failed", villeID, e);
+    }
+
+    return ville;
+  }
+
+  @Override
   public byte[] getSaltByPseudo(String pseudo) {
 
     String hql = "SELECT U.salt FROM Utilisateur U WHERE U.pseudo = :" + PSEUDO;

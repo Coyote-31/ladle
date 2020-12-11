@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -24,31 +26,32 @@ public class Utilisateur implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "utilisateur_id")
   private Integer utilisateurID;
-  @Column(name = "ville_id")
-  private Integer villeID;
-  @Column(name = "pseudo")
+  @ManyToOne
+  @JoinColumn(name = "ville_id", referencedColumnName = "ville_id", nullable = false)
+  private Ville ville;
+  @Column(name = "pseudo", length = 30, nullable = false)
   private String pseudo;
-  @Column(name = "genre")
+  @Column(name = "genre", length = 45, nullable = false)
   private String genre;
-  @Column(name = "nom")
+  @Column(name = "nom", length = 40, nullable = false)
   private String nom;
-  @Column(name = "prenom")
+  @Column(name = "prenom", length = 40, nullable = false)
   private String prenom;
-  @Column(name = "email")
+  @Column(name = "email", length = 90, nullable = false)
   private String email;
-  @Column(name = "mdp")
+  @Column(name = "mdp", length = 64, nullable = false)
   private String mdp;
-  @Column(name = "salt")
+  @Column(name = "salt", nullable = false)
   private byte[] salt;
-  @Column(name = "role")
+  @Column(name = "role", nullable = false)
   private Integer role;
-  @Column(name = "email_sha")
+  @Column(name = "email_sha", length = 64)
   private String emailSHA;
-  @Column(name = "date_email")
+  @Column(name = "date_email", nullable = false)
   private Timestamp dateEmail;
-  @Column(name = "date_compte")
+  @Column(name = "date_compte", nullable = false)
   private Timestamp dateCompte;
-  @Column(name = "token_login")
+  @Column(name = "token_login", length = 64)
   private String tokenLogin;
 
   /**
@@ -59,7 +62,7 @@ public class Utilisateur implements Serializable {
   }
 
   public Utilisateur(
-      Integer villeID,
+      Ville ville,
       String pseudo,
       String genre,
       String nom,
@@ -72,7 +75,7 @@ public class Utilisateur implements Serializable {
       Timestamp dateEmail,
       Timestamp dateCompte) {
     super();
-    this.villeID = villeID;
+    this.ville = ville;
     this.pseudo = pseudo;
     this.genre = genre;
     this.nom = nom;
@@ -98,12 +101,12 @@ public class Utilisateur implements Serializable {
     this.utilisateurID = utilisateurID;
   }
 
-  public Integer getVilleID() {
-    return villeID;
+  public Ville getVille() {
+    return ville;
   }
 
-  public void setVilleID(Integer villeID) {
-    this.villeID = villeID;
+  public void setVille(Ville ville) {
+    this.ville = ville;
   }
 
   public String getPseudo() {

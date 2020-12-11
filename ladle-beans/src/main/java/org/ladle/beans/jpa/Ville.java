@@ -44,6 +44,8 @@ public class Ville implements Serializable {
   private BigDecimal longitude;
   @OneToMany(mappedBy = "ville")
   private List<Site> sites;
+  @OneToMany(mappedBy = "ville")
+  private List<Utilisateur> utilisateurs;
 
   /**
    * Constructeurs
@@ -145,6 +147,25 @@ public class Ville implements Serializable {
   public void removeSite(Site site) {
     sites.remove(site);
     site.setVille(null);
+  }
+
+  public List<Utilisateur> getUtilisateurs() {
+    List<Utilisateur> utilisateursCPY = new ArrayList<>();
+
+    for (Utilisateur utilisateur : utilisateurs) {
+      utilisateursCPY.add(utilisateur);
+    }
+    return utilisateursCPY;
+  }
+
+  public void addUtilisateur(Utilisateur utilisateur) {
+    utilisateurs.add(utilisateur);
+    utilisateur.setVille(this);
+  }
+
+  public void removeUtilisateur(Utilisateur utilisateur) {
+    utilisateurs.remove(utilisateur);
+    utilisateur.setVille(null);
   }
 
 }

@@ -102,6 +102,9 @@ public class UserHandler {
 
       // Si tout est valide:
 
+      // Récupère la ville depuis son id
+      Ville ville = userDao.getVilleById(user.getVilleID());
+
       // Création du sel
       try {
         user.setSalt(PasswordHandler.getSalt());
@@ -132,7 +135,7 @@ public class UserHandler {
 
       // Transfert du bean User vers le bean Utilisateur
       Utilisateur utilisateur = new Utilisateur(
-          user.getVilleID(),
+          ville,
           user.getPseudo(),
           user.getGenre(),
           user.getNom(),
