@@ -343,6 +343,10 @@ public class RechercheSiteSecteur extends HttpServlet {
         if (inputedCodePostal != null) {
           villes = rechercheSiteSecteurHandler.getVillesByCP(inputedCodePostal);
           request.setAttribute("villes", villes);
+
+          // Si le CP est valide et contient des villes
+          // boolean is-valid
+          request.setAttribute("cpIsValid", !villes.isEmpty());
         }
 
         // recharge les critères de recherches
