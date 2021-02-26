@@ -31,6 +31,8 @@ public class AfficheSecteur extends HttpServlet {
   private RechercheSiteSecteurHandler rechercheSiteSecteurHandler;
 
   /**
+   * Affiche le secteur qui est passé en paramètre avec son ID.
+   *
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
    */
@@ -77,6 +79,8 @@ public class AfficheSecteur extends HttpServlet {
   }
 
   /**
+   * Redirige vers la fonction doGet du Servlet.
+   *
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
    *      response)
    */

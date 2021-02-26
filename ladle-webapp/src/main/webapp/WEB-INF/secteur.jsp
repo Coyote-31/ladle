@@ -13,7 +13,13 @@
 
   <div class="container ladle-bg-main">
 
-    <h1>Secteur :</h1>
+    <div class="d-flex justify-content-between mb-3">
+      <h1>Secteur :</h1>
+      <button type="button" class="btn btn-secondary my-auto" aria-label="Edition du secteur"
+      onclick="window.location.href = './edition-secteur?secteurID=${secteur.secteurID}'">
+        <i class="fas fa-edit pr-2" aria-hidden="true"></i>Edition
+      </button>
+    </div>
     
     ${secteur.nom} <br>
     <fmt:formatDate value="${secteur.dateLastMaj}" type="date" /> <br>
@@ -31,9 +37,9 @@
             <th scope="col">Numéro</th>
             <th scope="col">Cotation</th>
             <th scope="col">Nom</th>
-            <th scope="col">Hauteur</th>
+            <th scope="col">Hauteur (m)</th>
             <th scope="col">Dégaines</th>
-            <th scope="col">remarque</th>
+            <th scope="col">Remarques</th>
           </tr>
         </thead>
         <c:forEach items="${secteur.voies}" var="voie">

@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 /**
  * Classe JPA des voies de la table "voie" pour hibernate.
@@ -35,8 +37,12 @@ public class Voie implements Serializable {
   @Column(name = "nom", length = 45)
   private String nom;
   @Column(name = "hauteur")
+  @Min(1)
+  @Max(999)
   private Integer hauteur;
   @Column(name = "degaine")
+  @Min(0)
+  @Max(99)
   private Integer degaine;
   @Column(name = "remarque")
   private String remarque;
