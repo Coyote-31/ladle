@@ -51,9 +51,11 @@
       </div>
       
       <%-- Plan du secteur --%>
-      <img class="img-fluid my-3" src="data:image/jpg;base64,${secteur.plan}" 
-      width="${secteurPlanWidth}" height="${secteurPlanHeight}"
-      alt="Plan du secteur.">
+      <c:if test="${not empty secteur.plan}">
+        <img class="img-fluid my-3" src="data:image/jpg;base64,${secteur.plan}" 
+        width="${secteurPlanWidth}" height="${secteurPlanHeight}"
+        alt="Plan du secteur.">
+      <</c:if>
       
       <%-- Table avec les voies du secteur --%>
       <table class="table">

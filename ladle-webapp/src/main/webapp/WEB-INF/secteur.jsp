@@ -26,9 +26,11 @@
     ${secteur.descriptif} <br>
     ${secteur.site.ville.nom} <br>
     ${secteur.acces} <br>
-    <img class="img-fluid my-3" src="data:image/jpg;base64,${secteur.plan}" 
-    width="${secteurPlanWidth}" height="${secteurPlanHeight}"
-    alt="Plan du secteur.">
+    <c:if test="${not empty secteur.plan}">
+      <img class="img-fluid my-3" src="data:image/jpg;base64,${secteur.plan}" 
+      width="${secteurPlanWidth}" height="${secteurPlanHeight}"
+      alt="Plan du secteur.">
+    </c:if>
     
     <table class="table">
         <caption>voies</caption>

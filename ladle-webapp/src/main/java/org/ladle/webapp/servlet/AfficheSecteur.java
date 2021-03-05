@@ -51,7 +51,7 @@ public class AfficheSecteur extends HttpServlet {
     // Envoit le secteur à la jsp
     request.setAttribute("secteur", secteur);
 
-    if (!secteur.getPlan().isEmpty()) {
+    if ((secteur.getPlan() != null) && !secteur.getPlan().isEmpty()) {
       // Récupère les dimensions de l'image du secteur (si elle existe)
       try {
         BufferedImage bufferedSecteurPlan = ImageIO

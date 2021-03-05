@@ -61,7 +61,7 @@ public class EditeSecteur extends HttpServlet {
     // Envoit le secteur à la jsp
     request.setAttribute("secteur", secteur);
 
-    if (!secteur.getPlan().isEmpty()) {
+    if ((secteur.getPlan() != null) && !secteur.getPlan().isEmpty()) {
       // Récupère les dimensions de l'image du secteur (si elle existe)
       try {
         BufferedImage bufferedSecteurPlan = ImageIO
@@ -154,21 +154,38 @@ public class EditeSecteur extends HttpServlet {
 
     for (Integer voieFormNum : voiesFormNum) {
 
-      // Nouvelle voie avec les infos du formulaire
-      Voie voie = new Voie();
-      voie.setVoieID(Integer.decode(request.getParameter("voieID" + voieFormNum)));
-      voie.setNumero(request.getParameter("numVoie" + voieFormNum));
-      voie.setCotation(request.getParameter("cotationVoie" + voieFormNum));
-      voie.setNom(request.getParameter("nomVoie" + voieFormNum));
-      voie.setHauteur(Integer.decode(request.getParameter("hauteurVoie" + voieFormNum)));
-      voie.setDegaine(Integer.decode(request.getParameter("degaineVoie" + voieFormNum)));
-      voie.setRemarque(request.getParameter("remarqueVoie" + voieFormNum));
+      // Récupère l'ID de la voie
+      Integer voieID = Integer.decode(request.getParameter("voieID" + voieFormNum));
+      LOG.debug("for VoieID{}", voieID);
 
-      // Ajoute la voie au secteur mis à jour
-      secteurUpdated.addVoie(voie);
+      // Si la voie n'a pas d'ID ou que l'ID existe dans la BDD
+      if ((voieID == null) || voiesIDsBDD.contains(voieID)) {
+        // Nouvelle voie avec les infos du formulaire
+        Voie voie = new Voie();
+        voie.setVoieID(voieID);
+        voie.setNumero(request.getParameter("numVoie" + voieFormNum));
+        voie.setCotation(request.getParameter("cotationVoie" + voieFormNum));
+        voie.setNom(request.getParameter("nomVoie" + voieFormNum));
+        voie.setHauteur(Integer.decode(request.getParameter("hauteurVoie" + voieFormNum)));
+        voie.setDegaine(Integer.decode(request.getParameter("degaineVoie" + voieFormNum)));
+        voie.setRemarque(request.getParameter("remarqueVoie" + voieFormNum));
+
+        LOG.debug("Add voie ID:{}, Num:{}, Cot:{}, Nom:{}, Haut:{}, Deg:{}, Rem:{}",
+            voie.getVoieID(),
+            voie.getNumero(),
+            voie.getCotation(),
+            voie.getNom(),
+            voie.getHauteur(),
+            voie.getDegaine(),
+            voie.getRemarque());
+
+        // Ajoute la voie au secteur mis à jour
+        secteurUpdated.addVoie(voie);
+      }
     }
 
     // Met à jour l'objet secteurUpdated dans la BDD
+    editeSiteSecteurHandler.update(secteurUpdated);
 
     // Renvoit vers la page "secteur.jsp" correspondante
 

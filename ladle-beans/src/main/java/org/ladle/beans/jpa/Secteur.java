@@ -52,6 +52,7 @@ public class Secteur implements Serializable {
    */
 
   public Secteur() {
+    voies = new ArrayList<>();
   }
 
   public Secteur(
@@ -123,7 +124,12 @@ public class Secteur implements Serializable {
   }
 
   public String getPlan() {
-    return Base64.getEncoder().encodeToString(plan);
+    if (plan != null) {
+      return Base64.getEncoder().encodeToString(plan);
+    } else {
+      return null;
+    }
+
   }
 
   public void setPlan(byte[] plan) {
