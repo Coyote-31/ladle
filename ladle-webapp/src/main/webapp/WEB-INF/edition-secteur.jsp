@@ -18,7 +18,7 @@
     ${secteur.site.ville.nom} - <fmt:formatDate value="${secteur.dateLastMaj}" type="date" /> <br><br>
     
     <%-- Formulaire de modification du secteur  --%>
-    <form method="post" action="edition-secteur">
+    <form method="post" action="edition-secteur" enctype="multipart/form-data">
     
       <%-- Stockage de l'ID du secteur --%>
       <input id="secteurID" name="secteurID" type="hidden" value="${secteur.secteurID}">
@@ -28,8 +28,8 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="labelNomSecteur">Nom du secteur</span>
         </div>
-        <input id="secteurNom" name="secteurNom" type="text" class="form-control" value="${secteur.nom}" 
-        aria-label="Nom du secteur" aria-describedby="labelNomSecteur">
+        <input id="secteurNom" name="secteurNom" type="text" class="form-control" required 
+        value="${secteur.nom}" aria-label="Nom du secteur" aria-describedby="labelNomSecteur">
       </div>
       
       <%-- Descriptif du secteur --%>
@@ -51,12 +51,17 @@
       </div>
       
       <%-- Plan du secteur --%>
-      <c:if test="${not empty secteur.plan}">
-        <img class="img-fluid my-3" src="data:image/jpg;base64,${secteur.plan}" 
+      <c:if test="${not empty secteur.planBase64}">
+        <img class="img-fluid my-3" src="data:image/jpg;base64,${secteur.planBase64}" 
         width="${secteurPlanWidth}" height="${secteurPlanHeight}"
         alt="Plan du secteur.">
-      <</c:if>
-      
+      </c:if>
+
+      <div class="form-group">
+        <label for="secteurPlan">Plan du secteur</label>
+        <input type="file" class="form-control-file" id="secteurPlan" name="secteurPlan">
+      </div>
+
       <%-- Table avec les voies du secteur --%>
       <table class="table">
           <caption>voies</caption>

@@ -123,17 +123,28 @@ public class Secteur implements Serializable {
     this.acces = acces;
   }
 
-  public String getPlan() {
+  public byte[] getPlan() {
+    return plan.clone();
+  }
+
+  public void setPlan(byte[] plan) {
+    this.plan = plan.clone();
+  }
+
+  public String getPlanBase64() {
     if (plan != null) {
       return Base64.getEncoder().encodeToString(plan);
     } else {
       return null;
     }
-
   }
 
-  public void setPlan(byte[] plan) {
-    this.plan = plan.clone();
+  public void setPlanBase64(String plan) {
+    if (plan != null) {
+      this.plan = Base64.getDecoder().decode(plan);
+    } else {
+      this.plan = null;
+    }
   }
 
   public List<Voie> getVoies() {

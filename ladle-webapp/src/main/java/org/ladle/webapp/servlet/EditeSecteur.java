@@ -5,18 +5,20 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Enumeration;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Secteur;
@@ -29,6 +31,7 @@ import org.ladle.service.RechercheSiteSecteurHandler;
  */
 @SuppressWarnings("serial")
 @WebServlet("/edition-secteur")
+@MultipartConfig
 public class EditeSecteur extends HttpServlet {
 
   private static final Logger LOG = LogManager.getLogger(EditeSecteur.class);
@@ -61,11 +64,11 @@ public class EditeSecteur extends HttpServlet {
     // Envoit le secteur à la jsp
     request.setAttribute("secteur", secteur);
 
-    if ((secteur.getPlan() != null) && !secteur.getPlan().isEmpty()) {
+    if ((secteur.getPlanBase64() != null) && !secteur.getPlanBase64().isEmpty()) {
       // Récupère les dimensions de l'image du secteur (si elle existe)
       try {
         BufferedImage bufferedSecteurPlan = ImageIO
-            .read(new ByteArrayInputStream(Base64.getDecoder().decode(secteur.getPlan())));
+            .read(new ByteArrayInputStream(secteur.getPlan()));
 
         Integer secteurPlanWidth = bufferedSecteurPlan.getWidth();
         LOG.debug("secteurPlanWidth : {}", secteurPlanWidth);
@@ -119,7 +122,10 @@ public class EditeSecteur extends HttpServlet {
     // Récupère le secteur depuis la BDD
     Secteur secteur = rechercheSiteSecteurHandler.getSecteurByID(secteurID.toString());
 
+    // --------------------------------------------------
     // Met à jour les données dans l'objet secteurUpdated
+    // --------------------------------------------------
+
     Secteur secteurUpdated = new Secteur();
     secteurUpdated.setSecteurID(secteurID);
     secteurUpdated.setSite(secteur.getSite());
@@ -128,7 +134,21 @@ public class EditeSecteur extends HttpServlet {
     secteurUpdated.setDateLastMaj(currentDate);
     secteurUpdated.setDescriptif(request.getParameter("secteurDescriptif"));
     secteurUpdated.setAcces(request.getParameter("secteurAcces"));
-    // secteurUpdated.setPlan(secteur.getPlan()); //TODO Change setter
+
+    // --- Plan ---
+    Part secteurPlanPart = request.getPart("secteurPlan");
+    // Si un nouveau plan est fourni dans le formulaire
+    if ((secteurPlanPart != null) && (secteurPlanPart.getSize() != 0)) {
+      secteurUpdated.setPlan(IOUtils.toByteArray(secteurPlanPart.getInputStream()));
+      // Si un plan existe déjà
+    } else if ((secteur.getPlanBase64() != null) && !secteur.getPlanBase64().isEmpty()) {
+      secteurUpdated.setPlanBase64(secteur.getPlanBase64());
+      // Sinon il n'y a pas de plan
+    } else {
+      secteurUpdated.setPlanBase64(null);
+    }
+
+    // --------------------------------------------------
 
     // Récupère les IDs des voies du secteur de la BDD
     List<Integer> voiesIDsBDD = new ArrayList<>();

@@ -3,7 +3,6 @@ package org.ladle.webapp.servlet;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Base64;
 
 import javax.ejb.EJB;
 import javax.imageio.ImageIO;
@@ -51,11 +50,11 @@ public class AfficheSecteur extends HttpServlet {
     // Envoit le secteur à la jsp
     request.setAttribute("secteur", secteur);
 
-    if ((secteur.getPlan() != null) && !secteur.getPlan().isEmpty()) {
+    if ((secteur.getPlanBase64() != null) && !secteur.getPlanBase64().isEmpty()) {
       // Récupère les dimensions de l'image du secteur (si elle existe)
       try {
         BufferedImage bufferedSecteurPlan = ImageIO
-            .read(new ByteArrayInputStream(Base64.getDecoder().decode(secteur.getPlan())));
+            .read(new ByteArrayInputStream(secteur.getPlan()));
 
         Integer secteurPlanWidth = bufferedSecteurPlan.getWidth();
         LOG.debug("secteurPlanWidth : {}", secteurPlanWidth);
