@@ -28,8 +28,9 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="labelNomSecteur">Nom du secteur</span>
         </div>
-        <input id="secteurNom" name="secteurNom" type="text" class="form-control" required 
-        value="${secteur.nom}" aria-label="Nom du secteur" aria-describedby="labelNomSecteur">
+        <input id="secteurNom" name="secteurNom" type="text" class="form-control" 
+        required maxlength="80" value="${secteur.nom}" 
+        aria-label="Nom du secteur" aria-describedby="labelNomSecteur">
       </div>
       
       <%-- Descriptif du secteur --%>
@@ -37,7 +38,8 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Descriptif du secteur</span>
         </div>
-        <textarea id="secteurDescriptif" name="secteurDescriptif" class="form-control" 
+        <textarea id="secteurDescriptif" name="secteurDescriptif" 
+        class="form-control" maxlength="2000"
         aria-label="Zone de texte">${secteur.descriptif}</textarea>
       </div>
       
@@ -46,7 +48,8 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Accès au secteur</span>
         </div>
-        <textarea id="secteurAcces" name="secteurAcces" class="form-control" 
+        <textarea id="secteurAcces" name="secteurAcces" 
+        class="form-control" maxlength="2000"
         aria-label="Zone de texte">${secteur.acces}</textarea>
       </div>
       
@@ -93,7 +96,7 @@
                 <input id="numVoie${voieIteration}" name="numVoie${voieIteration}" 
                   class="form-control" type="text" required value="${voie.numero}" 
                   required maxlength="6" pattern="[1-9][0-9]{0,2}(bis|ter)?"
-                  oninvalid="this.setCustomValidity('Le numéro va de 1 à 999 et peut être suivit de bis ou ter. Ex: 42 ou 42bis')"
+                  oninvalid="this.setCustomValidity('Le numéro va de 1 à 999 et peut être suivi de bis ou ter. Ex: 42 ou 42bis')"
                   onchange="this.setCustomValidity('')"
                   aria-label="Numéro de la voie" aria-describedby="labelNumVoie">
               </th>
@@ -102,7 +105,7 @@
                 <input id="cotationVoie${voieIteration}" name="cotationVoie${voieIteration}" 
                   class="form-control" type="text" value="${voie.cotation}" 
                   maxlength="3" pattern="[3-9]([abc]\+?)?"
-                  oninvalid="this.setCustomValidity('La cotation va de 3 à 9 et peut être suivit de la lettre a, b ou c suivit ou non de +. Ex: 4 ou 4b+')"
+                  oninvalid="this.setCustomValidity('La cotation va de 3 à 9 et peut être suivie de la lettre a, b ou c suivit ou non de +. Ex: 4 ou 4b+')"
                   onchange="this.setCustomValidity('')"
                   aria-label="Cotation de la voie" aria-describedby="labelCotationVoie">
               </td>
@@ -153,6 +156,19 @@
   </div>
 
   <%@ include file="/WEB-INF/parts/footer.jsp" %>
+  
+  <script type="text/javascript">
+  <%-- Test de la taille de l'image --%>
+    const uploadPlan = document.getElementById("secteurPlan");
+  
+    uploadPlan.onchange = function() {
+        const maxAllowedSize = 5 * 1024 * 1024;
+        if(this.files[0].size > maxAllowedSize){
+           alert("Le plan ne doit pas dépasser 5 Mo !");
+           this.value = "";
+        };
+    };
+  </script>
 
 </body>
 </html>

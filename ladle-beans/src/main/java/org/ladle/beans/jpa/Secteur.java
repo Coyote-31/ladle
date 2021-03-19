@@ -34,11 +34,11 @@ public class Secteur implements Serializable {
   @ManyToOne
   @JoinColumn(name = "site_id", nullable = false)
   private Site site;
-  @Column(name = "nom", length = 45, nullable = false)
+  @Column(name = "nom", length = 80, nullable = false)
   private String nom;
   @Column(name = "date_last_maj", nullable = false)
   private Date dateLastMaj;
-  @Column(name = "descriptif")
+  @Column(name = "descriptif", length = 2000)
   private String descriptif;
   @Column(name = "acces")
   private String acces;

@@ -3,6 +3,8 @@ package org.ladle.webapp.servlet;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.imageio.ImageIO;
@@ -40,12 +42,27 @@ public class AfficheSecteur extends HttpServlet {
 
     LOG.debug("Servlet [AfficheSecteur] -> doGet()");
 
+    // Initialisation de la liste d'erreurs
+    List<String> errorList = new ArrayList<>();
+
     // Récupère l'id du Secteur
     String secteurID = request.getParameter("secteurID");
     LOG.debug("secteurID {}", secteurID);
 
     // Récupère depuis la BDD les informations du secteur
     Secteur secteur = rechercheSiteSecteurHandler.getSecteurByID(secteurID);
+
+    // Si le Secteur n'existe pas renvoit vers une page d'erreur
+    if (secteur == null) {
+      errorList.add("Le Secteur recherché est introuvable !");
+      request.setAttribute("errorList", errorList);
+      try {
+        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      } catch (ServletException | IOException e) {
+        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+      }
+      return;
+    }
 
     // Envoit le secteur à la jsp
     request.setAttribute("secteur", secteur);

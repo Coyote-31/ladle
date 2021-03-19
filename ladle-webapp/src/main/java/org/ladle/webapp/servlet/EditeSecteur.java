@@ -18,9 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ladle.beans.SecteurForm;
+import org.ladle.beans.VoieForm;
 import org.ladle.beans.jpa.Secteur;
 import org.ladle.beans.jpa.Voie;
 import org.ladle.service.EditeSiteSecteurHandler;
@@ -54,12 +57,27 @@ public class EditeSecteur extends HttpServlet {
 
     LOG.debug("Servlet [EditeSecteur] -> doGet()");
 
+    // Initialisation de la liste d'erreurs
+    List<String> errorList = new ArrayList<>();
+
     // Récupère l'id du Secteur
     String secteurID = request.getParameter("secteurID");
     LOG.debug("secteurID {}", secteurID);
 
     // Récupère depuis la BDD les informations du secteur
     Secteur secteur = rechercheSiteSecteurHandler.getSecteurByID(secteurID);
+
+    // Si le Secteur n'existe pas renvoit vers une page d'erreur
+    if (secteur == null) {
+      errorList.add("Le Secteur à éditer est introuvable !");
+      request.setAttribute("errorList", errorList);
+      try {
+        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      } catch (ServletException | IOException e) {
+        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+      }
+      return;
+    }
 
     // Envoit le secteur à la jsp
     request.setAttribute("secteur", secteur);
@@ -103,18 +121,24 @@ public class EditeSecteur extends HttpServlet {
 
     LOG.debug("Servlet [EditeSecteur] -> doPost()");
 
+    // Initialisation de la liste d'erreurs
+    List<String> errorList = new ArrayList<>();
+
     // Récupère l'ID du secteur
     Integer secteurID;
     try {
       secteurID = Integer.decode(request.getParameter("secteurID"));
       LOG.debug("secteurID : {}", secteurID);
+
     } catch (NumberFormatException e) {
       LOG.error("Error decoding secteurID parameter", e);
-      // Si il y a une erreur renvoit à la page d'accueil
+      // Si il y a une erreur renvoit à la page d'erreur
+      errorList.add("Le Secteur à éditer est introuvable !");
+      request.setAttribute("errorList", errorList);
       try {
-        response.sendRedirect("./");
-      } catch (IOException e2) {
-        LOG.error("Error sendRedirect to index", e2);
+        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      } catch (ServletException | IOException e2) {
+        LOG.error("Error getRequestDispatcher to erreur.jsp", e2);
       }
       return;
     }
@@ -122,41 +146,98 @@ public class EditeSecteur extends HttpServlet {
     // Récupère le secteur depuis la BDD
     Secteur secteur = rechercheSiteSecteurHandler.getSecteurByID(secteurID.toString());
 
-    // --------------------------------------------------
-    // Met à jour les données dans l'objet secteurUpdated
-    // --------------------------------------------------
+    // Si le Secteur n'existe pas renvoit vers une page d'erreur
+    if (secteur == null) {
+      errorList.add("Le Secteur à éditer est introuvable !");
+      request.setAttribute("errorList", errorList);
+      try {
+        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      } catch (ServletException | IOException e) {
+        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+      }
+      return;
+    }
 
-    Secteur secteurUpdated = new Secteur();
-    secteurUpdated.setSecteurID(secteurID);
-    secteurUpdated.setSite(secteur.getSite());
-    secteurUpdated.setNom(request.getParameter("secteurNom"));
+    // -------------------------------------------------------
+    // Met à jour les données dans l'objet 'secteurForm'
+    // Qui test les données en interne.
+    // -------------------------------------------------------
+
+    SecteurForm secteurForm = new SecteurForm();
+
+    // Site
+    secteurForm.setSite(secteur.getSite());
+
+    // SecteurID
+    secteurForm.setSecteurID(secteurID.toString());
+
+    // Nom
+    secteurForm.setNom(request.getParameter("secteurNom"));
+
+    // Date dernière maj
     Date currentDate = new Date(System.currentTimeMillis());
-    secteurUpdated.setDateLastMaj(currentDate);
-    secteurUpdated.setDescriptif(request.getParameter("secteurDescriptif"));
-    secteurUpdated.setAcces(request.getParameter("secteurAcces"));
+    secteurForm.setDateLastMaj(currentDate);
 
-    // --- Plan ---
-    Part secteurPlanPart = request.getPart("secteurPlan");
-    // Si un nouveau plan est fourni dans le formulaire
-    if ((secteurPlanPart != null) && (secteurPlanPart.getSize() != 0)) {
-      secteurUpdated.setPlan(IOUtils.toByteArray(secteurPlanPart.getInputStream()));
+    // Descriptif
+    secteurForm.setDescriptif(request.getParameter("secteurDescriptif"));
+
+    // Acces
+    secteurForm.setAcces(request.getParameter("secteurAcces"));
+
+    // Plan
+    Part secteurPlanPart;
+    try {
+      secteurPlanPart = request.getPart("secteurPlan");
+      final int MAX_PLAN_SIZE = 5 * 1024 * 1024;
+
+      // Si un nouveau plan est fourni dans le formulaire
+      if ((secteurPlanPart != null) && (secteurPlanPart.getSize() != 0)) {
+
+        // Si il respecte la taille et le nom d'extension
+        if ((secteurPlanPart.getSize() < MAX_PLAN_SIZE)
+            && FilenameUtils.getExtension(secteurPlanPart.getSubmittedFileName()).matches("^pnj|jpg|jpeg$")) {
+
+          secteurForm.setPlan(IOUtils.toByteArray(secteurPlanPart.getInputStream()));
+        } else {
+          secteurForm.setPlanErr(true);
+          // Si un plan existe déjà
+          if ((secteur.getPlanBase64() != null) && !secteur.getPlanBase64().isEmpty()) {
+            secteurForm.setPlanBase64(secteur.getPlanBase64());
+            // Sinon il n'y a pas de plan
+          } else {
+            secteurForm.setPlanBase64(null);
+          }
+        }
+
+        // Si un plan existe déjà
+      } else if ((secteur.getPlanBase64() != null) && !secteur.getPlanBase64().isEmpty()) {
+        secteurForm.setPlanBase64(secteur.getPlanBase64());
+        // Sinon il n'y a pas de plan
+      } else {
+        secteurForm.setPlanBase64(null);
+      }
+
+    } catch (IOException | ServletException | IllegalArgumentException e) {
+      LOG.error("Error request.getPart() of secteurPlan", e);
+
       // Si un plan existe déjà
-    } else if ((secteur.getPlanBase64() != null) && !secteur.getPlanBase64().isEmpty()) {
-      secteurUpdated.setPlanBase64(secteur.getPlanBase64());
-      // Sinon il n'y a pas de plan
-    } else {
-      secteurUpdated.setPlanBase64(null);
+      if ((secteur.getPlanBase64() != null) && !secteur.getPlanBase64().isEmpty()) {
+        secteurForm.setPlanBase64(secteur.getPlanBase64());
+        // Sinon il n'y a pas de plan
+      } else {
+        secteurForm.setPlanBase64(null);
+      }
     }
 
     // --------------------------------------------------
 
-    // Récupère les IDs des voies du secteur de la BDD
+    // Récupère les IDs des voies du secteur depuis la BDD
     List<Integer> voiesIDsBDD = new ArrayList<>();
     for (Voie voie : secteur.getVoies()) {
       voiesIDsBDD.add(voie.getVoieID());
     }
 
-    // Liste le numéro dans le formulaire de chaque voie
+    // Liste le numéro de l'input du formulaire de chaque voie
     List<Integer> voiesFormNum = new ArrayList<>();
 
     Enumeration<String> enumParameterNames = request.getParameterNames();
@@ -165,12 +246,171 @@ public class EditeSecteur extends HttpServlet {
 
       if (paramVoieID.matches("^voieID[0-9]+$")) {
 
-        int currentVoieNum = Integer.decode((paramVoieID).substring(6));
+        int currentVoieNum;
+        try {
+          currentVoieNum = Integer.decode((paramVoieID).substring(6));
+        } catch (NumberFormatException e) {
+          LOG.error("Erreur du Integer.decode sur paramVoieID.substring(6)", e);
+          errorList.clear();
+          errorList.add("Une erreur est survenue lors de la récupération des voies !");
+          request.setAttribute("errorList", errorList);
+          try {
+            getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+          } catch (ServletException | IOException e2) {
+            LOG.error("Error getRequestDispatcher to erreur.jsp", e2);
+          }
+          return;
+        }
         voiesFormNum.add(currentVoieNum);
       }
     }
 
+    // ----------------------------------------
+    // Met à jour les voies dans 'secteurForm'
+    // ----------------------------------------
+
+    for (Integer voieFormNum : voiesFormNum) {
+
+      // Récupère l'ID de la voie
+      Integer voieID;
+      try {
+        voieID = Integer.decode(request.getParameter("voieID" + voieFormNum));
+      } catch (NumberFormatException e) {
+        LOG.error("Erreur du Integer.decode pour voidID + voieFormNum", e);
+        errorList.clear();
+        errorList.add("Une erreur est survenue lors de la récupération des voies !");
+        request.setAttribute("errorList", errorList);
+        try {
+          getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+        } catch (ServletException | IOException e2) {
+          LOG.error("Error getRequestDispatcher to erreur.jsp", e2);
+        }
+        return;
+      }
+
+      // Si la voie n'a pas d'ID ou que l'ID existe dans la BDD
+      if ((voieID == null) || voiesIDsBDD.contains(voieID)) {
+        // Nouvelle voie avec les infos du formulaire
+        VoieForm voieForm = new VoieForm();
+
+        // Voie ID
+        if (voieID == null) {
+          voieForm.setVoieID(null);
+        } else {
+          voieForm.setVoieID(voieID.toString());
+        }
+
+        // Voie Numero
+        voieForm.setNumero(request.getParameter("numVoie" + voieFormNum));
+
+        // Voie Cotation
+        voieForm.setCotation(request.getParameter("cotationVoie" + voieFormNum));
+
+        // Voie Nom
+        voieForm.setNom(request.getParameter("nomVoie" + voieFormNum));
+
+        // Voie Hauteur
+        voieForm.setHauteur(request.getParameter("hauteurVoie" + voieFormNum));
+
+        // Voie Dégaines
+        voieForm.setDegaine(request.getParameter("degaineVoie" + voieFormNum));
+
+        // Voie Remarque
+        voieForm.setRemarque(request.getParameter("remarqueVoie" + voieFormNum));
+
+        LOG.debug("Add to voieForm ID:{}, Num:{}, Cot:{}, Nom:{}, Haut:{}, Deg:{}, Rem:{}",
+            voieForm.getVoieID(),
+            voieForm.getNumero(),
+            voieForm.getCotation(),
+            voieForm.getNom(),
+            voieForm.getHauteur(),
+            voieForm.getDegaine(),
+            voieForm.getRemarque());
+
+        // Ajoute la voie au secteur mis à jour
+        secteurForm.addVoie(voieForm);
+      }
+    }
+
+    // -----------------------
+    // Test global de voieForm
+    // -----------------------
+
+    // Si l'envoit du formulaire n'est pas valide
+    if (!secteurForm.isValid()) {
+
+      // Génération de la liste des erreurs
+      // Erreurs du secteur :
+      final String ERR_SECTEUR_NOM = "Le nom du secteur est limité à 80 caractères.";
+      final String ERR_SECTEUR_DESCRIPTIF = "Le descriptif du secteur est limité à 2000 caractères.";
+      final String ERR_SECTEUR_ACCES = "L'accès au secteur est limité à 2000 caractères.";
+      final String ERR_SECTEUR_PLAN = "L'image doit être au format pnj, jpg ou jpeg et être inferieure à 5 Mo.";
+
+      if (secteurForm.isNomErr()) {
+        errorList.add(ERR_SECTEUR_NOM);
+      }
+      if (secteurForm.isDescriptifErr()) {
+        errorList.add(ERR_SECTEUR_DESCRIPTIF);
+      }
+      if (secteurForm.isAccesErr()) {
+        errorList.add(ERR_SECTEUR_ACCES);
+      }
+      if (secteurForm.isPlanErr()) {
+        errorList.add(ERR_SECTEUR_PLAN);
+      }
+
+      // Erreurs des voies :
+      final String ERR_VOIE_NUMERO = "Le numéro d'une voie va de 1 à 999 et peut être suivi de bis ou ter. Ex: 42bis";
+      final String ERR_VOIE_COTATION = "La cotation va de 3 à 9 et peut être suivie de "
+                                       + "la lettre a, b ou c suivit ou non de +. Ex: 4 ou 4b+";
+      final String ERR_VOIE_NOM = "Le nom d'une voie est limité à 45 caractères.";
+      final String ERR_VOIE_HAUTEUR = "La hauteur d'une voie est en mètres et va de 1 à 999. Ex: 42";
+      final String ERR_VOIE_DEGAINE = "Le nombre de dégaines de la voie va de 0 à 99. Ex: 12";
+      final String ERR_VOIE_REMARQUE = "La remarque pour une voie est limitée à 255 caractères.";
+
+      // Renvoit des données du formulaire et la liste d'erreurs à la jsp
+      request.setAttribute("secteur", secteurForm);
+      request.setAttribute("errorList", errorList);
+
+      // Recharge la jsp avec les données utilisateur et les erreurs
+      try {
+        getServletContext().getRequestDispatcher("/WEB-INF/edition-secteur.jsp").forward(request, response);
+      } catch (ServletException | IOException e) {
+        LOG.error("Error getRequestDispatcher to edition-secteur.jsp", e);
+      }
+
+    }
+
+    // --------------------------------------------------
+    // Met à jour les données dans l'objet 'secteurUpdated'
+    // --------------------------------------------------
+
+    Secteur secteurUpdated = new Secteur();
+
+    // --- Secteur ID ---
+    secteurUpdated.setSecteurID(secteurID);
+
+    // --- Secteur Site ---
+    secteurUpdated.setSite(secteur.getSite());
+
+    // --- Secteur Nom ---
+    secteurUpdated.setNom(request.getParameter("secteurNom"));
+
+    // --- Secteur Date ---
+    secteurUpdated.setDateLastMaj(currentDate);
+
+    // --- Secteur Descriptif ---
+    secteurUpdated.setDescriptif(request.getParameter("secteurDescriptif"));
+
+    // --- Secteur Acces ---
+    secteurUpdated.setAcces(request.getParameter("secteurAcces"));
+
+    // --- Secteur Plan ---
+    secteurUpdated.setPlan(secteurForm.getPlan());
+
+    // ----------------------------------------
     // Met à jour les voies dans secteurUpdated
+    // ----------------------------------------
 
     for (Integer voieFormNum : voiesFormNum) {
 
@@ -203,6 +443,8 @@ public class EditeSecteur extends HttpServlet {
         secteurUpdated.addVoie(voie);
       }
     }
+
+    // ----------------------------------------
 
     // Met à jour l'objet secteurUpdated dans la BDD
     editeSiteSecteurHandler.update(secteurUpdated);

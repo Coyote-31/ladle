@@ -267,7 +267,7 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
       // Initialise la liste des voies
       Hibernate.initialize(secteur.getVoies());
 
-    } catch (IllegalStateException | PersistenceException | ClassCastException e) {
+    } catch (IllegalStateException | PersistenceException | ClassCastException | NumberFormatException e) {
       LOG.error("getSiteByID() : failed", e);
     }
 
