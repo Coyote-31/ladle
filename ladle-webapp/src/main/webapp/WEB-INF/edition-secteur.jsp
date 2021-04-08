@@ -93,8 +93,8 @@
       </div>
 
       <%-- Table avec les voies du secteur --%>
-      <table class="table">
-          <caption>voies</caption>
+      <table class="table" id="tableVoie">
+          <caption hidden=true>voies</caption>
           <thead class="thead-dark">
             <tr>
               <th id="labelNumVoie" scope="col">Numéro</th>
@@ -103,6 +103,8 @@
               <th id="labelHauteurVoie" scope="col">Hauteur (m)</th>
               <th id="labelDegaineVoie" scope="col">Dégaines</th>
               <th id="labelRemarqueVoie" scope="col">Remarques</th>
+              <th id="labelSupprimerVoie" scope="col">Supprimer</th>
+              <th id="labelIdVoie" scope="col"></th>
             </tr>
           </thead>
           <%-- Ajout de la variable d'itération --%>
@@ -114,12 +116,9 @@
           
             <%-- Ligne du tableau représentant une voie --%>
             
-            <%-- ID de la voie en input caché --%>
-            <input id="voieID${voieIteration}" name="voieID${voieIteration}" 
-                   type="hidden" required value="${voie.voieID}">
             <tr>
               <%-- Numéro de la voie --%>
-              <th scope="row">
+              <td>
                 <input id="numVoie${voieIteration}" name="numVoie${voieIteration}" 
                   class="form-control${isSecteurForm && voie.numeroErr ? ' is-invalid' : ''}" 
                   type="text" required value="${voie.numero}" 
@@ -127,7 +126,7 @@
                   oninvalid="this.setCustomValidity('Le numéro va de 1 à 999 et peut être suivi de bis ou ter. Ex: 42 ou 42bis')"
                   onchange="this.setCustomValidity('')"
                   aria-label="Numéro de la voie" aria-describedby="labelNumVoie">
-              </th>
+              </td>
               <%-- Cotation de la voie --%>
               <td>
                 <input id="cotationVoie${voieIteration}" name="cotationVoie${voieIteration}" 
@@ -173,16 +172,42 @@
                   aria-label="Remarques sur la voie" aria-describedby="labelRemarqueVoie"
                 >${voie.remarque}</textarea>
               </td>
+              
+              <%-- Bouton de suppression de la voie --%>
+              <td>
+                <button type="button" class="btn btn-danger my-auto" aria-label="Supprimer la voie"
+                  onclick="deleteRow(this)">
+                  <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                </button>              
+              </td>
+              <td>
+                <%-- ID de la voie en input caché --%>
+                <input id="voieID${voieIteration}" name="voieID${voieIteration}" 
+                       type="hidden" value="${voie.voieID}">
+               </td>
             </tr>
           </c:forEach>
+        
         </table>
+        
+        <%-- Bouton pour ajouter une nouvelle voie --%>
+        <div class="row">
+          <button type="button" class="btn btn-secondary my-auto" 
+            aria-label="Ajouter une voie" aria-describedby="labelSupprimerVoie"
+            onclick="addNewRow()">
+            <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter une voie
+          </button>
+        </div>
         
         <%-- Input hidden du nombre de voies TODO retirer ?? --%>
         <input id="nombreDeVoies" name="nombreDeVoies" 
           type="hidden" required value="${voieIteration}">
         
-        <button class="btn btn-outline-primary" type="submit" 
-        name="submit-btn" value="submit">Valider</button>
+        <%-- Bouton d'envoi du formulaire --%>
+        <div class="row justify-content-center">
+            <button class="btn btn-primary" type="submit" 
+            name="submit-btn" value="submit">Valider</button>
+        </div>
       
       </form>
     
@@ -201,6 +226,92 @@
            this.value = "";
         };
     };
+    
+    <%-- Fonction de suppression d'une voie --%>
+    function deleteRow(btn) {
+        var row = btn.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    };
+    
+    <%-- Fonction d'ajout d'une nouvelle voie --%>
+    function addNewRow() {
+      
+      var nombreDeVoies = document.getElementById("nombreDeVoies").value;
+      document.getElementById("nombreDeVoies").value = ++nombreDeVoies;
+        
+      var table = document.getElementById("tableVoie");
+      
+      var row = table.insertRow();
+      
+      var cellNumero = row.insertCell(0);
+      var cellCotation = row.insertCell(1);
+      var cellNom = row.insertCell(2);
+      var cellHauteur = row.insertCell(3);
+      var cellDegaine = row.insertCell(4);
+      var cellRemarque = row.insertCell(5);
+      var cellSupprimer = row.insertCell(6);
+      var cellVoieID = row.insertCell(7);
+      
+      cellNumero.innerHTML = 
+          "<input id=\"numVoie" + nombreDeVoies + "\" name=\"numVoie" + nombreDeVoies + "\" class=\"form-control\""
+          + "type=\"text\" required value=\"\"" 
+          + "required maxlength=\"6\" pattern=\"[1-9][0-9]{0,2}(bis|ter)?\""
+          + "oninvalid=\"this.setCustomValidity('Le numéro va de 1 à 999 et peut être suivi de bis ou ter. Ex: 42 ou 42bis')\""
+          + "onchange=\"this.setCustomValidity('')\""
+          + "aria-label=\"Numéro de la voie\" aria-describedby=\"labelNumVoie\">";
+          
+      cellCotation.innerHTML = 
+          "<input id=\"cotationVoie" + nombreDeVoies + "\" name=\"cotationVoie" + nombreDeVoies + "\"" 
+          + "class=\"form-control\"" 
+          + "type=\"text\" value=\"\"" 
+          + "maxlength=\"3\" pattern=\"[3-9]([abc]\+?)?\""
+          + "oninvalid=\"this.setCustomValidity('La cotation va de 3 à 9 et peut être suivie de la lettre a, b ou c suivit ou non de +. Ex: 4 ou 4b+')\""
+          + "onchange=\"this.setCustomValidity('')\""
+          + "aria-label=\"Cotation de la voie\" aria-describedby=\"labelCotationVoie\">";
+          
+      cellNom.innerHTML = 
+          "<input id=\"nomVoie" + nombreDeVoies + "\" name=\"nomVoie" + nombreDeVoies + "\"" 
+          + "class=\"form-control\"" 
+          + "type=\"text\" value=\"\"" 
+          + "maxlength=\"45\" aria-label=\"Nom de la voie\" aria-describedby=\"labelNomVoie\">";
+      
+      cellHauteur.innerHTML = 
+          "<input id=\"hauteurVoie" + nombreDeVoies + "\" name=\"hauteurVoie" + nombreDeVoies + "\"" 
+          + "class=\"form-control\"" 
+          + "type=\"number\" value=\"\"" 
+          + "maxlength=\"3\" pattern=\"[1-9][0-9]{0,2}\" min=\"1\" max=\"999\""
+          + "oninvalid=\"this.setCustomValidity('La hauteur en mètres va de 1 à 999. Ex: 42')\""
+          + "onchange=\"this.setCustomValidity('')\""
+          + "aria-label=\"Hauteur de la voie\" aria-describedby=\"labelHauteurVoie\">";
+      
+      cellDegaine.innerHTML = 
+          "<input id=\"degaineVoie" + nombreDeVoies + "\" name=\"degaineVoie" + nombreDeVoies + "\"" 
+          + "class=\"form-control\"" 
+          + "type=\"number\" value=\"\"" 
+          + "maxlength=\"2\" pattern=\"([0-9])|([1-9][0-9])\" min=\"0\" max=\"99\""
+          + "oninvalid=\"this.setCustomValidity('Le nombre de dégaines va de 0 à 99. Ex: 12')\""
+          + "onchange=\"this.setCustomValidity('')\""
+          + "aria-label=\"Nombre de dégaines de la voie\" aria-describedby=\"labelDegaineVoie\">";
+      
+      cellRemarque.innerHTML = 
+          "<textarea id=\"remarqueVoie" + nombreDeVoies + "\" name=\"remarqueVoie" + nombreDeVoies + "\"" 
+          + "class=\"form-control\"" 
+          + "maxlength=\"255\"" 
+          + "aria-label=\"Remarques sur la voie\" aria-describedby=\"labelRemarqueVoie\">"
+          + "</textarea>";
+      
+      cellSupprimer.innerHTML = 
+          "<button type=\"button\" class=\"btn btn-danger my-auto\" aria-label=\"Supprimer la voie\""
+          + "onclick=\"deleteRow(this)\">"
+          + "<i class=\"fas fa-trash-alt\" aria-hidden=\"true\"></i>"
+          + "</button>";
+      
+      cellVoieID.innerHTML =
+          "<input id=\"voieID" + nombreDeVoies + "\" name=\"voieID" + nombreDeVoies + "\"" 
+          + "type=\"hidden\" value=\"\">";
+          
+    }
+    
   </script>
 
 </body>

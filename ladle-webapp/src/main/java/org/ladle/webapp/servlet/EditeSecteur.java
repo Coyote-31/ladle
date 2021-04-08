@@ -272,8 +272,14 @@ public class EditeSecteur extends HttpServlet {
 
       // Récupère l'ID de la voie
       Integer voieID;
+      String voieIDParam = request.getParameter("voieID" + voieFormNum);
+
       try {
-        voieID = Integer.decode(request.getParameter("voieID" + voieFormNum));
+        if (voieIDParam.isEmpty()) {
+          voieID = null;
+        } else {
+          voieID = Integer.decode(voieIDParam);
+        }
       } catch (NumberFormatException e) {
         LOG.error("Erreur du Integer.decode pour voidID + voieFormNum", e);
         errorList.clear();
@@ -443,12 +449,22 @@ public class EditeSecteur extends HttpServlet {
       Voie voie = new Voie();
 
       try {
-        voie.setVoieID(Integer.decode(voieForm.getVoieID()));
+        if ((voieForm.getVoieID() != null) && !voieForm.getVoieID().isEmpty()) {
+          voie.setVoieID(Integer.decode(voieForm.getVoieID()));
+        }
         voie.setNumero(voieForm.getNumero());
         voie.setCotation(voieForm.getCotation());
         voie.setNom(voieForm.getNom());
-        voie.setHauteur(Integer.decode(voieForm.getHauteur()));
-        voie.setDegaine(Integer.decode(voieForm.getDegaine()));
+        if (voieForm.getHauteur().isEmpty()) {
+          voie.setHauteur(null);
+        } else {
+          voie.setHauteur(Integer.decode(voieForm.getHauteur()));
+        }
+        if (voieForm.getDegaine().isEmpty()) {
+          voie.setDegaine(null);
+        } else {
+          voie.setDegaine(Integer.decode(voieForm.getDegaine()));
+        }
         voie.setRemarque(voieForm.getRemarque());
 
       } catch (NumberFormatException e) {
