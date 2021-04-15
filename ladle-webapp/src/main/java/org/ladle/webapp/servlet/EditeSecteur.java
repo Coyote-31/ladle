@@ -62,7 +62,12 @@ public class EditeSecteur extends HttpServlet {
 
     // Récupère l'id du Secteur
     String secteurID = request.getParameter("secteurID");
-    LOG.debug("secteurID {}", secteurID);
+    LOG.debug("secteurIDParam {}", secteurID);
+
+    if (secteurID == null) {
+      SecteurForm secteurFormAttr = (SecteurForm) request.getAttribute("secteur");
+      secteurID = secteurFormAttr.getSecteurID();
+    }
 
     // Récupère depuis la BDD les informations du secteur
     Secteur secteur = rechercheSiteSecteurHandler.getSecteurByID(secteurID);
@@ -226,6 +231,11 @@ public class EditeSecteur extends HttpServlet {
       } else {
         secteurForm.setPlanBase64(null);
       }
+    }
+
+    // Cas de la suppression du plan
+    if ("true".equals(request.getParameter("supprimePlan"))) {
+      secteurForm.setPlanBase64(null);
     }
 
     // --------------------------------------------------
@@ -498,8 +508,21 @@ public class EditeSecteur extends HttpServlet {
     // Met à jour l'objet secteurUpdated dans la BDD
     editeSiteSecteurHandler.update(secteurUpdated);
 
-    // Renvoit vers la page "secteur.jsp" correspondante
+    // ----------------------------------------
 
+    // Renvoit vers la page d'édition du secteur (cas supprime plan)
+    if ("true".equals(request.getParameter("supprimePlan"))) {
+
+      try {
+        response.sendRedirect("edition-secteur?secteurID=" + secteurID.toString());
+
+      } catch (IOException | IllegalStateException e) {
+        LOG.error("Error sendRedirect -> edition-secteur.jsp", e);
+      }
+      return;
+    }
+
+    // Sinon renvoit vers la page "secteur.jsp" correspondante
     try {
       response.sendRedirect("secteur?secteurID=" + secteurID.toString());
 

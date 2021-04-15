@@ -124,10 +124,17 @@ public class Secteur implements Serializable {
   }
 
   public byte[] getPlan() {
+    if (plan == null) {
+      return null;
+    }
     return plan.clone();
   }
 
   public void setPlan(byte[] plan) {
+    if (plan == null) {
+      this.plan = null;
+      return;
+    }
     this.plan = plan.clone();
   }
 

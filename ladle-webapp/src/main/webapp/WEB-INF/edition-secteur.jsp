@@ -39,7 +39,7 @@
     ${secteur.site.ville.nom} - <fmt:formatDate value="${secteur.dateLastMaj}" type="date" /> <br>
     
     <%-- Formulaire de modification du secteur  --%>
-    <form method="post" action="edition-secteur" enctype="multipart/form-data">
+    <form id="form" name="form" method="post" action="edition-secteur" enctype="multipart/form-data">
     
       <%-- Stockage de l'ID du secteur --%>
       <input id="secteurID" name="secteurID" type="hidden" value="${secteur.secteurID}">
@@ -83,14 +83,30 @@
         width="${secteurPlanWidth}" height="${secteurPlanHeight}"
         alt="Plan du secteur.">
       </c:if>
+      
 
-      <div class="form-group">
-        <label class="form-control${isSecteurForm && secteur.planErr ? ' is-invalid' : ''}"
-        for="secteurPlan">Plan du secteur</label>
-        <input type="file" 
-        class="form-control-file" 
-        id="secteurPlan" name="secteurPlan">
+      <label class="mb-3 form-control${isSecteurForm && secteur.planErr ? ' is-invalid' : ''}"
+      for="secteurPlan">Plan du secteur</label>
+   
+      <div class="row justify-content-between">
+        <div class="col-auto mb-2">
+          <input type="file" 
+          class="form-control-file" 
+          id="secteurPlan" name="secteurPlan">
+        </div>
+
+        <input type="hidden" id="supprimePlan" name="supprimePlan" value="false">
+      
+        <div class="col-auto">
+          <button type="button" class="btn btn-danger mb-3 ml-0" aria-label="Supprimer le plan"
+            onclick="deletePlan()">
+            <i class="fas fa-trash-alt" aria-hidden="true"></i> Supprimer le plan
+          </button>
+        </div>
       </div>
+
+
+        
 
       <%-- Table avec les voies du secteur --%>
       <table class="table" id="tableVoie">
@@ -221,10 +237,25 @@
   
     uploadPlan.onchange = function() {
         const maxAllowedSize = 5 * 1024 * 1024;
+        const validExtensions = ['png','jpg','jpeg'];
+        const uploadPlanExt = event.target.files[0].type.replace(/(.*)\//g, '');
+        
         if(this.files[0].size > maxAllowedSize){
            alert("Le plan ne doit pas dépasser 5 Mo !");
            this.value = "";
         };
+        
+        if(!validExtensions.includes(uploadPlanExt)){
+            alert("Le plan doit être de type png, jpg ou jpeg !");
+            this.value = "";
+         };
+    };
+    
+    <%-- Bouton de suppression du plan --%>
+    function deletePlan() {
+        document.getElementById("secteurPlan").value = '';
+        document.getElementById("supprimePlan").value = 'true';
+        document.forms["form"].submit();
     };
     
     <%-- Fonction de suppression d'une voie --%>
