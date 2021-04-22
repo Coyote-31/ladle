@@ -14,7 +14,16 @@
 
   <div class="container ladle-bg-main">
 
-    <h1>Site :</h1>
+    <div class="d-flex justify-content-between mb-3">
+      <h1>Site :</h1>
+      <c:if test="${!site.officiel || site.officiel && utilisateur.role >= 1}">
+        <button type="button" class="btn btn-secondary my-auto" aria-label="Edition du site"
+        onclick="window.location.href = './edition-site?siteID=${site.siteID}'">
+          <i class="fas fa-edit pr-2" aria-hidden="true"></i>Edition
+        </button>
+      </c:if>
+    </div>
+    
     <h2>${site.nom}</h2><br>
     ${site.officiel} <br>
     <fmt:formatDate value="${site.dateLastMaj}" type="date" /> <br>

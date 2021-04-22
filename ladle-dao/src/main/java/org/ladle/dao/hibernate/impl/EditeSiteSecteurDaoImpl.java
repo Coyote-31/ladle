@@ -9,6 +9,7 @@ import javax.persistence.TransactionRequiredException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Secteur;
+import org.ladle.beans.jpa.Site;
 import org.ladle.dao.EditeSiteSecteurDao;
 
 @Stateless
@@ -30,6 +31,17 @@ public class EditeSiteSecteurDaoImpl implements EditeSiteSecteurDao {
       em.merge(secteurUpdated);
     } catch (IllegalArgumentException | TransactionRequiredException e) {
       LOG.error("Update secteur failed", e);
+    }
+
+  }
+
+  @Override
+  public void update(Site siteUpdated) {
+
+    try {
+      em.merge(siteUpdated);
+    } catch (IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("Update site failed", e);
     }
 
   }

@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Secteur;
+import org.ladle.beans.jpa.Site;
 import org.ladle.dao.EditeSiteSecteurDao;
 
 /**
@@ -29,6 +30,15 @@ public class EditeSiteSecteurHandler {
    */
   public void update(Secteur secteurUpdated) {
     editeSiteSecteurDao.update(secteurUpdated);
-
   }
+
+  /**
+   * Met à jour dans la BDD le site
+   *
+   * @param siteUpdated
+   */
+  public void update(Site siteUpdated) {
+    editeSiteSecteurDao.update(siteUpdated);
+  }
+
 }

@@ -33,7 +33,7 @@ public class Site implements Serializable {
   @ManyToOne
   @JoinColumn(name = "ville_id", nullable = false)
   private Ville ville;
-  @Column(name = "nom", length = 45, nullable = false)
+  @Column(name = "nom", length = 80, nullable = false)
   private String nom;
   @Column(name = "officiel", nullable = false)
   private boolean officiel;
