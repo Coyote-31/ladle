@@ -58,6 +58,18 @@ public class EditeSite extends HttpServlet {
     String siteID = request.getParameter("siteID");
     LOG.debug("siteIDParam {}", siteID);
 
+    // Vérifie que l'ID est de type integer
+    if (!siteID.matches("^[0-9]+$")) {
+      errorList.add("Le Site à éditer est introuvable !");
+      request.setAttribute("errorList", errorList);
+      try {
+        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      } catch (ServletException | IOException e) {
+        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+      }
+      return;
+    }
+
     // Récupère depuis la BDD les informations du site
     Site site = rechercheSiteSecteurHandler.getSiteByID(siteID);
 
@@ -202,6 +214,24 @@ public class EditeSite extends HttpServlet {
     boolean validSiteUpdated = siteForm.isValid();
 
     if (!validSiteUpdated) {
+
+      // Génération de la liste des erreurs
+
+      // Erreurs du site :
+      final String ERR_SITE_NOM = "Le nom du site est limité à 80 caractères.";
+      final String ERR_SITE_DESCRIPTIF = "Le descriptif du site est limité à 2000 caractères.";
+      final String ERR_SITE_ACCES = "L'accès au site est limité à 2000 caractères.";
+
+      if (siteForm.isNomErr()) {
+        errorList.add(ERR_SITE_NOM);
+      }
+      if (siteForm.isDescriptifErr()) {
+        errorList.add(ERR_SITE_DESCRIPTIF);
+      }
+      if (siteForm.isAccesErr()) {
+        errorList.add(ERR_SITE_ACCES);
+      }
+
       // Renvoit des données du formulaire et la liste d'erreurs à la jsp
       request.setAttribute("site", siteForm);
       request.setAttribute("errorList", errorList);

@@ -306,7 +306,7 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
 
       ville = em.find(Ville.class, Integer.valueOf(id));
 
-    } catch (IllegalStateException | PersistenceException | ClassCastException e) {
+    } catch (IllegalStateException | PersistenceException | ClassCastException | NumberFormatException e) {
       LOG.error("getVilleByID() : failed", e);
     }
 
