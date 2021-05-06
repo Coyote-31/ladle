@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +27,6 @@ import org.ladle.service.RechercheSiteSecteurHandler;
  */
 @SuppressWarnings("serial")
 @WebServlet("/edition-site")
-@MultipartConfig
 public class EditeSite extends HttpServlet {
 
   private static final Logger LOG = LogManager.getLogger(EditeSite.class);
@@ -59,7 +57,7 @@ public class EditeSite extends HttpServlet {
     LOG.debug("siteIDParam {}", siteID);
 
     // Vérifie que l'ID est de type integer
-    if (!siteID.matches("^[0-9]+$")) {
+    if (!siteID.matches("^[1-9][0-9]*$")) {
       errorList.add("Le Site à éditer est introuvable !");
       request.setAttribute("errorList", errorList);
       try {

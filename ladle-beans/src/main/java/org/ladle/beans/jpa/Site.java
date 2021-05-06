@@ -55,6 +55,7 @@ public class Site implements Serializable {
    */
 
   public Site() {
+    secteurs = new ArrayList<>();
   }
 
   public Site(

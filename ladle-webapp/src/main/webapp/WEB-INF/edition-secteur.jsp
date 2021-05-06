@@ -209,7 +209,7 @@
         <%-- Bouton pour ajouter une nouvelle voie --%>
         <div class="row">
           <button type="button" class="btn btn-secondary my-auto" 
-            aria-label="Ajouter une voie" aria-describedby="labelSupprimerVoie"
+            aria-label="Ajouter une voie"
             onclick="addNewRow()">
             <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter une voie
           </button>

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ladle.beans.jpa.Secteur;
 import org.ladle.beans.jpa.Site;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
@@ -53,11 +54,21 @@ public class AfficheSite extends HttpServlet {
     String debugStringSecteursID = Arrays.toString(secteursID);
     LOG.debug("secteursID : {}", debugStringSecteursID);
     List<String> listSecteursID = new ArrayList<>();
-    for (String secteurID : secteursID) {
-      if (!secteurID.isEmpty()) {
-        listSecteursID.add(secteurID);
+
+    // Créé la liste à partir du resultat de la recherche
+    if ((secteursID != null) && !debugStringSecteursID.isEmpty()) {
+      for (String secteurID : secteursID) {
+        if (!secteurID.isEmpty()) {
+          listSecteursID.add(secteurID);
+        }
+      }
+      // Sinon récupère tous les IDs des secteurs du site
+    } else {
+      for (Secteur secteur : site.getSecteurs()) {
+        listSecteursID.add(secteur.getSecteurID().toString());
       }
     }
+
     LOG.debug("listSecteursID : {}", listSecteursID);
     request.setAttribute("listFilterSecteursID", listSecteursID);
 

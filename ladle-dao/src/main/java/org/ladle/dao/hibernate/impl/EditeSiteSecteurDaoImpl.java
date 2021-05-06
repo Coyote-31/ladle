@@ -1,6 +1,7 @@
 package org.ladle.dao.hibernate.impl;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -44,6 +45,17 @@ public class EditeSiteSecteurDaoImpl implements EditeSiteSecteurDao {
       LOG.error("Update site failed", e);
     }
 
+  }
+
+  @Override
+  public Integer persist(Secteur secteur) {
+    try {
+      em.persist(secteur);
+      em.flush();
+    } catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("Persist secteur failed", e);
+    }
+    return secteur.getSecteurID();
   }
 
 }

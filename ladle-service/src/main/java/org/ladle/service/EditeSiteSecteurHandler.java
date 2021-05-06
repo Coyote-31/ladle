@@ -41,4 +41,13 @@ public class EditeSiteSecteurHandler {
     editeSiteSecteurDao.update(siteUpdated);
   }
 
+  /**
+   * Persiste dans la BDD le secteur
+   *
+   * @param secteur
+   */
+  public Integer persist(Secteur secteur) {
+    return editeSiteSecteurDao.persist(secteur);
+  }
+
 }

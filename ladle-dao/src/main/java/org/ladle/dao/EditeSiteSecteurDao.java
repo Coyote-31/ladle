@@ -22,4 +22,12 @@ public interface EditeSiteSecteurDao {
    */
   void update(Site siteUpdated);
 
+  /**
+   * Insère le nouveau secteur dans la BDD et retourne sont ID
+   *
+   * @param secteur
+   * @return l'ID du secteur
+   */
+  Integer persist(Secteur secteur);
+
 }
