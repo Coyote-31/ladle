@@ -58,4 +58,14 @@ public class EditeSiteSecteurDaoImpl implements EditeSiteSecteurDao {
     return secteur.getSecteurID();
   }
 
+  @Override
+  public void remove(Secteur secteur) {
+    try {
+      em.remove(em.contains(secteur) ? secteur : em.merge(secteur));
+    } catch (IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("Remove secteur failed", e);
+    }
+
+  }
+
 }

@@ -30,4 +30,11 @@ public interface EditeSiteSecteurDao {
    */
   Integer persist(Secteur secteur);
 
+  /**
+   * Supprime le secteur de la BDD
+   *
+   * @param secteur
+   */
+  void remove(Secteur secteur);
+
 }

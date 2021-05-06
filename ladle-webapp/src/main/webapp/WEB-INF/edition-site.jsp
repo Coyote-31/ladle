@@ -121,7 +121,7 @@
               <%-- Bouton de suppression du secteur --%>
               <td>
                 <button type="button" class="btn btn-danger my-auto" aria-label="Supprimer le secteur"
-                  onclick="">
+                  data-toggle="modal" data-target="#modalDeleteSecteurID${secteur.secteurID}">
                   <i class="fas fa-trash-alt" aria-hidden="true"></i>
                 </button>              
               </td>
@@ -185,6 +185,46 @@
       </div>
     </div>
   </div>
+  
+  
+  <%-- Modal : Supprimer un secteur --%>
+  <%-- Boucle sur toutes les secteurs du site --%>
+  <c:forEach items="${site.secteurs}" var="secteur">
+  
+  <div class="modal fade" id="modalDeleteSecteurID${secteur.secteurID}" tabindex="-1" 
+  aria-labelledby="modalDeleteSecteurID${secteur.secteurID}Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalDeleteSecteurID${secteur.secteurID}Label">
+          Supprimer le secteur</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="deleteSecteurID${secteur.secteurID}Form" name="deleteSecteurID${secteur.secteurID}Form" 
+          method="post" action="supprime-secteur">
+          <div class="modal-body">
+          
+            <%-- Stockage de l'ID du site --%>
+            <input id="siteID" name="siteID" type="hidden" value="${site.siteID}">
+          
+            <%-- Stockage de l'ID du secteur --%>
+            <input id="secteurID" name="secteurID" type="hidden" value="${secteur.secteurID}">
+            <p>Le secteur : <b>${secteur.nom}</b>, va être supprimé. Cette action est définitive.</p>
+            <p>Voulez-vous vraiment supprimer ce secteur ?</p>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-primary" value="submit">Supprimer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  </c:forEach>
 
   <%@ include file="/WEB-INF/parts/footer.jsp" %>
   

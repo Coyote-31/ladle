@@ -50,4 +50,13 @@ public class EditeSiteSecteurHandler {
     return editeSiteSecteurDao.persist(secteur);
   }
 
+  /**
+   * Supprime le secteur de la BDD
+   *
+   * @param secteur
+   */
+  public void remove(Secteur secteur) {
+    editeSiteSecteurDao.remove(secteur);
+  }
+
 }
