@@ -15,10 +15,14 @@
 
     <div class="d-flex justify-content-between mb-3">
       <h1>Secteur :</h1>
-      <button type="button" class="btn btn-secondary my-auto" aria-label="Edition du secteur"
-      onclick="window.location.href = './edition-secteur?secteurID=${secteur.secteurID}'">
-        <i class="fas fa-edit pr-2" aria-hidden="true"></i>Edition
-      </button>
+      
+      <%-- Affiche le btn d'édition si l'utilisateur est connecté --%>
+      <c:if test="${isLoginValid}">
+        <button type="button" class="btn btn-secondary my-auto" aria-label="Edition du secteur"
+        onclick="window.location.href = './edition-secteur?secteurID=${secteur.secteurID}'">
+          <i class="fas fa-edit pr-2" aria-hidden="true"></i>Edition
+        </button>
+      </c:if>
     </div>
     
     ${secteur.nom} <br>
