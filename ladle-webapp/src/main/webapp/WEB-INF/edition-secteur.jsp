@@ -49,7 +49,7 @@
     <form id="form" name="form" method="post" action="edition-secteur" enctype="multipart/form-data">
     
       <%-- Stockage de l'ID du secteur --%>
-      <input id="secteurID" name="secteurID" type="hidden" value="${secteur.secteurID}">
+      <input name="secteurID" type="hidden" value="${secteur.secteurID}">
       
       <%-- Nom du secteur --%>
       <div class="input-group mb-3">
@@ -252,11 +252,11 @@
           <div class="modal-body">
           
             <%-- Stockage de l'ID du site --%>
-            <input id="siteID" name="siteID" type="hidden" value="${secteur.site.siteID}">
+            <input name="siteID" type="hidden" value="${secteur.site.siteID}">
           
             <%-- Stockage de l'ID du secteur --%>
-            <input id="secteurID" name="secteurID" type="hidden" value="${secteur.secteurID}">
-            <p>Le secteur : <b>${secteur.nom}</b>, va être supprimé. Cette action est définitive.</p>
+            <input name="secteurID" type="hidden" value="${secteur.secteurID}">
+            <p>Le secteur : <strong>${secteur.nom}</strong>, va être supprimé. Cette action est définitive.</p>
             <p>Voulez-vous vraiment supprimer ce secteur ?</p>
             
           </div>

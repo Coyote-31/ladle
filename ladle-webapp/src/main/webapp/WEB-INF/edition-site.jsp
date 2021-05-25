@@ -42,7 +42,7 @@
     <form id="form" name="form" method="post" action="edition-site">
     
       <%-- Stockage de l'ID du site --%>
-      <input id="siteID" name="siteID" type="hidden" value="${site.siteID}">
+      <input name="siteID" type="hidden" value="${site.siteID}">
       
       <%-- Nom du site --%>
       <div class="input-group mb-3">
@@ -163,7 +163,7 @@
           <div class="modal-body">
           
             <%-- Stockage de l'ID du site --%>
-            <input id="siteID" name="siteID" type="hidden" value="${site.siteID}">
+            <input name="siteID" type="hidden" value="${site.siteID}">
             
             <%-- Nom du secteur --%>
             <p>Veuillez renseigner le nom du secteur (80 caractères max.)</p>
@@ -207,7 +207,7 @@
           <div class="modal-body">
           
             <%-- Stockage de l'ID du site --%>
-            <input id="siteID" name="siteID" type="hidden" value="${site.siteID}">
+            <input name="siteID" type="hidden" value="${site.siteID}">
           
             <%-- Stockage de l'ID du secteur --%>
             <input id="secteurID" name="secteurID" type="hidden" value="${secteur.secteurID}">

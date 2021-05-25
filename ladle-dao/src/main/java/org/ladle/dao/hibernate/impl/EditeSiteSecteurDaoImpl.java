@@ -70,10 +70,21 @@ public class EditeSiteSecteurDaoImpl implements EditeSiteSecteurDao {
   @Override
   public void remove(Secteur secteur) {
     try {
-      em.remove(em.contains(secteur) ? secteur : em.merge(secteur));
+      Secteur secteurToDelete = em.find(Secteur.class, secteur.getSecteurID());
+      em.remove(secteurToDelete);
+      flushAndClear();
+      LOG.debug("Remove success of Secteur ID:{} name:{}", secteur.getSecteurID(), secteur.getNom());
     } catch (IllegalArgumentException | TransactionRequiredException e) {
       LOG.error("Remove secteur failed", e);
     }
+  }
+
+  /**
+   * Helper method to flush and clear the persistence context
+   */
+  void flushAndClear() {
+    em.flush();
+    em.clear();
   }
 
 }

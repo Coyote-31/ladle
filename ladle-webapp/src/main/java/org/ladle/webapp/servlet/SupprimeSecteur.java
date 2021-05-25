@@ -101,13 +101,13 @@ public class SupprimeSecteur extends HttpServlet {
     // Supprime le secteur de la BDD
     editeSiteSecteurHandler.remove(secteur);
 
-    // Renvoit vers la jsp d'édition du site d'où provenait le secteur supprimé
+    // Renvoit vers la jsp d'affichage du site d'où provenait le secteur supprimé
 
     try {
-      response.sendRedirect("edition-site?siteID=" + siteID);
+      response.sendRedirect("site?siteID=" + siteID);
 
     } catch (IOException | IllegalStateException e) {
-      LOG.error("Error sendRedirect -> edition-secteur.jsp", e);
+      LOG.error("Error sendRedirect -> site.jsp", e);
     }
   }
 
