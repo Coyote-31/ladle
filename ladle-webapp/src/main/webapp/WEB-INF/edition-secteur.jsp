@@ -37,6 +37,7 @@
     <div class="d-flex justify-content-between mb-3">
       <h1>Edition du secteur :</h1>
       
+      <%-- Bouton de suppression du secteur --%>      
       <button type="button" class="btn btn-danger my-auto" aria-label="Supprimer le secteur"
         data-toggle="modal" data-target="#modalDeleteSecteurID${secteur.secteurID}">
         <i class="fas fa-trash-alt" aria-hidden="true"></i> Supprimer le secteur
@@ -236,6 +237,7 @@
     
   </div>
   
+  <%-- Fenetre modale de suppression du secteur --%>
   <div class="modal fade" id="modalDeleteSecteurID${secteur.secteurID}" tabindex="-1" 
   aria-labelledby="modalDeleteSecteurID${secteur.secteurID}Label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

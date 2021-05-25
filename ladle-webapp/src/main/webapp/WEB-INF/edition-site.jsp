@@ -34,7 +34,15 @@
       </div>
     </c:if>
 
-    <h1>Edition du site :</h1>
+    <div class="d-flex justify-content-between mb-3">
+      <h1>Edition du site :</h1>
+      
+      <%-- Bouton de suppression du site --%>      
+      <button type="button" class="btn btn-danger my-auto" aria-label="Supprimer le site"
+        data-toggle="modal" data-target="#modalDeleteSiteID${site.siteID}">
+        <i class="fas fa-trash-alt" aria-hidden="true"></i> Supprimer le site
+      </button>
+    </div>
     
     <p>${site.ville.nom} - <fmt:formatDate value="${site.dateLastMaj}" type="date" /> </p><br>
     
@@ -210,7 +218,7 @@
             <input name="siteID" type="hidden" value="${site.siteID}">
           
             <%-- Stockage de l'ID du secteur --%>
-            <input id="secteurID" name="secteurID" type="hidden" value="${secteur.secteurID}">
+            <input name="secteurID" type="hidden" value="${secteur.secteurID}">
             <p>Le secteur : <strong>${secteur.nom}</strong>, va être supprimé. Cette action est définitive.</p>
             <p>Voulez-vous vraiment supprimer ce secteur ?</p>
             
@@ -225,6 +233,38 @@
   </div>
   
   </c:forEach>
+  
+  <%-- Fenetre modale de suppression du site --%>
+  <div class="modal fade" id="modalDeleteSiteID${site.siteID}" tabindex="-1" 
+  aria-labelledby="modalDeleteSiteID${site.siteID}Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalDeleteSiteID${site.siteID}Label">
+          Supprimer le site</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="deleteSiteID${site.siteID}Form" name="deleteSiteID${site.siteID}Form" 
+          method="post" action="supprime-site">
+          <div class="modal-body">
+          
+            <%-- Stockage de l'ID du site --%>
+            <input name="siteID" type="hidden" value="${site.siteID}">
+
+            <p>Le site : <strong>${site.nom}</strong>, va être supprimé. Cette action est définitive.</p>
+            <p>Voulez-vous vraiment supprimer ce site ?</p>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-primary" value="submit">Supprimer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <%@ include file="/WEB-INF/parts/footer.jsp" %>
   

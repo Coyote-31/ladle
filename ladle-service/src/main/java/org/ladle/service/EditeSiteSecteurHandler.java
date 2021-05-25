@@ -43,6 +43,15 @@ public class EditeSiteSecteurHandler {
   }
 
   /**
+   * Supprime le site de la BDD
+   *
+   * @param site
+   */
+  public void remove(Site site) {
+    editeSiteSecteurDao.remove(site);
+  }
+
+  /**
    * Persiste dans la BDD le secteur
    *
    * @param secteur

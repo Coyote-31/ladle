@@ -47,6 +47,18 @@ public class EditeSiteSecteurDaoImpl implements EditeSiteSecteurDao {
   }
 
   @Override
+  public void remove(Site site) {
+    try {
+      Site siteToDelete = em.find(Site.class, site.getSiteID());
+      em.remove(siteToDelete);
+      flushAndClear();
+      LOG.debug("Remove success of Site ID:{} name:{}", site.getSiteID(), site.getNom());
+    } catch (IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("Remove site failed", e);
+    }
+  }
+
+  @Override
   public Integer persist(Secteur secteur) {
     try {
       em.persist(secteur);

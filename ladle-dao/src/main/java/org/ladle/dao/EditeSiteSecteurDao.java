@@ -24,6 +24,13 @@ public interface EditeSiteSecteurDao {
   void update(Site siteUpdated);
 
   /**
+   * Supprime le site de la BDD
+   *
+   * @param site
+   */
+  void remove(Site site);
+
+  /**
    * Insère le nouveau secteur dans la BDD et retourne son ID
    *
    * @param secteur
