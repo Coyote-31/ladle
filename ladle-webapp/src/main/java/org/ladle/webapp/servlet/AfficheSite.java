@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.ladle.beans.jpa.Secteur;
 import org.ladle.beans.jpa.Site;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
@@ -77,15 +76,10 @@ public class AfficheSite extends HttpServlet {
           listSecteursID.add(secteurID);
         }
       }
-      // Sinon récupère tous les IDs des secteurs du site
-    } else {
-      for (Secteur secteur : site.getSecteurs()) {
-        listSecteursID.add(secteur.getSecteurID().toString());
-      }
-    }
 
-    LOG.debug("listSecteursID : {}", listSecteursID);
-    request.setAttribute("listFilterSecteursID", listSecteursID);
+      LOG.debug("listSecteursID : {}", listSecteursID);
+      request.setAttribute("listFilterSecteursID", listSecteursID);
+    }
 
     try {
       getServletContext().getRequestDispatcher("/WEB-INF/site.jsp").forward(request, response);

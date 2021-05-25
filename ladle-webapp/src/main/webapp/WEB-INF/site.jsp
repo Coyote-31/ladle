@@ -26,13 +26,16 @@
       </c:if>
     </div>
     
-    <h2>${site.nom}</h2><br>
-    ${site.officiel} <br>
-    <fmt:formatDate value="${site.dateLastMaj}" type="date" /> <br>
-    ${site.descriptif} <br>
-    ${site.ville.nom} <br>
-    ${site.acces} <br>
-    
+  <h2>${site.nom}</h2><br>
+  ${site.officiel} <br>
+  <fmt:formatDate value="${site.dateLastMaj}" type="date" /> <br>
+  ${site.descriptif} <br>
+  ${site.ville.nom} <br>
+  ${site.acces} <br>
+  
+  
+  <%-- Avec filtrage de recherche --%>
+  <c:if test="${not empty listFilterSecteursID}">
     <div class="form-check my-3">
       <input class="form-check-input" type="checkbox" value="" checked="checked" 
         onClick="filterSecteurs()" onKeyDown="filterSecteurs()" id="checkFilter">
@@ -40,7 +43,6 @@
         Filtrer selon la recherche.
       </label>
     </div>
-    
     
     <ul>
       <c:forEach items="${site.secteurs}" var="secteur">
@@ -53,6 +55,18 @@
         </li>
       </c:forEach>
     </ul>
+  </c:if>
+  
+  <%-- Sans filtrage de recherche --%>
+  <c:if test="${empty listFilterSecteursID}">
+    <ul>
+      <c:forEach items="${site.secteurs}" var="secteur">
+        <li class="liSecteur">
+          <a href="./secteur?secteurID=${secteur.secteurID}">${secteur.nom}</a> : ${secteur.descriptif}
+        </li>
+      </c:forEach>
+    </ul>
+  </c:if>   
     
   <%-- Bouton pour ajouter un nouveau secteur --%>
   <div class="row">
