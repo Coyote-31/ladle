@@ -9,11 +9,12 @@ import org.ladle.beans.jpa.Site;
 public interface EditeSiteSecteurDao {
 
   /**
-   * Met à jour le secteur dans la BDD
+   * Insère le nouveau site dans la BDD et retourne son ID
    *
-   * @param secteurUpdated
+   * @param site
+   * @return l'ID du site
    */
-  void update(Secteur secteurUpdated);
+  Integer persist(Site site);
 
   /**
    * Met à jour le site dans la BDD
@@ -23,12 +24,19 @@ public interface EditeSiteSecteurDao {
   void update(Site siteUpdated);
 
   /**
-   * Insère le nouveau secteur dans la BDD et retourne sont ID
+   * Insère le nouveau secteur dans la BDD et retourne son ID
    *
    * @param secteur
    * @return l'ID du secteur
    */
   Integer persist(Secteur secteur);
+
+  /**
+   * Met à jour le secteur dans la BDD
+   *
+   * @param secteurUpdated
+   */
+  void update(Secteur secteurUpdated);
 
   /**
    * Supprime le secteur de la BDD

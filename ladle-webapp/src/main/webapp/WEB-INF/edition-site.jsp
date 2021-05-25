@@ -5,7 +5,7 @@
 <html lang="fr">
 <head>
 <title>Edition de site</title>
-<link rel="icon" href="favicon.ico">
+<link rel="icon" href="images/favicon/favicon.ico">
 <%@ include file="/WEB-INF/parts/meta.jsp" %>
 </head>
 <body>
@@ -211,7 +211,7 @@
           
             <%-- Stockage de l'ID du secteur --%>
             <input id="secteurID" name="secteurID" type="hidden" value="${secteur.secteurID}">
-            <p>Le secteur : <b>${secteur.nom}</b>, va être supprimé. Cette action est définitive.</p>
+            <p>Le secteur : <strong>${secteur.nom}</strong>, va être supprimé. Cette action est définitive.</p>
             <p>Voulez-vous vraiment supprimer ce secteur ?</p>
             
           </div>

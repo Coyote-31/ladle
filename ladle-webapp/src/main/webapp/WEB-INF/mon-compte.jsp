@@ -4,6 +4,7 @@
 <html lang="fr">
 <head>
 <title>Mon Compte</title>
+<link rel="icon" href="images/favicon/favicon.ico">
 <%@ include file="/WEB-INF/parts/meta.jsp"%>
 </head>
 <body class="pb-3">

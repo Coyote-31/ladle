@@ -33,7 +33,7 @@ public class AuthenticationUtilisateurFilter implements Filter {
   private UserHandler userHandler;
 
   private static final String[] loginRequiredURLs = {
-      "/mon-compte", "/login", "/edition-secteur", "/edition-site", "/ajout-secteur"
+      "/mon-compte", "/login", "/edition-secteur", "/edition-site", "/ajout-secteur", "/ajout-site"
   };
 
   @Override

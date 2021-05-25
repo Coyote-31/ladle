@@ -4,6 +4,7 @@
 <html lang="fr">
 <head>
 <title>Accueil</title>
+<link rel="icon" href="images/favicon/favicon.ico">
 <%@ include file="/WEB-INF/parts/meta.jsp" %>
 </head>
 <body>

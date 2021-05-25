@@ -5,7 +5,7 @@
 <html lang="fr">
 <head>
 <title>Erreur</title>
-<link rel="icon" href="favicon.ico">
+<link rel="icon" href="images/favicon/favicon.ico">
 <%@ include file="/WEB-INF/parts/meta.jsp" %>
 </head>
 <body>

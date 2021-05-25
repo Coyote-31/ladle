@@ -39,12 +39,27 @@ public class AfficheSite extends HttpServlet {
 
     LOG.debug("Servlet [AfficheSite] -> doGet()");
 
+    // Initialisation de la liste d'erreurs
+    List<String> errorList = new ArrayList<>();
+
     // Récupère l'id du Site
     String siteID = request.getParameter("siteID");
     LOG.debug("siteID {}", siteID);
 
     // Récupère depuis la BDD les informations du site
     Site site = rechercheSiteSecteurHandler.getSiteByID(siteID);
+
+    // Si le Site n'existe pas renvoit vers une page d'erreur
+    if (site == null) {
+      errorList.add("Le Site recherché est introuvable !");
+      request.setAttribute("errorList", errorList);
+      try {
+        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      } catch (ServletException | IOException e) {
+        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+      }
+      return;
+    }
 
     // Envoit le site à la jsp
     request.setAttribute("site", site);

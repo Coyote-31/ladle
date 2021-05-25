@@ -6,7 +6,7 @@
 <html lang="fr">
 <head>
 <title>Site</title>
-<link rel="icon" href="favicon.ico">
+<link rel="icon" href="images/favicon/favicon.ico">
 <%@ include file="/WEB-INF/parts/meta.jsp" %>
 </head>
 <body>
@@ -16,11 +16,13 @@
 
     <div class="d-flex justify-content-between mb-3">
       <h1>Site :</h1>
-      <c:if test="${!site.officiel || site.officiel && utilisateur.role >= 1}">
-        <button type="button" class="btn btn-secondary my-auto" aria-label="Edition du site"
-        onclick="window.location.href = './edition-site?siteID=${site.siteID}'">
-          <i class="fas fa-edit pr-2" aria-hidden="true"></i>Edition
-        </button>
+      <c:if test="${isLoginValid}">
+        <c:if test="${!site.officiel || site.officiel && utilisateur.role >= 1}">
+          <button type="button" class="btn btn-secondary my-auto" aria-label="Edition du site"
+          onclick="window.location.href = './edition-site?siteID=${site.siteID}'">
+            <i class="fas fa-edit pr-2" aria-hidden="true"></i>Edition
+          </button>
+        </c:if>
       </c:if>
     </div>
     

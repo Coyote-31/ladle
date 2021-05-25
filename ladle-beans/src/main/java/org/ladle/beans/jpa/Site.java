@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,7 +48,7 @@ public class Site implements Serializable {
   private BigDecimal latitude;
   @Column(name = "longitude")
   private BigDecimal longitude;
-  @OneToMany(mappedBy = "site")
+  @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Secteur> secteurs;
 
   /**

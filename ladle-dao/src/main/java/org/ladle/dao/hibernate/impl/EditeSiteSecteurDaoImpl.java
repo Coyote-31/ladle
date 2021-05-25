@@ -26,14 +26,14 @@ public class EditeSiteSecteurDaoImpl implements EditeSiteSecteurDao {
   }
 
   @Override
-  public void update(Secteur secteurUpdated) {
-
+  public Integer persist(Site site) {
     try {
-      em.merge(secteurUpdated);
-    } catch (IllegalArgumentException | TransactionRequiredException e) {
-      LOG.error("Update secteur failed", e);
+      em.persist(site);
+      em.flush();
+    } catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("Persist site failed", e);
     }
-
+    return site.getSiteID();
   }
 
   @Override
@@ -44,7 +44,6 @@ public class EditeSiteSecteurDaoImpl implements EditeSiteSecteurDao {
     } catch (IllegalArgumentException | TransactionRequiredException e) {
       LOG.error("Update site failed", e);
     }
-
   }
 
   @Override
@@ -59,13 +58,22 @@ public class EditeSiteSecteurDaoImpl implements EditeSiteSecteurDao {
   }
 
   @Override
+  public void update(Secteur secteurUpdated) {
+
+    try {
+      em.merge(secteurUpdated);
+    } catch (IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("Update secteur failed", e);
+    }
+  }
+
+  @Override
   public void remove(Secteur secteur) {
     try {
       em.remove(em.contains(secteur) ? secteur : em.merge(secteur));
     } catch (IllegalArgumentException | TransactionRequiredException e) {
       LOG.error("Remove secteur failed", e);
     }
-
   }
 
 }
