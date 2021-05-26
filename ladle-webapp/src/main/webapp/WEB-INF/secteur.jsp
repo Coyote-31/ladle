@@ -13,9 +13,9 @@
 
   <div class="container ladle-bg-main">
   
-  <div>
-    Site : <a href="./site?siteID=${secteur.site.siteID}">${secteur.site.nom}</a>
-  </div>
+    <div>
+      Site : <a href="./site?siteID=${secteur.site.siteID}">${secteur.site.nom}</a>
+    </div>
 
     <div class="d-flex justify-content-between mb-3">
       <h1>Secteur :</h1>
