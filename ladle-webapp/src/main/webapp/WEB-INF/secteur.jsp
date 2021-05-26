@@ -12,6 +12,10 @@
   <%@ include file="/WEB-INF/parts/header.jsp" %>
 
   <div class="container ladle-bg-main">
+  
+  <div>
+    Site : <a href="./site?siteID=${secteur.site.siteID}">${secteur.site.nom}</a>
+  </div>
 
     <div class="d-flex justify-content-between mb-3">
       <h1>Secteur :</h1>
@@ -25,11 +29,12 @@
       </c:if>
     </div>
     
-    ${secteur.nom} <br>
-    <fmt:formatDate value="${secteur.dateLastMaj}" type="date" /> <br>
-    ${secteur.descriptif} <br>
-    ${secteur.site.ville.nom} <br>
-    ${secteur.acces} <br>
+    <h2>${secteur.nom}</h2><br>
+    Ville : ${secteur.site.ville.nom} <br>
+    Mis à jour : <fmt:formatDate value="${secteur.dateLastMaj}" type="date" /> <br>
+    Descriptif : ${secteur.descriptif} <br>
+    Accès : ${secteur.acces} <br>
+    
     <c:if test="${not empty secteur.planBase64}">
       <img class="img-fluid my-3" src="data:image/jpg;base64,${secteur.planBase64}" 
       width="${secteurPlanWidth}" height="${secteurPlanHeight}"

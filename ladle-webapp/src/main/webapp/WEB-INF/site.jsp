@@ -27,11 +27,11 @@
     </div>
     
   <h2>${site.nom}</h2><br>
-  ${site.officiel} <br>
-  <fmt:formatDate value="${site.dateLastMaj}" type="date" /> <br>
-  ${site.descriptif} <br>
-  ${site.ville.nom} <br>
-  ${site.acces} <br>
+  Ville : ${site.ville.nom} <br>
+  Mis à jour : <fmt:formatDate value="${site.dateLastMaj}" type="date" /> <br>
+  Officiel : ${site.officiel ? 'Oui' : 'Non'} <br>
+  Descriptif : ${site.descriptif} <br>
+  Accès : ${site.acces} <br>
   
   
   <%-- Avec filtrage de recherche --%>
