@@ -127,6 +127,10 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
     // Formattage du signe de cotation
     String selectedCotaSign;
     switch (selectedCotaEqual) {
+      case "all":
+        selectedCotaSign = ">=";
+        selectedCotaNumChar = null;
+        break;
       case "supEq":
         selectedCotaSign = ">=";
         break;
@@ -192,11 +196,11 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
                       + "   WITH (v.cp = :cp OR :cp is null ) "
                       + "   AND (v.id = :ville OR :ville is null) "
                       + "JOIN v.sites si "
-                      + "   WITH (size(si.secteurs) " + selectedSectSign + " :cotaSectNum) "
-                      + "   AND (si.officiel = :officiel OR :officiel is null) "
-                      + "JOIN si.secteurs sec "
-                      + "JOIN sec.voies vx "
-                      + "   WITH (vx.cotation " + selectedCotaSign + " :cotaNumChar) "
+                      + " WITH (size(si.secteurs) " + selectedSectSign + " :sectNum) "
+                      + " AND (si.officiel = :officiel OR :officiel is null) "
+                      + "LEFT JOIN si.secteurs sec "
+                      + "LEFT JOIN sec.voies vx "
+                      + " WITH (vx.cotation " + selectedCotaSign + " :cotaNumChar OR :cotaNumChar is null) "
                       + "WHERE r.regionCode = :regionCode OR :regionCode is null ";
 
     try {
@@ -206,7 +210,7 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
           .setParameter("cp", inputedCodePostal)
           .setParameter("ville", selectedVilleInteger)
           .setParameter("cotaNumChar", selectedCotaNumChar)
-          .setParameter("cotaSectNum", selectedSectNumInteger)
+          .setParameter("sectNum", selectedSectNumInteger)
           .setParameter("officiel", selectedOfficielBool)
           .getResultList();
 

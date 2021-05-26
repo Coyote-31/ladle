@@ -119,7 +119,9 @@
           </div>
           <select class="custom-select" id="inputGroupSelectCotaEqual" name="inputGroupSelectCotaEqual" 
           aria-label="Signe du comparateur de cotation">
-            <option ${empty selectedCotaEqual or selectedCotaEqual == "supEq" ? "selected":""}
+            <option ${empty selectedCotaEqual or selectedCotaEqual == "all" ? "selected":""}
+            value="all">Indifférent ...</option>
+            <option ${selectedCotaEqual == "supEq" ? "selected":""}
             value="supEq">Supérieure ou égale à :</option>
             <option ${selectedCotaEqual == "infEq" ? "selected":""}
             value="infEq">Inférieur ou égale à :</option>
@@ -177,7 +179,9 @@
           
           <select class="custom-select" id="inputGroupSelectSectNum"  name="inputGroupSelectSectNum" 
           aria-label="Comparateur du nombre de secteurs : nombre">
-            <option ${empty selectedSectNum or selectedSectNum == "1" ? "selected":""}
+            <option ${empty selectedSectNum or selectedSectNum == "0" ? "selected":""}
+              value="0">0</option>
+            <option ${selectedSectNum == "1" ? "selected":""}
               value="1">1</option>
             <option ${selectedSectNum == "2" ? "selected":""}
               value="2">2</option>
