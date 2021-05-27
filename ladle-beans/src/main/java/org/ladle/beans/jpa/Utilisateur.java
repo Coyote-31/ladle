@@ -2,7 +2,10 @@ package org.ladle.beans.jpa;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -53,12 +57,15 @@ public class Utilisateur implements Serializable {
   private Timestamp dateCompte;
   @Column(name = "token_login", length = 64)
   private String tokenLogin;
+  @OneToMany(mappedBy = "commentaire", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Commentaire> commentaires;
 
   /**
    * Constructeurs
    */
 
   public Utilisateur() {
+    commentaires = new ArrayList<>();
   }
 
   public Utilisateur(
@@ -203,6 +210,25 @@ public class Utilisateur implements Serializable {
 
   public void setTokenLogin(String tokenLogin) {
     this.tokenLogin = tokenLogin;
+  }
+
+  public List<Commentaire> getCommentaires() {
+    List<Commentaire> commentairesCPY = new ArrayList<>();
+
+    for (Commentaire commentaire : commentaires) {
+      commentairesCPY.add(commentaire);
+    }
+    return commentairesCPY;
+  }
+
+  public void addCommentaire(Commentaire commentaire) {
+    commentaires.add(commentaire);
+    commentaire.setUtilisateur(this);
+  }
+
+  public void removeCommentaire(Commentaire commentaire) {
+    commentaires.remove(commentaire);
+    commentaire.setUtilisateur(null);
   }
 
 }

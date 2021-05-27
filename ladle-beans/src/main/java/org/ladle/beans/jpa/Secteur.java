@@ -40,7 +40,7 @@ public class Secteur implements Serializable {
   private Date dateLastMaj;
   @Column(name = "descriptif", length = 2000)
   private String descriptif;
-  @Column(name = "acces")
+  @Column(name = "acces", length = 2000)
   private String acces;
   @Column(name = "plan")
   private byte[] plan;

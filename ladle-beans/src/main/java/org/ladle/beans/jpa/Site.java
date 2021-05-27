@@ -40,9 +40,9 @@ public class Site implements Serializable {
   private boolean officiel;
   @Column(name = "date_last_maj", nullable = false)
   private Date dateLastMaj;
-  @Column(name = "descriptif")
+  @Column(name = "descriptif", length = 2000)
   private String descriptif;
-  @Column(name = "acces")
+  @Column(name = "acces", length = 2000)
   private String acces;
   @Column(name = "latitude")
   private BigDecimal latitude;
@@ -50,6 +50,8 @@ public class Site implements Serializable {
   private BigDecimal longitude;
   @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Secteur> secteurs;
+  @OneToMany(mappedBy = "commentaire", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Commentaire> commentaires;
 
   /**
    * Constructeurs
@@ -57,6 +59,7 @@ public class Site implements Serializable {
 
   public Site() {
     secteurs = new ArrayList<>();
+    commentaires = new ArrayList<>();
   }
 
   public Site(
@@ -172,6 +175,25 @@ public class Site implements Serializable {
   public void removeSecteur(Secteur secteur) {
     secteurs.remove(secteur);
     secteur.setSite(null);
+  }
+
+  public List<Commentaire> getCommentaires() {
+    List<Commentaire> commentairesCPY = new ArrayList<>();
+
+    for (Commentaire commentaire : commentaires) {
+      commentairesCPY.add(commentaire);
+    }
+    return commentairesCPY;
+  }
+
+  public void addCommentaire(Commentaire commentaire) {
+    commentaires.add(commentaire);
+    commentaire.setSite(this);
+  }
+
+  public void removeCommentaire(Commentaire commentaire) {
+    commentaires.remove(commentaire);
+    commentaire.setSite(null);
   }
 
 }
