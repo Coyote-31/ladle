@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Site;
+import org.ladle.service.CommentaireHandler;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
 /**
@@ -28,6 +29,9 @@ public class AfficheSite extends HttpServlet {
 
   @EJB(name = "RechercheSiteSecteurHandler")
   private RechercheSiteSecteurHandler rechercheSiteSecteurHandler;
+
+  @EJB(name = "CommentaireHandler")
+  private CommentaireHandler commentaireHandler;
 
   /**
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -79,6 +83,13 @@ public class AfficheSite extends HttpServlet {
 
       LOG.debug("listSecteursID : {}", listSecteursID);
       request.setAttribute("listFilterSecteursID", listSecteursID);
+    }
+
+    // Récupère les commentaires du site et envoit à la jsp
+    try {
+      request.setAttribute("commentaires", commentaireHandler.getCommentairesBySiteID(Integer.decode(siteID)));
+    } catch (NumberFormatException e) {
+      LOG.error("NumberFormatException Error ! With siteID = {}", siteID, e);
     }
 
     try {

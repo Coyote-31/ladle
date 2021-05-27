@@ -19,6 +19,7 @@
     <class>org.ladle.beans.jpa.Site</class>
     <class>org.ladle.beans.jpa.Secteur</class>
     <class>org.ladle.beans.jpa.Voie</class>
+    <class>org.ladle.beans.jpa.Commentaire</class>
 
 		<!-- Persistence Unit configuration -->
     <properties>

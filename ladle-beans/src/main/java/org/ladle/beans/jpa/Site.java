@@ -50,7 +50,7 @@ public class Site implements Serializable {
   private BigDecimal longitude;
   @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Secteur> secteurs;
-  @OneToMany(mappedBy = "commentaire", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Commentaire> commentaires;
 
   /**

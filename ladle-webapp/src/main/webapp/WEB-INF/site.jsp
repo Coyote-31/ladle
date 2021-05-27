@@ -75,6 +75,10 @@
       <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter un secteur
     </button>
   </div>
+  
+  <c:forEach items="${commentaires}" var="commentaire">
+  <div>${commentaire.utilisateur.pseudo} : ${commentaire.contenu}</div>
+  </c:forEach>
 
   </div>
   

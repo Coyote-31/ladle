@@ -57,7 +57,7 @@ public class Utilisateur implements Serializable {
   private Timestamp dateCompte;
   @Column(name = "token_login", length = 64)
   private String tokenLogin;
-  @OneToMany(mappedBy = "commentaire", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Commentaire> commentaires;
 
   /**
