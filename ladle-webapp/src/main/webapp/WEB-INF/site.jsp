@@ -69,16 +69,56 @@
   </c:if>   
     
   <%-- Bouton pour ajouter un nouveau secteur --%>
-  <div class="row">
+  <div class="row mb-3">
     <button type="button" class="btn btn-secondary my-auto" 
       aria-label="Ajouter un secteur" data-toggle="modal" data-target="#modalNewSecteur">
       <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter un secteur
     </button>
   </div>
   
-  <c:forEach items="${commentaires}" var="commentaire">
-  <div>${commentaire.utilisateur.pseudo} : ${commentaire.contenu}</div>
-  </c:forEach>
+  <%-- Section commentaires --%>
+  <div class="container ladle-bg-main bg-secondary pb-0">
+    <p>Commentaires (${commentaires.size()}) :</p>
+    <c:forEach items="${commentaires}" var="commentaire">
+    <div class="card mb-3">
+      <div class="card-header d-flex justify-content-between">
+        <div><strong>${commentaire.utilisateur.pseudo}</strong></div>
+        <div><fmt:formatDate value="${commentaire.dateCreation}" type="date" /></div>
+      </div>
+      <div class="card-body">
+        ${commentaire.contenu}
+      </div>
+    </div>
+    </c:forEach>
+    
+    <%-- Bouton pour ajouter un commentaire --%>
+    <div class="row mb-3">
+      <button type="button" class="btn btn-primary my-auto" aria-label="Ajouter un commentaire"
+      onclick="displayCommentForm();">
+        <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter un commentaire
+      </button>
+    </div>
+    
+    <%-- Formulaire d'ajout de commentaire --%>
+    <form id="commentForm" name="commentForm" method="post" action="site">
+      <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between">
+          <div><strong>${utilisateur.pseudo}</strong></div>
+        </div>
+        <div class="card-body">
+          <textarea id="commentFormText" name="commentFormText"
+            class="form-control" maxlength="2000"
+            aria-label="Zone de texte du commentaire"></textarea>
+        </div>
+        <%-- Bouton d'envoi du formulaire --%>
+        <div class="row justify-content-center">
+            <button class="btn btn-primary mb-3" type="submit" 
+            name="submit-btn" value="submit">Valider</button>
+        </div>
+      </div>
+    </form>
+    
+  </div>
 
   </div>
   

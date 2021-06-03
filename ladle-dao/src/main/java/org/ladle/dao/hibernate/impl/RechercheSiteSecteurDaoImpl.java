@@ -128,7 +128,7 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
     String selectedCotaSign;
     switch (selectedCotaEqual) {
       case "all":
-        selectedCotaSign = ">=";
+        selectedCotaSign = "<=";
         selectedCotaNumChar = null;
         break;
       case "supEq":
@@ -200,8 +200,8 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
                       + " AND (si.officiel = :officiel OR :officiel is null) "
                       + "LEFT JOIN si.secteurs sec "
                       + "LEFT JOIN sec.voies vx "
-                      + " WITH (vx.cotation " + selectedCotaSign + " :cotaNumChar OR :cotaNumChar is null) "
-                      + "WHERE r.regionCode = :regionCode OR :regionCode is null ";
+                      + "WHERE r.regionCode = :regionCode OR :regionCode is null "
+                      + " AND (vx.cotation " + selectedCotaSign + " :cotaNumChar OR :cotaNumChar is null) ";
 
     try {
       searchResults = em.createQuery(hqlQuery)
