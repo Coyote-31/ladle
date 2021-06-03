@@ -83,7 +83,21 @@
     <div class="card mb-3">
       <div class="card-header d-flex justify-content-between">
         <div><strong>${commentaire.utilisateur.pseudo}</strong></div>
-        <div><fmt:formatDate value="${commentaire.dateCreation}" type="date" /></div>
+        <div>
+          <fmt:formatDate value="${commentaire.dateCreation}" type="date" />
+          
+          <form name="deleteForm" method="post" action="site" style="display: inline">
+            <%-- input hidden site ID commentaire ID --%>
+            <input name="siteID" type="hidden" value="${site.siteID}">
+            <input name="commentaireID" type="hidden" value="${commentaire.commentaireID}">
+            <%-- Bouton de suppression du site --%>      
+            <button class="btn btn-danger my-auto" aria-label="Supprimer le commentaire"
+              type="submit" value="delete">
+              <i class="fas fa-trash-alt" aria-hidden="true"></i>
+            </button>
+          </form>
+          
+        </div>
       </div>
       <div class="card-body">
         ${commentaire.contenu}
@@ -92,7 +106,8 @@
     </c:forEach>
     
     <%-- Bouton pour ajouter un commentaire --%>
-    <div class="row mb-3">
+    <div id="displayCommentButton" class="row mb-3" 
+      ${empty errorListCommentaire ? '' : 'style="display:none"'}>
       <button type="button" class="btn btn-primary my-auto" aria-label="Ajouter un commentaire"
       onclick="displayCommentForm();">
         <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter un commentaire
@@ -100,16 +115,25 @@
     </div>
     
     <%-- Formulaire d'ajout de commentaire --%>
-    <form id="commentForm" name="commentForm" method="post" action="site">
+    <form id="commentForm" name="commentForm" method="post" action="site" 
+      ${empty errorListCommentaire ? 'style="display:none"' : ''}>
       <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
           <div><strong>${utilisateur.pseudo}</strong></div>
         </div>
         <div class="card-body">
+        <%-- Liste des erreurs de commentaire --%>
+        <c:if test="${not empty errorListCommentaire}">
+          <c:forEach items="${errorListCommentaire}" var="error">
+            <p class="text-danger">${error}</p>
+          </c:forEach>
+        </c:if>
           <textarea id="commentFormText" name="commentFormText"
-            class="form-control" maxlength="2000"
-            aria-label="Zone de texte du commentaire"></textarea>
+            class="form-control" required minlength="1" maxlength="2000"
+            aria-label="Zone de texte du commentaire">${inputedCommentaire}</textarea>
         </div>
+        <%-- Stockage de l'ID du site --%>
+        <input name="siteID" type="hidden" value="${site.siteID}">
         <%-- Bouton d'envoi du formulaire --%>
         <div class="row justify-content-center">
             <button class="btn btn-primary mb-3" type="submit" 
@@ -177,6 +201,11 @@
             }
         }
      }
+    
+    function displayCommentForm() {
+        document.getElementById("displayCommentButton").style.display="none";
+        document.getElementById("commentForm").style.display="block";
+    }
   
    </script>
 

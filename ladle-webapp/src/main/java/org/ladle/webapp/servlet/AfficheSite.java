@@ -1,6 +1,7 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,10 +12,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ladle.beans.jpa.Commentaire;
 import org.ladle.beans.jpa.Site;
+import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.CommentaireHandler;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
@@ -47,7 +51,7 @@ public class AfficheSite extends HttpServlet {
 
     // Récupère l'id du Site
     String siteID = request.getParameter("siteID");
-    LOG.debug("siteID {}", siteID);
+    LOG.debug("doGet() siteID {}", siteID);
 
     // Récupère depuis la BDD les informations du site
     Site site = rechercheSiteSecteurHandler.getSiteByID(siteID);
@@ -109,11 +113,131 @@ public class AfficheSite extends HttpServlet {
 
     LOG.debug("Servlet [AfficheSite] -> doPost()");
 
-    try {
-      doGet(request, response);
+    // Récupération de l'ID du site
+    String siteID = request.getParameter("siteID");
+    LOG.debug("doPost() siteID {}", siteID);
 
-    } catch (ServletException | IOException e) {
-      LOG.error("doGet() failed", e);
+    // Récupère le site depuis la BDD
+    Site site = rechercheSiteSecteurHandler.getSiteByID(siteID);
+
+    // Si le Site n'existe pas renvoit vers une page d'erreur
+    if (site == null) {
+      // Initialisation de la liste d'erreurs
+      List<String> errorList = new ArrayList<>();
+      errorList.add("Le Site est introuvable !");
+      request.setAttribute("errorList", errorList);
+      try {
+        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      } catch (ServletException | IOException e) {
+        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+      }
+      return;
+    }
+
+    // Récupération de l'utilisateur
+    HttpSession session = request.getSession(true);
+    Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+
+    // Si l'utilisateur n'est pas connecté renvoit vers une page d'erreur
+    if (utilisateur == null) {
+      // Initialisation de la liste d'erreurs
+      List<String> errorList = new ArrayList<>();
+      errorList.add("Vous devez être connecté pour laisser un commentaire !");
+      request.setAttribute("errorList", errorList);
+      try {
+        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      } catch (ServletException | IOException e) {
+        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+      }
+      return;
+    }
+
+    /**
+     * Cas supprime un commentaire
+     */
+
+    String commentaireID = request.getParameter("commentaireID");
+
+    if ((commentaireID != null) && !commentaireID.isEmpty()) {
+      LOG.debug("Supprime le commentaire ID : {}", commentaireID);
+
+      try {
+        doGet(request, response);
+        return;
+
+      } catch (ServletException | IOException e) {
+        LOG.error("doGet() failed", e);
+        return;
+      }
+    }
+
+    /**
+     * Cas ajout d'un commentaire
+     */
+
+    // Récupération du commentaire
+    Commentaire commentaire = new Commentaire();
+    commentaire.setContenu(request.getParameter("commentFormText"));
+
+    // Initialisation de la liste d'erreurs
+    List<String> errorListCommentaire = new ArrayList<>();
+
+    // Test de la validité du commentaire
+    // Si le commentaire est vide
+    if ((commentaire.getContenu().length() <= 0) || commentaire.getContenu().matches("^\s+$")) {
+      errorListCommentaire.add("Un commentaire ne peut pas être vide !");
+    }
+    // Si le commentaire excède 2000 charactères
+    if (commentaire.getContenu().length() > 2000) {
+      errorListCommentaire.add("Un commentaire ne peut excèder 2000 caractères !");
+    }
+
+    // Si pas d'erreur persiste le commentaire dans la BDD
+    if (errorListCommentaire.size() == 0) {
+
+      // Date
+      Date currentDate = new Date(System.currentTimeMillis());
+      commentaire.setDateCreation(currentDate);
+
+      // Utilisateur
+      commentaire.setUtilisateur(utilisateur);
+
+      // Site
+      commentaire.setSite(site);
+
+      // Persistance dans la BDD
+      commentaireHandler.persistCommentaire(commentaire);
+      LOG.debug("Comment to persist = length:{} userID:{} siteID:{} error:{}",
+          commentaire.getContenu().length(),
+          commentaire.getUtilisateur().getUtilisateurID(),
+          commentaire.getSite().getSiteID(),
+          errorListCommentaire.size());
+
+      // Si il y a une erreur
+    } else {
+      // Envoit de la liste des erreurs de commentaire
+      request.setAttribute("errorListCommentaire", errorListCommentaire);
+      // Renvoit du champs inputText
+      request.setAttribute("inputedCommentaire", commentaire.getContenu());
+
+      try {
+        doGet(request, response);
+        return;
+
+      } catch (ServletException | IOException e) {
+        LOG.error("doGet() failed", e);
+        return;
+      }
+    }
+
+    try {
+      // doGet(request, response);
+      response.sendRedirect("site?siteID=" + siteID.toString());
+
+      // } catch (ServletException | IOException e) {
+    } catch (IOException | IllegalStateException e) {
+      // LOG.error("doGet() failed", e);
+      LOG.error("Error sendRedirect -> site.jsp", e);
     }
   }
 

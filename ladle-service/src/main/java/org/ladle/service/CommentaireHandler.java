@@ -23,10 +23,25 @@ public class CommentaireHandler {
   @EJB(name = "CommentaireDaoImpl")
   private CommentaireDao commentaireDao;
 
+  /**
+   * Renvoit tous les commentaires depuis l'ID d'un site
+   *
+   * @param siteID
+   * @return
+   */
   public List<Commentaire> getCommentairesBySiteID(Integer siteID) {
 
     LOG.debug("getCommentairesBySiteID for ID = {}", siteID);
     return commentaireDao.getCommentairesBySiteID(siteID);
+  }
+
+  /**
+   * Persiste le commentaire dans la BDD
+   *
+   * @param commentaire
+   */
+  public void persistCommentaire(Commentaire commentaire) {
+    commentaireDao.persistCommentaire(commentaire);
   }
 
 }

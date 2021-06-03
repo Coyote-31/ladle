@@ -17,4 +17,11 @@ public interface CommentaireDao {
    */
   List<Commentaire> getCommentairesBySiteID(Integer siteID);
 
+  /**
+   * Persiste le commentaire dans la BDD
+   *
+   * @param commentaire
+   */
+  void persistCommentaire(Commentaire commentaire);
+
 }

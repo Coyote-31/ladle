@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.persistence.QueryTimeoutException;
+import javax.persistence.TransactionRequiredException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +36,8 @@ public class CommentaireDaoImpl implements CommentaireDao {
     List<Commentaire> commentaires = new ArrayList<>();
 
     try {
-      String hql = "FROM Commentaire C WHERE C.site.siteID = :siteID";
+      String hql = "FROM Commentaire C WHERE C.site.siteID = :siteID "
+                   + "ORDER BY C.dateCreation DESC, C.commentaireID DESC";
 
       Query query = em.createQuery(hql, Commentaire.class);
       query.setParameter("siteID", siteID);
@@ -46,6 +49,17 @@ public class CommentaireDaoImpl implements CommentaireDao {
       LOG.error("Error ! Failed to get commentaires from siteID = {}", siteID, e);
     }
     return commentaires;
+  }
+
+  @Override
+  public void persistCommentaire(Commentaire commentaire) {
+
+    try {
+      em.persist(commentaire);
+      em.flush();
+    } catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("Persist commentaire failed", e);
+    }
   }
 
 }
