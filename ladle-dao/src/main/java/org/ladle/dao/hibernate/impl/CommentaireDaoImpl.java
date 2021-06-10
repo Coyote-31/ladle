@@ -62,4 +62,25 @@ public class CommentaireDaoImpl implements CommentaireDao {
     }
   }
 
+  @Override
+  public void removeCommentaireByID(Integer commentaireID) {
+    try {
+      Commentaire commentaireToDelete = em.find(Commentaire.class, commentaireID);
+      em.remove(commentaireToDelete);
+      flushAndClear();
+      LOG.debug("Remove success of commentaire ID:{}", commentaireID);
+    } catch (IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("Remove commentaire failed", e);
+    }
+
+  }
+
+  /**
+   * Helper method to flush and clear the persistence context
+   */
+  void flushAndClear() {
+    em.flush();
+    em.clear();
+  }
+
 }

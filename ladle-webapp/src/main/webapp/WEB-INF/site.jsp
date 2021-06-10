@@ -14,17 +14,17 @@
 
   <div class="container ladle-bg-main">
 
-    <div class="d-flex justify-content-between mb-3">
-      <h1>Site :</h1>
-      <c:if test="${isLoginValid}">
-        <c:if test="${!site.officiel || site.officiel && utilisateur.role >= 1}">
-          <button type="button" class="btn btn-secondary my-auto" aria-label="Edition du site"
-          onclick="window.location.href = './edition-site?siteID=${site.siteID}'">
-            <i class="fas fa-edit pr-2" aria-hidden="true"></i>Edition
-          </button>
-        </c:if>
+  <div class="d-flex justify-content-between mb-3">
+    <h1>Site :</h1>
+    <c:if test="${isLoginValid}">
+      <c:if test="${!site.officiel || site.officiel && utilisateur.role >= 1}">
+        <button type="button" class="btn btn-secondary my-auto" aria-label="Edition du site"
+        onclick="window.location.href = './edition-site?siteID=${site.siteID}'">
+          <i class="fas fa-edit pr-2" aria-hidden="true"></i>Edition
+        </button>
       </c:if>
-    </div>
+    </c:if>
+  </div>
     
   <h2>${site.nom}</h2><br>
   Ville : ${site.ville.nom} <br>
@@ -78,33 +78,7 @@
   
   <%-- Section commentaires --%>
   <div class="container ladle-bg-main bg-secondary pb-0">
-    <p>Commentaires (${commentaires.size()}) :</p>
-    <c:forEach items="${commentaires}" var="commentaire">
-    <div class="card mb-3">
-      <div class="card-header d-flex justify-content-between">
-        <div><strong>${commentaire.utilisateur.pseudo}</strong></div>
-        <div>
-          <fmt:formatDate value="${commentaire.dateCreation}" type="date" />
-          
-          <form name="deleteForm" method="post" action="site" style="display: inline">
-            <%-- input hidden site ID commentaire ID --%>
-            <input name="siteID" type="hidden" value="${site.siteID}">
-            <input name="commentaireID" type="hidden" value="${commentaire.commentaireID}">
-            <%-- Bouton de suppression du site --%>      
-            <button class="btn btn-danger my-auto" aria-label="Supprimer le commentaire"
-              type="submit" value="delete">
-              <i class="fas fa-trash-alt" aria-hidden="true"></i>
-            </button>
-          </form>
-          
-        </div>
-      </div>
-      <div class="card-body">
-        ${commentaire.contenu}
-      </div>
-    </div>
-    </c:forEach>
-    
+  
     <%-- Bouton pour ajouter un commentaire --%>
     <div id="displayCommentButton" class="row mb-3" 
       ${empty errorListCommentaire ? '' : 'style="display:none"'}>
@@ -142,6 +116,36 @@
       </div>
     </form>
     
+    <%-- Liste des commentaires --%>
+    <p>Commentaires (${commentaires.size()}) :</p>
+    <c:forEach items="${commentaires}" var="commentaire">
+    <div class="card mb-3">
+      <div class="card-header d-flex justify-content-between">
+        <div><strong>${commentaire.utilisateur.pseudo}</strong></div>
+        <div>
+          <fmt:formatDate value="${commentaire.dateCreation}" type="date" />
+          
+          <%-- Formulaire de suppression d'un commentaire --%>
+          <c:if test="${utilisateur.role >= 1}">
+            <form name="deleteForm" method="post" action="site" style="display: inline">
+              <%-- input hidden site ID commentaire ID --%>
+              <input name="siteID" type="hidden" value="${site.siteID}">
+              <input name="commentaireID" type="hidden" value="${commentaire.commentaireID}">
+              <%-- Bouton de suppression du site --%>      
+              <button class="btn btn-danger my-auto" aria-label="Supprimer le commentaire"
+                type="submit" value="delete">
+                <i class="fas fa-trash-alt" aria-hidden="true"></i>
+              </button>
+            </form>
+          </c:if>
+          
+        </div>
+      </div>
+      <div class="card-body">
+        ${commentaire.contenu}
+      </div>
+    </div>
+    </c:forEach>    
   </div>
 
   </div>

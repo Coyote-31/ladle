@@ -24,4 +24,11 @@ public interface CommentaireDao {
    */
   void persistCommentaire(Commentaire commentaire);
 
+  /**
+   * Supprime le commentaire de la BDD depuis son ID
+   *
+   * @param commentaireID
+   */
+  void removeCommentaireByID(Integer commentaireID);
+
 }

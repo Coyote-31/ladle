@@ -44,4 +44,9 @@ public class CommentaireHandler {
     commentaireDao.persistCommentaire(commentaire);
   }
 
+  public void removeCommentaireByID(Integer commentaireID) {
+    commentaireDao.removeCommentaireByID(commentaireID);
+
+  }
+
 }

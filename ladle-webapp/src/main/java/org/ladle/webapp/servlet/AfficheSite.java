@@ -159,14 +159,35 @@ public class AfficheSite extends HttpServlet {
     String commentaireID = request.getParameter("commentaireID");
 
     if ((commentaireID != null) && !commentaireID.isEmpty()) {
-      LOG.debug("Supprime le commentaire ID : {}", commentaireID);
+      LOG.debug("Suppression du commentaire ID : {}", commentaireID);
+
+      // Si l'utilisateur n'est pas membre ou admin renvoit vers une page d'erreur
+      if (utilisateur.getRole() < 1) {
+        // Initialisation de la liste d'erreurs
+        List<String> errorList = new ArrayList<>();
+        errorList.add("Seul un membre de l'association ou un administrateur peut supprimer un commentaire !");
+        request.setAttribute("errorList", errorList);
+        try {
+          getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+        } catch (ServletException | IOException e) {
+          LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+        }
+        return;
+      }
+
+      // Suppression du commentaire depuis son ID
+      try {
+        commentaireHandler.removeCommentaireByID(Integer.decode(commentaireID));
+      } catch (NumberFormatException e) {
+        LOG.error("NumberFormatException Error ! With commentaireID = {}", commentaireID, e);
+      }
 
       try {
-        doGet(request, response);
+        response.sendRedirect("site?siteID=" + siteID.toString());
         return;
 
-      } catch (ServletException | IOException e) {
-        LOG.error("doGet() failed", e);
+      } catch (IOException | IllegalStateException e) {
+        LOG.error("Error sendRedirect -> site.jsp", e);
         return;
       }
     }
@@ -230,13 +251,11 @@ public class AfficheSite extends HttpServlet {
       }
     }
 
+    // Si le commentaire est valide redirection vers le site
     try {
-      // doGet(request, response);
       response.sendRedirect("site?siteID=" + siteID.toString());
 
-      // } catch (ServletException | IOException e) {
     } catch (IOException | IllegalStateException e) {
-      // LOG.error("doGet() failed", e);
       LOG.error("Error sendRedirect -> site.jsp", e);
     }
   }
