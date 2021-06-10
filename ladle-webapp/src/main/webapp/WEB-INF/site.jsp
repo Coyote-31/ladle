@@ -121,7 +121,9 @@
     <c:forEach items="${commentaires}" var="commentaire">
     <div class="card mb-3">
       <div class="card-header d-flex justify-content-between">
-        <div><strong>${commentaire.utilisateur.pseudo}</strong></div>
+        <div class="pt-1">
+          <strong>${commentaire.utilisateur.pseudo}</strong>
+        </div>
         <div>
           <fmt:formatDate value="${commentaire.dateCreation}" type="date" />
           
@@ -131,9 +133,9 @@
               <%-- input hidden site ID commentaire ID --%>
               <input name="siteID" type="hidden" value="${site.siteID}">
               <input name="commentaireID" type="hidden" value="${commentaire.commentaireID}">
-              <%-- Bouton de suppression du site --%>      
+              <%-- Bouton de suppression du commentaire --%>      
               <button class="btn btn-danger my-auto" aria-label="Supprimer le commentaire"
-                type="submit" value="delete">
+                type="submit" name="delete-btn" value="delete">
                 <i class="fas fa-trash-alt" aria-hidden="true"></i>
               </button>
             </form>
@@ -141,9 +143,63 @@
           
         </div>
       </div>
-      <div class="card-body">
+      <%-- Contenu du commentaire --%>
+      <div id="contentCommentID${commentaire.commentaireID}" 
+        class="card-body d-flex justify-content-between contentComment"
+        ${not empty errorListUpdatedCommentaire 
+          && not empty updatedCommentaireID 
+          && updatedCommentaireID == commentaire.commentaireID 
+          ? 'style="display:none !important"' : ''}>
         ${commentaire.contenu}
+      
+        <%-- Bouton d'affichage du formulaire de modification du commentaire --%>
+        <c:if test="${utilisateur.role >= 1}">      
+          <button class="btn btn-warning my-auto pr-2" aria-label="Modifier le commentaire" 
+            type="button" onclick="displayUpdateCommentForm(${commentaire.commentaireID});">
+            <i class="fas fa-edit" aria-hidden="true"></i>
+          </button>
+        </c:if>
       </div>
+      <%-- Formulaire pour la modification du commentaire --%>
+      <c:if test="${utilisateur.role >= 1}">
+        <div id="updateCommentID${commentaire.commentaireID}" class="card-body updateComment"
+          ${not empty errorListUpdatedCommentaire 
+            && not empty updatedCommentaireID 
+            && updatedCommentaireID == commentaire.commentaireID ? '' : 'style="display:none"'}>
+          <%-- Liste des erreurs de modification de commentaire --%>
+          <c:if test="${not empty errorListUpdatedCommentaire 
+            && commentaire.commentaireID == updatedCommentaireID}">
+            <c:forEach items="${errorListUpdatedCommentaire}" var="error">
+              <p class="text-danger">${error}</p>
+            </c:forEach>
+          </c:if>
+          <form name="updateFormCommentID${commentaire.commentaireID}" method="post" action="site">
+            <input name="siteID" type="hidden" value="${commentaire.site.siteID}">
+            <input name="commentaireID" type="hidden" value="${commentaire.commentaireID}">
+            <textarea name="updateFormCommentTextarea"
+                class="form-control" required minlength="1" maxlength="2000"
+                aria-label="Zone de texte du commentaire"
+                >${not empty errorListUpdatedCommentaire 
+                  && not empty updatedCommentaireID 
+                  && updatedCommentaireID == commentaire.commentaireID ? 
+                  updatedCommentaireTextarea : commentaire.contenu}</textarea>
+            <%-- Bouton de validation de modification du commentaire --%>
+            <div class="row justify-content-center">      
+              <button class="btn btn-primary mt-3" type="submit"
+                name="submit-update-btn" value="update" 
+                aria-label="Valider la modification du commentaire">
+                Valider
+              </button>
+              <button class="btn btn-secondary mt-3" type="button"
+                aria-label="Annuler la modification du commentaire"
+                onclick="cancelUpdateCommentForm(${commentaire.commentaireID});">
+                Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+      </c:if>
+      
     </div>
     </c:forEach>    
   </div>
@@ -190,6 +246,7 @@
   
   <script type="text/javascript">
   
+  <%-- Fonction de filtre des secteurs depuis la recherche --%>
     function filterSecteurs() {
         const liSecteurs = document.getElementsByClassName('liSecteur');
         
@@ -206,9 +263,36 @@
         }
      }
     
+    <%-- Fonction d'affichage du formulaire d'un nouveau commentaire --%>
     function displayCommentForm() {
         document.getElementById("displayCommentButton").style.display="none";
         document.getElementById("commentForm").style.display="block";
+    }
+    
+    <%-- Fonction d'affichage du formulaire de modification d'un commentaire --%>
+    function displayUpdateCommentForm(id) {
+        
+        <%-- Reinitialisation du display global --%>
+        let contentComments = Array.from(document.getElementsByClassName('contentComment'));
+        contentComments.forEach(function(item, index, array) {
+            item.setAttribute('style', 'display:flex !important');
+        });
+        
+        let updateComments = Array.from(document.getElementsByClassName('updateComment'));
+        updateComments.forEach(function(item, index, array) {
+            item.setAttribute('style', 'display:none');
+        });
+        
+        
+        <%-- Gestion des elements spécifiques --%>
+        document.getElementById("contentCommentID" + id).setAttribute('style', 'display:none !important');
+        document.getElementById("updateCommentID" + id).setAttribute('style', 'display:block');
+    }
+    
+    <%-- Fonction d'annulation de l'affichage du formulaire de modification d'un commentaire --%>
+    function cancelUpdateCommentForm(id) {
+        document.getElementById("contentCommentID" + id).setAttribute('style', 'display:block');
+        document.getElementById("updateCommentID" + id).setAttribute('style', 'display:none !important');
     }
   
    </script>

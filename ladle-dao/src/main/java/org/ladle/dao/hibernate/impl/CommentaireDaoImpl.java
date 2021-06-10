@@ -52,6 +52,19 @@ public class CommentaireDaoImpl implements CommentaireDao {
   }
 
   @Override
+  public Commentaire getCommentaireByID(Integer commentaireID) {
+
+    Commentaire commentaire = null;
+    try {
+      commentaire = em.find(Commentaire.class, commentaireID);
+
+    } catch (IllegalArgumentException e) {
+      LOG.error("getCommentaireByID({}) : failed", commentaireID, e);
+    }
+    return commentaire;
+  }
+
+  @Override
   public void persistCommentaire(Commentaire commentaire) {
 
     try {
@@ -59,6 +72,15 @@ public class CommentaireDaoImpl implements CommentaireDao {
       em.flush();
     } catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
       LOG.error("Persist commentaire failed", e);
+    }
+  }
+
+  @Override
+  public void updateCommentaire(Commentaire commentaire) {
+    try {
+      em.merge(commentaire);
+    } catch (IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("Update commentaire failed", e);
     }
   }
 
@@ -72,7 +94,6 @@ public class CommentaireDaoImpl implements CommentaireDao {
     } catch (IllegalArgumentException | TransactionRequiredException e) {
       LOG.error("Remove commentaire failed", e);
     }
-
   }
 
   /**

@@ -36,6 +36,16 @@ public class CommentaireHandler {
   }
 
   /**
+   * Renvoit le commentaire depuis son ID
+   *
+   * @param commentaireID
+   * @return
+   */
+  public Commentaire getCommentaireByID(Integer commentaireID) {
+    return commentaireDao.getCommentaireByID(commentaireID);
+  }
+
+  /**
    * Persiste le commentaire dans la BDD
    *
    * @param commentaire
@@ -44,9 +54,22 @@ public class CommentaireHandler {
     commentaireDao.persistCommentaire(commentaire);
   }
 
+  /**
+   * Met à jour un commentaire dans la BDD
+   *
+   * @param updatedCommentaire
+   */
+  public void updateCommentaire(Commentaire commentaire) {
+    commentaireDao.updateCommentaire(commentaire);
+  }
+
+  /**
+   * Supprime le commentaire de la BDD depuis son ID
+   *
+   * @param commentaireID
+   */
   public void removeCommentaireByID(Integer commentaireID) {
     commentaireDao.removeCommentaireByID(commentaireID);
-
   }
 
 }

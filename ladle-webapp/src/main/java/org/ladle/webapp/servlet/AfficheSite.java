@@ -94,6 +94,7 @@ public class AfficheSite extends HttpServlet {
       request.setAttribute("commentaires", commentaireHandler.getCommentairesBySiteID(Integer.decode(siteID)));
     } catch (NumberFormatException e) {
       LOG.error("NumberFormatException Error ! With siteID = {}", siteID, e);
+      return;
     }
 
     try {
@@ -157,8 +158,9 @@ public class AfficheSite extends HttpServlet {
      */
 
     String commentaireID = request.getParameter("commentaireID");
+    String deleteBtn = request.getParameter("delete-btn");
 
-    if ((commentaireID != null) && !commentaireID.isEmpty()) {
+    if ((deleteBtn != null) && (commentaireID != null) && !commentaireID.isEmpty()) {
       LOG.debug("Suppression du commentaire ID : {}", commentaireID);
 
       // Si l'utilisateur n'est pas membre ou admin renvoit vers une page d'erreur
@@ -180,6 +182,7 @@ public class AfficheSite extends HttpServlet {
         commentaireHandler.removeCommentaireByID(Integer.decode(commentaireID));
       } catch (NumberFormatException e) {
         LOG.error("NumberFormatException Error ! With commentaireID = {}", commentaireID, e);
+        return;
       }
 
       try {
@@ -190,6 +193,102 @@ public class AfficheSite extends HttpServlet {
         LOG.error("Error sendRedirect -> site.jsp", e);
         return;
       }
+    }
+
+    /**
+     * Cas modification d'un commentaire
+     */
+
+    // Récupère la valeur du boutton name="submit-update-btn"
+    String submitUpdateBtn = request.getParameter("submit-update-btn");
+
+    // Si c'est bien le boutton de modification de commentaire qui est envoyé
+    if ("update".equals(submitUpdateBtn)) {
+
+      // Vérification des droits utilisateur
+      // Si non autorisé renvoit vers une page d'erreur
+      if (utilisateur.getRole() < 1) {
+        // Initialisation de la liste d'erreurs
+        List<String> errorList = new ArrayList<>();
+        errorList.add("Seul un membre de l'association ou un administrateur peut modifier un commentaire !");
+        request.setAttribute("errorList", errorList);
+        try {
+          getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+        } catch (ServletException | IOException e) {
+          LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+        }
+        return;
+      }
+
+      // Récupération de l'ID du commentaire à modifier
+      String updatedCommentaireIDStr = request.getParameter("commentaireID");
+      Integer updatedCommentaireID;
+      LOG.debug("Updating commentaire ID : {}", updatedCommentaireIDStr);
+      try {
+        updatedCommentaireID = Integer.decode(updatedCommentaireIDStr);
+      } catch (NumberFormatException e) {
+        LOG.error("NumberFormatException Error ! With commentaireID = {}", updatedCommentaireIDStr, e);
+        return;
+      }
+
+      // Récupération de l'input Textarea du commentaire à modifier
+      String updatedCommentaireTextarea = request.getParameter("updateFormCommentTextarea");
+
+      // Test de la validité de la modification du commentaire :
+      // Initialisation de la liste d'erreurs
+      List<String> errorListUpdatedCommentaire = new ArrayList<>();
+
+      // Si le commentaire est vide
+      if ((updatedCommentaireTextarea.length() <= 0)
+          || updatedCommentaireTextarea.matches("^\s+$")) {
+        errorListUpdatedCommentaire.add("Un commentaire ne peut pas être vide !");
+      }
+      // Si le commentaire excède 2000 charactères
+      if (updatedCommentaireTextarea.length() > 2000) {
+        errorListUpdatedCommentaire.add("Un commentaire ne peut excèder 2000 caractères !");
+      }
+
+      // Si pas d'erreur met à jour le commentaire dans la BDD
+      if (errorListUpdatedCommentaire.size() == 0) {
+
+        // Récupération du commentaire à modifier depuis la BDD
+        Commentaire updatedCommentaire = commentaireHandler.getCommentaireByID(updatedCommentaireID);
+
+        // Modification du contenu du commentaire
+        updatedCommentaire.setContenu(updatedCommentaireTextarea);
+
+        // Mise à jour dans la BDD du commentaire modifié
+        commentaireHandler.updateCommentaire(updatedCommentaire);
+
+        // Si la modification est valide redirection vers le site
+        try {
+          response.sendRedirect("site?siteID=" + siteID.toString());
+          return;
+
+        } catch (IOException | IllegalStateException e) {
+          LOG.error("Error sendRedirect -> site.jsp", e);
+          return;
+        }
+
+        // Si il y a une erreur
+      } else {
+        // Envoit de l'ID du commentaire en cours de modification
+        request.setAttribute("updatedCommentaireID", updatedCommentaireID);
+        // Envoit de la liste des erreurs du commentaire à modifier
+        request.setAttribute("errorListUpdatedCommentaire", errorListUpdatedCommentaire);
+        // Renvoit du champs input Textarea du commentaire à modifier
+        request.setAttribute("updatedCommentaireTextarea", updatedCommentaireTextarea);
+
+        try {
+          doGet(request, response);
+          return;
+
+        } catch (ServletException | IOException e) {
+          LOG.error("doGet() failed", e);
+          return;
+        }
+      }
+
     }
 
     /**
