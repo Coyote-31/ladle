@@ -35,6 +35,10 @@ body {
 	margin-bottom: -1rem;
 }
 
+.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
+  color: #094639;
+}
+
 .modal-content {
 	z-index: 1050;
 }

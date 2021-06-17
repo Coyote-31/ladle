@@ -20,6 +20,7 @@
     <class>org.ladle.beans.jpa.Secteur</class>
     <class>org.ladle.beans.jpa.Voie</class>
     <class>org.ladle.beans.jpa.Commentaire</class>
+    <class>org.ladle.beans.jpa.Topo</class>
 
 		<!-- Persistence Unit configuration -->
     <properties>

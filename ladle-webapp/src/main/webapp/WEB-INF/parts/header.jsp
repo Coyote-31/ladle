@@ -17,10 +17,10 @@
     <ul class="navbar-nav mr-auto pt-2 pt-lg-0">
       <li class="nav-item active"><a class="nav-link" href="./">Accueil</a></li>
       <li class="nav-item"><a class="nav-link" href="./recherche-site-secteur">Recherche</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Topo</a></li>
       <c:if test="${isLoginValid}">
         <li class="nav-item"><a class="nav-link" href="./ajout-site">Ajouter un site</a></li>
       </c:if>
-      <li class="nav-item"><a class="nav-link" href="#">À propos</a></li>
     </ul>
 
     <c:if test="${!isLoginValid}">
