@@ -59,13 +59,26 @@ public class Utilisateur implements Serializable {
   private String tokenLogin;
   @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Commentaire> commentaires;
+  /**
+   * Liste des topos de l'utilisateur
+   */
+  @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Topo> topos;
+  /**
+   * Liste des topos prêtés à l'utilisateur
+   */
+  @OneToMany(mappedBy = "pretUtilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Topo> pretTopos;
 
   /**
    * Constructeurs
    */
 
   public Utilisateur() {
+    super();
     commentaires = new ArrayList<>();
+    topos = new ArrayList<>();
+    pretTopos = new ArrayList<>();
   }
 
   public Utilisateur(
@@ -229,6 +242,44 @@ public class Utilisateur implements Serializable {
   public void removeCommentaire(Commentaire commentaire) {
     commentaires.remove(commentaire);
     commentaire.setUtilisateur(null);
+  }
+
+  public List<Topo> getTopos() {
+    List<Topo> toposCPY = new ArrayList<>();
+
+    for (Topo topo : topos) {
+      toposCPY.add(topo);
+    }
+    return toposCPY;
+  }
+
+  public void addTopo(Topo topo) {
+    topos.add(topo);
+    topo.setUtilisateur(this);
+  }
+
+  public void removeTopo(Topo topo) {
+    topos.remove(topo);
+    topo.setUtilisateur(null);
+  }
+
+  public List<Topo> getPretTopos() {
+    List<Topo> pretToposCPY = new ArrayList<>();
+
+    for (Topo topo : pretTopos) {
+      pretToposCPY.add(topo);
+    }
+    return pretToposCPY;
+  }
+
+  public void addPretTopo(Topo topo) {
+    pretTopos.add(topo);
+    topo.setPretUtilisateur(this);
+  }
+
+  public void removePretTopo(Topo topo) {
+    pretTopos.remove(topo);
+    topo.setPretUtilisateur(null);
   }
 
 }

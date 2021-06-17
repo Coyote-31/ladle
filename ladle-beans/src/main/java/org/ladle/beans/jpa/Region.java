@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,14 +36,19 @@ public class Region implements Serializable {
   private String nom;
   @Column(name = "soundex", nullable = false)
   private String soundex;
-  @OneToMany(mappedBy = "region")
+  @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Departement> departements;
+  @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Topo> topos;
 
   /**
    * Constructeurs
    */
 
   public Region() {
+    super();
+    departements = new ArrayList<>();
+    topos = new ArrayList<>();
   }
 
   public Region(String regionCode, String nom, String soundex) {
@@ -105,6 +111,25 @@ public class Region implements Serializable {
   public void removeDepartement(Departement departement) {
     departements.remove(departement);
     departement.setRegion(null);
+  }
+
+  public List<Topo> getTopos() {
+    List<Topo> toposCPY = new ArrayList<>();
+
+    for (Topo topo : topos) {
+      toposCPY.add(topo);
+    }
+    return toposCPY;
+  }
+
+  public void addTopo(Topo topo) {
+    topos.add(topo);
+    topo.setRegion(this);
+  }
+
+  public void removeTopo(Topo topo) {
+    topos.remove(topo);
+    topo.setRegion(null);
   }
 
 }
