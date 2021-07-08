@@ -2,6 +2,8 @@ package org.ladle.beans.jpa;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -45,6 +49,14 @@ public class Topo implements Serializable {
   private String lieu;
   @Column(name = "parution_date", nullable = false)
   private Date parutionDate;
+  /**
+   * Liste des demandes de prêt des utilisateurs pour ce topo
+   */
+  @ManyToMany
+  @JoinTable(name = "demande_pret",
+             joinColumns = { @JoinColumn(name = "topo_id") },
+             inverseJoinColumns = { @JoinColumn(name = "utilisateur_id") })
+  private Set<Utilisateur> demandePretUtilisateurs = new HashSet<>();
 
   /**
    * Constructeurs
@@ -148,6 +160,29 @@ public class Topo implements Serializable {
 
   public void setParutionDate(Date parutionDate) {
     this.parutionDate = (Date) parutionDate.clone();
+  }
+
+  public Set<Utilisateur> getDemandePretUtilisateurs() {
+    Set<Utilisateur> demandePretUtilisateursCPY = new HashSet<>();
+
+    for (Utilisateur utilisateurFOR : demandePretUtilisateurs) {
+      demandePretUtilisateursCPY.add(utilisateurFOR);
+    }
+    return demandePretUtilisateursCPY;
+  }
+
+  public Set<Utilisateur> getDemandePretUtilisateursByRef() {
+    return demandePretUtilisateurs;
+  }
+
+  public void addDemandePretUtilisateur(Utilisateur utilisateur) {
+    demandePretUtilisateurs.add(utilisateur);
+    utilisateur.getDemandePretToposByRef().add(this);
+  }
+
+  public void removeDemandePretUtilisateur(Utilisateur utilisateur) {
+    demandePretUtilisateurs.remove(utilisateur);
+    utilisateur.getDemandePretToposByRef().remove(this);
   }
 
 }

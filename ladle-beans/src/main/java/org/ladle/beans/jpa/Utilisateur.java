@@ -3,7 +3,9 @@ package org.ladle.beans.jpa;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -69,6 +72,11 @@ public class Utilisateur implements Serializable {
    */
   @OneToMany(mappedBy = "pretUtilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Topo> pretTopos;
+  /**
+   * Liste des demandes de prêt de topo de cet utilisateur
+   */
+  @ManyToMany(mappedBy = "demandePretUtilisateurs", cascade = CascadeType.ALL)
+  private Set<Topo> demandePretTopos = new HashSet<>();
 
   /**
    * Constructeurs
@@ -280,6 +288,29 @@ public class Utilisateur implements Serializable {
   public void removePretTopo(Topo topo) {
     pretTopos.remove(topo);
     topo.setPretUtilisateur(null);
+  }
+
+  public Set<Topo> getDemandePretTopos() {
+    Set<Topo> demandePretToposCPY = new HashSet<>();
+
+    for (Topo topo : demandePretTopos) {
+      demandePretToposCPY.add(topo);
+    }
+    return demandePretToposCPY;
+  }
+
+  public Set<Topo> getDemandePretToposByRef() {
+    return demandePretTopos;
+  }
+
+  public void addDemandePretTopos(Topo topo) {
+    demandePretTopos.add(topo);
+    topo.getDemandePretUtilisateursByRef().add(this);
+  }
+
+  public void removeDemandePretTopos(Topo topo) {
+    demandePretTopos.remove(topo);
+    topo.getDemandePretUtilisateursByRef().remove(this);
   }
 
 }
