@@ -41,7 +41,8 @@ public class AuthenticationUtilisateurFilter implements Filter {
       "/ajout-site",
       "/supprime-secteur",
       "/recherche-topo",
-      "/ajout-topo"
+      "/ajout-topo",
+      "/edition-topo"
   };
 
   @Override

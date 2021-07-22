@@ -102,8 +102,19 @@
           <div id="collapse${ownCompteur}" class="collapse" 
             aria-labelledby="heading${ownCompteur}" data-parent="#accordionOwnTopo">
             <div class="card-body">
+              Date de création : <fmt:formatDate value="${topo.parutionDate}" type="date" /> <br>
+              Région : ${topo.region.nom} <br>
               Lieu : ${topo.lieu} <br>
-              ${topo.description}
+              Description : ${topo.description} <br><br>
+              
+              <button type="button" class="btn btn-warning mb-3" aria-label="Edition du topo"
+                    onclick="window.location.href = './edition-topo?id=${topo.topoID}'">
+                <i class="fas fa-edit pr-2" aria-hidden="true"></i>Editer</button>
+                
+              <button type="button" class="btn btn-danger mb-3" aria-label="Suppression du site"
+                    onclick="window.location.href = './suppression-topo?id=${topo.topoID}'">
+                <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Supprimer</button>
+              
             </div>
           </div>
         
@@ -114,7 +125,7 @@
     </div>
   </c:if>
   
-  <button type="button" class="btn btn-secondary mb-3" aria-label="Edition du site"
+  <button type="button" class="btn btn-primary mb-3" aria-label="Edition du site"
         onclick="window.location.href = './ajout-topo'">
     <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter un topo
   </button>

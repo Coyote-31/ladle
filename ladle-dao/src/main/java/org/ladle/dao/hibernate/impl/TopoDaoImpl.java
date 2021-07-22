@@ -71,7 +71,15 @@ public class TopoDaoImpl implements TopoDao {
     } catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
       LOG.error("em.persist(topo) failed", e);
     }
+  }
 
+  @Override
+  public void update(Topo topo) {
+    try {
+      em.merge(topo);
+    } catch (IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("Update topo failed", e);
+    }
   }
 
   @Override
@@ -87,6 +95,20 @@ public class TopoDaoImpl implements TopoDao {
     }
 
     return ownTopos;
+  }
+
+  @Override
+  public Topo getTopoByID(Integer id) {
+
+    Topo topo = null;
+
+    try {
+      topo = em.find(Topo.class, id);
+    } catch (IllegalArgumentException e) {
+      LOG.error("getTopoByID() failed", e);
+    }
+
+    return topo;
   }
 
 }

@@ -1,7 +1,6 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,20 +20,20 @@ import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.TopoHandler;
 
 /**
- * Servlet implementation class AjoutTopo
- * Permet la création d'un nouveau Topo
+ * Servlet implementation class EditeTopo
+ * Permet l'édition d'un topo de l'utilisateur
  */
 @SuppressWarnings("serial")
-@WebServlet("/ajout-topo")
-public class AjoutTopo extends HttpServlet {
+@WebServlet("/edition-topo")
+public class EditeTopo extends HttpServlet {
 
-  private static final Logger LOG = LogManager.getLogger(AjoutTopo.class);
+  private static final Logger LOG = LogManager.getLogger(EditeTopo.class);
 
   @EJB(name = "TopoHandler")
   private TopoHandler topoHandler;
 
   /**
-   * Affiche le formulaire de création d'un nouveau topo.
+   * Affiche le formulaire pour l'édition du topo.
    *
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
@@ -42,26 +41,96 @@ public class AjoutTopo extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    // Initialisation de la liste d'erreurs
+    List<String> errorList = new ArrayList<>();
+
     // Envoit de la liste des régions
     request.setAttribute("regions", topoHandler.getAllRegions());
 
-    // Envoit vers la page de création du topo
+    // Récupération du topo à éditer
+    String topoIDStr = request.getParameter("id");
+    Integer topoID = null;
     try {
-      getServletContext().getRequestDispatcher("/WEB-INF/ajout-topo.jsp").forward(request, response);
+      topoID = Integer.decode(topoIDStr);
+
+    } catch (NumberFormatException e) {
+      LOG.error("Error decode topoIDStr : {}", topoIDStr, e);
+      String errorMsg = "La topo est introuvable !";
+      sendToErrorPage(errorMsg, errorList, request, response);
+      return;
+    }
+
+    Topo topo = topoHandler.getTopoByID(topoID);
+
+    // Vérification que l'utilisateur possède le topo
+    HttpSession session = request.getSession();
+    Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+
+    // Si l'utilisateur n'est pas le propriétaire renvoit vers une page d'erreur
+    if (!topo.getUtilisateur().getUtilisateurID().equals(utilisateur.getUtilisateurID())) {
+
+      String errorMsg = "Seul le propriétaire du topo peut le modifier !";
+      sendToErrorPage(errorMsg, errorList, request, response);
+      return;
+    }
+
+    // Envoit de l'ID du topo
+    request.setAttribute("topoID", topoID);
+
+    // Envoit des données à éditer
+    request.setAttribute("selectedRegion", topo.getRegion().getRegionID());
+    request.setAttribute("inputedTopoLieu", topo.getLieu());
+    request.setAttribute("inputedTopoNom", topo.getNom());
+    request.setAttribute("checkedboxDispo", topo.isDisponible());
+    request.setAttribute("textedareaDescription", topo.getDescription());
+
+    // Envoit vers la page d'édition du topo
+    try {
+      getServletContext().getRequestDispatcher("/WEB-INF/edition-topo.jsp").forward(request, response);
 
     } catch (ServletException | IOException | IllegalStateException e) {
-      LOG.error("Error building ajout-topo.jsp", e);
+      LOG.error("Error building edition-topo.jsp", e);
     }
   }
 
   /**
-   * Ajoute le nouveau topo dans la BDD.
+   * Met à jour le topo dans la BDD.
    *
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
    *      response)
    */
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    // Initialisation de la liste d'erreurs
+    List<String> errorList = new ArrayList<>();
+
+    // Récupération du topo à éditer
+    String topoIDStr = request.getParameter("topoID");
+    Integer topoID = null;
+    try {
+      topoID = Integer.decode(topoIDStr);
+
+    } catch (NumberFormatException e) {
+      LOG.error("Error decode topoIDStr : {}", topoIDStr, e);
+      String errorMsg = "La topo est introuvable !";
+      sendToErrorPage(errorMsg, errorList, request, response);
+      return;
+    }
+
+    Topo topo = topoHandler.getTopoByID(topoID);
+
+    // Vérification que l'utilisateur possède le topo
+    HttpSession session = request.getSession();
+    Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+
+    // Si l'utilisateur n'est pas le propriétaire renvoit vers une page d'erreur
+    if (!topo.getUtilisateur().getUtilisateurID().equals(utilisateur.getUtilisateurID())) {
+
+      String errorMsg = "Seul le propriétaire du topo peut le modifier !";
+      sendToErrorPage(errorMsg, errorList, request, response);
+      return;
+    }
 
     // Récupération des données du formulaire
     String selectRegionIDStr = request.getParameter("inputGroupSelectRegion");
@@ -73,9 +142,6 @@ public class AjoutTopo extends HttpServlet {
     // -------------------------------
     // Test des données du formulaire
     // -------------------------------
-
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
 
     // Region :
     // Conversion de l'id en Integer
@@ -100,13 +166,13 @@ public class AjoutTopo extends HttpServlet {
     }
 
     // Lieu :
-    if (inputLieu.length() > 10) {
+    if (inputLieu.length() > 80) {
       errorList.add("Le lieu ne doit pas dépasser 80 caractères.");
       request.setAttribute("topoLieuError", true);
     }
 
     // Nom :
-    if (inputNom.length() > 10) {
+    if (inputNom.length() > 80) {
       errorList.add("Le nom ne doit pas dépasser 80 caractères.");
       request.setAttribute("topoNomError", true);
     }
@@ -115,7 +181,7 @@ public class AjoutTopo extends HttpServlet {
     boolean checkboxDispo = "on".equals(checkboxDispoStr);
 
     // Description :
-    if (textareaDescription.length() > 10) {
+    if (textareaDescription.length() > 2000) {
       errorList.add("La description ne doit pas dépasser 2000 caractères.");
       request.setAttribute("topoDescriptionError", true);
     }
@@ -124,6 +190,8 @@ public class AjoutTopo extends HttpServlet {
     if (!errorList.isEmpty()) {
       // Envoit de la liste d'erreurs
       request.setAttribute("errorList", errorList);
+      // Envoit de la liste des régions
+      request.setAttribute("regions", topoHandler.getAllRegions());
       // Renvoit des inputs utilisateur
       request.setAttribute("selectedRegion", selectRegionID);
       request.setAttribute("inputedTopoLieu", inputLieu);
@@ -131,35 +199,37 @@ public class AjoutTopo extends HttpServlet {
       request.setAttribute("checkedboxDispo", checkboxDispo);
       request.setAttribute("textedareaDescription", textareaDescription);
 
-      // Renvoit vers le doGet() pour l'initialisation du formulaire
+      // Envoit vers la page d'édition du topo
       try {
-        doGet(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error : doGet()", e);
+        getServletContext().getRequestDispatcher("/WEB-INF/edition-topo.jsp").forward(request, response);
+        return;
+
+      } catch (ServletException | IOException | IllegalStateException e) {
+        LOG.error("Error building edition-topo.jsp", e);
       }
     }
 
-    // Si il n'y a pas d'erreur création du topo pour le persist dans la BDD
-    Topo topo = new Topo();
+    // Si il n'y a pas d'erreur mise à jour du topo dans la BDD
+    Topo topoEdited = new Topo();
 
-    // Récupère les données de l'utilisateur
-    HttpSession session = request.getSession();
-    Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-    topo.setUtilisateur(utilisateur);
+    // Remplit l'ID du topo
+    topoEdited.setTopoID(topo.getTopoID());
+
+    // Remplit les données de l'utilisateur
+    topoEdited.setUtilisateur(utilisateur);
+
+    // Remplit la date de parution
+    topoEdited.setParutionDate(topo.getParutionDate());
 
     // Remplit le reste des données du topo depuis le formulaire
-    topo.setRegion(selectRegion);
-    topo.setLieu(inputLieu);
-    topo.setNom(inputNom);
-    topo.setDisponible(checkboxDispo);
-    topo.setDescription(textareaDescription);
+    topoEdited.setRegion(selectRegion);
+    topoEdited.setLieu(inputLieu);
+    topoEdited.setNom(inputNom);
+    topoEdited.setDisponible(checkboxDispo);
+    topoEdited.setDescription(textareaDescription);
 
-    // Création de la date de parution
-    Date currentDate = new Date(System.currentTimeMillis());
-    topo.setParutionDate(currentDate);
-
-    // Persistance du nouveau topo dans la BDD
-    topoHandler.persist(topo);
+    // Mise à jour du topo édité dans la BDD
+    topoHandler.update(topoEdited);
 
     // Renvoit vers la page Mon Compte
     try {

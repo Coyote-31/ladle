@@ -71,6 +71,16 @@ public class TopoHandler {
   }
 
   /**
+   * Met à jour le topo dans la BDD.
+   *
+   * @param topo de type Topo
+   */
+  public void update(Topo topo) {
+
+    topoDao.update(topo);
+  }
+
+  /**
    * Renvoit la liste des topos que possède cet utilisateur.
    *
    * @param utilisateur propriétaire des topos de type Utilisateur
@@ -79,6 +89,17 @@ public class TopoHandler {
   public List<Topo> getOwnTopos(Utilisateur utilisateur) {
 
     return topoDao.getOwnTopos(utilisateur);
+  }
+
+  /**
+   * Renvoit le topo qui possède cet ID.
+   *
+   * @param topoID
+   * @return topo de type Topo
+   */
+  public Topo getTopoByID(Integer id) {
+
+    return topoDao.getTopoByID(id);
   }
 
 }
