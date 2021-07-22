@@ -106,9 +106,7 @@ public class RechercheTopo extends HttpServlet {
     request.setAttribute("topos", resultTopos);
 
     // Gestion d'un résultat vide
-    if (resultTopos.isEmpty()) {
-      request.setAttribute("emptyResult", true);
-    }
+    request.setAttribute("emptyResult", resultTopos.isEmpty());
 
     // Renvoit des inputs utilisateur du formulaire
     request.setAttribute("selectedRegion", selectedRegionIDStr);

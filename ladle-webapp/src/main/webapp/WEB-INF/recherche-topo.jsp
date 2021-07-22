@@ -78,7 +78,7 @@
   </form>
   
   <%-- Affichage d'un résultat de recherche vide --%>
-  <c:if test="${emptyResult}">
+  <c:if test="${emptyResult == true}">
     <div class="pb-1 mb-3 bg-primary"></div>
     <div class="text-center">
       <strong>Aucun résultat trouvé !</strong><br>
@@ -87,7 +87,7 @@
   </c:if>
   
   <%-- Liste de résultat de la recherche de topo --%>
-  <c:if test="${not emptyResult}">
+  <c:if test="${emptyResult == false}">
     <div class="pb-1 mb-3 bg-primary"></div>
     
     <div class="accordion" id="accordionTopo">
