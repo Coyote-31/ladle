@@ -50,4 +50,21 @@ public class RegionDaoImpl implements RegionDao {
 
   }
 
+  @Override
+  public Region getRegionByID(Integer id) {
+
+    Region region = null;
+
+    LOG.debug("dao RegionID : {}", id);
+
+    try {
+      region = em.find(Region.class, id);
+
+    } catch (IllegalArgumentException e) {
+      LOG.error("getRegionByID() : failed", e);
+    }
+
+    return region;
+  }
+
 }

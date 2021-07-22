@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.TransactionRequiredException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Topo;
+import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.dao.TopoDao;
 
 @Stateless
@@ -59,6 +62,31 @@ public class TopoDaoImpl implements TopoDao {
     LOG.debug("Topos size results : {}", resultTopos.size());
 
     return resultTopos;
+  }
+
+  @Override
+  public void persist(Topo topo) {
+    try {
+      em.persist(topo);
+    } catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("em.persist(topo) failed", e);
+    }
+
+  }
+
+  @Override
+  public List<Topo> getOwnTopos(Utilisateur utilisateur) {
+
+    List<Topo> ownTopos = new ArrayList<>();
+
+    try {
+      ownTopos = em.find(Utilisateur.class, utilisateur.getUtilisateurID()).getTopos();
+
+    } catch (IllegalArgumentException e) {
+      LOG.error("getOwnTopos() failed", e);
+    }
+
+    return ownTopos;
   }
 
 }
