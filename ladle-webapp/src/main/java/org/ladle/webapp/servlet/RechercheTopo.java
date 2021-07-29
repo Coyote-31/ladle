@@ -17,7 +17,8 @@ import org.ladle.beans.jpa.Topo;
 import org.ladle.service.TopoHandler;
 
 /**
- * Servlet implementation class RechercheTopo
+ * Servlet implementation class RechercheTopo.
+ * Permet d'afficher les topos suivant les critères d'une recherche.
  */
 @SuppressWarnings("serial")
 @WebServlet("/recherche-topo")

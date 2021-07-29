@@ -115,7 +115,12 @@
             aria-labelledby="heading${compteur}" data-parent="#accordionTopo">
             <div class="card-body">
               Lieu : ${topo.lieu} <br>
-              ${topo.description}
+              ${topo.description} <br><br>
+              
+              <button type="button" class="btn btn-secondary mb-3" aria-label="Demande de prêt"
+                    onclick="window.location.href = './demande-topo?id=${topo.topoID}'">
+                <i class="fas fa-clipboard pr-2" aria-hidden="true"></i>Faire une demande de prêt</button>
+                
             </div>
           </div>
         

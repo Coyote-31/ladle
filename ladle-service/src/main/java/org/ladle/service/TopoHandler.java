@@ -1,6 +1,7 @@
 package org.ladle.service;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -28,12 +29,34 @@ public class TopoHandler {
   private RegionDao regionDao;
 
   /**
+   * Renvoit la région correspondant à l'ID.
+   *
+   * @param id de la région
+   * @return La région de classe Region
+   */
+  public Region getRegionByID(Integer id) {
+
+    return regionDao.getRegionByID(id);
+  }
+
+  /**
    * Renvoit la liste de toutes les régions
    *
    * @return List of Region
    */
   public List<Region> getAllRegions() {
     return regionDao.getAllRegions();
+  }
+
+  /**
+   * Renvoit le topo qui possède cet ID.
+   *
+   * @param topoID
+   * @return topo de type Topo
+   */
+  public Topo getTopoByID(Integer id) {
+
+    return topoDao.getTopoByID(id);
   }
 
   /**
@@ -47,17 +70,6 @@ public class TopoHandler {
   public List<Topo> searchTopos(Integer regionID, String pseudo, String keywords) {
 
     return topoDao.searchTopos(regionID, pseudo, keywords);
-  }
-
-  /**
-   * Renvoit la région correspondant à l'ID.
-   *
-   * @param id de la région
-   * @return La région de classe Region
-   */
-  public Region getRegionByID(Integer id) {
-
-    return regionDao.getRegionByID(id);
   }
 
   /**
@@ -81,6 +93,18 @@ public class TopoHandler {
   }
 
   /**
+   * Ajoute un utilisateur à la liste de demande de prêt pour un topo.
+   *
+   * @param topo
+   * @param utilisateur
+   */
+  public void addDemandePret(Topo topo, Utilisateur utilisateur) {
+
+    topoDao.addDemandePret(topo, utilisateur);
+
+  }
+
+  /**
    * Renvoit la liste des topos que possède cet utilisateur.
    *
    * @param utilisateur propriétaire des topos de type Utilisateur
@@ -92,14 +116,14 @@ public class TopoHandler {
   }
 
   /**
-   * Renvoit le topo qui possède cet ID.
+   * Renvoit la liste des topos dont cet utilisateur à fait une demande de prêt.
    *
-   * @param topoID
-   * @return topo de type Topo
+   * @param utilisateur qui a fait la demande de prêt.
+   * @return liste Set de type Topo
    */
-  public Topo getTopoByID(Integer id) {
+  public Set<Topo> getDemandePretTopos(Utilisateur utilisateur) {
 
-    return topoDao.getTopoByID(id);
+    return topoDao.getDemandePretTopos(utilisateur);
   }
 
 }

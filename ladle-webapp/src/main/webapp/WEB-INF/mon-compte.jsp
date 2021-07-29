@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -85,12 +85,12 @@
       
         <div class="card">
         
-          <div class="card-header" id="heading${ownCompteur}">        
+          <div class="card-header" id="headingOwn${ownCompteur}">        
             <h2 class="mb-0 mx-0">
               <button class="btn btn-outline-primary btn-block text-left collapsed ml-0" 
                 type="button" 
-                data-toggle="collapse" data-target="#collapse${ownCompteur}" 
-                aria-expanded="false" aria-controls="collapse${ownCompteur}">
+                data-toggle="collapse" data-target="#collapseOwn${ownCompteur}" 
+                aria-expanded="false" aria-controls="collapseOwn${ownCompteur}">
                 <div class="d-flex justify-content-between">
                   <span>${topo.nom}</span> 
                   <span class="text-muted">${topo.utilisateur.pseudo}</span> 
@@ -99,8 +99,8 @@
             </h2>
           </div>
           
-          <div id="collapse${ownCompteur}" class="collapse" 
-            aria-labelledby="heading${ownCompteur}" data-parent="#accordionOwnTopo">
+          <div id="collapseOwn${ownCompteur}" class="collapse" 
+            aria-labelledby="headingOwn${ownCompteur}" data-parent="#accordionOwnTopo">
             <div class="card-body">
               Date de création : <fmt:formatDate value="${topo.parutionDate}" type="date" /> <br>
               Région : ${topo.region.nom} <br>
@@ -114,6 +114,51 @@
               <button type="button" class="btn btn-danger mb-3" aria-label="Suppression du site"
                     onclick="window.location.href = './suppression-topo?id=${topo.topoID}'">
                 <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Supprimer</button>
+                
+              <%-- Liste des utilisateurs demandeurs --%>
+              
+                <div class="card">
+                
+                  <div class="card-header" id="headingDemandes${ownCompteur}">        
+                    <h2 class="mb-0 mx-0">
+                      <button class="btn btn-outline-info btn-block text-left collapsed ml-0" 
+                        type="button" 
+                        data-toggle="collapse" data-target="#collapseDemandes${ownCompteur}" 
+                        aria-expanded="false" aria-controls="collapseDemandes${ownCompteur}">
+                        <div class="d-flex justify-content-between">
+                          <span>Demandes de prêt</span> 
+                          <span class="text-muted">${topo.demandePretUtilisateurs.size()}</span> 
+                        </div>
+                      </button>
+                    </h2>
+                  </div>
+                  
+                  <div id="collapseDemandes${ownCompteur}" class="collapse" 
+                    aria-labelledby="headingDemandes${ownCompteur}">
+                    <div class="card-body">
+                    
+                    <ul class="mb-0">
+                      <c:forEach items="${topo.demandePretUtilisateurs}" var="askingUser">
+                      
+                      <li> ${askingUser.pseudo} 
+                      
+                      <button type="button" class="btn btn-success mb-2" aria-label="Accepter"
+                        onclick="window.location.href = './#?topoID=${topo.topoID}&userID=${askingUser.utilisateurID}'">
+                        <i class="fas fa-check-square" aria-hidden="true"></i></button>
+                        
+                      <button type="button" class="btn btn-danger mb-2" aria-label="Refuser"
+                        onclick="window.location.href = './#?topoID=${topo.topoID}&userID=${askingUser.utilisateurID}'">
+                        <i class="fas fa-window-close" aria-hidden="true"></i></button>
+                      
+                      </li>
+                      
+                      </c:forEach>
+                    </ul>
+                    
+                    </div>
+                  </div>
+                
+                </div>
               
             </div>
           </div>
@@ -133,7 +178,52 @@
   <h3>Empruntés</h3>
   
   <h3>Demandés</h3>
- 
+  
+  <%-- Liste des topos demandés --%>
+  <c:if test="${not empty demandeTopos}">
+    
+    <div class="accordion mb-3" id="accordionDemandeTopo">
+    
+      <c:forEach items="${demandeTopos}" var="topo">
+      <c:set var="demandeCompteur" value="${demandeCompteur+1}" scope="page" />
+      
+        <div class="card">
+        
+          <div class="card-header" id="headingDemande${demandeCompteur}">        
+            <h2 class="mb-0 mx-0">
+              <button class="btn btn-outline-primary btn-block text-left collapsed ml-0" 
+                type="button" 
+                data-toggle="collapse" data-target="#collapseDemande${demandeCompteur}" 
+                aria-expanded="false" aria-controls="collapseDemande${demandeCompteur}">
+                <div class="d-flex justify-content-between">
+                  <span>${topo.nom}</span> 
+                  <span class="text-muted">${topo.utilisateur.pseudo}</span> 
+                </div>
+              </button>
+            </h2>
+          </div>
+          
+          <div id="collapseDemande${demandeCompteur}" class="collapse" 
+            aria-labelledby="headingDemande${demandeCompteur}" data-parent="#accordionDemandeTopo">
+            <div class="card-body">
+              Date de création : <fmt:formatDate value="${topo.parutionDate}" type="date" /> <br>
+              Région : ${topo.region.nom} <br>
+              Lieu : ${topo.lieu} <br>
+              Description : ${topo.description} <br><br>
+                
+              <button type="button" class="btn btn-danger mb-3" aria-label="Annuler la demande de prêt"
+                    onclick="window.location.href = './#?id=${topo.topoID}'">
+                <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Annuler la demande de prêt</button>
+              
+            </div>
+          </div>
+        
+        </div>
+        
+      </c:forEach>
+      
+    </div>
+  </c:if>
     
   </div>
   

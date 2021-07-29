@@ -84,3 +84,15 @@ footer {
 .btn {
   margin-left: 1rem;
 }
+
+.btn-success {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open>.dropdown-toggle.btn-success {
+    color: #fff;
+    background-color: #218838;
+    border-color: #218838;
+}

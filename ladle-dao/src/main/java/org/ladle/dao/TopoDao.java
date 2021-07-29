@@ -1,6 +1,7 @@
 package org.ladle.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Local;
 
@@ -9,6 +10,14 @@ import org.ladle.beans.jpa.Utilisateur;
 
 @Local
 public interface TopoDao {
+
+  /**
+   * Renvoit le topo qui possède cet ID.
+   *
+   * @param topoID
+   * @return topo de type Topo
+   */
+  Topo getTopoByID(Integer id);
 
   /**
    * Recherche les topos dans la BDD correspondant aux paramètres.
@@ -35,6 +44,14 @@ public interface TopoDao {
   void update(Topo topo);
 
   /**
+   * Ajoute un utilisateur à la liste de demande de prêt pour un topo.
+   *
+   * @param topo
+   * @param utilisateur
+   */
+  void addDemandePret(Topo topo, Utilisateur utilisateur);
+
+  /**
    * Renvoit la liste des topos que possède cet utilisateur.
    *
    * @param utilisateur propriétaire des topos de type Utilisateur
@@ -43,11 +60,11 @@ public interface TopoDao {
   List<Topo> getOwnTopos(Utilisateur utilisateur);
 
   /**
-   * Renvoit le topo qui possède cet ID.
+   * Renvoit la liste des topos dont cet utilisateur à fait une demande de prêt.
    *
-   * @param topoID
-   * @return topo de type Topo
+   * @param utilisateur qui a fait la demande de prêt.
+   * @return liste Set de type Topo
    */
-  Topo getTopoByID(Integer id);
+  Set<Topo> getDemandePretTopos(Utilisateur utilisateur);
 
 }

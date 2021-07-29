@@ -49,6 +49,12 @@ public class MonCompte extends HttpServlet {
     // Envoit de la liste de ses propres topos
     request.setAttribute("ownTopos", topoHandler.getOwnTopos(utilisateur));
 
+    // Envoit de la liste des topos empruntés
+    // TODO
+
+    // Envoit de la liste des topos demandés
+    request.setAttribute("demandeTopos", topoHandler.getDemandePretTopos(utilisateur));
+
     // Envoit vers la jsp
     try {
       getServletContext().getRequestDispatcher("/WEB-INF/mon-compte.jsp").forward(request, response);

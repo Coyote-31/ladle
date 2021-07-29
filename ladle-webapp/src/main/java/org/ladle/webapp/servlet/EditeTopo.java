@@ -55,7 +55,7 @@ public class EditeTopo extends HttpServlet {
 
     } catch (NumberFormatException e) {
       LOG.error("Error decode topoIDStr : {}", topoIDStr, e);
-      String errorMsg = "La topo est introuvable !";
+      String errorMsg = "Le topo est introuvable !";
       sendToErrorPage(errorMsg, errorList, request, response);
       return;
     }
