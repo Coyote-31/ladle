@@ -45,6 +45,7 @@ public class TopoDaoImpl implements TopoDao {
       String hql = "FROM Topo T "
                    + "WHERE (T.region.regionID = :regionID OR :regionID is null) "
                    + "AND (T.utilisateur.pseudo LIKE CONCAT('%', :pseudo, '%') OR :pseudo is null) "
+                   + "AND (T.disponible is TRUE) "
                    + "AND ( T.nom LIKE CONCAT('%', :keywords, '%') "
                    + "OR T.lieu LIKE CONCAT('%', :keywords, '%') "
                    + "OR T.description LIKE CONCAT('%', :keywords, '%'))";
