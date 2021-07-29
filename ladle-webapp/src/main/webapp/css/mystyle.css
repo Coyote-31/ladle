@@ -96,3 +96,17 @@ footer {
     background-color: #218838;
     border-color: #218838;
 }
+
+/* ================= */
+/* --- Accordion / Card --- */
+/* ================= */
+
+.accordion>.card:last-of-type {
+  border: 1px solid rgba(0,0,0,0.125);
+  border-radius: 0.25rem;
+}
+
+.card-header {
+  border-bottom: 0px solid rgba(0,0,0,0.125);
+  background-color: rgba(0,0,0,0.1);
+}

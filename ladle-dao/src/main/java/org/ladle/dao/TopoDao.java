@@ -44,6 +44,13 @@ public interface TopoDao {
   void update(Topo topo);
 
   /**
+   * Supprime le topo de la BDD.
+   *
+   * @param topo de type Topo
+   */
+  void removeTopo(Topo topo);
+
+  /**
    * Ajoute un utilisateur à la liste de demande de prêt pour un topo.
    *
    * @param topo

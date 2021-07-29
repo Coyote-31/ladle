@@ -93,6 +93,17 @@ public class TopoHandler {
   }
 
   /**
+   * Supprime le topo de la BDD.
+   *
+   * @param topo de type Topo
+   */
+  public void removeTopo(Topo topo) {
+
+    topoDao.removeTopo(topo);
+
+  }
+
+  /**
    * Ajoute un utilisateur à la liste de demande de prêt pour un topo.
    *
    * @param topo

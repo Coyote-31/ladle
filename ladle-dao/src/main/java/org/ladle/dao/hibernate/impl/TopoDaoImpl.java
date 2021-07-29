@@ -101,6 +101,16 @@ public class TopoDaoImpl implements TopoDao {
   }
 
   @Override
+  public void removeTopo(Topo topo) {
+    try {
+      Topo topoToRemove = em.find(Topo.class, topo.getTopoID());
+      em.remove(topoToRemove);
+    } catch (IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("Remove topo failed", e);
+    }
+  }
+
+  @Override
   public void addDemandePret(Topo topo, Utilisateur utilisateur) {
 
     try {

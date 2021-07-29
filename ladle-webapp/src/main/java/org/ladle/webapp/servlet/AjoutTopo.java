@@ -100,13 +100,13 @@ public class AjoutTopo extends HttpServlet {
     }
 
     // Lieu :
-    if (inputLieu.length() > 10) {
+    if (inputLieu.length() > 80) {
       errorList.add("Le lieu ne doit pas dépasser 80 caractères.");
       request.setAttribute("topoLieuError", true);
     }
 
     // Nom :
-    if (inputNom.length() > 10) {
+    if (inputNom.length() > 80) {
       errorList.add("Le nom ne doit pas dépasser 80 caractères.");
       request.setAttribute("topoNomError", true);
     }
@@ -115,7 +115,7 @@ public class AjoutTopo extends HttpServlet {
     boolean checkboxDispo = "on".equals(checkboxDispoStr);
 
     // Description :
-    if (textareaDescription.length() > 10) {
+    if (textareaDescription.length() > 2000) {
       errorList.add("La description ne doit pas dépasser 2000 caractères.");
       request.setAttribute("topoDescriptionError", true);
     }
@@ -134,6 +134,7 @@ public class AjoutTopo extends HttpServlet {
       // Renvoit vers le doGet() pour l'initialisation du formulaire
       try {
         doGet(request, response);
+        return;
       } catch (ServletException | IOException e) {
         LOG.error("Error : doGet()", e);
       }

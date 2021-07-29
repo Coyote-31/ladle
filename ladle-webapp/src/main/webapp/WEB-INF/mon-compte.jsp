@@ -112,7 +112,7 @@
                 <i class="fas fa-edit pr-2" aria-hidden="true"></i>Editer</button>
                 
               <button type="button" class="btn btn-danger mb-3" aria-label="Suppression du site"
-                    onclick="window.location.href = './suppression-topo?id=${topo.topoID}'">
+                    onclick="window.location.href = './supprime-topo?id=${topo.topoID}'">
                 <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Supprimer</button>
                 
               <%-- Liste des utilisateurs demandeurs --%>
