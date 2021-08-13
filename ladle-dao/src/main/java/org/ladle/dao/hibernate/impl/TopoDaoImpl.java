@@ -73,6 +73,10 @@ public class TopoDaoImpl implements TopoDao {
           .setParameter("keywords", keywords)
           .getResultList();
 
+      for (Topo topo : resultTopos) {
+        Hibernate.initialize(topo.getDemandePretUtilisateurs());
+      }
+
     } catch (IllegalArgumentException e) {
       LOG.error("Error ! Failed to searchTopos()", e);
     }
@@ -94,7 +98,19 @@ public class TopoDaoImpl implements TopoDao {
   @Override
   public void update(Topo topo) {
     try {
-      em.merge(topo);
+      // Récupère la liste Set<Utilisateur> demandePretUtilisateurs du topo
+      Topo topoUpdated = em.find(Topo.class, topo.getTopoID());
+
+      // MAJ du topo
+      topoUpdated.setUtilisateur(topo.getUtilisateur());
+      topoUpdated.setParutionDate(topo.getParutionDate());
+      topoUpdated.setRegion(topo.getRegion());
+      topoUpdated.setLieu(topo.getLieu());
+      topoUpdated.setNom(topo.getNom());
+      topoUpdated.setDisponible(topo.isDisponible());
+      topoUpdated.setDescription(topo.getDescription());
+
+      em.merge(topoUpdated);
     } catch (IllegalArgumentException | TransactionRequiredException e) {
       LOG.error("Update topo failed", e);
     }

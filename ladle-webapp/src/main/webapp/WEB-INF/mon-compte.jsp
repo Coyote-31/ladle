@@ -93,7 +93,7 @@
                 aria-expanded="false" aria-controls="collapseOwn${ownCompteur}">
                 <div class="d-flex justify-content-between">
                   <span>${topo.nom}</span> 
-                  <span class="text-muted">${topo.utilisateur.pseudo}</span> 
+                  <span class="text-muted">Demande(s): ${topo.demandePretUtilisateurs.size()}</span> 
                 </div>
               </button>
             </h2>
@@ -116,7 +116,7 @@
                 <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Supprimer</button>
                 
               <%-- Liste des utilisateurs demandeurs --%>
-              
+              <c:if test="${topo.demandePretUtilisateurs.size() > 0 && topo.disponible}">
                 <div class="card">
                 
                   <div class="card-header" id="headingDemandes${ownCompteur}">        
@@ -159,7 +159,7 @@
                   </div>
                 
                 </div>
-              
+              </c:if>
             </div>
           </div>
         

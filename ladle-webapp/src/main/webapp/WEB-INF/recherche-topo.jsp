@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -93,39 +94,54 @@
     <div class="accordion" id="accordionTopo">
     
       <c:forEach items="${topos}" var="topo">
-      <c:set var="compteur" value="${compteur+1}" scope="page" />
       
-        <div class="card">
+      <%-- N'affiche pas les topos dont l'utilisateur est le propriétaire  --%>
+      <c:if test="${topo.utilisateur.pseudo != utilisateur.pseudo}">
+      
+        <c:set var="compteur" value="${compteur+1}" scope="page" />
         
-          <div class="card-header" id="heading${compteur}">        
-            <h2 class="mb-0 mx-0">
-              <button class="btn btn-outline-primary btn-block text-left collapsed ml-0" 
-                type="button" 
-                data-toggle="collapse" data-target="#collapse${compteur}" 
-                aria-expanded="false" aria-controls="collapse${compteur}">
-                <div class="d-flex justify-content-between">
-                  <span>${topo.nom}</span> 
-                  <span class="text-muted">${topo.utilisateur.pseudo}</span> 
-                </div>
-              </button>
-            </h2>
-          </div>
+          <div class="card">
           
-          <div id="collapse${compteur}" class="collapse" 
-            aria-labelledby="heading${compteur}" data-parent="#accordionTopo">
-            <div class="card-body">
-              Lieu : ${topo.lieu} <br>
-              ${topo.description} <br><br>
-              
-              <button type="button" class="btn btn-secondary mb-3" aria-label="Demande de prêt"
-                    onclick="window.location.href = './demande-topo?id=${topo.topoID}'">
-                <i class="fas fa-clipboard pr-2" aria-hidden="true"></i>Faire une demande de prêt</button>
-                
+            <div class="card-header" id="heading${compteur}">        
+              <h2 class="mb-0 mx-0">
+                <button class="btn btn-outline-primary btn-block text-left collapsed ml-0" 
+                  type="button" 
+                  data-toggle="collapse" data-target="#collapse${compteur}" 
+                  aria-expanded="false" aria-controls="collapse${compteur}">
+                  <div class="d-flex justify-content-between">
+                    <span>${topo.nom}</span> 
+                    <span class="text-muted">${topo.utilisateur.pseudo}</span> 
+                  </div>
+                </button>
+              </h2>
             </div>
+            
+            <div id="collapse${compteur}" class="collapse" 
+              aria-labelledby="heading${compteur}" data-parent="#accordionTopo">
+              <div class="card-body">
+                Lieu : ${topo.lieu} <br>
+                ${topo.description} <br><br>
+                
+                <%-- Boutons : Demande / Annulation --%>
+            
+                <c:if test="${!topo.isDemandePret(utilisateur)}">
+                  <button type="button" class="btn btn-secondary mb-3" aria-label="Demande de prêt"
+                        onclick="window.location.href = './demande-topo?id=${topo.topoID}'">
+                    <i class="fas fa-clipboard pr-2" aria-hidden="true"></i>Faire une demande de prêt</button>
+                </c:if>
+                
+                <c:if test="${topo.isDemandePret(utilisateur)}">
+                  <button type="button" class="btn btn-danger mb-3" aria-label="Annuler la demande de prêt"
+                    onclick="window.location.href = './#?id=${topo.topoID}'">
+                    <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Annuler la demande de prêt</button>
+                </c:if>
+                
+                
+              </div>
+            </div>
+          
           </div>
-        
-        </div>
-        
+        </c:if>
       </c:forEach>
       
     </div>

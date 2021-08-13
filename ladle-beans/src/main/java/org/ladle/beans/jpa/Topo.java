@@ -185,4 +185,14 @@ public class Topo implements Serializable {
     utilisateur.getDemandePretToposByRef().remove(this);
   }
 
+  public boolean isDemandePret(Utilisateur utilisateur) {
+
+    for (Utilisateur user : demandePretUtilisateurs) {
+      if (user.getPseudo().equals(utilisateur.getPseudo())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
