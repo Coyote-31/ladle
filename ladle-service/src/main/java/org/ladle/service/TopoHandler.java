@@ -127,6 +127,17 @@ public class TopoHandler {
   }
 
   /**
+   * Renvoit la liste des topos que cet utilisateur a en cours d'emprunt.
+   *
+   * @param utilisateur
+   * @return Une liste de Topo
+   */
+  public List<Topo> getLoanTopos(Utilisateur utilisateur) {
+
+    return topoDao.getLoanTopos(utilisateur);
+  }
+
+  /**
    * Renvoit la liste des topos dont cet utilisateur à fait une demande de prêt.
    *
    * @param utilisateur qui a fait la demande de prêt.
@@ -163,14 +174,15 @@ public class TopoHandler {
   }
 
   /**
-   * Renvoit la liste des topos que cet utilisateur a en cours d'emprunt.
+   * Refuse la demande de l'utilisateur pour ce topo.
+   * Retire l'utilisateur demandeur de la liste du topo.
    *
-   * @param utilisateur
-   * @return Une liste de Topo
+   * @param topo
+   * @param user
    */
-  public List<Topo> getLoanTopos(Utilisateur utilisateur) {
+  public void refuseDemandTopo(Topo topo, Utilisateur user) {
 
-    return topoDao.getLoanTopos(utilisateur);
+    topoDao.refuseDemandTopo(topo, user);
   }
 
 }

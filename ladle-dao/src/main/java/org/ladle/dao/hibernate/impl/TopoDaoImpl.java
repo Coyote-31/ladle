@@ -245,4 +245,31 @@ public class TopoDaoImpl implements TopoDao {
     }
   }
 
+  @Override
+  public void refuseDemandTopo(Topo topo, Utilisateur user) {
+
+    Topo topoUpdated = null;
+    Utilisateur userUpdated = null;
+
+    try {
+      // Récupère le topo
+      topoUpdated = em.find(Topo.class, topo.getTopoID());
+
+      // Récupère l'utilisateur
+      userUpdated = em.find(Utilisateur.class, user.getUtilisateurID());
+
+      // retire l'utilisateur de la liste de demande du topo
+      topoUpdated.removeDemandePretUtilisateur(userUpdated);
+
+      // Met à jour le topo dans la BDD
+      em.merge(topoUpdated);
+
+    } catch (IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("refuseDemandTopo() failed for topoID : {} userID : {}",
+          topo.getTopoID(),
+          user.getUtilisateurID(),
+          e);
+    }
+  }
+
 }

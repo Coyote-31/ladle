@@ -147,7 +147,7 @@
                         <i class="fas fa-check-square" aria-hidden="true"></i></button>
                         
                       <button type="button" class="btn btn-danger mb-2" aria-label="Refuser"
-                        onclick="window.location.href = './#?topoID=${topo.topoID}&userID=${askingUser.utilisateurID}'">
+                        onclick="window.location.href = './refuse-demande-topo?topoID=${topo.topoID}&userID=${askingUser.utilisateurID}'">
                         <i class="fas fa-window-close" aria-hidden="true"></i></button>
                       
                       </li>
