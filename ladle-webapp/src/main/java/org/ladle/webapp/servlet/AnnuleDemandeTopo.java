@@ -19,21 +19,20 @@ import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.TopoHandler;
 
 /**
- * Servlet implementation class DemandeTopo.
- * Permet d'effectuer une demande de prêt en ajoutant l'utilisateur
- * à la liste de demande pour le topo avec son id en paramètre.
+ * Servlet implementation class AnnuleDemandeTopo
+ * Permet l'annulation d'une demande de topo
  */
 @SuppressWarnings("serial")
-@WebServlet("/demande-topo")
-public class DemandeTopo extends HttpServlet {
+@WebServlet("/annule-demande-topo")
+public class AnnuleDemandeTopo extends HttpServlet {
 
-  private static final Logger LOG = LogManager.getLogger(DemandeTopo.class);
+  private static final Logger LOG = LogManager.getLogger(AnnuleDemandeTopo.class);
 
   @EJB(name = "TopoHandler")
   private TopoHandler topoHandler;
 
   /**
-   * Ajoute l'utilisateur à la liste des demandes pour le topo passé en paramètre.
+   * Implémente l'annulation d'une demande de topo.
    *
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
@@ -41,13 +40,17 @@ public class DemandeTopo extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    LOG.debug("Servlet [DemandeTopo] -> doGet()");
+    LOG.debug("Servlet [AnnuleDemandeTopo] -> doGet()");
 
     // Initialisation de la liste d'erreurs
     List<String> errorList = new ArrayList<>();
 
-    // Récupère l'id du topo
-    String topoIDStr = request.getParameter("id");
+    // ----- Topo -----
+
+    // Récupération du paramètre 'topoID'
+    String topoIDStr = request.getParameter("topoID");
+
+    // Conversion de topoID en Integer
     Integer topoID = null;
     try {
       topoID = Integer.decode(topoIDStr);
@@ -70,19 +73,30 @@ public class DemandeTopo extends HttpServlet {
       return;
     }
 
-    // Si l'utilisateur est le propriétaire du topo renvoit vers la page d'erreur
+    // ----- Utilisateur demandeur d'annulation -----
+
+    // Récupération de l'utilisateur demandeur d'annulation du topo
     HttpSession session = request.getSession();
     Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
 
-    if (topo.getUtilisateur().getUtilisateurID().equals(utilisateur.getUtilisateurID())) {
-      LOG.error("Ask for his own topo! User : {}", utilisateur.getPseudo());
-      String errorMsg = "Vous ne pouvez pas faire de demande pour vos propres topos !";
+    // Vérification que l'utilisateur demandeur est dans la liste de demande
+    boolean isAskingUserInList = false;
+
+    isAskingUserInList = topo.getDemandePretUtilisateurs().stream()
+        .anyMatch(user -> user.getUtilisateurID().equals(utilisateur.getUtilisateurID()));
+
+    if (!isAskingUserInList) {
+      LOG.error("Can't find userID : {} in demand list of topoID = {}",
+          utilisateur.getUtilisateurID(),
+          topo.getTopoID());
+
+      String errorMsg = "Vous n'êtes pas dans la liste de demande pour ce topo !";
       sendToErrorPage(errorMsg, errorList, request, response);
       return;
     }
 
-    // Ajoute l'utilisateur à la liste des demandeurs pour ce topo dans la BDD
-    topoHandler.addDemandePret(topo, utilisateur);
+    // Retire l'utilisateur demandeur de la liste de demande du topo
+    topoHandler.refuseDemandTopo(topo, utilisateur);
 
     // Renvoit vers la page Mon Compte
     try {
@@ -102,9 +116,9 @@ public class DemandeTopo extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    LOG.debug("Servlet [DemandeTopo] -> doPost()");
+    LOG.debug("Servlet [AnnuleDemandeTopo] -> doPost()");
 
-    // Renvoit vers le doGet
+    // Redirection depuis un post vers le doGet()
     try {
       doGet(request, response);
     } catch (ServletException | IOException e) {

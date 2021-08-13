@@ -174,7 +174,7 @@ public class TopoHandler {
   }
 
   /**
-   * Refuse la demande de l'utilisateur pour ce topo.
+   * Refuse ou annule la demande de l'utilisateur pour ce topo.
    * Retire l'utilisateur demandeur de la liste du topo.
    *
    * @param topo

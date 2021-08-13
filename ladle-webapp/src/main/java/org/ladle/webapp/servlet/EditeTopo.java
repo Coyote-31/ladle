@@ -41,6 +41,8 @@ public class EditeTopo extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    LOG.debug("Servlet [EditeTopo] -> doGet()");
+
     // Initialisation de la liste d'erreurs
     List<String> errorList = new ArrayList<>();
 
@@ -101,6 +103,8 @@ public class EditeTopo extends HttpServlet {
    */
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    LOG.debug("Servlet [EditeTopo] -> doPost()");
 
     // Initialisation de la liste d'erreurs
     List<String> errorList = new ArrayList<>();

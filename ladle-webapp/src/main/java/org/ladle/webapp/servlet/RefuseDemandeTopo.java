@@ -40,6 +40,8 @@ public class RefuseDemandeTopo extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    LOG.debug("Servlet [RefuseDemandeTopo] -> doGet()");
+
     // Initialisation de la liste d'erreurs
     List<String> errorList = new ArrayList<>();
 
@@ -137,7 +139,7 @@ public class RefuseDemandeTopo extends HttpServlet {
   }
 
   /**
-   * doGet inutilisé
+   * doPost inutilisé qui renvoit vers le doGet.
    *
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
    *      response)

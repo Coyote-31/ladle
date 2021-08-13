@@ -38,6 +38,8 @@ public class SupprimeTopo extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    LOG.debug("Servlet [SupprimeTopo] -> doGet()");
+
     // Initialisation de la liste d'erreurs
     List<String> errorList = new ArrayList<>();
 
@@ -97,6 +99,8 @@ public class SupprimeTopo extends HttpServlet {
    */
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    LOG.debug("Servlet [SupprimeTopo] -> doPost()");
 
     // Renvoit vers le doGet
     try {

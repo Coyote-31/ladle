@@ -122,6 +122,10 @@
                 <strong>En cours de prêt :</strong><br>
                 Pseudo : ${topo.pretUtilisateur.pseudo}<br>
                 Email : ${topo.pretUtilisateur.email}<br><br>
+                <button type="button" class="btn btn-danger mb-3" aria-label="Annuler l'emprunt"
+                    onclick="window.location.href = './#?topoID=${topo.topoID}'">
+                <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Annuler l'emprunt</button>
+                <br><br>
               </c:if> 
               
               <button type="button" class="btn btn-warning mb-3" aria-label="Edition du topo"
@@ -231,7 +235,7 @@
               Email : ${topo.utilisateur.email}<br><br>
                 
               <button type="button" class="btn btn-danger mb-3" aria-label="Annuler l'emprunt"
-                    onclick="window.location.href = './#?id=${topo.topoID}'">
+                    onclick="window.location.href = './#?topoID=${topo.topoID}'">
                 <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Annuler l'emprunt</button>
               
             </div>
@@ -279,7 +283,7 @@
               Description : ${topo.description} <br><br>
                 
               <button type="button" class="btn btn-danger mb-3" aria-label="Annuler la demande de prêt"
-                    onclick="window.location.href = './#?id=${topo.topoID}'">
+                    onclick="window.location.href = './annule-demande-topo?topoID=${topo.topoID}'">
                 <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Annuler la demande de prêt</button>
               
             </div>
