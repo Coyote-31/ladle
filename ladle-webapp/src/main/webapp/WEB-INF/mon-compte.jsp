@@ -92,8 +92,19 @@
                 data-toggle="collapse" data-target="#collapseOwn${ownCompteur}" 
                 aria-expanded="false" aria-controls="collapseOwn${ownCompteur}">
                 <div class="d-flex justify-content-between">
-                  <span>${topo.nom}</span> 
-                  <span class="text-muted">Demande(s): ${topo.demandePretUtilisateurs.size()}</span> 
+                  <span>${topo.nom}</span>
+                  <%-- Si topo disponible et non-prêté : affiche le compteur de demande --%>
+                  <c:if test="${topo.disponible && empty topo.pretUtilisateur}">
+                    <span class="text-success">Demande(s): ${topo.demandePretUtilisateurs.size()}</span> 
+                  </c:if>
+                  <%-- Si topo indisponible et non-prêté : affiche indisponible --%>
+                  <c:if test="${!topo.disponible && empty topo.pretUtilisateur}">
+                    <span class="text-danger">Indisponible</span> 
+                  </c:if> 
+                  <%-- Si topo indisponible et prêté : affiche en cours de prêt --%>
+                  <c:if test="${!topo.disponible && not empty topo.pretUtilisateur}">
+                    <span class="text-warning">En cours de prêt</span> 
+                  </c:if> 
                 </div>
               </button>
             </h2>
@@ -106,6 +117,12 @@
               Région : ${topo.region.nom} <br>
               Lieu : ${topo.lieu} <br>
               Description : ${topo.description} <br><br>
+              
+              <c:if test="${!topo.disponible && not empty topo.pretUtilisateur}">
+                <strong>En cours de prêt :</strong><br>
+                Pseudo : ${topo.pretUtilisateur.pseudo}<br>
+                Email : ${topo.pretUtilisateur.email}<br><br>
+              </c:if> 
               
               <button type="button" class="btn btn-warning mb-3" aria-label="Edition du topo"
                     onclick="window.location.href = './edition-topo?id=${topo.topoID}'">
