@@ -50,7 +50,7 @@ public class MonCompte extends HttpServlet {
     request.setAttribute("ownTopos", topoHandler.getOwnTopos(utilisateur));
 
     // Envoit de la liste des topos empruntés
-    // TODO
+    request.setAttribute("loanTopos", topoHandler.getLoanTopos(utilisateur));
 
     // Envoit de la liste des topos demandés
     request.setAttribute("demandeTopos", topoHandler.getDemandePretTopos(utilisateur));

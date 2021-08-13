@@ -34,6 +34,9 @@ public class TopoDaoImpl implements TopoDao {
 
     try {
       topo = em.find(Topo.class, id);
+
+      Hibernate.initialize(topo.getDemandePretUtilisateurs());
+
     } catch (IllegalArgumentException e) {
       LOG.error("getTopoByID() failed", e);
     }
@@ -163,6 +166,21 @@ public class TopoDaoImpl implements TopoDao {
   }
 
   @Override
+  public List<Topo> getLoanTopos(Utilisateur utilisateur) {
+
+    List<Topo> loanTopos = new ArrayList<>();
+
+    try {
+      loanTopos = em.find(Utilisateur.class, utilisateur.getUtilisateurID()).getPretTopos();
+
+    } catch (IllegalArgumentException e) {
+      LOG.error("getLoanTopos() failed", e);
+    }
+
+    return loanTopos;
+  }
+
+  @Override
   public Set<Topo> getDemandePretTopos(Utilisateur utilisateur) {
 
     Set<Topo> demandePretTopos = new HashSet<>();
@@ -175,6 +193,56 @@ public class TopoDaoImpl implements TopoDao {
     }
 
     return demandePretTopos;
+  }
+
+  @Override
+  public Utilisateur getUserByID(Integer userID) {
+
+    Utilisateur utilisateur = null;
+
+    try {
+      utilisateur = em.find(Utilisateur.class, userID);
+    } catch (IllegalArgumentException e) {
+      LOG.error("getUserByID failed", e);
+    }
+
+    return utilisateur;
+  }
+
+  @Override
+  public void acceptDemandTopo(Topo topo, Utilisateur user) {
+
+    Topo topoUpdated = null;
+    Utilisateur userUpdated = null;
+
+    try {
+      // Récupère le topo
+      topoUpdated = em.find(Topo.class, topo.getTopoID());
+
+      // Récupère l'utilisateur
+      userUpdated = em.find(Utilisateur.class, user.getUtilisateurID());
+
+      // Ajoute à l'utilisateur le topo en cours de prêt
+      userUpdated.addPretTopo(topoUpdated);
+
+      // Retire l'utilisateur de la liste de demande du topo
+      topoUpdated.removeDemandePretUtilisateur(userUpdated);
+
+      // Change l'état du topo à indisponible
+      topoUpdated.setDisponible(false);
+
+      // Met à jour l'utilisateur dans la BDD
+      em.merge(userUpdated);
+
+      // Met à jour le topo dans la BDD
+      em.merge(topoUpdated);
+
+    } catch (IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("acceptDemandTopo() failed for topoID : {} userID : {}",
+          topo.getTopoID(),
+          user.getUtilisateurID(),
+          e);
+    }
   }
 
 }

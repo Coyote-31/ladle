@@ -31,7 +31,7 @@ public class Topo implements Serializable {
   @Column(name = "topo_id")
   private Integer topoID;
   @ManyToOne
-  @JoinColumn(name = "utilisateur_id", nullable = false)
+  @JoinColumn(name = "utilisateur_id", referencedColumnName = "utilisateur_id", nullable = false)
   private Utilisateur utilisateur;
   @ManyToOne
   @JoinColumn(name = "region_id", referencedColumnName = "region_id", nullable = false)
@@ -39,7 +39,7 @@ public class Topo implements Serializable {
   @Column(name = "disponible", nullable = false)
   private boolean disponible;
   @ManyToOne
-  @JoinColumn(name = "pret_utilisateur_id")
+  @JoinColumn(name = "pret_utilisateur_id", referencedColumnName = "utilisateur_id")
   private Utilisateur pretUtilisateur;
   @Column(name = "nom", length = 80, nullable = false)
   private String nom;

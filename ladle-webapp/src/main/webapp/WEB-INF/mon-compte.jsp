@@ -143,7 +143,7 @@
                       <li> ${askingUser.pseudo} 
                       
                       <button type="button" class="btn btn-success mb-2" aria-label="Accepter"
-                        onclick="window.location.href = './#?topoID=${topo.topoID}&userID=${askingUser.utilisateurID}'">
+                        onclick="window.location.href = './accepte-demande-topo?topoID=${topo.topoID}&userID=${askingUser.utilisateurID}'">
                         <i class="fas fa-check-square" aria-hidden="true"></i></button>
                         
                       <button type="button" class="btn btn-danger mb-2" aria-label="Refuser"
@@ -176,6 +176,56 @@
   </button>
   
   <h3>Empruntés</h3>
+  
+  <%-- Liste des topos empruntés --%>
+  <c:if test="${not empty loanTopos}">
+    
+    <div class="accordion mb-3" id="accordionLoanTopo">
+    
+      <c:forEach items="${loanTopos}" var="topo">
+      <c:set var="loanCompteur" value="${loanCompteur+1}" scope="page" />
+      
+        <div class="card">
+        
+          <div class="card-header" id="headingLoan${loanCompteur}">        
+            <h2 class="mb-0 mx-0">
+              <button class="btn btn-outline-primary btn-block text-left collapsed ml-0" 
+                type="button" 
+                data-toggle="collapse" data-target="#collapseLoan${loanCompteur}" 
+                aria-expanded="false" aria-controls="collapseLoan${loanCompteur}">
+                <div class="d-flex justify-content-between">
+                  <span>${topo.nom}</span> 
+                  <span class="text-muted">${topo.utilisateur.pseudo}</span> 
+                </div>
+              </button>
+            </h2>
+          </div>
+          
+          <div id="collapseLoan${loanCompteur}" class="collapse" 
+            aria-labelledby="headingLoan${loanCompteur}" data-parent="#accordionLoanTopo">
+            <div class="card-body">
+              Date de création : <fmt:formatDate value="${topo.parutionDate}" type="date" /> <br>
+              Région : ${topo.region.nom} <br>
+              Lieu : ${topo.lieu} <br>
+              Description : ${topo.description} <br><br>
+              
+              <strong>Propriétaire :</strong><br>
+              Pseudo : ${topo.utilisateur.pseudo}<br>
+              Email : ${topo.utilisateur.email}<br><br>
+                
+              <button type="button" class="btn btn-danger mb-3" aria-label="Annuler l'emprunt"
+                    onclick="window.location.href = './#?id=${topo.topoID}'">
+                <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Annuler l'emprunt</button>
+              
+            </div>
+          </div>
+        
+        </div>
+        
+      </c:forEach>
+      
+    </div>
+  </c:if>
   
   <h3>Demandés</h3>
   

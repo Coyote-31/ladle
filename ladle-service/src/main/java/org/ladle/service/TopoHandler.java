@@ -137,4 +137,40 @@ public class TopoHandler {
     return topoDao.getDemandePretTopos(utilisateur);
   }
 
+  /**
+   * Renvoit l'utilisateur correspondant à l'ID
+   *
+   * @param userID
+   * @return Utilisateur
+   */
+  public Utilisateur getUserByID(Integer userID) {
+
+    return topoDao.getUserByID(userID);
+  }
+
+  /**
+   * Accepte la demande de l'utilisateur pour ce topo.
+   * Ajoute à l'utilisateur le topo en cours de pret,
+   * retire l'utilisateur de la liste de demande de prêt.
+   * Rend le topo indisponible.
+   *
+   * @param topo
+   * @param user
+   */
+  public void acceptDemandTopo(Topo topo, Utilisateur user) {
+
+    topoDao.acceptDemandTopo(topo, user);
+  }
+
+  /**
+   * Renvoit la liste des topos que cet utilisateur a en cours d'emprunt.
+   *
+   * @param utilisateur
+   * @return Une liste de Topo
+   */
+  public List<Topo> getLoanTopos(Utilisateur utilisateur) {
+
+    return topoDao.getLoanTopos(utilisateur);
+  }
+
 }

@@ -67,11 +67,38 @@ public interface TopoDao {
   List<Topo> getOwnTopos(Utilisateur utilisateur);
 
   /**
+   * Renvoit la liste des topos que cet utilisateur a en cours d'emprunt.
+   *
+   * @param utilisateur
+   * @return Une liste de Topo
+   */
+  List<Topo> getLoanTopos(Utilisateur utilisateur);
+
+  /**
    * Renvoit la liste des topos dont cet utilisateur à fait une demande de prêt.
    *
    * @param utilisateur qui a fait la demande de prêt.
    * @return liste Set de type Topo
    */
   Set<Topo> getDemandePretTopos(Utilisateur utilisateur);
+
+  /**
+   * Renvoit l'utilisateur correspondant à l'ID
+   *
+   * @param userID
+   * @return Utilisateur
+   */
+  Utilisateur getUserByID(Integer userID);
+
+  /**
+   * Accepte la demande de l'utilisateur pour ce topo.
+   * Ajoute à l'utilisateur le topo en cours de pret,
+   * retire l'utilisateur de la liste de demande de prêt.
+   * Rend le topo indisponible.
+   *
+   * @param topo
+   * @param user
+   */
+  void acceptDemandTopo(Topo topo, Utilisateur user);
 
 }
