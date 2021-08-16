@@ -236,8 +236,9 @@ public class EditeTopo extends HttpServlet {
     topoHandler.update(topoEdited);
 
     // Si le topo passe de indisponible à disponible
+    // et qu'il y a un prêt en cours :
     // Annule le prêt en cours
-    if (!topo.isDisponible() && topoEdited.isDisponible()) {
+    if (!topo.isDisponible() && topoEdited.isDisponible() && (topo.getPretUtilisateur() != null)) {
       topoHandler.cancelPretTopo(topoEdited);
     }
 
