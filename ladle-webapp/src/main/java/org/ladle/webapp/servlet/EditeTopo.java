@@ -235,6 +235,12 @@ public class EditeTopo extends HttpServlet {
     // Mise à jour du topo édité dans la BDD
     topoHandler.update(topoEdited);
 
+    // Si le topo passe de indisponible à disponible
+    // Annule le prêt en cours
+    if (!topo.isDisponible() && topoEdited.isDisponible()) {
+      topoHandler.cancelPretTopo(topoEdited);
+    }
+
     // Renvoit vers la page Mon Compte
     try {
       response.sendRedirect("mon-compte");
