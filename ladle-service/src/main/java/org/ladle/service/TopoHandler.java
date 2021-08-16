@@ -185,4 +185,15 @@ public class TopoHandler {
     topoDao.refuseDemandTopo(topo, user);
   }
 
+  /**
+   * Supprime l'utilisateur en cours de prêt dans le topo
+   * et change le statut du topo en disponible.
+   *
+   * @param topo
+   */
+  public void cancelPretTopo(Topo topo) {
+
+    topoDao.cancelPretTopo(topo);
+  }
+
 }

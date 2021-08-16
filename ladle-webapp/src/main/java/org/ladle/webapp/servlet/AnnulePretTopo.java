@@ -19,20 +19,20 @@ import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.TopoHandler;
 
 /**
- * Servlet implementation class AnnuleDemandeTopo
- * Permet l'annulation d'une demande de topo.
+ * Servlet implementation class AnnulePretTopo
+ * Permet d'annuler le prêt d'un topo.
  */
 @SuppressWarnings("serial")
-@WebServlet("/annule-demande-topo")
-public class AnnuleDemandeTopo extends HttpServlet {
+@WebServlet("/annule-pret-topo")
+public class AnnulePretTopo extends HttpServlet {
 
-  private static final Logger LOG = LogManager.getLogger(AnnuleDemandeTopo.class);
+  private static final Logger LOG = LogManager.getLogger(AnnulePretTopo.class);
 
   @EJB(name = "TopoHandler")
   private TopoHandler topoHandler;
 
   /**
-   * Implémente l'annulation d'une demande de topo.
+   * Implémente l'annulation du prêt d'un topo.
    *
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
@@ -40,7 +40,7 @@ public class AnnuleDemandeTopo extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    LOG.debug("Servlet [AnnuleDemandeTopo] -> doGet()");
+    LOG.debug("Servlet [AnnulePretTopo] -> doGet()");
 
     // Initialisation de la liste d'erreurs
     List<String> errorList = new ArrayList<>();
@@ -73,30 +73,33 @@ public class AnnuleDemandeTopo extends HttpServlet {
       return;
     }
 
-    // ----- Utilisateur demandeur d'annulation -----
+    // ----- Utilisateur -----
 
-    // Récupération de l'utilisateur demandeur d'annulation du topo
+    // Récupération de l'utilisateur demandeur d'annulation du pret
     HttpSession session = request.getSession();
     Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
 
-    // Vérification que l'utilisateur demandeur est dans la liste de demande
-    boolean isAskingUserInList = false;
+    // ----- Vérification -----
 
-    isAskingUserInList = topo.getDemandePretUtilisateurs().stream()
-        .anyMatch(user -> user.getUtilisateurID().equals(utilisateur.getUtilisateurID()));
+    // Si l'utilisateur n'est ni le propriètaire ni le bénéficiaire du prêt,
+    // renvoit vers une page d'erreur.
+    if (!topo.getUtilisateur().getUtilisateurID().equals(utilisateur.getUtilisateurID())
+        && !topo.getPretUtilisateur().getUtilisateurID().equals(utilisateur.getUtilisateurID())) {
 
-    if (!isAskingUserInList) {
-      LOG.error("Can't find userID : {} in demand list of topoID = {}",
-          utilisateur.getUtilisateurID(),
-          topo.getTopoID());
-
-      String errorMsg = "Vous n'êtes pas dans la liste de demande pour ce topo !";
+      LOG.error("User doesn't allowed to cancel loan. TopoID: {}, UserID: {}",
+          topoIDStr,
+          utilisateur.getUtilisateurID());
+      String errorMsg = "Vous pouvez annuler le prêt d'un topo que si il vous appartient "
+                        + "ou si on vous le prête personnellement !";
       sendToErrorPage(errorMsg, errorList, request, response);
       return;
     }
 
-    // Retire l'utilisateur demandeur de la liste de demande du topo
-    topoHandler.refuseDemandTopo(topo, utilisateur);
+    // ----- Mise à jour du topo -----
+
+    // Supprime l'utilisateur en cours de prêt dans le topo
+    // Et change le statut du topo en disponible.
+    topoHandler.cancelPretTopo(topo);
 
     // Renvoit vers la page Mon Compte
     try {
@@ -116,8 +119,7 @@ public class AnnuleDemandeTopo extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    LOG.debug("Servlet [AnnuleDemandeTopo] -> doPost()");
-
+    LOG.debug("Servlet [AnnulePretTopo] -> doPost()");
     // Redirection depuis un post vers le doGet()
     try {
       doGet(request, response);

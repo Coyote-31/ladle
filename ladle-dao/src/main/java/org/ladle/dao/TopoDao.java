@@ -110,4 +110,12 @@ public interface TopoDao {
    */
   void refuseDemandTopo(Topo topo, Utilisateur user);
 
+  /**
+   * Supprime l'utilisateur en cours de prêt dans le topo
+   * et change le statut du topo en disponible.
+   *
+   * @param topoID
+   */
+  void cancelPretTopo(Topo topo);
+
 }

@@ -93,8 +93,14 @@
                 aria-expanded="false" aria-controls="collapseOwn${ownCompteur}">
                 <div class="d-flex justify-content-between">
                   <span>${topo.nom}</span>
-                  <%-- Si topo disponible et non-prêté : affiche le compteur de demande --%>
-                  <c:if test="${topo.disponible && empty topo.pretUtilisateur}">
+                  <%-- Si topo disponible et non-prêté et <= 0 demandes : affiche le compteur grisé --%>
+                  <c:if test="${topo.disponible && empty topo.pretUtilisateur 
+                              && topo.demandePretUtilisateurs.size() <= 0}">
+                    <span class="text-muted">Demande(s): ${topo.demandePretUtilisateurs.size()}</span> 
+                  </c:if>
+                  <%-- Si topo disponible et non-prêté et > 0 demandes : affiche le compteur vert --%>
+                  <c:if test="${topo.disponible && empty topo.pretUtilisateur 
+                              && topo.demandePretUtilisateurs.size() > 0}">
                     <span class="text-success">Demande(s): ${topo.demandePretUtilisateurs.size()}</span> 
                   </c:if>
                   <%-- Si topo indisponible et non-prêté : affiche indisponible --%>
@@ -122,9 +128,9 @@
                 <strong>En cours de prêt :</strong><br>
                 Pseudo : ${topo.pretUtilisateur.pseudo}<br>
                 Email : ${topo.pretUtilisateur.email}<br><br>
-                <button type="button" class="btn btn-danger mb-3" aria-label="Annuler l'emprunt"
-                    onclick="window.location.href = './#?topoID=${topo.topoID}'">
-                <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Annuler l'emprunt</button>
+                <button type="button" class="btn btn-danger mb-3" aria-label="Annuler le prêt"
+                    onclick="window.location.href = './annule-pret-topo?topoID=${topo.topoID}'">
+                <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Annuler le prêt</button>
                 <br><br>
               </c:if> 
               
@@ -132,7 +138,7 @@
                     onclick="window.location.href = './edition-topo?id=${topo.topoID}'">
                 <i class="fas fa-edit pr-2" aria-hidden="true"></i>Editer</button>
                 
-              <button type="button" class="btn btn-danger mb-3" aria-label="Suppression du site"
+              <button type="button" class="btn btn-danger mb-3" aria-label="Suppression du topo"
                     onclick="window.location.href = './supprime-topo?id=${topo.topoID}'">
                 <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Supprimer</button>
                 
@@ -191,7 +197,7 @@
     </div>
   </c:if>
   
-  <button type="button" class="btn btn-primary mb-3" aria-label="Edition du site"
+  <button type="button" class="btn btn-primary mb-3" aria-label="Ajouter un topo"
         onclick="window.location.href = './ajout-topo'">
     <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter un topo
   </button>
@@ -216,7 +222,7 @@
                 aria-expanded="false" aria-controls="collapseLoan${loanCompteur}">
                 <div class="d-flex justify-content-between">
                   <span>${topo.nom}</span> 
-                  <span class="text-muted">${topo.utilisateur.pseudo}</span> 
+                  <span class="text-info">${topo.utilisateur.pseudo}</span> 
                 </div>
               </button>
             </h2>
@@ -235,7 +241,7 @@
               Email : ${topo.utilisateur.email}<br><br>
                 
               <button type="button" class="btn btn-danger mb-3" aria-label="Annuler l'emprunt"
-                    onclick="window.location.href = './#?topoID=${topo.topoID}'">
+                    onclick="window.location.href = './annule-pret-topo?topoID=${topo.topoID}'">
                 <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Annuler l'emprunt</button>
               
             </div>

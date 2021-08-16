@@ -47,7 +47,8 @@ public class AuthenticationUtilisateurFilter implements Filter {
       "/supprime-topo",
       "/accepte-demande-topo",
       "/refuse-demande-topo",
-      "/annule-demande-topo"
+      "/annule-demande-topo",
+      "/annule-pret-topo"
   };
 
   @Override

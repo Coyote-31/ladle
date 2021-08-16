@@ -110,7 +110,7 @@
                   aria-expanded="false" aria-controls="collapse${compteur}">
                   <div class="d-flex justify-content-between">
                     <span>${topo.nom}</span> 
-                    <span class="text-muted">${topo.utilisateur.pseudo}</span> 
+                    <span class="text-info">${topo.utilisateur.pseudo}</span> 
                   </div>
                 </button>
               </h2>

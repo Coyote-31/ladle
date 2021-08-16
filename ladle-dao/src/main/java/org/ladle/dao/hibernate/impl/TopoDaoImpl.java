@@ -272,4 +272,27 @@ public class TopoDaoImpl implements TopoDao {
     }
   }
 
+  @Override
+  public void cancelPretTopo(Topo topo) {
+
+    Topo topoUpdated = null;
+
+    try {
+      // Récupère le topo
+      topoUpdated = em.find(Topo.class, topo.getTopoID());
+
+      // Supprime l'utilisateur en cours de prêt dans le topo
+      topoUpdated.setPretUtilisateur(null);
+
+      // Change le statut du topo en disponible
+      topoUpdated.setDisponible(true);
+
+      // Met à jour le topo dans la BDD
+      em.merge(topoUpdated);
+
+    } catch (IllegalArgumentException | TransactionRequiredException e) {
+      LOG.error("cancelPretTopo() failed for topoID : {}", topo.getTopoID(), e);
+    }
+  }
+
 }
