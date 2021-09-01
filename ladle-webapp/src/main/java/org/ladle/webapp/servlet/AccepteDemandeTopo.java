@@ -19,9 +19,10 @@ import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.TopoHandler;
 
 /**
- * Servlet implementation class AccepteDemandeTopo
- * Implémente la fonctionnalité d'acceptation de la
- * demande d'un topo.
+ * Servlet implementation class AccepteDemandeTopo.
+ * Implémente l'acceptation de la demande de topo.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/accepte-demande-topo")

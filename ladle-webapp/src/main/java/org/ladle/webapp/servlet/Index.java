@@ -18,6 +18,8 @@ import org.ladle.dao.RegionDao;
 /**
  * Servlet implementation class Index.
  * Page d'accueil du site LADLE.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("")
@@ -29,6 +31,8 @@ public class Index extends HttpServlet {
   private RegionDao regionDao;
 
   /**
+   * Implémente l'affichage de la page d'accueil du site LADLE.
+   *
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
    */

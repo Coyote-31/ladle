@@ -19,6 +19,8 @@ import org.ladle.service.TopoHandler;
 /**
  * Servlet implementation class RechercheTopo.
  * Permet d'afficher les topos suivant les critères d'une recherche.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/recherche-topo")

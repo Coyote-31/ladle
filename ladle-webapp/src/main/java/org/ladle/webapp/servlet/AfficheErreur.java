@@ -12,7 +12,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Servlet implementation class AfficheErreur
+ * Servlet implementation class AfficheErreur.
+ * Implémente l'affichage des erreurs.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/erreur")

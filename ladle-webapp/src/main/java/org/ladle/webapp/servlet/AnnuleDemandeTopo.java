@@ -19,8 +19,10 @@ import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.TopoHandler;
 
 /**
- * Servlet implementation class AnnuleDemandeTopo
+ * Servlet implementation class AnnuleDemandeTopo.
  * Permet l'annulation d'une demande de topo.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/annule-demande-topo")

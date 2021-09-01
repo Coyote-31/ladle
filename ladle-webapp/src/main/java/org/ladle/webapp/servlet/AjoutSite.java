@@ -20,8 +20,10 @@ import org.ladle.service.EditeSiteSecteurHandler;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
 /**
- * Servlet implementation class AjoutSite
- * Permet l'ajout d'un nouveau site
+ * Servlet implementation class AjoutSite.
+ * Permet l'ajout d'un nouveau site.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/ajout-site")

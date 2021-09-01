@@ -22,6 +22,8 @@ import org.ladle.service.RechercheSiteSecteurHandler;
 /**
  * Servlet implementation class AjoutSecteur
  * Permet l'ajout d'un nouveau secteur dans la BDD.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/ajout-secteur")

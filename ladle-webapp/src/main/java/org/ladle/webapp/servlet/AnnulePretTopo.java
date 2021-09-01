@@ -19,8 +19,10 @@ import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.TopoHandler;
 
 /**
- * Servlet implementation class AnnulePretTopo
+ * Servlet implementation class AnnulePretTopo.
  * Permet d'annuler le prêt d'un topo.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/annule-pret-topo")

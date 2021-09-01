@@ -16,8 +16,10 @@ import org.ladle.service.CookieHandler;
 import org.ladle.service.UserHandler;
 
 /**
- * Permet à l'utilisateur de se deconnecter
- * Servlet implementation class Deconnexion
+ * Servlet implementation class Deconnexion.
+ * Permet à l'utilisateur de se deconnecter.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/deconnexion")
@@ -29,6 +31,8 @@ public class Deconnexion extends HttpServlet {
   private UserHandler userHandler;
 
   /**
+   * Implémente la deconnexion d'un utilisateur.
+   *
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
    */

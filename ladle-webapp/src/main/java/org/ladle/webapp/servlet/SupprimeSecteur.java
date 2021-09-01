@@ -18,8 +18,10 @@ import org.ladle.service.EditeSiteSecteurHandler;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
 /**
- * Servlet implementation class SupprimeSecteur
- * Permet la suppression d'un secteur
+ * Servlet implementation class SupprimeSecteur.
+ * Permet la suppression d'un secteur.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/supprime-secteur")

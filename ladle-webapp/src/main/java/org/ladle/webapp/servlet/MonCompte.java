@@ -17,7 +17,11 @@ import org.ladle.service.TopoHandler;
 import org.ladle.service.UserHandler;
 
 /**
- * Servlet implementation class MonCompte
+ * Servlet implementation class MonCompte.
+ * Implémente l'affichage des informations
+ * du compte d'un utilisateur. (topos inclus)
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/mon-compte")

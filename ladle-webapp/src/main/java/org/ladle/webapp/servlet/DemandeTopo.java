@@ -22,6 +22,8 @@ import org.ladle.service.TopoHandler;
  * Servlet implementation class DemandeTopo.
  * Permet d'effectuer une demande de prêt en ajoutant l'utilisateur
  * à la liste de demande pour le topo avec son id en paramètre.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/demande-topo")

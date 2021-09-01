@@ -32,6 +32,8 @@ import org.ladle.service.RechercheSiteSecteurHandler;
 /**
  * Servlet implementation class EditeSecteur.
  * Permet l'édition d'un secteur.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/edition-secteur")

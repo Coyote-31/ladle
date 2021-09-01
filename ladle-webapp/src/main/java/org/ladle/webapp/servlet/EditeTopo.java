@@ -22,6 +22,8 @@ import org.ladle.service.TopoHandler;
 /**
  * Servlet implementation class EditeTopo.
  * Permet l'édition d'un topo de l'utilisateur.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/edition-topo")

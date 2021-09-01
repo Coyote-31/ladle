@@ -20,6 +20,8 @@ import org.ladle.service.RechercheSiteSecteurHandler;
 /**
  * Servlet implementation class SupprimeSite.
  * Permet la suppression d'un site.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/supprime-site")

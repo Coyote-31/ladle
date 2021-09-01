@@ -21,8 +21,10 @@ import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.TopoHandler;
 
 /**
- * Servlet implementation class AjoutTopo
- * Permet la création d'un nouveau Topo
+ * Servlet implementation class AjoutTopo.
+ * Permet la création d'un nouveau Topo.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/ajout-topo")

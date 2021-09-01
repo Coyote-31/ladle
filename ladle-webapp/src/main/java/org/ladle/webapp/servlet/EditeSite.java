@@ -25,6 +25,8 @@ import org.ladle.service.RechercheSiteSecteurHandler;
 /**
  * Servlet implementation class EditeSite.
  * Permet l'édition d'un site.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/edition-site")

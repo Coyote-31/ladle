@@ -23,7 +23,11 @@ import org.ladle.service.CommentaireHandler;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
 /**
- * Servlet implementation class AfficheSite
+ * Servlet implementation class AfficheSite.
+ * Implémente l'affichage d'un site,
+ * avec ses commentaires.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/site")
@@ -38,6 +42,9 @@ public class AfficheSite extends HttpServlet {
   private CommentaireHandler commentaireHandler;
 
   /**
+   * Envoit les informations du site passé en paramètre,
+   * ainsi que ses commentaires.
+   *
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
    */
@@ -98,6 +105,8 @@ public class AfficheSite extends HttpServlet {
   }
 
   /**
+   * Gère les commentaire sur le site passé en paramètre.
+   *
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
    *      response)
    */

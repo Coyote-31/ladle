@@ -19,6 +19,8 @@ import org.ladle.service.UserHandler;
 /**
  * Servlet implementation class Inscription.
  * Permet l'inscription d'un utilisateur.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/inscription")

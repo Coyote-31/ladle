@@ -21,6 +21,8 @@ import org.ladle.service.TopoHandler;
 /**
  * Servlet implementation class RefuseDemandeTopo.
  * Gère le refus d'une demande de prêt.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/refuse-demande-topo")

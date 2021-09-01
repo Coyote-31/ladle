@@ -23,6 +23,8 @@ import org.ladle.service.RechercheSiteSecteurHandler;
 /**
  * Servlet implementation class RechercheSiteSecteur.
  * Permet la recherche d'un site ou d'un secteur d'escalade.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/recherche-site-secteur")

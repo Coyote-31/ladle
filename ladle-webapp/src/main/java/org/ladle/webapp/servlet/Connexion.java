@@ -19,8 +19,10 @@ import org.ladle.service.CookieHandler;
 import org.ladle.service.UserHandler;
 
 /**
- * Servlet implementation class Connexion
- * Permet la connexion d'un utilisateur
+ * Servlet implementation class Connexion.
+ * Permet la connexion d'un utilisateur.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/connexion")

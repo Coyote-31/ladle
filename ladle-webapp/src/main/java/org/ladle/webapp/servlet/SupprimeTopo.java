@@ -21,6 +21,8 @@ import org.ladle.service.TopoHandler;
 /**
  * Servlet implementation class SupprimeTopo.
  * Permet la suppression d'un topo que l'utilisateur possède.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/supprime-topo")

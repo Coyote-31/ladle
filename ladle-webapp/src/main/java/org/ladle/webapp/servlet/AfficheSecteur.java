@@ -20,7 +20,10 @@ import org.ladle.beans.jpa.Secteur;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
 /**
- * Servlet implementation class AfficheSecteur
+ * Servlet implementation class AfficheSecteur.
+ * Implémente l'affichage d'un secteur.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/secteur")

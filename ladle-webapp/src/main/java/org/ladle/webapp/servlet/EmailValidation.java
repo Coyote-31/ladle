@@ -14,8 +14,10 @@ import org.apache.logging.log4j.Logger;
 import org.ladle.service.UserHandler;
 
 /**
- * Servlet implementation class EmailValidation
- * Permet de valider l'email d'un compte
+ * Servlet implementation class EmailValidation.
+ * Permet de valider l'email d'un compte.
+ *
+ * @author Coyote
  */
 @SuppressWarnings("serial")
 @WebServlet("/email-validation")
