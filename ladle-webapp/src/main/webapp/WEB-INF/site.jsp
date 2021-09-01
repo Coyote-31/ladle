@@ -69,52 +69,58 @@
   </c:if>   
     
   <%-- Bouton pour ajouter un nouveau secteur --%>
-  <div class="row mb-3">
-    <button type="button" class="btn btn-secondary my-auto" 
-      aria-label="Ajouter un secteur" data-toggle="modal" data-target="#modalNewSecteur">
-      <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter un secteur
-    </button>
-  </div>
+  <c:if test="${isLoginValid}">   
+    <div class="row mb-3">
+      <button type="button" class="btn btn-secondary my-auto" 
+        aria-label="Ajouter un secteur" data-toggle="modal" data-target="#modalNewSecteur">
+        <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter un secteur
+      </button>
+    </div>
+  </c:if>
   
   <%-- Section commentaires --%>
   <div class="container ladle-bg-main bg-secondary pb-0">
   
-    <%-- Bouton pour ajouter un commentaire --%>
-    <div id="displayCommentButton" class="row mb-3" 
-      ${empty errorListCommentaire ? '' : 'style="display:none"'}>
-      <button type="button" class="btn btn-primary my-auto" aria-label="Ajouter un commentaire"
-      onclick="displayCommentForm();">
-        <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter un commentaire
-      </button>
-    </div>
+    <%-- Si l'utilisateur est connecté --%>
+    <c:if test="${isLoginValid}">
     
-    <%-- Formulaire d'ajout de commentaire --%>
-    <form id="commentForm" name="commentForm" method="post" action="site" 
-      ${empty errorListCommentaire ? 'style="display:none"' : ''}>
-      <div class="card mb-3">
-        <div class="card-header d-flex justify-content-between">
-          <div><strong>${utilisateur.pseudo}</strong></div>
-        </div>
-        <div class="card-body">
-        <%-- Liste des erreurs de commentaire --%>
-        <c:if test="${not empty errorListCommentaire}">
-          <c:forEach items="${errorListCommentaire}" var="error">
-            <p class="text-danger">${error}</p>
-          </c:forEach>
-        </c:if>
-          <textarea id="commentFormText" name="commentFormText"
-            class="form-control" required minlength="1" maxlength="2000"
-            aria-label="Zone de texte du commentaire">${inputedCommentaire}</textarea>
-        </div>
-        <%-- Stockage de l'ID du site --%>
-        <input name="siteID" type="hidden" value="${site.siteID}">
-        <%-- Bouton d'envoi du formulaire --%>
-        <div class="row justify-content-center">
-            <button class="btn btn-primary mb-3" type="submit" 
-            name="submit-btn" value="submit">Valider</button>
-        </div>
+      <%-- Bouton pour ajouter un commentaire --%>
+      <div id="displayCommentButton" class="row mb-3" 
+        ${empty errorListCommentaire ? '' : 'style="display:none"'}>
+        <button type="button" class="btn btn-primary my-auto" aria-label="Ajouter un commentaire"
+        onclick="displayCommentForm();">
+          <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter un commentaire
+        </button>
       </div>
-    </form>
+      
+      <%-- Formulaire d'ajout de commentaire --%>
+      <form id="commentForm" name="commentForm" method="post" action="site" 
+        ${empty errorListCommentaire ? 'style="display:none"' : ''}>
+        <div class="card mb-3">
+          <div class="card-header d-flex justify-content-between">
+            <div><strong>${utilisateur.pseudo}</strong></div>
+          </div>
+          <div class="card-body">
+          <%-- Liste des erreurs de commentaire --%>
+          <c:if test="${not empty errorListCommentaire}">
+            <c:forEach items="${errorListCommentaire}" var="error">
+              <p class="text-danger">${error}</p>
+            </c:forEach>
+          </c:if>
+            <textarea id="commentFormText" name="commentFormText"
+              class="form-control" required minlength="1" maxlength="2000"
+              aria-label="Zone de texte du commentaire">${inputedCommentaire}</textarea>
+          </div>
+          <%-- Stockage de l'ID du site --%>
+          <input name="siteID" type="hidden" value="${site.siteID}">
+          <%-- Bouton d'envoi du formulaire --%>
+          <div class="row justify-content-center">
+              <button class="btn btn-primary mb-3" type="submit" 
+              name="submit-btn" value="submit">Valider</button>
+          </div>
+        </div>
+      </form>
+    </c:if>
     
     <%-- Liste des commentaires --%>
     <p>Commentaires (${commentaires.size()}) :</p>
@@ -207,42 +213,44 @@
   </div>
   
   <%-- Modal : Ajouter un nouveau secteur --%>
-  <div class="modal fade" id="modalNewSecteur" tabindex="-1" aria-labelledby="modalNewSecteurLabel" 
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalNewSecteurLabel">Ajouter un secteur</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form id="newSecteurForm" name="newSecteurForm" method="post" action="ajout-secteur">
-          <div class="modal-body">
-          
-            <%-- Stockage de l'ID du site --%>
-            <input id="siteID" name="siteID" type="hidden" value="${site.siteID}">
+  <c:if test="${isLoginValid}"> 
+    <div class="modal fade" id="modalNewSecteur" tabindex="-1" aria-labelledby="modalNewSecteurLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalNewSecteurLabel">Ajouter un secteur</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form id="newSecteurForm" name="newSecteurForm" method="post" action="ajout-secteur">
+            <div class="modal-body">
             
-            <%-- Nom du secteur --%>
-            <p>Veuillez renseigner le nom du secteur (80 caractères max.)</p>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="labelNomSecteur">Nom du secteur</span>
+              <%-- Stockage de l'ID du site --%>
+              <input id="siteID" name="siteID" type="hidden" value="${site.siteID}">
+              
+              <%-- Nom du secteur --%>
+              <p>Veuillez renseigner le nom du secteur (80 caractères max.)</p>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="labelNomSecteur">Nom du secteur</span>
+                </div>
+                <input id="secteurNom" name="secteurNom" type="text" 
+                class="form-control" required maxlength="80" value="" 
+                aria-label="Nom du secteur" aria-describedby="labelNomSecteur">
               </div>
-              <input id="secteurNom" name="secteurNom" type="text" 
-              class="form-control" required maxlength="80" value="" 
-              aria-label="Nom du secteur" aria-describedby="labelNomSecteur">
+              
             </div>
-            
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-            <button type="submit" class="btn btn-primary" value="submit">Valider</button>
-          </div>
-        </form>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+              <button type="submit" class="btn btn-primary" value="submit">Valider</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+  </c:if>
   
   <script type="text/javascript">
   
