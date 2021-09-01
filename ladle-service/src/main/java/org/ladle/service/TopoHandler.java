@@ -13,7 +13,7 @@ import org.ladle.dao.RegionDao;
 import org.ladle.dao.TopoDao;
 
 /**
- * Classe de gestion des topos
+ * Classe de gestion des topos.
  *
  * @author Coyote
  */

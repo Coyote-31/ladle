@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Classe de gestion des cookies.
+ *
+ * @author Coyote
+ */
 public final class CookieHandler {
 
   private static final Logger LOG = LogManager.getLogger(CookieHandler.class);

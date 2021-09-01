@@ -19,6 +19,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.User;
 
+/**
+ * Classe de gestion des mails de l'application.
+ *
+ * @author Coyote
+ */
 public final class MailHandler {
 
   private static final Logger LOG = LogManager.getLogger(MailHandler.class);
