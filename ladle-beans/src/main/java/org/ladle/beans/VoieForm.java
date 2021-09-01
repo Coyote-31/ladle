@@ -1,5 +1,12 @@
 package org.ladle.beans;
 
+/**
+ * Classe représentant la voie à éditer du formulaire.
+ * Elle test chaque champs lors d'un set
+ * Et gère ses propres erreurs.
+ *
+ * @author Coyote
+ */
 public class VoieForm {
 
   // Loggeur
