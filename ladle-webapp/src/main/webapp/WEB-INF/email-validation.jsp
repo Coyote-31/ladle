@@ -10,18 +10,18 @@
 <body class="pb-3">
   <%@ include file="/WEB-INF/parts/header.jsp" %>
 
-  <div class="container">
+  <div class="container ladle-bg-main">
 
-    <h1>Page de validation du mail.</h1>
+    <h1>Validation du mail</h1>
 
     <%-- Validation du SHA réussie --%>
     <c:if test="${emailValide}">
-      <p>Bravo ! L'addresse du compte est validée.</p>
+      <p class="text-success">Bravo ! L'addresse du compte est validée.</p>
     </c:if>
 
     <%-- Erreur de validation --%>
     <c:if test="${emailValide == false}">
-      <p>Erreur ! Le lien de validation est expiré ou invalide.</p>
+      <p class="text-danger">Erreur ! Le lien de validation est expiré ou invalide.</p>
     </c:if>
 
   </div>
