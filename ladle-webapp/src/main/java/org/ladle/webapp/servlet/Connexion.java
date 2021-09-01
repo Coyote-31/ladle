@@ -1,6 +1,8 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -89,17 +91,12 @@ public class Connexion extends HttpServlet {
 
         // Annule l'attribut de validité de connexion
         session.setAttribute("isLoginValid", false);
-        // Redirige vers la page d'erreur
-        request.setAttribute("errorEmailSHAOnLogin", true);
 
-        try {
-          getServletContext().getRequestDispatcher("/email-validation").forward(request, response);
-          return;
-
-        } catch (ServletException | IOException | IllegalStateException e) {
-          LOG.error("Error building /email-validation", e);
-        }
-
+        // Renvoit vers une page d'erreur
+        String errorMsg = "Erreur ! Votre compte n'est pas encore validé. <br>"
+                          + "Regardez vos mails pour terminer votre inscription !";
+        sendToErrorPage(errorMsg, request, response);
+        return;
       }
 
       // Si "rester connecté" est coché
@@ -124,9 +121,9 @@ public class Connexion extends HttpServlet {
       }
 
       try {
-        getServletContext().getRequestDispatcher("/").forward(request, response);
+        response.sendRedirect("./");
 
-      } catch (ServletException | IOException | IllegalStateException e) {
+      } catch (IOException | IllegalStateException e) {
         LOG.error("Error building / (Index)", e);
       }
 
@@ -148,5 +145,29 @@ public class Connexion extends HttpServlet {
       }
     }
 
+  }
+
+  /**
+   * Renvoit vers une page d'erreur avec un message
+   *
+   * @param errorMsg : Le message
+   * @param request
+   * @param response
+   */
+  void sendToErrorPage(
+      String errorMsg,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+
+    List<String> errorList = new ArrayList<>();
+    errorList.add(errorMsg);
+    request.setAttribute("errorList", errorList);
+
+    try {
+      getServletContext().getRequestDispatcher("/erreur").forward(request, response);
+
+    } catch (ServletException | IOException e) {
+      LOG.error("Error getRequestDispatcher to /erreur", e);
+    }
   }
 }

@@ -23,13 +23,6 @@
     <c:if test="${emailValide == false}">
       <p>Erreur ! Le lien de validation est expiré ou invalide.</p>
     </c:if>
-    
-    <%-- Erreur de login (redirection si le compte n'est pas validé) --%>
-    
-    <c:if test="${errorEmailSHAOnLogin}">
-      <p>Erreur ! Votre compte n'est pas encore validé. <br>
-      Regardez vos mails pour terminer votre inscription !</p>
-    </c:if>
 
   </div>
 
