@@ -15,16 +15,20 @@ import org.ladle.service.UserHandler;
 
 /**
  * Servlet implementation class EmailValidation
+ * Permet de valider l'email d'un compte
  */
+@SuppressWarnings("serial")
 @WebServlet("/email-validation")
 public class EmailValidation extends HttpServlet {
-  private static final long serialVersionUID = 1L;
+
   private static final Logger LOG = LogManager.getLogger(EmailValidation.class);
 
   @EJB(name = "UserHandler")
   private UserHandler userHandler;
 
   /**
+   * Permet de valider l'email d'inscription.
+   *
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
    */
@@ -46,17 +50,6 @@ public class EmailValidation extends HttpServlet {
     }
 
     getServletContext().getRequestDispatcher("/WEB-INF/email-validation.jsp").forward(request, response);
-  }
-
-  /**
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-   *      response)
-   */
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    LOG.debug("Servlet [EmailValidation] -> doPost()");
-    doGet(request, response);
   }
 
 }

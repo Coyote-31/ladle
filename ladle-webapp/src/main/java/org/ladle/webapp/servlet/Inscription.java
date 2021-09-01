@@ -17,17 +17,21 @@ import org.ladle.beans.User;
 import org.ladle.service.UserHandler;
 
 /**
- * Servlet implementation class Inscription
+ * Servlet implementation class Inscription.
+ * Permet l'inscription d'un utilisateur.
  */
+@SuppressWarnings("serial")
 @WebServlet("/inscription")
 public class Inscription extends HttpServlet {
-  private static final long serialVersionUID = 1L;
+
   private static final Logger LOG = LogManager.getLogger(Inscription.class);
 
   @EJB(name = "UserHandler")
   private UserHandler userHandler;
 
   /**
+   * Envoit vers l'affichage du formulaire d'inscription.
+   *
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
    */
@@ -45,6 +49,8 @@ public class Inscription extends HttpServlet {
   }
 
   /**
+   * Gère le formulaire pour l'inscription.
+   *
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
    *      response)
    */

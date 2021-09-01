@@ -34,26 +34,6 @@ public class SupprimeSecteur extends HttpServlet {
   private EditeSiteSecteurHandler editeSiteSecteurHandler;
 
   /**
-   * doGet inutilisé qui renvoit vers l'accueil
-   *
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-   *      response)
-   */
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    LOG.debug("Servlet [SupprimeSecteur] -> doGet()");
-
-    // Envoit vers la page d'accueil
-    try {
-      response.sendRedirect(".");
-
-    } catch (IOException | IllegalStateException e) {
-      LOG.error("Error building index.jsp", e);
-    }
-  }
-
-  /**
    * Gère la suppression d'un secteur depuis son ID
    *
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
@@ -64,22 +44,16 @@ public class SupprimeSecteur extends HttpServlet {
 
     LOG.debug("Servlet [SupprimeSecteur] -> doPost()");
 
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
-
     // Récupère l'ID du site contenant le secteur à supprimer
     String siteID = request.getParameter("siteID");
     LOG.debug("siteID {}", siteID);
 
     // Vérifie que l'ID est de type integer
     if (!siteID.matches("^[1-9][0-9]*$")) {
-      errorList.add("Le Site contenant le secteur à supprimer est introuvable !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+
+      // Renvoit vers une page d'erreur
+      String errorMsg = "Le Site contenant le secteur à supprimer est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -89,13 +63,10 @@ public class SupprimeSecteur extends HttpServlet {
 
     // Vérifie que l'ID est de type integer
     if (!secteurID.matches("^[1-9][0-9]*$")) {
-      errorList.add("Le secteur à supprimer est introuvable !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+
+      // Renvoit vers une page d'erreur
+      String errorMsg = "Le secteur à supprimer est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -111,6 +82,30 @@ public class SupprimeSecteur extends HttpServlet {
 
     } catch (IOException | IllegalStateException e) {
       LOG.error("Error sendRedirect -> site.jsp", e);
+    }
+  }
+
+  /**
+   * Renvoit vers une page d'erreur avec un message
+   *
+   * @param errorMsg : Le message
+   * @param request
+   * @param response
+   */
+  void sendToErrorPage(
+      String errorMsg,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+
+    List<String> errorList = new ArrayList<>();
+    errorList.add(errorMsg);
+    request.setAttribute("errorList", errorList);
+
+    try {
+      getServletContext().getRequestDispatcher("/erreur").forward(request, response);
+
+    } catch (ServletException | IOException e) {
+      LOG.error("Error getRequestDispatcher to /erreur", e);
     }
   }
 

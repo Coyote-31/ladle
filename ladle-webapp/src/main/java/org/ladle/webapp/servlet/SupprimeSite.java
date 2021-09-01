@@ -18,8 +18,8 @@ import org.ladle.service.EditeSiteSecteurHandler;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
 /**
- * Servlet implementation class SupprimeSite
- * Permet la suppression d'un site
+ * Servlet implementation class SupprimeSite.
+ * Permet la suppression d'un site.
  */
 @SuppressWarnings("serial")
 @WebServlet("/supprime-site")
@@ -34,26 +34,8 @@ public class SupprimeSite extends HttpServlet {
   private EditeSiteSecteurHandler editeSiteSecteurHandler;
 
   /**
-   * doGet inutilisé qui renvoit vers l'accueil
+   * Implémente la suppression d'un site.
    *
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-   *      response)
-   */
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    LOG.debug("Servlet [SupprimeSite] -> doGet()");
-
-    // Envoit vers la page d'accueil
-    try {
-      response.sendRedirect(".");
-
-    } catch (IOException | IllegalStateException e) {
-      LOG.error("Error building index.jsp", e);
-    }
-  }
-
-  /**
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
    *      response)
    */
@@ -62,22 +44,16 @@ public class SupprimeSite extends HttpServlet {
 
     LOG.debug("Servlet [SupprimeSite] -> doPost()");
 
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
-
     // Récupère l'ID du site à supprimer
     String siteID = request.getParameter("siteID");
     LOG.debug("siteID {}", siteID);
 
     // Vérifie que l'ID est de type integer
     if (!siteID.matches("^[1-9][0-9]*$")) {
-      errorList.add("Le site à supprimer est introuvable !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+
+      // Renvoit vers une page d'erreur
+      String errorMsg = "Le site à supprimer est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -93,6 +69,30 @@ public class SupprimeSite extends HttpServlet {
 
     } catch (IOException | IllegalStateException e) {
       LOG.error("Error building index.jsp", e);
+    }
+  }
+
+  /**
+   * Renvoit vers une page d'erreur avec un message
+   *
+   * @param errorMsg : Le message
+   * @param request
+   * @param response
+   */
+  void sendToErrorPage(
+      String errorMsg,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+
+    List<String> errorList = new ArrayList<>();
+    errorList.add(errorMsg);
+    request.setAttribute("errorList", errorList);
+
+    try {
+      getServletContext().getRequestDispatcher("/erreur").forward(request, response);
+
+    } catch (ServletException | IOException e) {
+      LOG.error("Error getRequestDispatcher to /erreur", e);
     }
   }
 

@@ -63,23 +63,4 @@ public class MonCompte extends HttpServlet {
     }
   }
 
-  /**
-   * doGet inutilisé
-   *
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-   *      response)
-   */
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    LOG.debug("Servlet [MonCompte] -> doPost()");
-
-    // Redirection depuis un post vers le doGet()
-    try {
-      doGet(request, response);
-    } catch (ServletException | IOException e) {
-      LOG.error("Error doGet()", e);
-    }
-  }
-
 }

@@ -20,8 +20,8 @@ import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.TopoHandler;
 
 /**
- * Servlet implementation class EditeTopo
- * Permet l'édition d'un topo de l'utilisateur
+ * Servlet implementation class EditeTopo.
+ * Permet l'édition d'un topo de l'utilisateur.
  */
 @SuppressWarnings("serial")
 @WebServlet("/edition-topo")
@@ -43,9 +43,6 @@ public class EditeTopo extends HttpServlet {
 
     LOG.debug("Servlet [EditeTopo] -> doGet()");
 
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
-
     // Envoit de la liste des régions
     request.setAttribute("regions", topoHandler.getAllRegions());
 
@@ -58,7 +55,7 @@ public class EditeTopo extends HttpServlet {
     } catch (NumberFormatException e) {
       LOG.error("Error decode topoIDStr : {}", topoIDStr, e);
       String errorMsg = "Le topo est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -72,7 +69,7 @@ public class EditeTopo extends HttpServlet {
     if (!topo.getUtilisateur().getUtilisateurID().equals(utilisateur.getUtilisateurID())) {
 
       String errorMsg = "Seul le propriétaire du topo peut le modifier !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -106,9 +103,6 @@ public class EditeTopo extends HttpServlet {
 
     LOG.debug("Servlet [EditeTopo] -> doPost()");
 
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
-
     // Récupération du topo à éditer
     String topoIDStr = request.getParameter("topoID");
     Integer topoID = null;
@@ -118,7 +112,7 @@ public class EditeTopo extends HttpServlet {
     } catch (NumberFormatException e) {
       LOG.error("Error decode topoIDStr : {}", topoIDStr, e);
       String errorMsg = "La topo est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -132,7 +126,7 @@ public class EditeTopo extends HttpServlet {
     if (!topo.getUtilisateur().getUtilisateurID().equals(utilisateur.getUtilisateurID())) {
 
       String errorMsg = "Seul le propriétaire du topo peut le modifier !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -147,6 +141,9 @@ public class EditeTopo extends HttpServlet {
     // Test des données du formulaire
     // -------------------------------
 
+    // Initialisation de la liste d'erreurs
+    List<String> errorList = new ArrayList<>();
+
     // Region :
     // Conversion de l'id en Integer
     Integer selectRegionID = null;
@@ -155,7 +152,7 @@ public class EditeTopo extends HttpServlet {
     } catch (NumberFormatException e) {
       LOG.error("Error decode selectRegionIDStr : {}", selectRegionIDStr, e);
       String errorMsg = "La région est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -165,7 +162,7 @@ public class EditeTopo extends HttpServlet {
     // Si la région est introuvable renvoit vers la page d'erreur
     if (selectRegion == null) {
       String errorMsg = "La région est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -251,19 +248,27 @@ public class EditeTopo extends HttpServlet {
     }
   }
 
+  /**
+   * Renvoit vers une page d'erreur avec un message
+   *
+   * @param errorMsg : Le message
+   * @param request
+   * @param response
+   */
   void sendToErrorPage(
       String errorMsg,
-      List<String> errorList,
       HttpServletRequest request,
       HttpServletResponse response) {
 
-    errorList.clear();
+    List<String> errorList = new ArrayList<>();
     errorList.add(errorMsg);
     request.setAttribute("errorList", errorList);
+
     try {
-      getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      getServletContext().getRequestDispatcher("/erreur").forward(request, response);
+
     } catch (ServletException | IOException e) {
-      LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+      LOG.error("Error getRequestDispatcher to /erreur", e);
     }
   }
 

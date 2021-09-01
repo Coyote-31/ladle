@@ -42,9 +42,6 @@ public class RefuseDemandeTopo extends HttpServlet {
 
     LOG.debug("Servlet [RefuseDemandeTopo] -> doGet()");
 
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
-
     // ----- Topo -----
 
     // Récupération du paramètre 'topoID'
@@ -58,7 +55,7 @@ public class RefuseDemandeTopo extends HttpServlet {
     } catch (NumberFormatException e) {
       LOG.error("Error decode topoIDStr : {}", topoIDStr, e);
       String errorMsg = "Le topo est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -69,7 +66,7 @@ public class RefuseDemandeTopo extends HttpServlet {
     if (topo == null) {
       LOG.error("Can't find topo id : {}", topoIDStr);
       String errorMsg = "Le topo est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -81,7 +78,7 @@ public class RefuseDemandeTopo extends HttpServlet {
     if (!topo.getUtilisateur().getUtilisateurID().equals(utilisateur.getUtilisateurID())) {
       LOG.error("Topo not own by user! User:{}, TopoID:{}", utilisateur.getPseudo(), topo.getTopoID());
       String errorMsg = "Vous devez posséder le topo pour annuler une demande de prêt !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -98,7 +95,7 @@ public class RefuseDemandeTopo extends HttpServlet {
     } catch (NumberFormatException e) {
       LOG.error("Error decode askingUserIDStr : {}", askingUserIDStr, e);
       String errorMsg = "L'utilisateur est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -109,7 +106,7 @@ public class RefuseDemandeTopo extends HttpServlet {
     if (askingUser == null) {
       LOG.error("Can't find user ID : {}", askingUserID);
       String errorMsg = "L'utilisateur est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -122,7 +119,7 @@ public class RefuseDemandeTopo extends HttpServlet {
     if (!isAskingUserInList) {
       LOG.error("Can't find userID : {} in demand list of topoID = {}", askingUserID, topo.getTopoID());
       String errorMsg = "L'utilisateur n'est pas dans la liste de demande pour ce topo !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -139,37 +136,26 @@ public class RefuseDemandeTopo extends HttpServlet {
   }
 
   /**
-   * doPost inutilisé qui renvoit vers le doGet.
+   * Renvoit vers une page d'erreur avec un message
    *
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-   *      response)
+   * @param errorMsg : Le message
+   * @param request
+   * @param response
    */
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    LOG.debug("Servlet [RefuseDemandeTopo] -> doPost()");
-
-    // Redirection depuis un post vers le doGet()
-    try {
-      doGet(request, response);
-    } catch (ServletException | IOException e) {
-      LOG.error("Error doGet()", e);
-    }
-  }
-
   void sendToErrorPage(
       String errorMsg,
-      List<String> errorList,
       HttpServletRequest request,
       HttpServletResponse response) {
 
-    errorList.clear();
+    List<String> errorList = new ArrayList<>();
     errorList.add(errorMsg);
     request.setAttribute("errorList", errorList);
+
     try {
-      getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      getServletContext().getRequestDispatcher("/erreur").forward(request, response);
+
     } catch (ServletException | IOException e) {
-      LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+      LOG.error("Error getRequestDispatcher to /erreur", e);
     }
   }
 

@@ -48,7 +48,7 @@ public interface TopoDao {
    *
    * @param topo de type Topo
    */
-  void removeTopo(Topo topo);
+  void remove(Topo topo);
 
   /**
    * Ajoute un utilisateur à la liste de demande de prêt pour un topo.

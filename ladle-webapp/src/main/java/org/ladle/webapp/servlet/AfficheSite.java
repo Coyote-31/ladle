@@ -46,9 +46,6 @@ public class AfficheSite extends HttpServlet {
 
     LOG.debug("Servlet [AfficheSite] -> doGet()");
 
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
-
     // Récupère l'id du Site
     String siteID = request.getParameter("siteID");
     LOG.debug("doGet() siteID {}", siteID);
@@ -58,13 +55,8 @@ public class AfficheSite extends HttpServlet {
 
     // Si le Site n'existe pas renvoit vers une page d'erreur
     if (site == null) {
-      errorList.add("Le Site recherché est introuvable !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+      String errorMsg = "Le Site recherché est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -123,15 +115,8 @@ public class AfficheSite extends HttpServlet {
 
     // Si le Site n'existe pas renvoit vers une page d'erreur
     if (site == null) {
-      // Initialisation de la liste d'erreurs
-      List<String> errorList = new ArrayList<>();
-      errorList.add("Le Site est introuvable !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+      String errorMsg = "Le Site est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -141,15 +126,8 @@ public class AfficheSite extends HttpServlet {
 
     // Si l'utilisateur n'est pas connecté renvoit vers une page d'erreur
     if (utilisateur == null) {
-      // Initialisation de la liste d'erreurs
-      List<String> errorList = new ArrayList<>();
-      errorList.add("Vous devez être connecté pour laisser un commentaire !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+      String errorMsg = "Vous devez être connecté pour laisser un commentaire !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -165,15 +143,8 @@ public class AfficheSite extends HttpServlet {
 
       // Si l'utilisateur n'est pas membre ou admin renvoit vers une page d'erreur
       if (utilisateur.getRole() < 1) {
-        // Initialisation de la liste d'erreurs
-        List<String> errorList = new ArrayList<>();
-        errorList.add("Seul un membre de l'association ou un administrateur peut supprimer un commentaire !");
-        request.setAttribute("errorList", errorList);
-        try {
-          getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-        } catch (ServletException | IOException e) {
-          LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-        }
+        String errorMsg = "Seul un membre de l'association ou un administrateur peut supprimer un commentaire !";
+        sendToErrorPage(errorMsg, request, response);
         return;
       }
 
@@ -208,15 +179,8 @@ public class AfficheSite extends HttpServlet {
       // Vérification des droits utilisateur
       // Si non autorisé renvoit vers une page d'erreur
       if (utilisateur.getRole() < 1) {
-        // Initialisation de la liste d'erreurs
-        List<String> errorList = new ArrayList<>();
-        errorList.add("Seul un membre de l'association ou un administrateur peut modifier un commentaire !");
-        request.setAttribute("errorList", errorList);
-        try {
-          getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-        } catch (ServletException | IOException e) {
-          LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-        }
+        String errorMsg = "Seul un membre de l'association ou un administrateur peut modifier un commentaire !";
+        sendToErrorPage(errorMsg, request, response);
         return;
       }
 
@@ -356,6 +320,30 @@ public class AfficheSite extends HttpServlet {
 
     } catch (IOException | IllegalStateException e) {
       LOG.error("Error sendRedirect -> site.jsp", e);
+    }
+  }
+
+  /**
+   * Renvoit vers une page d'erreur avec un message
+   *
+   * @param errorMsg : Le message
+   * @param request
+   * @param response
+   */
+  void sendToErrorPage(
+      String errorMsg,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+
+    List<String> errorList = new ArrayList<>();
+    errorList.add(errorMsg);
+    request.setAttribute("errorList", errorList);
+
+    try {
+      getServletContext().getRequestDispatcher("/erreur").forward(request, response);
+
+    } catch (ServletException | IOException e) {
+      LOG.error("Error getRequestDispatcher to /erreur", e);
     }
   }
 

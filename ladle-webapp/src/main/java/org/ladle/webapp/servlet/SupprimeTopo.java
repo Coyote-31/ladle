@@ -19,7 +19,7 @@ import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.TopoHandler;
 
 /**
- * Servlet implementation class SupprimeTopo
+ * Servlet implementation class SupprimeTopo.
  * Permet la suppression d'un topo que l'utilisateur possède.
  */
 @SuppressWarnings("serial")
@@ -32,6 +32,8 @@ public class SupprimeTopo extends HttpServlet {
   private TopoHandler topoHandler;
 
   /**
+   * Implémente la suppression d'un topo.
+   *
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
    */
@@ -39,9 +41,6 @@ public class SupprimeTopo extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     LOG.debug("Servlet [SupprimeTopo] -> doGet()");
-
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
 
     // Récupère l'id du topo
     String topoIDStr = request.getParameter("id");
@@ -52,7 +51,7 @@ public class SupprimeTopo extends HttpServlet {
     } catch (NumberFormatException e) {
       LOG.error("Error decode topoIDStr : {}", topoIDStr, e);
       String errorMsg = "Le topo est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -63,7 +62,7 @@ public class SupprimeTopo extends HttpServlet {
     if (topo == null) {
       LOG.error("Can't find topo id : {}", topoIDStr);
       String errorMsg = "Le topo est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -73,14 +72,14 @@ public class SupprimeTopo extends HttpServlet {
     Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
 
     if (!topo.getUtilisateur().getUtilisateurID().equals(utilisateur.getUtilisateurID())) {
-      LOG.error("Ask for his own topo! User : {}", utilisateur.getPseudo());
+      LOG.error("Try to delete a topo not owned! User : {}", utilisateur.getPseudo());
       String errorMsg = "Vous ne pouvez pas supprimer un topo qui ne vous appartient pas !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
     // Supprime le topo de la BDD
-    topoHandler.removeTopo(topo);
+    topoHandler.remove(topo);
 
     // Renvoit vers la page Mon Compte
     try {
@@ -92,37 +91,26 @@ public class SupprimeTopo extends HttpServlet {
   }
 
   /**
-   * doPost inutilisé qui renvoit vers le doGet.
+   * Renvoit vers une page d'erreur avec un message
    *
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-   *      response)
+   * @param errorMsg : Le message
+   * @param request
+   * @param response
    */
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    LOG.debug("Servlet [SupprimeTopo] -> doPost()");
-
-    // Renvoit vers le doGet
-    try {
-      doGet(request, response);
-    } catch (ServletException | IOException e) {
-      LOG.error("Error doGet()", e);
-    }
-  }
-
   void sendToErrorPage(
       String errorMsg,
-      List<String> errorList,
       HttpServletRequest request,
       HttpServletResponse response) {
 
-    errorList.clear();
+    List<String> errorList = new ArrayList<>();
     errorList.add(errorMsg);
     request.setAttribute("errorList", errorList);
+
     try {
-      getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      getServletContext().getRequestDispatcher("/erreur").forward(request, response);
+
     } catch (ServletException | IOException e) {
-      LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+      LOG.error("Error getRequestDispatcher to /erreur", e);
     }
   }
 

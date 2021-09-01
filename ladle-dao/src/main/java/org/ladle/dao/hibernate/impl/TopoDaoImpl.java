@@ -120,7 +120,7 @@ public class TopoDaoImpl implements TopoDao {
   }
 
   @Override
-  public void removeTopo(Topo topo) {
+  public void remove(Topo topo) {
     try {
       Topo topoToRemove = em.find(Topo.class, topo.getTopoID());
       em.remove(topoToRemove);

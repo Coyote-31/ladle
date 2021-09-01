@@ -42,9 +42,6 @@ public class AnnuleDemandeTopo extends HttpServlet {
 
     LOG.debug("Servlet [AnnuleDemandeTopo] -> doGet()");
 
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
-
     // ----- Topo -----
 
     // Récupération du paramètre 'topoID'
@@ -58,7 +55,7 @@ public class AnnuleDemandeTopo extends HttpServlet {
     } catch (NumberFormatException e) {
       LOG.error("Error decode topoIDStr : {}", topoIDStr, e);
       String errorMsg = "Le topo est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -69,7 +66,7 @@ public class AnnuleDemandeTopo extends HttpServlet {
     if (topo == null) {
       LOG.error("Can't find topo id : {}", topoIDStr);
       String errorMsg = "Le topo est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -91,7 +88,7 @@ public class AnnuleDemandeTopo extends HttpServlet {
           topo.getTopoID());
 
       String errorMsg = "Vous n'êtes pas dans la liste de demande pour ce topo !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -108,37 +105,26 @@ public class AnnuleDemandeTopo extends HttpServlet {
   }
 
   /**
-   * doPost inutilisé qui renvoit vers le doGet.
+   * Renvoit vers une page d'erreur avec un message
    *
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-   *      response)
+   * @param errorMsg : Le message
+   * @param request
+   * @param response
    */
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    LOG.debug("Servlet [AnnuleDemandeTopo] -> doPost()");
-
-    // Redirection depuis un post vers le doGet()
-    try {
-      doGet(request, response);
-    } catch (ServletException | IOException e) {
-      LOG.error("Error doGet()", e);
-    }
-  }
-
   void sendToErrorPage(
       String errorMsg,
-      List<String> errorList,
       HttpServletRequest request,
       HttpServletResponse response) {
 
-    errorList.clear();
+    List<String> errorList = new ArrayList<>();
     errorList.add(errorMsg);
     request.setAttribute("errorList", errorList);
+
     try {
-      getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      getServletContext().getRequestDispatcher("/erreur").forward(request, response);
+
     } catch (ServletException | IOException e) {
-      LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+      LOG.error("Error getRequestDispatcher to /erreur", e);
     }
   }
 

@@ -42,9 +42,6 @@ public class AnnulePretTopo extends HttpServlet {
 
     LOG.debug("Servlet [AnnulePretTopo] -> doGet()");
 
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
-
     // ----- Topo -----
 
     // Récupération du paramètre 'topoID'
@@ -58,7 +55,7 @@ public class AnnulePretTopo extends HttpServlet {
     } catch (NumberFormatException e) {
       LOG.error("Error decode topoIDStr : {}", topoIDStr, e);
       String errorMsg = "Le topo est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -69,7 +66,7 @@ public class AnnulePretTopo extends HttpServlet {
     if (topo == null) {
       LOG.error("Can't find topo id : {}", topoIDStr);
       String errorMsg = "Le topo est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -91,7 +88,7 @@ public class AnnulePretTopo extends HttpServlet {
           utilisateur.getUtilisateurID());
       String errorMsg = "Vous pouvez annuler le prêt d'un topo que si il vous appartient "
                         + "ou si on vous le prête personnellement !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -128,19 +125,27 @@ public class AnnulePretTopo extends HttpServlet {
     }
   }
 
+  /**
+   * Renvoit vers une page d'erreur avec un message
+   *
+   * @param errorMsg : Le message
+   * @param request
+   * @param response
+   */
   void sendToErrorPage(
       String errorMsg,
-      List<String> errorList,
       HttpServletRequest request,
       HttpServletResponse response) {
 
-    errorList.clear();
+    List<String> errorList = new ArrayList<>();
     errorList.add(errorMsg);
     request.setAttribute("errorList", errorList);
+
     try {
-      getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      getServletContext().getRequestDispatcher("/erreur").forward(request, response);
+
     } catch (ServletException | IOException e) {
-      LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+      LOG.error("Error getRequestDispatcher to /erreur", e);
     }
   }
 

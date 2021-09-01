@@ -21,7 +21,8 @@ import org.ladle.beans.jpa.Ville;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
 /**
- * Servlet implementation class RechercheSiteSecteur
+ * Servlet implementation class RechercheSiteSecteur.
+ * Permet la recherche d'un site ou d'un secteur d'escalade.
  */
 @SuppressWarnings("serial")
 @WebServlet("/recherche-site-secteur")
@@ -33,6 +34,8 @@ public class RechercheSiteSecteur extends HttpServlet {
   private RechercheSiteSecteurHandler rechercheSiteSecteurHandler;
 
   /**
+   * Affiche le formulaire de recherche.
+   *
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
    */
@@ -48,6 +51,8 @@ public class RechercheSiteSecteur extends HttpServlet {
   }
 
   /**
+   * Permet l'affichage du resultat de la recherche à partir du formulaire.
+   *
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
    *      response)
    */

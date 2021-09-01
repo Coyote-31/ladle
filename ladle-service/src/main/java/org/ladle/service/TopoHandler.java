@@ -97,9 +97,9 @@ public class TopoHandler {
    *
    * @param topo de type Topo
    */
-  public void removeTopo(Topo topo) {
+  public void remove(Topo topo) {
 
-    topoDao.removeTopo(topo);
+    topoDao.remove(topo);
 
   }
 

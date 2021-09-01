@@ -16,11 +16,13 @@ import org.ladle.service.CookieHandler;
 import org.ladle.service.UserHandler;
 
 /**
+ * Permet à l'utilisateur de se deconnecter
  * Servlet implementation class Deconnexion
  */
+@SuppressWarnings("serial")
 @WebServlet("/deconnexion")
 public class Deconnexion extends HttpServlet {
-  private static final long serialVersionUID = 1L;
+
   private static final Logger LOG = LogManager.getLogger(Deconnexion.class);
 
   @EJB(name = "UserHandler")
@@ -44,19 +46,12 @@ public class Deconnexion extends HttpServlet {
     // Supprime les cookies
     CookieHandler.deleteLogin(request, response);
 
-    getServletContext().getRequestDispatcher("/").forward(request, response);
-  }
+    try {
+      getServletContext().getRequestDispatcher("/").forward(request, response);
 
-  /**
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-   *      response)
-   */
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    LOG.debug("Servlet [Deconnexion] -> doPost()");
-
-    getServletContext().getRequestDispatcher("/").forward(request, response);
+    } catch (ServletException | IOException | IllegalStateException e) {
+      LOG.error("Error building / (index)", e);
+    }
   }
 
 }

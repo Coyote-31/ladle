@@ -13,6 +13,19 @@
 
   <div class="container ladle-bg-main">
   
+  <%-- Liste les erreurs du formulaire --%>
+  <c:if test="${not empty errorList}">
+    <div class="alert alert-danger" role="alert">
+      <h1 class="alert-heading">Erreur(s):</h1>
+        <hr>
+        <ul>
+        <c:forEach items="${errorList}" var="error">
+          <li><p class="mb-0">${error}</p>
+        </c:forEach>
+      </ul>
+    </div>
+  </c:if>
+  
   <h1>Recherche de topos</h1>
   
   <%-- FORMULAIRE DE RECHERCHE --%>

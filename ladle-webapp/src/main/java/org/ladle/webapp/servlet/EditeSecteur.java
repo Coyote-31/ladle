@@ -30,7 +30,8 @@ import org.ladle.service.EditeSiteSecteurHandler;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
 /**
- * Servlet implementation class EditeSecteur
+ * Servlet implementation class EditeSecteur.
+ * Permet l'édition d'un secteur.
  */
 @SuppressWarnings("serial")
 @WebServlet("/edition-secteur")
@@ -57,9 +58,6 @@ public class EditeSecteur extends HttpServlet {
 
     LOG.debug("Servlet [EditeSecteur] -> doGet()");
 
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
-
     // Récupère l'id du Secteur
     String secteurID = request.getParameter("secteurID");
     LOG.debug("secteurIDParam {}", secteurID);
@@ -74,13 +72,8 @@ public class EditeSecteur extends HttpServlet {
 
     // Si le Secteur n'existe pas renvoit vers une page d'erreur
     if (secteur == null) {
-      errorList.add("Le Secteur à éditer est introuvable !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+      String errorMsg = "Le Secteur à éditer est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -125,9 +118,6 @@ public class EditeSecteur extends HttpServlet {
 
     LOG.debug("Servlet [EditeSecteur] -> doPost()");
 
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
-
     // Récupère l'ID du secteur
     Integer secteurID;
     try {
@@ -137,13 +127,8 @@ public class EditeSecteur extends HttpServlet {
     } catch (NumberFormatException e) {
       LOG.error("Error decoding secteurID parameter", e);
       // Si il y a une erreur renvoit à la page d'erreur
-      errorList.add("Le Secteur à éditer est introuvable !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e2) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e2);
-      }
+      String errorMsg = "Le Secteur à éditer est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -152,13 +137,8 @@ public class EditeSecteur extends HttpServlet {
 
     // Si le Secteur n'existe pas renvoit vers une page d'erreur
     if (secteur == null) {
-      errorList.add("Le Secteur à éditer est introuvable !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+      String errorMsg = "Le Secteur à éditer est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -260,14 +240,9 @@ public class EditeSecteur extends HttpServlet {
           currentVoieNum = Integer.decode((paramVoieID).substring(6));
         } catch (NumberFormatException e) {
           LOG.error("Erreur du Integer.decode sur paramVoieID.substring(6)", e);
-          errorList.clear();
-          errorList.add("Une erreur est survenue lors de la récupération des voies !");
-          request.setAttribute("errorList", errorList);
-          try {
-            getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-          } catch (ServletException | IOException e2) {
-            LOG.error("Error getRequestDispatcher to erreur.jsp", e2);
-          }
+          // Renvoit vers une page d'erreur
+          String errorMsg = "Une erreur est survenue lors de la récupération des voies !";
+          sendToErrorPage(errorMsg, request, response);
           return;
         }
         voiesFormNum.add(currentVoieNum);
@@ -292,14 +267,9 @@ public class EditeSecteur extends HttpServlet {
         }
       } catch (NumberFormatException e) {
         LOG.error("Erreur du Integer.decode pour voidID + voieFormNum", e);
-        errorList.clear();
-        errorList.add("Une erreur est survenue lors de la récupération des voies !");
-        request.setAttribute("errorList", errorList);
-        try {
-          getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-        } catch (ServletException | IOException e2) {
-          LOG.error("Error getRequestDispatcher to erreur.jsp", e2);
-        }
+        // Renvoit vers une page d'erreur
+        String errorMsg = "Une erreur est survenue lors de la récupération des voies !";
+        sendToErrorPage(errorMsg, request, response);
         return;
       }
 
@@ -353,6 +323,9 @@ public class EditeSecteur extends HttpServlet {
 
     // Si l'envoit du formulaire n'est pas valide
     if (!secteurForm.isValid()) {
+
+      // Initialisation de la liste d'erreurs
+      List<String> errorList = new ArrayList<>();
 
       // Génération de la liste des erreurs
 
@@ -479,14 +452,9 @@ public class EditeSecteur extends HttpServlet {
 
       } catch (NumberFormatException e) {
         LOG.error("Erreur du Integer.decode sur secteurUpdated", e);
-        errorList.clear();
-        errorList.add("Une erreur est survenue lors de la récupération des voies !");
-        request.setAttribute("errorList", errorList);
-        try {
-          getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-        } catch (ServletException | IOException e2) {
-          LOG.error("Error getRequestDispatcher to erreur.jsp", e2);
-        }
+        // Renvoit vers une page d'erreur
+        String errorMsg = "Une erreur est survenue lors de la récupération des voies !";
+        sendToErrorPage(errorMsg, request, response);
         return;
       }
 
@@ -528,6 +496,30 @@ public class EditeSecteur extends HttpServlet {
 
     } catch (IOException | IllegalStateException e) {
       LOG.error("Error sendRedirect -> secteur.jsp", e);
+    }
+  }
+
+  /**
+   * Renvoit vers une page d'erreur avec un message
+   *
+   * @param errorMsg : Le message
+   * @param request
+   * @param response
+   */
+  void sendToErrorPage(
+      String errorMsg,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+
+    List<String> errorList = new ArrayList<>();
+    errorList.add(errorMsg);
+    request.setAttribute("errorList", errorList);
+
+    try {
+      getServletContext().getRequestDispatcher("/erreur").forward(request, response);
+
+    } catch (ServletException | IOException e) {
+      LOG.error("Error getRequestDispatcher to /erreur", e);
     }
   }
 

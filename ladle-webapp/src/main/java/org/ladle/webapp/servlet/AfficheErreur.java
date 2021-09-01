@@ -29,6 +29,8 @@ public class AfficheErreur extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    LOG.debug("Servlet [AfficheErreur] -> doGet()");
+
     try {
       getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
 
@@ -46,7 +48,7 @@ public class AfficheErreur extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    LOG.debug("Servlet [AfficheSecteur] -> doPost()");
+    LOG.debug("Servlet [AfficheErreur] -> doPost()");
 
     try {
       doGet(request, response);

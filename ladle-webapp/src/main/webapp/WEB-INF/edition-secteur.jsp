@@ -274,7 +274,7 @@
   <%@ include file="/WEB-INF/parts/footer.jsp" %>
   
   <script type="text/javascript">
-  <%-- Test de la taille et de l'extension de l'image --%>
+    <%-- Test de la taille et de l'extension de l'image --%>
     const uploadPlan = document.getElementById("secteurPlan");
   
     uploadPlan.onchange = function() {

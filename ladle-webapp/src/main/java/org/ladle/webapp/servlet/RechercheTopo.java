@@ -30,6 +30,8 @@ public class RechercheTopo extends HttpServlet {
   private TopoHandler topoHandler;
 
   /**
+   * Permet l'affichage du formulaire de recherche.
+   *
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
    */
@@ -49,6 +51,8 @@ public class RechercheTopo extends HttpServlet {
   }
 
   /**
+   * Traite le formulaire et affiche le résultat.
+   *
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
    *      response)
    */
@@ -89,13 +93,17 @@ public class RechercheTopo extends HttpServlet {
       errorList.add("Les mots-clés ne peuvent pas excéder 80 caractères !");
     }
 
-    // Si la liste d'erreur n'est pas vide renvoit vers la page d'erreur
+    // Si la liste d'erreur n'est pas vide renvoit vers le formulaire
     if (!errorList.isEmpty()) {
       request.setAttribute("errorList", errorList);
+
+      // Envoit de la liste des regions
+      request.setAttribute("regions", topoHandler.getAllRegions());
+
       try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/recherche-topo.jsp").forward(request, response);
       } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+        LOG.error("Error building recherche-topo.jsp", e);
       }
       return;
     }
@@ -114,11 +122,14 @@ public class RechercheTopo extends HttpServlet {
     request.setAttribute("inputedPseudo", inputedPseudo);
     request.setAttribute("inputedKeywords", inputedKeywords);
 
-    // Renvoit vers le doGet pour la finalisation de la recherche de topo
+    // Envoit de la liste des regions
+    request.setAttribute("regions", topoHandler.getAllRegions());
+
+    // Envoit vers le formulaire pour la finalisation de la recherche de topo
     try {
-      doGet(request, response);
+      getServletContext().getRequestDispatcher("/WEB-INF/recherche-topo.jsp").forward(request, response);
     } catch (ServletException | IOException e) {
-      LOG.error("Error doGet()", e);
+      LOG.error("Error building recherche-topo.jsp", e);
     }
   }
 

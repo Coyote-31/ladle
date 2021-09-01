@@ -16,7 +16,8 @@ import org.ladle.beans.jpa.Region;
 import org.ladle.dao.RegionDao;
 
 /**
- * Servlet implementation class Index
+ * Servlet implementation class Index.
+ * Page d'accueil du site LADLE.
  */
 @SuppressWarnings("serial")
 @WebServlet("")
@@ -50,23 +51,6 @@ public class Index extends HttpServlet {
 
     } catch (ServletException | IOException | IllegalStateException e) {
       LOG.error("Error building index.jsp", e);
-    }
-  }
-
-  /**
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-   *      response)
-   */
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    LOG.debug("Servlet [Index] -> doPost()");
-
-    try {
-      doGet(request, response);
-
-    } catch (ServletException | IOException e) {
-      LOG.error("doGet() failed", e);
     }
   }
 

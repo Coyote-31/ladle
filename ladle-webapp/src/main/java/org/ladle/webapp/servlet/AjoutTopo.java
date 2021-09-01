@@ -85,7 +85,7 @@ public class AjoutTopo extends HttpServlet {
     } catch (NumberFormatException e) {
       LOG.error("Error decode selectRegionIDStr : {}", selectRegionIDStr, e);
       String errorMsg = "La région est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -95,7 +95,7 @@ public class AjoutTopo extends HttpServlet {
     // Si la région est introuvable renvoit vers la page d'erreur
     if (selectRegion == null) {
       String errorMsg = "La région est introuvable !";
-      sendToErrorPage(errorMsg, errorList, request, response);
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -171,19 +171,27 @@ public class AjoutTopo extends HttpServlet {
     }
   }
 
+  /**
+   * Renvoit vers une page d'erreur avec un message
+   *
+   * @param errorMsg : Le message
+   * @param request
+   * @param response
+   */
   void sendToErrorPage(
       String errorMsg,
-      List<String> errorList,
       HttpServletRequest request,
       HttpServletResponse response) {
 
-    errorList.clear();
+    List<String> errorList = new ArrayList<>();
     errorList.add(errorMsg);
     request.setAttribute("errorList", errorList);
+
     try {
-      getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
+      getServletContext().getRequestDispatcher("/erreur").forward(request, response);
+
     } catch (ServletException | IOException e) {
-      LOG.error("Error getRequestDispatcher to erreur.jsp", e);
+      LOG.error("Error getRequestDispatcher to /erreur", e);
     }
   }
 

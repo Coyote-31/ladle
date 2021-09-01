@@ -36,24 +36,6 @@ public class AjoutSecteur extends HttpServlet {
   private EditeSiteSecteurHandler editeSiteSecteurHandler;
 
   /**
-   * doGet inutilisé qui renvoit vers l'accueil
-   *
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-   *      response)
-   */
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    // Envoit vers la page d'accueil
-    try {
-      getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
-
-    } catch (ServletException | IOException | IllegalStateException e) {
-      LOG.error("Error building index.jsp", e);
-    }
-  }
-
-  /**
    * Gère l'ajout d'un nouveau secteur avec l'ID du site et le nom du secteur.
    *
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
@@ -62,8 +44,7 @@ public class AjoutSecteur extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
+    LOG.debug("Servlet [AjoutSecteur] -> doPost()");
 
     // Récupère l'ID du site
     String siteID = request.getParameter("siteID");
@@ -71,13 +52,8 @@ public class AjoutSecteur extends HttpServlet {
 
     // Vérifie que l'ID est de type integer
     if (!siteID.matches("^[1-9][0-9]*$")) {
-      errorList.add("Le Site pour ajouter le secteur est introuvable !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+      String errorMsg = "Le Site pour ajouter le secteur est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -111,6 +87,30 @@ public class AjoutSecteur extends HttpServlet {
       LOG.error("Error sendRedirect -> edition-secteur.jsp", e);
     }
 
+  }
+
+  /**
+   * Renvoit vers une page d'erreur avec un message
+   *
+   * @param errorMsg : Le message
+   * @param request
+   * @param response
+   */
+  void sendToErrorPage(
+      String errorMsg,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+
+    List<String> errorList = new ArrayList<>();
+    errorList.add(errorMsg);
+    request.setAttribute("errorList", errorList);
+
+    try {
+      getServletContext().getRequestDispatcher("/erreur").forward(request, response);
+
+    } catch (ServletException | IOException e) {
+      LOG.error("Error getRequestDispatcher to /erreur", e);
+    }
   }
 
 }

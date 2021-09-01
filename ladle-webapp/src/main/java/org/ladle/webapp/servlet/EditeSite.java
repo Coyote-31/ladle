@@ -23,7 +23,8 @@ import org.ladle.service.EditeSiteSecteurHandler;
 import org.ladle.service.RechercheSiteSecteurHandler;
 
 /**
- * Servlet implementation class EditeSite
+ * Servlet implementation class EditeSite.
+ * Permet l'édition d'un site.
  */
 @SuppressWarnings("serial")
 @WebServlet("/edition-site")
@@ -49,22 +50,15 @@ public class EditeSite extends HttpServlet {
 
     LOG.debug("Servlet [EditeSite] -> doGet()");
 
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
-
     // Récupère l'id du Site
     String siteID = request.getParameter("siteID");
     LOG.debug("siteIDParam {}", siteID);
 
     // Vérifie que l'ID est de type integer
     if (!siteID.matches("^[1-9][0-9]*$")) {
-      errorList.add("Le Site à éditer est introuvable !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+      // Renvoit vers une page d'erreur
+      String errorMsg = "Le Site à éditer est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -73,13 +67,9 @@ public class EditeSite extends HttpServlet {
 
     // Si le Site n'existe pas renvoit vers une page d'erreur
     if (site == null) {
-      errorList.add("Le Site à éditer est introuvable !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+      // Renvoit vers une page d'erreur
+      String errorMsg = "Le Site à éditer est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -89,13 +79,10 @@ public class EditeSite extends HttpServlet {
     LOG.debug("Site officiel : {}", site.isOfficiel());
     LOG.debug("Role utilisateur : {}", utilisateur.getRole());
     if (site.isOfficiel() && (utilisateur.getRole() < 1)) {
-      errorList.add("Vous ne pouvez pas éditer un site officiel LADLE sans être membre de l'association !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+      // Renvoit vers une page d'erreur
+      String errorMsg = "Vous ne pouvez pas éditer un site officiel LADLE "
+                        + "sans être membre de l'association !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -122,9 +109,6 @@ public class EditeSite extends HttpServlet {
 
     LOG.debug("Servlet [EditeSite] -> doPost()");
 
-    // Initialisation de la liste d'erreurs
-    List<String> errorList = new ArrayList<>();
-
     // Récupère l'ID du site
     Integer siteID;
     try {
@@ -133,14 +117,9 @@ public class EditeSite extends HttpServlet {
 
     } catch (NumberFormatException e) {
       LOG.error("Error decoding siteID parameter", e);
-      // Si il y a une erreur renvoit à la page d'erreur
-      errorList.add("Le Site à éditer est introuvable !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e2) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e2);
-      }
+      // Renvoit vers une page d'erreur
+      String errorMsg = "Le Site à éditer est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -149,13 +128,9 @@ public class EditeSite extends HttpServlet {
 
     // Si le Site n'existe pas renvoit vers une page d'erreur
     if (site == null) {
-      errorList.add("Le Site à éditer est introuvable !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+      // Renvoit vers une page d'erreur
+      String errorMsg = "Le Site à éditer est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -163,13 +138,10 @@ public class EditeSite extends HttpServlet {
     HttpSession session = request.getSession(true);
     Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
     if (site.isOfficiel() && (utilisateur.getRole() < 1)) {
-      errorList.add("Vous ne pouvez pas éditer un site officiel LADLE sans être membre de l'association !");
-      request.setAttribute("errorList", errorList);
-      try {
-        getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(request, response);
-      } catch (ServletException | IOException e) {
-        LOG.error("Error getRequestDispatcher to erreur.jsp", e);
-      }
+      // Renvoit vers une page d'erreur
+      String errorMsg = "Vous ne pouvez pas éditer un site officiel LADLE "
+                        + "sans être membre de l'association !";
+      sendToErrorPage(errorMsg, request, response);
       return;
     }
 
@@ -212,6 +184,9 @@ public class EditeSite extends HttpServlet {
     boolean validSiteUpdated = siteForm.isValid();
 
     if (!validSiteUpdated) {
+
+      // Initialisation de la liste d'erreurs
+      List<String> errorList = new ArrayList<>();
 
       // Génération de la liste des erreurs
 
@@ -289,6 +264,30 @@ public class EditeSite extends HttpServlet {
 
     } catch (IOException | IllegalStateException e) {
       LOG.error("Error sendRedirect -> site.jsp", e);
+    }
+  }
+
+  /**
+   * Renvoit vers une page d'erreur avec un message
+   *
+   * @param errorMsg : Le message
+   * @param request
+   * @param response
+   */
+  void sendToErrorPage(
+      String errorMsg,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+
+    List<String> errorList = new ArrayList<>();
+    errorList.add(errorMsg);
+    request.setAttribute("errorList", errorList);
+
+    try {
+      getServletContext().getRequestDispatcher("/erreur").forward(request, response);
+
+    } catch (ServletException | IOException e) {
+      LOG.error("Error getRequestDispatcher to /erreur", e);
     }
   }
 

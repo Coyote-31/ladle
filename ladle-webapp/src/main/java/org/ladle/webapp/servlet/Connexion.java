@@ -18,16 +18,20 @@ import org.ladle.service.UserHandler;
 
 /**
  * Servlet implementation class Connexion
+ * Permet la connexion d'un utilisateur
  */
+@SuppressWarnings("serial")
 @WebServlet("/connexion")
 public class Connexion extends HttpServlet {
-  private static final long serialVersionUID = 1L;
+
   private static final Logger LOG = LogManager.getLogger(Connexion.class);
 
   @EJB(name = "UserHandler")
   private UserHandler userHandler;
 
   /**
+   * Affiche le formulaire de connexion
+   *
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
    */
@@ -36,10 +40,17 @@ public class Connexion extends HttpServlet {
 
     LOG.debug("Servlet [Connexion] -> doGet()");
 
-    getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
+    try {
+      getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
+
+    } catch (ServletException | IOException | IllegalStateException e) {
+      LOG.error("Error building connexion.jsp", e);
+    }
   }
 
   /**
+   * Vérifie les informations de connexion et connecte l'utilisateur
+   *
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
    *      response)
    */
@@ -80,8 +91,14 @@ public class Connexion extends HttpServlet {
         session.setAttribute("isLoginValid", false);
         // Redirige vers la page d'erreur
         request.setAttribute("errorEmailSHAOnLogin", true);
-        getServletContext().getRequestDispatcher("/email-validation").forward(request, response);
-        return;
+
+        try {
+          getServletContext().getRequestDispatcher("/email-validation").forward(request, response);
+          return;
+
+        } catch (ServletException | IOException | IllegalStateException e) {
+          LOG.error("Error building /email-validation", e);
+        }
 
       }
 
@@ -106,7 +123,12 @@ public class Connexion extends HttpServlet {
         session.setAttribute("utilisateur", utilisateur);
       }
 
-      getServletContext().getRequestDispatcher("/").forward(request, response);
+      try {
+        getServletContext().getRequestDispatcher("/").forward(request, response);
+
+      } catch (ServletException | IOException | IllegalStateException e) {
+        LOG.error("Error building / (Index)", e);
+      }
 
     } else {
       // Réinitialise l'attribut "utilisateur"
@@ -118,7 +140,12 @@ public class Connexion extends HttpServlet {
       // Renvoit le dernier login dans le formulaire
       request.setAttribute("lastLoginPseudoMail", login);
 
-      doGet(request, response);
+      try {
+        doGet(request, response);
+
+      } catch (ServletException | IOException e) {
+        LOG.error("Error doGet()", e);
+      }
     }
 
   }
