@@ -14,6 +14,11 @@ import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Region;
 import org.ladle.dao.RegionDao;
 
+/**
+ * Implémentation de la DAO pour la gestion des régions.
+ *
+ * @author Coyote
+ */
 @Stateless
 public class RegionDaoImpl implements RegionDao {
 

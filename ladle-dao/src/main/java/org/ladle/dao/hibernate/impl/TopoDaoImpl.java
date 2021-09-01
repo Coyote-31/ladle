@@ -19,6 +19,11 @@ import org.ladle.beans.jpa.Topo;
 import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.dao.TopoDao;
 
+/**
+ * Implémentation de la DAO pour la gestion des topos.
+ *
+ * @author Coyote
+ */
 @Stateless
 public class TopoDaoImpl implements TopoDao {
 

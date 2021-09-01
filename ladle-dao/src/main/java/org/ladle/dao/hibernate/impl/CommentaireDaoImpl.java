@@ -17,6 +17,11 @@ import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Commentaire;
 import org.ladle.dao.CommentaireDao;
 
+/**
+ * Implémentation de la DAO pour la gestion des commentaires.
+ *
+ * @author Coyote
+ */
 @Stateless
 public class CommentaireDaoImpl implements CommentaireDao {
 

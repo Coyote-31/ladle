@@ -22,6 +22,8 @@ import org.ladle.beans.jpa.Ville;
 import org.ladle.dao.UserDao;
 
 /**
+ * Implémentation de la DAO pour la gestion des utilisateurs.
+ *
  * @author Coyote
  */
 @Stateless

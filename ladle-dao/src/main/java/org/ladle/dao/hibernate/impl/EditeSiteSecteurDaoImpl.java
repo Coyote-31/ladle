@@ -13,6 +13,11 @@ import org.ladle.beans.jpa.Secteur;
 import org.ladle.beans.jpa.Site;
 import org.ladle.dao.EditeSiteSecteurDao;
 
+/**
+ * Implémentation de la DAO pour les editions de site ou de secteur.
+ *
+ * @author Coyote
+ */
 @Stateless
 public class EditeSiteSecteurDaoImpl implements EditeSiteSecteurDao {
 

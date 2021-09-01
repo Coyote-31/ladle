@@ -19,6 +19,11 @@ import org.ladle.beans.jpa.Site;
 import org.ladle.beans.jpa.Ville;
 import org.ladle.dao.RechercheSiteSecteurDao;
 
+/**
+ * Implémentation de la DAO pour la recherche de site ou de secteur.
+ *
+ * @author Coyote
+ */
 @Stateless
 public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
 
