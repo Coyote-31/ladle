@@ -9,6 +9,9 @@ html {
 	position: relative;
 	min-height: 100%;
 	font-size: 100%;
+	
+	/* Affiche la scrollbar */
+	overflow-y: scroll;
 }
 
 body {
@@ -19,7 +22,7 @@ body {
 	background-size: cover;
 	background-image: url("../images/ladle_wallpaper_main.jpg");
 	background-color: #E7E9EC;
-	background-position: center;
+	background-position: left;
 	background-attachment: fixed;
 	
 	/* margin-bottom = #footer.height */
