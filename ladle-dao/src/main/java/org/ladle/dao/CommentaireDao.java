@@ -6,6 +6,11 @@ import javax.ejb.Local;
 
 import org.ladle.beans.jpa.Commentaire;
 
+/**
+ * Classe d'interface DAO de gestion des commentaires.
+ *
+ * @author Coyote
+ */
 @Local
 public interface CommentaireDao {
 

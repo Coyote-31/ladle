@@ -7,17 +7,55 @@ import javax.ejb.Local;
 import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.beans.jpa.Ville;
 
+/**
+ * Classe d'interface DAO de gestion des utilisateurs.
+ *
+ * @author Coyote
+ */
 @Local
 public interface UserDao {
 
+  /**
+   * Ajoute dans la BDD le nouvel utilisateur.
+   *
+   * @param utilisateur
+   * @return true : Réussite de l'ajout <br>
+   *         false : Echec de l'ajout
+   */
   boolean addUser(Utilisateur utilisateur);
 
+  /**
+   * Vérifie si le pseudo est déjà présent dans la BDD.
+   *
+   * @param pseudo
+   * @return true : Pseudo déjà utilisé <br>
+   *         false : Pseudo disponible
+   */
   boolean containsPseudo(String pseudo);
 
+  /**
+   * Vérifie si l'email est déjà présent dans la BDD.
+   *
+   * @param email
+   * @return true : Email déjà utilisé <br>
+   *         false : Email disponible
+   */
   boolean containsEmail(String email);
 
+  /**
+   * Vérifie l'existence d'un emailSHA.
+   *
+   * @param emailSHA
+   * @return true : emailSHA existe <br>
+   *         false : emailSHA n'existe pas
+   */
   boolean emailSHAExist(String emailSHA);
 
+  /**
+   * Effectue la suppression dans la BDD de l'emailSHA
+   *
+   * @param emailSHA
+   */
   void emailSHADelete(String emailSHA);
 
   /**

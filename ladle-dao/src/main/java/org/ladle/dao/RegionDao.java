@@ -6,6 +6,11 @@ import javax.ejb.Local;
 
 import org.ladle.beans.jpa.Region;
 
+/**
+ * Classe d'interface DAO de gestion des régions.
+ *
+ * @author Coyote
+ */
 @Local
 public interface RegionDao {
 

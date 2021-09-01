@@ -8,6 +8,11 @@ import javax.ejb.Local;
 import org.ladle.beans.jpa.Topo;
 import org.ladle.beans.jpa.Utilisateur;
 
+/**
+ * Classe d'interface DAO de gestion des topos.
+ *
+ * @author Coyote
+ */
 @Local
 public interface TopoDao {
 

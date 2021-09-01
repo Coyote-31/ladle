@@ -10,15 +10,42 @@ import org.ladle.beans.jpa.Secteur;
 import org.ladle.beans.jpa.Site;
 import org.ladle.beans.jpa.Ville;
 
+/**
+ * Classe d'interface DAO de gestion de la recherche de site ou de secteur.
+ *
+ * @author Coyote
+ */
 @Local
 public interface RechercheSiteSecteurDao {
 
+  /**
+   * Renvoit la liste de toutes les régions.
+   *
+   * @return Une liste de Region
+   */
   List<Region> getAllRegions();
 
+  /**
+   * Renvoit la liste de tous les départements.
+   *
+   * @return Une liste de Departement
+   */
   List<Departement> getAllDepartements();
 
+  /**
+   * Renvoit la liste de tous les départements d'une région.
+   *
+   * @param regionCode : Le code de la région
+   * @return Une liste de Departement
+   */
   List<Departement> getDepartementsByRegionCode(String regionCode);
 
+  /**
+   * Renvoit toutes les villes ayant ce code postal.
+   *
+   * @param codePostal
+   * @return Une liste de Ville
+   */
   List<Ville> getVillesByCP(String codePostal);
 
   /**

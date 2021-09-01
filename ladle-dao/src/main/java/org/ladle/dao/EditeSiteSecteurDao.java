@@ -5,6 +5,11 @@ import javax.ejb.Local;
 import org.ladle.beans.jpa.Secteur;
 import org.ladle.beans.jpa.Site;
 
+/**
+ * Classe d'interface DAO de gestion de l'edition de site ou de secteur.
+ *
+ * @author Coyote
+ */
 @Local
 public interface EditeSiteSecteurDao {
 
