@@ -28,24 +28,49 @@ public class RechercheSiteSecteurHandler {
   @EJB(name = "RechercheSiteSecteurDaoImpl")
   private RechercheSiteSecteurDao rechercheSiteSecteurDao;
 
+  /**
+   * Renvoit une liste de toutes les régions.
+   *
+   * @return
+   */
   public List<Region> getAllRegions() {
     return rechercheSiteSecteurDao.getAllRegions();
   }
 
+  /**
+   * Renvoit une liste de tous les départements.
+   *
+   * @return
+   */
   public List<Departement> getAllDepartements() {
     return rechercheSiteSecteurDao.getAllDepartements();
   }
 
+  /**
+   * Renvoit une liste de tous les départements d'une région,
+   * depuis le code d'une région.
+   *
+   * @param regionCode
+   * @return
+   */
   public List<Departement> getDepartementsByRegionCode(String regionCode) {
     return rechercheSiteSecteurDao.getDepartementsByRegionCode(regionCode);
   }
 
+  /**
+   * Renvoit une liste de toutes les villes
+   * qui possèdent ce code postal.
+   *
+   * @param codePostal
+   * @return
+   */
   public List<Ville> getVillesByCP(String codePostal) {
     return rechercheSiteSecteurDao.getVillesByCP(codePostal);
   }
 
   /**
-   * Retourne une liste d'objet[]<br>
+   * Retourne une liste d'objet[] pour le résultat
+   * d'une recherche depuis le formulaire.<br>
    * Avec en index :<br>
    * <code>
    * 0 = Region<br>
