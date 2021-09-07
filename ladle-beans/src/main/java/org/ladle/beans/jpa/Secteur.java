@@ -1,11 +1,15 @@
 package org.ladle.beans.jpa;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +21,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Classe JPA des secteurs de la table "secteur" pour hibernate.
  *
@@ -26,6 +33,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "[secteur]", schema = "[ladle_db]")
 public class Secteur implements Serializable {
+
+  private static final Logger LOG = LogManager.getLogger(Secteur.class);
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -171,6 +180,51 @@ public class Secteur implements Serializable {
   public void removeVoie(Voie voie) {
     voies.remove(voie);
     voie.setSecteur(null);
+  }
+
+  // -------------------
+  // Utility fonctions
+  // -------------------
+
+  public Integer getPlanWidth() {
+
+    if ((plan == null)) {
+      return null;
+
+    } else {
+      Integer secteurPlanWidth = null;
+
+      try {
+        BufferedImage bufferedSecteurPlan = ImageIO.read(new ByteArrayInputStream(plan));
+        secteurPlanWidth = bufferedSecteurPlan.getWidth();
+
+      } catch (IllegalArgumentException | IOException e) {
+        LOG.error("Error BufferedImage to get width", e);
+      }
+
+      LOG.debug("secteurPlanWidth : {}", secteurPlanWidth);
+      return secteurPlanWidth;
+    }
+  }
+
+  public Integer getPlanHeight() {
+    if ((plan == null)) {
+      return null;
+
+    } else {
+      Integer secteurPlanHeight = null;
+
+      try {
+        BufferedImage bufferedSecteurPlan = ImageIO.read(new ByteArrayInputStream(plan));
+        secteurPlanHeight = bufferedSecteurPlan.getHeight();
+
+      } catch (IllegalArgumentException | IOException e) {
+        LOG.error("Error BufferedImage to get heigth", e);
+      }
+
+      LOG.debug("secteurPlanHeight : {}", secteurPlanHeight);
+      return secteurPlanHeight;
+    }
   }
 
 }

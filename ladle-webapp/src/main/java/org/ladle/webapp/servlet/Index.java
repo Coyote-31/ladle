@@ -1,7 +1,6 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -12,12 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.ladle.beans.jpa.Region;
-import org.ladle.dao.RegionDao;
+import org.ladle.service.RechercheSiteSecteurHandler;
 
 /**
  * Servlet implementation class Index.
  * Page d'accueil du site LADLE.
+ * Affiche une présentation de l'association
+ * et les 3 derniers secteurs maj.
  *
  * @author Coyote
  */
@@ -27,8 +27,8 @@ public class Index extends HttpServlet {
 
   private static final Logger LOG = LogManager.getLogger(Index.class);
 
-  @EJB(name = "RegionDaoImpl")
-  private RegionDao regionDao;
+  @EJB(name = "RechercheSiteSecteurHandler")
+  private RechercheSiteSecteurHandler rechercheSiteSecteurHandler;
 
   /**
    * Implémente l'affichage de la page d'accueil du site LADLE.
@@ -41,14 +41,8 @@ public class Index extends HttpServlet {
 
     LOG.debug("Servlet [Index] -> doGet()");
 
-    // ================================================
-    // Test un SELECT avec l'objet Region sur la bdd
-    // ================================================
-    List<Region> regionsToSend;
-    regionsToSend = regionDao.getAllRegions();
-    request.setAttribute("myList", regionsToSend);
-
-    // ================================================
+    // Envoit la liste des 3 derniers secteurs maj.
+    request.setAttribute("secteurs", rechercheSiteSecteurHandler.getLast3SecteursUpdated());
 
     try {
       getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);

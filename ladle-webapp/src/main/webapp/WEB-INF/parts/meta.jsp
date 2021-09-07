@@ -12,6 +12,7 @@
 <script src="https://kit.fontawesome.com/2d8c05dd63.js" crossorigin="anonymous"></script>
 
 <%-- Custom CSS --%>
+<link rel="stylesheet" type="text/css" href="css/bootstrap-custom.css">
 <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 
 <%-- FavIcons --%>

@@ -76,8 +76,8 @@ public class AfficheSecteur extends HttpServlet {
         LOG.debug("secteurPlanHeight : {}", secteurPlanHeight);
         request.setAttribute("secteurPlanHeight", secteurPlanHeight);
 
-      } catch (IOException e) {
-        LOG.error("Error IO on BufferedImage to get heigth and width", e);
+      } catch (IllegalArgumentException | IOException e) {
+        LOG.error("Error BufferedImage to get heigth and width", e);
       }
     }
 

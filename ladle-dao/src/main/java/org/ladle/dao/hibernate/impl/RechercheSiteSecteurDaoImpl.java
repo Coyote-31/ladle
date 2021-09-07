@@ -284,6 +284,27 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
   }
 
   @Override
+  public List<Secteur> getLast3SecteursUpdated() {
+
+    final int MAX_RESULTS = 3;
+    List<Secteur> secteurs = new ArrayList<>();
+    String hql = "FROM Secteur as S "
+                 + "ORDER BY S.dateLastMaj DESC";
+
+    try {
+      secteurs = em
+          .createQuery(hql, Secteur.class)
+          .setMaxResults(MAX_RESULTS)
+          .getResultList();
+
+    } catch (IllegalStateException | IllegalArgumentException | PersistenceException | ClassCastException e) {
+      LOG.error("getLast3SecteursUpdated() : failed", e);
+    }
+
+    return secteurs;
+  }
+
+  @Override
   public List<Ville> getVillesByNom(String nom) {
 
     final int MAX_RESULTS = 19;

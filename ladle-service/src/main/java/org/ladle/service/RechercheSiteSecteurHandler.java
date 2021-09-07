@@ -149,6 +149,15 @@ public class RechercheSiteSecteurHandler {
   }
 
   /**
+   * Renvoit les 3 derniers secteurs mis à jour.
+   *
+   * @return
+   */
+  public List<Secteur> getLast3SecteursUpdated() {
+    return rechercheSiteSecteurDao.getLast3SecteursUpdated();
+  }
+
+  /**
    * Renvoit une liste de villes correspondant au nom (19 resultats max)
    *
    * @param name
