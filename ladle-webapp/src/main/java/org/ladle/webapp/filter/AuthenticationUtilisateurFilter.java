@@ -107,13 +107,13 @@ public class AuthenticationUtilisateurFilter implements Filter {
     if (isLoggedIn && (isLoginPath || isInscriptionPath)) {
       // the user is already logged in and he's trying to login again
       // or go on 'inscription' then forward to the mon-compte page
-      LOG.trace("Inside : close 1");
+      LOG.debug("Inside : clause 1");
       httpRequest.getRequestDispatcher("/mon-compte").forward(request, response);
 
     } else if (!isLoggedIn && isLoginRequired()) {
       // User is not logged in and the requested page requires authentication,
 
-      LOG.trace("Inside : close 2");
+      LOG.debug("Inside : clause 2");
       String[] loginArray = CookieHandler.getLogin(httpRequest);
 
       if (userHandler.isValidTokenLogin(loginArray[0], loginArray[1])) {
@@ -139,12 +139,7 @@ public class AuthenticationUtilisateurFilter implements Filter {
     } else if (!isLoggedIn) {
       // other request page where the user is not logged
       // try to loggin him from cookies
-      if (session == null) {
-        LOG.trace("session = null");
-      } else {
-        LOG.trace("session = !null");
-      }
-      LOG.trace("Inside : close 3");
+      LOG.debug("Inside : clause 3");
       String[] loginArray = CookieHandler.getLogin(httpRequest);
 
       // met à jours les variables de connexion
@@ -158,7 +153,7 @@ public class AuthenticationUtilisateurFilter implements Filter {
       chain.doFilter(request, response);
 
     } else {
-      LOG.trace("Inside : close 4");
+      LOG.debug("Inside : clause 4");
       // for other requested pages that do not require authentication
       // or the user is already logged in, continue to the destination
       chain.doFilter(request, response);

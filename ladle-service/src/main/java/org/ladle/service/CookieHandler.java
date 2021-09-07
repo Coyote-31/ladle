@@ -100,13 +100,13 @@ public final class CookieHandler {
       for (Cookie cookie : cookies) {
 
         // Récupération du cookie "login"
-        if (LOGIN.equals(cookie.getName())) {
+        if ((cookie != null) && LOGIN.equals(cookie.getName())) {
           login = cookie.getValue();
           LOG.debug("Get cookie login : {}", login);
         }
 
         // Récupération du cookie "tokenLogin"
-        if (TOKEN_LOGIN.equals(cookie.getName())) {
+        if ((cookie != null) && TOKEN_LOGIN.equals(cookie.getName())) {
           tokenLogin = cookie.getValue();
           LOG.debug("Get cookie loginToken : {}", tokenLogin);
         }
