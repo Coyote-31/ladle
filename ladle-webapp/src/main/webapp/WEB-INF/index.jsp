@@ -13,6 +13,7 @@
 
   <div class="container ladle-bg-main">
   
+    <%-- Logo LADLE & présentation de l'association --%>
     <div class="card mb-3">
       <div class="row no-gutters">
       
@@ -37,14 +38,17 @@
       </div>
     </div>
     
+    <%-- Titre de l'actualité --%>
     <div class="card mt-4">
       <h1 class="card-header bg-white">Les 3 derniers secteurs actualisés :</h1>
     </div>
       
+    <%-- Affiche les secteurs --%>
     <c:forEach items="${secteurs}" var="secteur">
     
       <div class="card border-primary mt-4">
       
+        <%-- En-tête du secteur --%>
         <div class="card-header bg-primary text-white row mx-0">
           <h2 class="my-auto col">${secteur.nom}</h2>
           <div class="my-auto col-lg-auto">${secteur.site.ville.nom}</div>
@@ -54,6 +58,7 @@
           </div>
         </div>
         
+        <%-- Image du plan du secteur --%>
         <c:if test="${not empty secteur.planBase64}">
         
           <div class="border-bottom border-primary text-center">
@@ -65,13 +70,35 @@
           
         </c:if>
         
+        <%-- Informations sur le secteur --%>
         <div class="card-body">
-        
-          <p class="card-text">Descriptif : ${secteur.descriptif}</p>
-          <p class="card-text">Accès : ${secteur.acces}</p>
-          <p class="card-text"></p>
-          <a href="./secteur?secteurID=${secteur.secteurID}" class="btn btn-primary">Voir</a>
           
+          <%-- Descriptif --%>
+          <div class="row">     
+            <div class="col-md-2 my-2 text-center text-md-right">
+              <strong>Descriptif :</strong>
+            </div>            
+            <div class="col-md my-2">
+              ${secteur.descriptif}
+            </div>          
+          </div>
+          
+          <%-- Accès --%>
+          <div class="row">
+            <div class="col-md-2 my-2 text-center text-md-right">
+              <strong>Accès :</strong>
+            </div>
+            <div class="col-md my-2">
+              ${secteur.acces}
+            </div>
+          </div>
+          
+          <%-- Bouton vers la page d'affichage du secteur --%>
+          <div class="d-flex justify-content-center mt-3">
+            <a href="./secteur?secteurID=${secteur.secteurID}" 
+            class="btn btn-primary">Voir</a>
+          </div>
+
         </div>
       </div>
     
