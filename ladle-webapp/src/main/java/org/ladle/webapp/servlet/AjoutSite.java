@@ -1,7 +1,7 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,7 +170,7 @@ public class AjoutSite extends HttpServlet {
       // Ville
       site.setVille(ville);
       // Date
-      Date currentDate = new Date(System.currentTimeMillis());
+      Timestamp currentDate = new Timestamp(System.currentTimeMillis());
       site.setDateLastMaj(currentDate);
       // Non-officiel par defaut
       site.setOfficiel(false);

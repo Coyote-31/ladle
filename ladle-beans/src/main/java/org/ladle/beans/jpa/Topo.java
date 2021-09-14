@@ -1,7 +1,7 @@
 package org.ladle.beans.jpa;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,7 +48,7 @@ public class Topo implements Serializable {
   @Column(name = "lieu", length = 80)
   private String lieu;
   @Column(name = "parution_date", nullable = false)
-  private Date parutionDate;
+  private Timestamp parutionDate;
   /**
    * Liste des demandes de prêt des utilisateurs pour ce topo
    */
@@ -74,7 +74,7 @@ public class Topo implements Serializable {
       String nom,
       String description,
       String lieu,
-      Date parutionDate) {
+      Timestamp parutionDate) {
     super();
     this.utilisateur = utilisateur;
     this.region = region;
@@ -83,7 +83,7 @@ public class Topo implements Serializable {
     this.nom = nom;
     this.description = description;
     this.lieu = lieu;
-    this.parutionDate = (Date) parutionDate.clone();
+    this.parutionDate = (Timestamp) parutionDate.clone();
   }
 
   /**
@@ -154,12 +154,12 @@ public class Topo implements Serializable {
     this.lieu = lieu;
   }
 
-  public Date getParutionDate() {
-    return (Date) parutionDate.clone();
+  public Timestamp getParutionDate() {
+    return (Timestamp) parutionDate.clone();
   }
 
-  public void setParutionDate(Date parutionDate) {
-    this.parutionDate = (Date) parutionDate.clone();
+  public void setParutionDate(Timestamp parutionDate) {
+    this.parutionDate = (Timestamp) parutionDate.clone();
   }
 
   public Set<Utilisateur> getDemandePretUtilisateurs() {

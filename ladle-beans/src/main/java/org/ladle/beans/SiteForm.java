@@ -1,6 +1,6 @@
 package org.ladle.beans;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class SiteForm {
   private boolean nomErr;
 
   // Date de la dernière mise à jour
-  private Date dateLastMaj;
+  private Timestamp dateLastMaj;
 
   // Tag officiel LADLE
   private boolean officiel;
@@ -87,12 +87,12 @@ public class SiteForm {
     return nomErr;
   }
 
-  public Date getDateLastMaj() {
-    return (Date) dateLastMaj.clone();
+  public Timestamp getDateLastMaj() {
+    return (Timestamp) dateLastMaj.clone();
   }
 
-  public void setDateLastMaj(Date dateLastMaj) {
-    this.dateLastMaj = (Date) dateLastMaj.clone();
+  public void setDateLastMaj(Timestamp dateLastMaj) {
+    this.dateLastMaj = (Timestamp) dateLastMaj.clone();
   }
 
   public boolean isOfficiel() {

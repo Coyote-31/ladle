@@ -44,7 +44,10 @@
       </button>
     </div>
     
-    <p>${site.ville.nom} - <fmt:formatDate value="${site.dateLastMaj}" type="date" /> </p><br>
+    <p>${site.ville.nom} - 
+      <fmt:formatDate value="${site.dateLastMaj}" 
+      type="both" dateStyle = "medium" timeStyle = "short"/>
+    </p><br>
     
     <%-- Formulaire de modification du site  --%>
     <form id="form" name="form" method="post" action="edition-site">

@@ -44,7 +44,9 @@
       </button>  
     </div>
     
-    ${secteur.site.ville.nom} - <fmt:formatDate value="${secteur.dateLastMaj}" type="date" /> <br>
+    ${secteur.site.ville.nom} - 
+    <fmt:formatDate value="${secteur.dateLastMaj}" 
+      type="both" dateStyle = "medium" timeStyle = "short"/><br>
     
     <%-- Formulaire de modification du secteur  --%>
     <form id="form" name="form" method="post" action="edition-secteur" enctype="multipart/form-data">

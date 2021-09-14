@@ -49,7 +49,8 @@
           <h2 class="my-auto col">${secteur.nom}</h2>
           <div class="my-auto col-lg-auto">${secteur.site.ville.nom}</div>
           <div class="my-auto col-lg-auto">
-            <fmt:formatDate value="${secteur.dateLastMaj}" type="date" />
+            <fmt:formatDate value="${secteur.dateLastMaj}" 
+            type="both" dateStyle = "medium" timeStyle = "short"/>
           </div>
         </div>
         

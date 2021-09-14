@@ -1,6 +1,6 @@
 package org.ladle.beans;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -30,7 +30,7 @@ public class SecteurForm {
   private boolean nomErr;
 
   // Date de la dernière mise à jour
-  private Date dateLastMaj;
+  private Timestamp dateLastMaj;
 
   // Descriptif
   private String descriptif;
@@ -88,12 +88,12 @@ public class SecteurForm {
     return nomErr;
   }
 
-  public Date getDateLastMaj() {
-    return (Date) dateLastMaj.clone();
+  public Timestamp getDateLastMaj() {
+    return (Timestamp) dateLastMaj.clone();
   }
 
-  public void setDateLastMaj(Date dateLastMaj) {
-    this.dateLastMaj = (Date) dateLastMaj.clone();
+  public void setDateLastMaj(Timestamp dateLastMaj) {
+    this.dateLastMaj = (Timestamp) dateLastMaj.clone();
   }
 
   public String getDescriptif() {

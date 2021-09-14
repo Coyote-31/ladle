@@ -1,7 +1,7 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -158,7 +158,7 @@ public class AjoutTopo extends HttpServlet {
     topo.setDescription(textareaDescription);
 
     // Création de la date de parution
-    Date currentDate = new Date(System.currentTimeMillis());
+    Timestamp currentDate = new Timestamp(System.currentTimeMillis());
     topo.setParutionDate(currentDate);
 
     // Persistance du nouveau topo dans la BDD

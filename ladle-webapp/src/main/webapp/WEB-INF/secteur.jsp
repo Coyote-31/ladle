@@ -31,7 +31,9 @@
     
     <h2>${secteur.nom}</h2><br>
     Ville : ${secteur.site.ville.nom} <br>
-    Mis à jour : <fmt:formatDate value="${secteur.dateLastMaj}" type="date" /> <br>
+    Mis à jour : 
+      <fmt:formatDate value="${secteur.dateLastMaj}" 
+      type="both" dateStyle = "medium" timeStyle = "short"/><br>
     Descriptif : ${secteur.descriptif} <br>
     Accès : ${secteur.acces} <br>
     

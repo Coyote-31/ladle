@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -46,7 +46,7 @@ public class Secteur implements Serializable {
   @Column(name = "nom", length = 80, nullable = false)
   private String nom;
   @Column(name = "date_last_maj", nullable = false)
-  private Date dateLastMaj;
+  private Timestamp dateLastMaj;
   @Column(name = "descriptif", length = 2000)
   private String descriptif;
   @Column(name = "acces", length = 2000)
@@ -67,14 +67,14 @@ public class Secteur implements Serializable {
   public Secteur(
       Site site,
       String nom,
-      Date dateLastMaj,
+      Timestamp dateLastMaj,
       String descriptif,
       String acces,
       byte[] plan) {
     super();
     this.site = site;
     this.nom = nom;
-    this.dateLastMaj = (Date) dateLastMaj.clone();
+    this.dateLastMaj = (Timestamp) dateLastMaj.clone();
     this.descriptif = descriptif;
     this.acces = acces;
     this.plan = plan.clone();
@@ -108,12 +108,12 @@ public class Secteur implements Serializable {
     this.nom = nom;
   }
 
-  public Date getDateLastMaj() {
-    return (Date) dateLastMaj.clone();
+  public Timestamp getDateLastMaj() {
+    return (Timestamp) dateLastMaj.clone();
   }
 
-  public void setDateLastMaj(Date dateLastMaj) {
-    this.dateLastMaj = (Date) dateLastMaj.clone();
+  public void setDateLastMaj(Timestamp dateLastMaj) {
+    this.dateLastMaj = (Timestamp) dateLastMaj.clone();
   }
 
   public String getDescriptif() {

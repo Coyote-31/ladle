@@ -2,7 +2,7 @@ package org.ladle.beans.jpa;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class Site implements Serializable {
   @Column(name = "officiel", nullable = false)
   private boolean officiel;
   @Column(name = "date_last_maj", nullable = false)
-  private Date dateLastMaj;
+  private Timestamp dateLastMaj;
   @Column(name = "descriptif", length = 2000)
   private String descriptif;
   @Column(name = "acces", length = 2000)
@@ -66,7 +66,7 @@ public class Site implements Serializable {
       Ville ville,
       String nom,
       boolean officiel,
-      Date dateLastMaj,
+      Timestamp dateLastMaj,
       String descriptif,
       String acces,
       BigDecimal latitude,
@@ -75,7 +75,7 @@ public class Site implements Serializable {
     this.ville = ville;
     this.nom = nom;
     this.officiel = officiel;
-    this.dateLastMaj = (Date) dateLastMaj.clone();
+    this.dateLastMaj = (Timestamp) dateLastMaj.clone();
     this.descriptif = descriptif;
     this.acces = acces;
     this.latitude = latitude;
@@ -118,12 +118,12 @@ public class Site implements Serializable {
     this.officiel = officiel;
   }
 
-  public Date getDateLastMaj() {
-    return (Date) dateLastMaj.clone();
+  public Timestamp getDateLastMaj() {
+    return (Timestamp) dateLastMaj.clone();
   }
 
-  public void setDateLastMaj(Date dateLastMaj) {
-    this.dateLastMaj = (Date) dateLastMaj.clone();
+  public void setDateLastMaj(Timestamp dateLastMaj) {
+    this.dateLastMaj = (Timestamp) dateLastMaj.clone();
   }
 
   public String getDescriptif() {

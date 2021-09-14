@@ -28,7 +28,9 @@
     
   <h2>${site.nom}</h2><br>
   Ville : ${site.ville.nom} <br>
-  Mis à jour : <fmt:formatDate value="${site.dateLastMaj}" type="date" /> <br>
+  Mis à jour : 
+    <fmt:formatDate value="${site.dateLastMaj}" 
+    type="both" dateStyle = "medium" timeStyle = "short"/><br>
   Officiel : ${site.officiel ? 'Oui' : 'Non'} <br>
   Descriptif : ${site.descriptif} <br>
   Accès : ${site.acces} <br>
@@ -131,7 +133,8 @@
           <strong>${commentaire.utilisateur.pseudo}</strong>
         </div>
         <div>
-          <fmt:formatDate value="${commentaire.dateCreation}" type="date" />
+          <fmt:formatDate value="${commentaire.dateCreation}" 
+          type="both" dateStyle = "long" timeStyle = "long"/>
           
           <%-- Formulaire de suppression d'un commentaire --%>
           <c:if test="${utilisateur.role >= 1}">
@@ -161,7 +164,7 @@
         <%-- Bouton d'affichage du formulaire de modification du commentaire --%>
         <c:if test="${utilisateur.role >= 1}">      
           <button class="btn btn-warning my-auto pr-2" aria-label="Modifier le commentaire" 
-            type="button" onclick="displayUpdateCommentForm(${commentaire.commentaireID});">
+           type="button" onclick="displayUpdateCommentForm(${commentaire.commentaireID});">
             <i class="fas fa-edit" aria-hidden="true"></i>
           </button>
         </c:if>

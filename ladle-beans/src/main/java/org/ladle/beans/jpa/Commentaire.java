@@ -1,7 +1,7 @@
 package org.ladle.beans.jpa;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +33,7 @@ public class Commentaire implements Serializable {
   @JoinColumn(name = "site_id", nullable = false)
   private Site site;
   @Column(name = "date_creation", nullable = false)
-  private Date dateCreation;
+  private Timestamp dateCreation;
   @Column(name = "contenu", length = 2000, nullable = false)
   private String contenu;
 
@@ -48,12 +48,12 @@ public class Commentaire implements Serializable {
   public Commentaire(
       Utilisateur utilisateur,
       Site site,
-      Date dateCreation,
+      Timestamp dateCreation,
       String contenu) {
     super();
     this.utilisateur = utilisateur;
     this.site = site;
-    this.dateCreation = (Date) dateCreation.clone();
+    this.dateCreation = (Timestamp) dateCreation.clone();
     this.contenu = contenu;
   }
 
@@ -85,12 +85,12 @@ public class Commentaire implements Serializable {
     this.site = site;
   }
 
-  public Date getDateCreation() {
-    return (Date) dateCreation.clone();
+  public Timestamp getDateCreation() {
+    return (Timestamp) dateCreation.clone();
   }
 
-  public void setDateCreation(Date dateCreation) {
-    this.dateCreation = (Date) dateCreation.clone();
+  public void setDateCreation(Timestamp dateCreation) {
+    this.dateCreation = (Timestamp) dateCreation.clone();
   }
 
   public String getContenu() {

@@ -3,7 +3,7 @@ package org.ladle.webapp.servlet;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -161,7 +161,7 @@ public class EditeSecteur extends HttpServlet {
     secteurForm.setNom(request.getParameter("secteurNom"));
 
     // Date dernière maj
-    Date currentDate = new Date(System.currentTimeMillis());
+    Timestamp currentDate = new Timestamp(System.currentTimeMillis());
     secteurForm.setDateLastMaj(currentDate);
 
     // Descriptif

@@ -1,7 +1,7 @@
 package org.ladle.webapp.servlet;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +75,7 @@ public class AjoutSecteur extends HttpServlet {
     secteur.setNom(secteurNom);
 
     // Ajoute la date de MAJ
-    Date currentDate = new Date(System.currentTimeMillis());
+    Timestamp currentDate = new Timestamp(System.currentTimeMillis());
     secteur.setDateLastMaj(currentDate);
 
     // Ajoute le secteur dans la BDD et récupère l'ID

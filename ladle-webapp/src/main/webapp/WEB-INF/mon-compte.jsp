@@ -62,7 +62,10 @@
             </tr>
             <tr>
               <th scope="row">Date de création</th>
-              <td><fmt:formatDate value="${utilisateur.dateCompte}" type="date" /></td>
+              <td>
+                <fmt:formatDate value="${utilisateur.dateCompte}" 
+                type="both" dateStyle = "medium" timeStyle = "short"/>
+              </td>
             </tr>
           </table>
         </div>
@@ -119,7 +122,9 @@
           <div id="collapseOwn${ownCompteur}" class="collapse" 
             aria-labelledby="headingOwn${ownCompteur}" data-parent="#accordionOwnTopo">
             <div class="card-body">
-              Date de création : <fmt:formatDate value="${topo.parutionDate}" type="date" /> <br>
+              Date de création : 
+                <fmt:formatDate value="${topo.parutionDate}" 
+                type="both" dateStyle = "short" timeStyle = "short"/><br>
               Région : ${topo.region.nom} <br>
               Lieu : ${topo.lieu} <br>
               Description : ${topo.description} <br><br>
@@ -231,7 +236,9 @@
           <div id="collapseLoan${loanCompteur}" class="collapse" 
             aria-labelledby="headingLoan${loanCompteur}" data-parent="#accordionLoanTopo">
             <div class="card-body">
-              Date de création : <fmt:formatDate value="${topo.parutionDate}" type="date" /> <br>
+              Date de création : 
+                <fmt:formatDate value="${topo.parutionDate}" 
+                type="both" dateStyle = "short" timeStyle = "short"/><br>
               Région : ${topo.region.nom} <br>
               Lieu : ${topo.lieu} <br>
               Description : ${topo.description} <br><br>
@@ -283,7 +290,9 @@
           <div id="collapseDemande${demandeCompteur}" class="collapse" 
             aria-labelledby="headingDemande${demandeCompteur}" data-parent="#accordionDemandeTopo">
             <div class="card-body">
-              Date de création : <fmt:formatDate value="${topo.parutionDate}" type="date" /> <br>
+              Date de création : 
+                <fmt:formatDate value="${topo.parutionDate}" 
+                type="both" dateStyle = "short" timeStyle = "short"/><br>
               Région : ${topo.region.nom} <br>
               Lieu : ${topo.lieu} <br>
               Description : ${topo.description} <br><br>
