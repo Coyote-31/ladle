@@ -202,7 +202,7 @@ public class Secteur implements Serializable {
         LOG.error("Error BufferedImage to get width", e);
       }
 
-      LOG.debug("secteurPlanWidth : {}", secteurPlanWidth);
+      LOG.trace("SiteID: {} - secteurPlanWidth : {}", secteurID, secteurPlanWidth);
       return secteurPlanWidth;
     }
   }
@@ -222,7 +222,7 @@ public class Secteur implements Serializable {
         LOG.error("Error BufferedImage to get heigth", e);
       }
 
-      LOG.debug("secteurPlanHeight : {}", secteurPlanHeight);
+      LOG.trace("SiteID: {} - secteurPlanHeight : {}", secteurID, secteurPlanHeight);
       return secteurPlanHeight;
     }
   }
