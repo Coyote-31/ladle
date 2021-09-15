@@ -12,41 +12,19 @@
 /* ========================== */
 /* ----------- MAIN --------- */
 /* ========================== */
-
-/* Extra small devices (portrait phones, less than 576px)
-   No media query for `xs` since this is the default in Bootstrap */
    
 html {
   /* Debug oldies */
   position: relative;
   min-height: 100%;
   
-  font-size: 85%;
+  font-size: 100%;
   
   /* Affiche la scrollbar */
   overflow-y: scroll;
 }
 
-/* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) {}
-
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) {
-  
-  html {
-    font-size: 100%;
-  }
-}
-
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {}
-
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {}
-
-
 body {
-	
 	background-size: cover;
 	background-image: url("../images/ladle_wallpaper_main.jpg");
 	background-color: #E7E9EC;
@@ -57,22 +35,10 @@ body {
 	padding-right: 0 !important;
 	
 	/* navbar spacing */
-	padding-top: 4.5rem;
+	padding-top: 5.5rem;
 	
 	/* padding-bottom = #footer.height + 1rem */
-	padding-bottom: 6.6rem;
-}
-
-/* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) {
-  
-  body {   
-    /* navbar spacing */
-    padding-top: 5.5rem;
-    
-    /* margin-bottom = #footer.height + 1rem */
-    padding-bottom: 7.6rem;
-  }
+	/* padding-bottom: 7.6rem; */
 }
 
 /* ======================= */
@@ -93,7 +59,8 @@ body {
   border-radius: .25rem / .25rem;
 }
 
-.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
+.navbar-dark .navbar-nav .nav-link:hover, 
+.navbar-dark .navbar-nav .nav-link:focus {
   color: #fff;
   background-color: #0659a2!important;
   border-radius: .25rem / .25rem;
@@ -123,15 +90,8 @@ body {
   background: rgba(255, 255, 255, 0.9);
   
   border: outset 1px #fff;
-  border-radius: 0rem / 0rem;
+  border-radius: 1rem / 1rem;
   padding: 1.5rem 1.5rem;
-}
-
-@media (min-width: 576px) {
-  
-  .ladle-bg-main {
-    border-radius: 1rem / 1rem;
-  }
 }
 
 /* ============== */
@@ -141,7 +101,7 @@ body {
 #footer {
 	background-color: rgb(32, 95, 39);
 	bottom: 0;
-	height: 6.6rem;
+	/* height: 6.6rem; */
 	width: 100%;
 }
 
@@ -178,7 +138,8 @@ h3, .h3 {
   border-color: #28a745;
 }
 
-.btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open>.dropdown-toggle.btn-success {
+.btn-success:hover, .btn-success:focus, .btn-success:active, 
+.btn-success.active, .open>.dropdown-toggle.btn-success {
     color: #fff;
     background-color: #218838;
     border-color: #218838;
@@ -204,4 +165,44 @@ h3, .h3 {
 
 #actuCard {
   border-radius: 0.25rem;
+}
+
+
+/* ============================= */
+/* ------  MEDIA QUERIES  ------ */
+/* ============================= */
+
+/* Extra large devices (large desktops) */
+/* No media query since the extra-large breakpoint has no upper bound on its width */
+
+/* Large devices (desktops, less than 1200px) */
+@media (max-width: 1199.98px) {}
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {}
+
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+  
+  html {
+    font-size: 85%;
+  }
+  
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  
+  body {
+    /* navbar spacing */
+    padding-top: 4.5rem;
+    
+    /* margin-bottom = #footer.height + 1rem - container collapse */
+    padding-bottom: 6.6rem;
+  }
+  
+  .ladle-bg-main {
+    border-radius: 0rem / 0rem;
+  }
+  
 }
