@@ -213,7 +213,7 @@ public class AfficheSite extends HttpServlet {
 
       // Si le commentaire est vide
       if ((updatedCommentaireTextarea.length() <= 0)
-          || updatedCommentaireTextarea.matches("^\s+$")) {
+          || updatedCommentaireTextarea.matches("^\\s+$")) {
         errorListUpdatedCommentaire.add("Un commentaire ne peut pas être vide !");
       }
       // Si le commentaire excède 2000 charactères
@@ -277,7 +277,7 @@ public class AfficheSite extends HttpServlet {
 
     // Test de la validité du commentaire
     // Si le commentaire est vide
-    if ((commentaire.getContenu().length() <= 0) || commentaire.getContenu().matches("^\s+$")) {
+    if ((commentaire.getContenu().length() <= 0) || commentaire.getContenu().matches("^\\s+$")) {
       errorListCommentaire.add("Un commentaire ne peut pas être vide !");
     }
     // Si le commentaire excède 2000 charactères
