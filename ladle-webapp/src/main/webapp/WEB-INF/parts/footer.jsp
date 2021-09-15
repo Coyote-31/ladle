@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<footer id="footer" class="position-absolute">
+<footer id="footer" class="footer mt-auto py-2">
   <div class="container">
-    <p class="text-muted">
+    <p class="text-muted my-0">
       <c:out value="JSTL fonctionne ! =)"></c:out><br>
       Server Version :
       <span>${ pageContext.servletContext.serverInfo }</span><br>
       Servlet Version :
       <span>${ pageContext.servletContext.majorVersion }.${ pageContext.servletContext.minorVersion }</span><br>
       JSP Version :
-      <%=JspFactory.getDefaultFactory().getEngineInfo().getSpecificationVersion()%>
+      <%= JspFactory.getDefaultFactory().getEngineInfo().getSpecificationVersion() %>
     </p>
   </div>
 </footer>
