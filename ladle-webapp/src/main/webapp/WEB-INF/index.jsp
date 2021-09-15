@@ -52,7 +52,7 @@
         <div class="card-header bg-primary text-white row mx-0">
           <h2 class="my-auto col">${secteur.nom}</h2>
           <div class="my-auto col-lg-auto">${secteur.site.ville.nom}</div>
-          <div class="my-auto col-lg-auto text-md-center">
+          <div class="my-auto col-lg-auto text-lg-center">
             Mis à jour :<br>
             <fmt:formatDate value="${secteur.dateLastMaj}" 
             type="date" dateStyle="short"/>
