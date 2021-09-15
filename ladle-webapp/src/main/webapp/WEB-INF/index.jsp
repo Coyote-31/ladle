@@ -40,7 +40,7 @@
     
     <%-- Titre de l'actualité --%>
     <div class="card mt-4">
-      <h1 class="card-header bg-white">Les 3 derniers secteurs actualisés :</h1>
+      <h1 id="actuCard" class="bg-white my-3 mx-4">Les 3 derniers secteurs actualisés :</h1>
     </div>
       
     <%-- Affiche les secteurs --%>
@@ -54,7 +54,7 @@
           <div class="my-auto col-lg-auto">${secteur.site.ville.nom}</div>
           <div class="my-auto col-lg-auto">
             <fmt:formatDate value="${secteur.dateLastMaj}" 
-            type="both" dateStyle = "medium" timeStyle = "short"/>
+            type="both" dateStyle="medium" timeStyle="short"/>
           </div>
         </div>
         
@@ -96,7 +96,7 @@
           <%-- Bouton vers la page d'affichage du secteur --%>
           <div class="d-flex justify-content-center mt-3">
             <a href="./secteur?secteurID=${secteur.secteurID}" 
-            class="btn btn-primary">Voir</a>
+            class="btn btn-primary ml-0">Voir</a>
           </div>
 
         </div>
