@@ -48,10 +48,9 @@
     
     <ul>
       <c:forEach items="${site.secteurs}" var="secteur">
-        <li class="liSecteur<c:forEach items="${listFilterSecteursID}" var="filterID">
-            ${filterID == secteur.secteurID ? ' secteurResult' : ''}
-          </c:forEach>"
-            ${fn:contains(listFilterSecteursID, secteur.secteurID) ? '' : 'hidden'}
+        <li 
+          class="liSecteur${fn:contains(listFilterSecteursID, secteur.secteurID) ? ' secteurResult' : ''}"
+          ${fn:contains(listFilterSecteursID, secteur.secteurID) ? '' : ' hidden'}
         >
           <a href="./secteur?secteurID=${secteur.secteurID}">${secteur.nom}</a> : ${secteur.descriptif}
         </li>
