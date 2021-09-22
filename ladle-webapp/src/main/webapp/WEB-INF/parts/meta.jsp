@@ -2,9 +2,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<%-- Dark scrollbar --%>
-<meta content="dark" name="color-scheme">
-
 <%-- Bootstrap CSS --%>
 <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/flatly/bootstrap.min.css"
   rel="stylesheet"
