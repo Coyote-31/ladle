@@ -1,16 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%-- Spaceur du conteneur avec le nav toogler --%>
-<div class="collapse multi-collapse navTogglerGroup" id="nav-spacer-top">
-  <%-- 2 links --%>
-  <c:if test="${!isLoginValid}">
-    <div id="nav-spacer-top-2" class=""></div>
-  </c:if>
-  <%-- 4 links --%>
-  <c:if test="${isLoginValid}">
-    <div id="nav-spacer-top-4" class=""></div>
-  </c:if>
-</div>
+
 <%-- NAV BAR --%>
 <nav id="header-navbar" class="navbar navbar-expand-lg navbar-dark mb-3 fixed-top">
 
@@ -26,8 +16,8 @@
 
   <%-- Btn d'extension de la barre de nav --%>
   <button class="navbar-toggler" type="button" 
-    data-toggle="collapse" data-target=".navTogglerGroup"
-    aria-controls="navbar1 nav-spacer-top" 
+    data-toggle="collapse" data-target="#navbar1"
+    aria-controls="navbar1" 
     aria-expanded="false" aria-label="Toggle navigation"><span
     class="navbar-toggler-icon"></span></button>
 
