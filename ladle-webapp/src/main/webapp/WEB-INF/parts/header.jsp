@@ -144,7 +144,7 @@
         </div>
 
         <div class="modal-footer justify-content-center">
-          <input type="submit" class="btn btn-success" value="Valider">
+          <input type="submit" class="btn btn-success ml-0" value="Valider">
           <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
         </div>
       
