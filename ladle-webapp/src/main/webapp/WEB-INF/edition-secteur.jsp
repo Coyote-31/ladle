@@ -231,8 +231,14 @@
         
         <%-- Bouton d'envoi du formulaire --%>
         <div class="row justify-content-center">
-            <button class="btn btn-primary" type="submit" 
-            name="submit-btn" value="submit">Valider</button>
+                
+          <%-- Bouton d'annulation de l'édition --%>
+          <a class="btn btn-secondary ml-0" href="./secteur?secteurID=${secteur.secteurID}">Annuler</a>
+
+          <%-- Bouton d'envoi du formulaire --%>
+          <button class="btn btn-primary" type="submit" 
+          name="submit-btn" value="submit">Valider</button>
+          
         </div>
       
       </form>

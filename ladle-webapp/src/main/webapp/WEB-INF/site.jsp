@@ -114,10 +114,18 @@
           </div>
           <%-- Stockage de l'ID du site --%>
           <input name="siteID" type="hidden" value="${site.siteID}">
-          <%-- Bouton d'envoi du formulaire --%>
-          <div class="row justify-content-center">
-              <button class="btn btn-primary mb-3" type="submit" 
+          
+          <div class="row justify-content-center mb-3">
+          
+            <%-- Bouton d'annulation d'ajout de commentaire --%>
+            <button class="btn btn-secondary ml-0" 
+              type="button" aria-label="Annule le commentaire"
+              onclick="hideCommentForm();">Annuler</button>
+              
+            <%-- Bouton d'envoi du formulaire --%>
+            <button class="btn btn-primary" type="submit" 
               name="submit-btn" value="submit">Valider</button>
+              
           </div>
         </div>
       </form>
@@ -193,15 +201,15 @@
                   updatedCommentaireTextarea : commentaire.contenu}</textarea>
             <%-- Bouton de validation de modification du commentaire --%>
             <div class="row justify-content-center">      
+              <button class="btn btn-secondary mt-3 ml-0" type="button"
+                aria-label="Annuler la modification du commentaire"
+                onclick="cancelUpdateCommentForm(${commentaire.commentaireID});">
+                Annuler
+              </button>
               <button class="btn btn-primary mt-3" type="submit"
                 name="submit-update-btn" value="update" 
                 aria-label="Valider la modification du commentaire">
                 Valider
-              </button>
-              <button class="btn btn-secondary mt-3" type="button"
-                aria-label="Annuler la modification du commentaire"
-                onclick="cancelUpdateCommentForm(${commentaire.commentaireID});">
-                Annuler
               </button>
             </div>
           </form>
@@ -277,6 +285,13 @@
     function displayCommentForm() {
         document.getElementById("displayCommentButton").style.display="none";
         document.getElementById("commentForm").style.display="block";
+    }
+    
+    <%-- Fonction pour cacher le formulaire d'un nouveau commentaire --%>
+    function hideCommentForm() {
+        document.getElementById("displayCommentButton").style.display="block";
+        document.getElementById("commentForm").style.display="none";
+        document.getElementById("commentFormText").value = "";
     }
     
     <%-- Fonction d'affichage du formulaire de modification d'un commentaire --%>
