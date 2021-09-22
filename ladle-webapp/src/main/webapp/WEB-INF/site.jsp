@@ -25,8 +25,19 @@
       </c:if>
     </c:if>
   </div>
-    
-  <h2>${site.nom}</h2><br>
+  
+  <div class="row justify-content-start">
+    <div class="col-auto order-2">
+      <h2>${site.nom}</h2>
+    </div>
+    <div class="col-12 col-lg-auto order-1 order-lg-3">
+      <span class="badge badge-success">
+        ${site.officiel ? 'Officiel : Les amis de l’escalade' : ''}
+      </span>
+    </div>  
+  </div>
+
+  
   Ville : ${site.ville.nom} <br>
   Mis à jour : 
     <fmt:formatDate value="${site.dateLastMaj}" 

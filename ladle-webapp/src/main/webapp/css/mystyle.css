@@ -132,6 +132,18 @@ h3, .h3 {
   font-size: 1.2rem;
 }
 
+a {
+  color: #0bb73d;
+}
+
+a:hover {
+  color: #08862c;
+}
+
+.badge {
+  font-size: 0.8rem;
+}
+
 /* =============== */
 /* --- Buttons --- */
 /* =============== */
