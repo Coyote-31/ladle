@@ -175,12 +175,11 @@ a:hover {
 
 .accordion>.card:last-of-type {
   border: 1px solid rgba(0,0,0,0.125);
-  border-radius: 0.25rem;
 }
 
 .card-header {
   border-bottom: 0px solid rgba(0,0,0,0.125);
-  background-color: rgba(0,0,0,0.07);
+  background-color: #00396b;
 }
 
 #actuCard {

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -27,12 +27,14 @@
   </c:if>
   
   <h1>Recherche de topos</h1>
+  <hr>
   
   <%-- FORMULAIRE DE RECHERCHE --%>
   <form method="post" action="recherche-topo">
     
-    <div class="row">
-      <div class="col">
+    <div class="row justify-content-center">
+    
+      <div class="col-sm-7 col-lg">
       
         <%-- Région --%>
         <div class="input-group mb-3">
@@ -51,10 +53,8 @@
         </div>
         
       </div>
-    </div>
-    <div class="row">
-      <div class="col">
-      
+      <div class="col-sm-7 col-lg">
+          
         <%-- Pseudo --%>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
@@ -65,9 +65,9 @@
           maxlength="30" value="${inputedPseudo}" 
           aria-label="Pseudo" aria-describedby="labelInputPseudo">
         </div>
-    
+        
       </div>
-      <div class="col">
+      <div class="col-sm-7 col-lg">
     
         <%-- Mots-clés --%>
         <div class="input-group mb-3">
@@ -81,10 +81,11 @@
         </div>
     
       </div>
+      
     </div>
     
     <%-- Bouton de validation --%>
-    <div class="row mb-3">
+    <div class="row">
       <button class="btn btn-outline-primary mx-auto" type="submit" 
           name="submit-btn" value="submit">Valider</button>
     </div>
@@ -93,7 +94,7 @@
   
   <%-- Affichage d'un résultat de recherche vide --%>
   <c:if test="${emptyResult == true}">
-    <div class="pb-1 mb-3 bg-primary"></div>
+    <hr>
     <div class="text-center">
       <strong>Aucun résultat trouvé !</strong><br>
       Veuillez réessayer avec d'autres critères.
@@ -102,8 +103,7 @@
   
   <%-- Liste de résultat de la recherche de topo --%>
   <c:if test="${emptyResult == false}">
-    <div class="pb-1 mb-3 bg-primary"></div>
-    
+    <hr>
     <div class="accordion" id="accordionTopo">
     
       <c:forEach items="${topos}" var="topo">
@@ -113,11 +113,11 @@
       
         <c:set var="compteur" value="${compteur+1}" scope="page" />
         
-          <div class="card">
+          <div class="card border-primary">
           
             <div class="card-header" id="heading${compteur}">        
               <h2 class="mb-0 mx-0">
-                <button class="btn btn-outline-primary btn-block text-left collapsed ml-0" 
+                <button class="btn btn-primary btn-block text-left collapsed ml-0" 
                   type="button" 
                   data-toggle="collapse" data-target="#collapse${compteur}" 
                   aria-expanded="false" aria-controls="collapse${compteur}">
@@ -132,21 +132,52 @@
             <div id="collapse${compteur}" class="collapse" 
               aria-labelledby="heading${compteur}" data-parent="#accordionTopo">
               <div class="card-body">
-                Lieu : ${topo.lieu} <br>
-                ${topo.description} <br><br>
+                  <table class="table table-borderless"
+                    aria-describedby="heading${compteur}">
+                    <tbody>
+                      <tr>
+                        <th scope="row">Parution</th>
+                        <td>
+                          <fmt:formatDate value="${topo.parutionDate}" 
+                            type="date" dateStyle="full"/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Lieu</th>
+                        <td>${topo.lieu}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Description</th>
+                        <td>${topo.description}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
                 
                 <%-- Boutons : Demande / Annulation --%>
             
                 <c:if test="${!topo.isDemandePret(utilisateur)}">
-                  <button type="button" class="btn btn-secondary mb-3" aria-label="Demande de prêt"
-                        onclick="window.location.href = './demande-topo?id=${topo.topoID}'">
-                    <i class="fas fa-clipboard pr-2" aria-hidden="true"></i>Faire une demande de prêt</button>
+                  <hr>
+                  <div class="row">
+                    <button type="button" class="btn btn-success mx-auto" 
+                      aria-label="Demande de prêt"
+                      onclick="window.location.href = './demande-topo?id=${topo.topoID}'">
+                      <i class="fas fa-clipboard pr-2" aria-hidden="true"></i>
+                      Faire une demande de prêt
+                    </button>
+                  </div>
                 </c:if>
                 
                 <c:if test="${topo.isDemandePret(utilisateur)}">
-                  <button type="button" class="btn btn-danger mb-3" aria-label="Annuler la demande de prêt"
-                    onclick="window.location.href = './#?id=${topo.topoID}'">
-                    <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Annuler la demande de prêt</button>
+                  <hr>
+                  <div class="row">
+                    <button type="button" class="btn btn-danger mx-auto" 
+                    aria-label="Annuler la demande de prêt"
+                    onclick="window.location.href = './annule-demande-topo?topoID=${topo.topoID}'">
+                      <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>
+                      Annuler la demande de prêt
+                    </button>
+                  </div>
                 </c:if>
                 
                 

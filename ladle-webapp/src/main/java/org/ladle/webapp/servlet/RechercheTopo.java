@@ -2,6 +2,7 @@ package org.ladle.webapp.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -10,10 +11,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ladle.beans.jpa.Topo;
+import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.TopoHandler;
 
 /**
@@ -68,6 +71,10 @@ public class RechercheTopo extends HttpServlet {
     String inputedPseudo = request.getParameter("inputPseudo");
     String inputedKeywords = request.getParameter("inputKeywords");
 
+    // Récupération de l'utilisateur
+    HttpSession session = request.getSession();
+    Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+
     // Vérification des inputs :
     // Initialisation de la liste d'erreurs
     List<String> errorList = new ArrayList<>();
@@ -112,6 +119,19 @@ public class RechercheTopo extends HttpServlet {
 
     // Récupération de la liste de résultat depuis la BDD
     List<Topo> resultTopos = topoHandler.searchTopos(selectedRegionID, inputedPseudo, inputedKeywords);
+
+    // Supprime les topos dont l'utilisateur est le propriétaire
+    Iterator<Topo> resultToposIterator = resultTopos.iterator();
+
+    while (resultToposIterator.hasNext()) {
+
+      Topo topo = resultToposIterator.next();
+
+      if (topo.getUtilisateur().getUtilisateurID().equals(utilisateur.getUtilisateurID())) {
+        LOG.debug("Topo id={} owned => removed from the list", topo.getTopoID());
+        resultToposIterator.remove();
+      }
+    }
 
     // Renvoit de la liste de résultat vers la jsp
     request.setAttribute("topos", resultTopos);

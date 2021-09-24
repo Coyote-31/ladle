@@ -49,8 +49,16 @@ public class AnnulePretTopo extends HttpServlet {
     // Récupération du paramètre 'topoID'
     String topoIDStr = request.getParameter("topoID");
 
+    if ((topoIDStr == null) || topoIDStr.isEmpty()) {
+      LOG.error("Error null/empty topoIDStr");
+      String errorMsg = "Le topo est introuvable !";
+      sendToErrorPage(errorMsg, request, response);
+      return;
+    }
+
     // Conversion de topoID en Integer
     Integer topoID = null;
+
     try {
       topoID = Integer.decode(topoIDStr);
 
