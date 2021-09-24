@@ -187,6 +187,29 @@ a:hover {
   border-radius: 0.25rem;
 }
 
+/* ====================== */
+/* ------  OTHERS  ------ */
+/* ====================== */
+
+.fa-github, .fa-linkedin {
+  font-size: 1.8rem;
+}
+
+.footer-btn {
+  padding-top: 0.45rem;
+}
+
+hr {
+  border-top: 2px solid rgba(0,0,0,0.1);
+}
+
+.vertical-divider {
+  height: 100%;
+  width:1px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+  padding: 0;
+}
+
 
 /* ============================= */
 /* ------  MEDIA QUERIES  ------ */
