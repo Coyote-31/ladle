@@ -12,7 +12,7 @@
   <%@ include file="/WEB-INF/parts/header.jsp" %>
 
   <div class="container ladle-bg-main">
-    <div class="alert alert-danger" role="alert">
+    <div class="alert alert-danger mb-0" role="alert">
       <h1 class="alert-heading">Erreur(s):</h1>
         <hr>
         <ul>
