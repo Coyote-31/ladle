@@ -145,6 +145,38 @@ a:hover {
 }
 
 /* =============== */
+/* ---  Forms  --- */
+/* =============== */
+
+.no-radius-left {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.no-radius-right {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+@media (min-width: 576px) {
+  
+  .no-border-right-sm {
+    border-right: 0;
+  }
+
+  .no-radius-left-sm {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  
+  .no-radius-right-sm {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+}
+
+/* =============== */
 /* --- Buttons --- */
 /* =============== */
 
@@ -208,7 +240,6 @@ hr {
   border-left: 2px solid rgba(0,0,0,0.1);
   padding: 0;
 }
-
 
 /* ============================= */
 /* ------  MEDIA QUERIES  ------ */
