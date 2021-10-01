@@ -29,6 +29,8 @@
     
     <h1>Formulaire de création d'un nouveau site</h1>
     
+    <hr>
+    
     <%-- Formulaire de sélection d'une ville et du nom du site --%>
     <form method="post" action="ajout-site">
     
@@ -36,7 +38,7 @@
     
       <%-- Ville --%>
       <div class="row">
-        <div class="col">
+        <div class="col-lg">
           <div class="input-group mb-3">
   
             <div class="input-group-prepend">
@@ -56,7 +58,7 @@
           
         </div>
   
-        <div class="col">
+        <div class="col-lg">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <label class="input-group-text" for="inputGroupSelectVille">Sélection</label>
@@ -87,6 +89,8 @@
         maxlength="80" value="${inputedSiteName}" 
         aria-label="Nom du site" aria-describedby="labelNomSite">
       </div>
+      
+      <hr>
     
       <%-- Btn de validation du formulaire --%>
       <div class="row justify-content-center">
