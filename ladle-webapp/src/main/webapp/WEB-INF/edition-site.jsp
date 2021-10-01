@@ -34,37 +34,46 @@
       </div>
     </c:if>
 
-    <div class="d-flex justify-content-between mb-3">
-      <h1>Edition du site :</h1>
+    <h1>Edition du site :</h1>
+    <hr>
       
-      <%-- Bouton de suppression du site --%>      
-      <button type="button" class="btn btn-danger my-auto" aria-label="Supprimer le site"
-        data-toggle="modal" data-target="#modalDeleteSiteID${site.siteID}">
-        <i class="fas fa-trash-alt" aria-hidden="true"></i> Supprimer le site
-      </button>
-    </div>
+    <%-- Bouton de suppression du site --%>      
+    <button type="button" class="btn btn-danger mb-3 ml-0" aria-label="Supprimer le site"
+      data-toggle="modal" data-target="#modalDeleteSiteID${site.siteID}">
+      <i class="fas fa-trash-alt mr-1" aria-hidden="true"></i> Supprimer le site
+    </button>
     
-    <p>${site.ville.nom} - 
-      <fmt:formatDate value="${site.dateLastMaj}" 
-      type="both" dateStyle = "medium" timeStyle = "short"/>
-    </p><br>
+    <div class="row">
+    
+      <%-- Nom de la ville --%>
+      <div class="input-group col-12 col-md-6 mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="villeName">Ville</span>
+        </div>
+        <input type="text" class="form-control" disabled
+          placeholder="${site.ville.nom}" 
+          aria-label="Nom de la ville" aria-describedby="villeName">
+      </div>
+      
+      <%-- Dernière mise à jour --%>
+      <div class="input-group col-12 col-md-6 mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="dateLastMaj">Mise à jour</span>
+        </div>
+        <input type="text" class="form-control" disabled
+          placeholder=
+            "<fmt:formatDate value="${site.dateLastMaj}" 
+            type="both" dateStyle = "long" timeStyle = "short"/>" 
+          aria-label="Date de la dernière mise à jour" aria-describedby="dateLastMaj">
+      </div>
+    
+    </div>
     
     <%-- Formulaire de modification du site  --%>
     <form id="form" name="form" method="post" action="edition-site">
     
       <%-- Stockage de l'ID du site --%>
       <input name="siteID" type="hidden" value="${site.siteID}">
-      
-      <%-- Nom du site --%>
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="labelNomSite">Nom du site</span>
-        </div>
-        <input id="siteNom" name="siteNom" type="text" 
-        class="form-control${isSiteForm && site.nomErr ? ' is-invalid' : ''}" 
-        required maxlength="80" value="${site.nom}" 
-        aria-label="Nom du site" aria-describedby="labelNomSite">
-      </div>
       
       <%-- Officiel LADLE (si le role est minimum 1 : Membre de l'association ) --%>
       <c:if test="${utilisateur.role >= 1}">
@@ -79,6 +88,17 @@
           </div>
         </div>
       </c:if>
+      
+      <%-- Nom du site --%>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="labelNomSite">Nom du site</span>
+        </div>
+        <input id="siteNom" name="siteNom" type="text" 
+        class="form-control${isSiteForm && site.nomErr ? ' is-invalid' : ''}" 
+        required maxlength="80" value="${site.nom}" 
+        aria-label="Nom du site" aria-describedby="labelNomSite">
+      </div>
       
       <%-- Descriptif du site --%>
       <div class="input-group mb-3">
@@ -101,66 +121,66 @@
         maxlength="2000"
         aria-label="Zone de texte">${site.acces}</textarea>
       </div>
-              
-
-      <%-- Table avec les secteurs du site --%>
-      <table class="table table-bordered" id="tableSecteur">
-          <caption hidden=true>secteurs</caption>
-          <thead class="thead-dark">
-            <tr>
-              <th id="labelSecteurNom" scope="col">Nom</th>
-              <th id="labelSecteurDescriptif" scope="col">Descriptif</th>
-              <th id="labelSecteurSupprimer" scope="col">Supprimer</th>
-            </tr>
-          </thead>
-          
-          <%-- Boucle sur toutes les secteurs du site --%>
-          <c:forEach items="${site.secteurs}" var="secteur">
-          
-            <%-- Ligne du tableau représentant un secteur --%>
-            
-            <tr>
-              <%-- Nom du secteur --%>
-              <td>
-                <p>${secteur.nom}</p>
-              </td>
-              <%-- Descriptif du secteur --%>
-              <td>
-                <p>${secteur.descriptif}</p>
-              </td>
-              
-              <%-- Bouton de suppression du secteur --%>
-              <td>
-                <button type="button" class="btn btn-danger my-auto" aria-label="Supprimer le secteur"
-                  data-toggle="modal" data-target="#modalDeleteSecteurID${secteur.secteurID}">
-                  <i class="fas fa-trash-alt" aria-hidden="true"></i>
-                </button>              
-              </td>
-            </tr>
-          </c:forEach>
-        
-        </table>
-        
-        <%-- Bouton pour ajouter un nouveau secteur --%>
-        <div class="row">
-          <button type="button" class="btn btn-secondary my-auto" 
-            aria-label="Ajouter un secteur" data-toggle="modal" data-target="#modalNewSecteur">
-            <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter un secteur
-          </button>
-        </div>
-        
-        <div class="row justify-content-center">
-                
-          <%-- Bouton d'annulation de l'édition --%>
-          <a class="btn btn-secondary ml-0" href="./site?siteID=${site.siteID}">Annuler</a>
-
-          <%-- Bouton d'envoi du formulaire --%>
-          <button class="btn btn-primary" type="submit" 
-          name="submit-btn" value="submit">Valider</button>
-          
-        </div>
       
-      </form>
+      <div class="row justify-content-center">
+              
+        <%-- Bouton d'annulation de l'édition --%>
+        <a class="btn btn-secondary ml-0" href="./site?siteID=${site.siteID}">Annuler</a>
+
+        <%-- Bouton d'envoi du formulaire --%>
+        <button class="btn btn-primary" type="submit" 
+        name="submit-btn" value="submit">Valider</button>
+        
+      </div>
+    
+    </form>
+              
+
+    <%-- Les secteurs du site --%>
+    <div class="card mt-3">
+      
+      <div class="card-header">
+        <h2 class="h3 mb-0">Secteurs</h2>
+      </div>
+      
+      <div class="card-body pb-3 px-3 pt-0">
+      
+        <%-- Boucle sur toutes les secteurs du site --%>
+        <c:forEach items="${site.secteurs}" var="secteur">
+
+          <div class="row no-gutters border mt-3 p-3">
+          
+            <%-- Nom du secteur --%>
+            <div class="col col-lg-auto order-1 mr-3"><strong>${secteur.nom}</strong></div>
+  
+            <%-- Descriptif du secteur --%>
+            <div class="col-12 col-lg order-3">${secteur.descriptif}</div>
+  
+            <%-- Bouton de suppression du secteur --%>
+            <div class="col-auto col-lg-auto order-2 order-lg-4 mb-1 mb-lg-0 row no-gutters align-items-center">
+              <button type="button" class="btn btn-danger" 
+                aria-label="Supprimer le secteur"
+                data-toggle="modal" data-target="#modalDeleteSecteurID${secteur.secteurID}">
+                <i class="fas fa-trash-alt" aria-hidden="true"></i>
+              </button>
+            </div>
+            
+          </div>              
+
+        </c:forEach>
+        
+      </div>
+          
+      <%-- Bouton pour ajouter un nouveau secteur --%>
+      <div class="card-footer">
+        <button type="button" class="btn btn-success my-auto ml-0" 
+          aria-label="Ajouter un secteur" data-toggle="modal" data-target="#modalNewSecteur">
+          <i class="fas fa-plus pr-2" aria-hidden="true"></i>Ajouter un secteur
+        </button>
+      </div>
+      
+    </div>
+
     
   </div>
   
@@ -169,9 +189,9 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalNewSecteurLabel">Ajouter un secteur</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+        <div class="modal-header py-0">
+          <h3 class="modal-title my-auto" id="modalNewSecteurLabel">Ajouter un secteur</h3>
+          <button type="button" class="close my-auto" data-dismiss="modal" aria-label="Fermer">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -182,7 +202,7 @@
             <input name="siteID" type="hidden" value="${site.siteID}">
             
             <%-- Nom du secteur --%>
-            <p>Veuillez renseigner le nom du secteur (80 caractères max.)</p>
+            <p>Veuillez renseigner le nom du secteur (80 caractères max.) :</p>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="labelNomSecteur">Nom du secteur</span>
@@ -193,9 +213,9 @@
             </div>
             
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-            <button type="submit" class="btn btn-primary" value="submit">Valider</button>
+          <div class="modal-footer d-flex justify-content-center">
+            <button type="button" class="btn btn-danger ml-0" data-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-success" value="submit">Valider</button>
           </div>
         </form>
       </div>
