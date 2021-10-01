@@ -83,14 +83,6 @@ body {
 	background-color: #0bb73d !important;
 }
 
-#nav-spacer-top-2 {
-  height: 9rem;
-}
-
-#nav-spacer-top-4 {
-  height: 13.9rem;
-}
-
 /* ============ */
 /* --- BODY --- */
 /* ============ */
@@ -103,6 +95,18 @@ body {
   
   border: outset 1px #fff;
   border-radius: 1rem / 1rem;
+}
+
+.bg-primary-light {
+  background-color: #b7d6f1;
+}
+
+.bg-success-light {
+  background-color: #a8e4ba;
+}
+
+.bg-warning-light {
+  background-color: #fbe9cd;
 }
 
 /* ============== */
@@ -125,11 +129,19 @@ h1, .h1 {
 }
 
 h2, .h2 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
 }
 
 h3, .h3 {
+  font-size: 1.4rem;
+}
+
+h4, .h4 {
   font-size: 1.2rem;
+}
+
+h5, .h5 {
+  font-size: 1.1rem;
 }
 
 a {

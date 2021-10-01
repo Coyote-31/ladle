@@ -307,49 +307,90 @@
     <div class="container ladle-bg-main">
     
       <h1>Résultat de la recherche :</h1>
+      <hr>
       
       <%-- Boucle des Régions --%>
       <c:forEach items="${searchResultRegions}" var="searchResultRegion">
-      <div class="container ladle-bg-main">
-        <h2>${searchResultRegion.nom} (${searchResultRegion.regionCode})</h2>
+      <div class="card bg-primary-light border-primary mt-3">
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">
+            ${searchResultRegion.nom} 
+            <span class="text-white-50">
+              (${searchResultRegion.regionCode})
+            </span>
+          </h2>
+        </div>
       
         <%-- Boucle des Départements --%>
         <c:forEach items="${searchResultDepartements}" var="searchResultDepartement">
           <c:if test="${searchResultRegion.regionCode == searchResultDepartement.region.regionCode}">
-            <div class="container ladle-bg-main">
-              <h3>${searchResultDepartement.nom} (${searchResultDepartement.departementCode})</h3>
+            <div class="card bg-success-light border-right-0 border-success rounded-0 ml-3 mb-3">
+              <div class="card-header bg-success rounded-0 text-white">
+                <h3 class="mb-0">
+                  ${searchResultDepartement.nom} 
+                  <span class="text-white-50">
+                    (${searchResultDepartement.departementCode})
+                  </span>
+                </h3>
+              </div>
           
           <%-- Boucle des Villes --%>
           <c:forEach items="${searchResultVilles}" var="searchResultVille">
             <c:if test="${searchResultDepartement.departementCode == searchResultVille.departement.departementCode}">
-              <div class="container ladle-bg-main">
-                <h4>${searchResultVille.nom} (${searchResultVille.cp})</h4>
+              <div class="card bg-warning-light border-right-0 border-warning rounded-0 ml-3 mb-3">
+                <div class="card-header bg-warning rounded-0 text-white">
+                  <h4 class="mb-0">
+                    ${searchResultVille.nom}
+                    <span class="text-white-50">
+                      (${searchResultVille.cp})
+                    </span>
+                  </h4>
+                </div>
             
             <%-- Boucle des Sites --%>
             <c:forEach items="${searchResultSites}" var="searchResultSite">
               <c:if test="${searchResultVille.villeID == searchResultSite.ville.villeID}">
-                <div class="container ladle-bg-main">
-                  <h5><a href="./site?siteID=${searchResultSite.siteID}<c:forEach 
-                    items="${searchResultSecteurs}" var="searchResultSecteur">
-                    ${searchResultSite.siteID == searchResultSecteur.site.siteID ? 
-                    '&secteursID='+=searchResultSecteur.secteurID:''}
-                  </c:forEach>">
-                  ${searchResultSite.nom} (${searchResultSite.officiel})</a></h5>
-              
+                <div class="card border-dark mx-3 mt-3 mb-3 pb-3">
+                  <div class="card-header bg-dark">
+                    <div class="row">
+                    
+                      <h5 class="mb-0 col-12 col-md-auto order-last order-md-first">
+                        <a href="./site?siteID=${searchResultSite.siteID}<c:forEach 
+                          items="${searchResultSecteurs}" var="searchResultSecteur">
+                          ${searchResultSite.siteID == searchResultSecteur.site.siteID ? 
+                          '&secteursID='+=searchResultSecteur.secteurID:''}</c:forEach>"
+                          >
+                          ${searchResultSite.nom}
+                        </a>
+                      </h5>
+                      
+                      <c:if test="${searchResultSite.officiel}">
+                        <button class="btn badge badge-success col-auto ml-3 mb-2 mb-md-0"
+                          data-toggle="tooltip" data-placement="top" tabindex="0"
+                          title="Ce site est reconnu officiellement par notre association.">
+                          Officiel : Les amis de l’escalade
+                        </button>
+                      </c:if>
+                      
+                    </div>
+                  </div>
       
               <%-- Boucle des Secteurs --%>
               <c:forEach items="${searchResultSecteurs}" var="searchResultSecteur">
                 <c:if test="${searchResultSite.siteID == searchResultSecteur.site.siteID}">
-                  <div class="container ladle-bg-main">
-                    <table>
-                      <tr>
-                        <th scope="row"><a href="./secteur?secteurID=${searchResultSecteur.secteurID}">
-                          ${searchResultSecteur.nom}
-                        </a></th>
-                        <td>${searchResultSecteur.descriptif}</td>
-                        <td>ID = ${searchResultSecteur.secteurID}</td>
-                      </tr>
-                    </table>
+                
+                  <div class="row mt-3 mx-3 border py-2">
+                  
+                    <div class="col-12 col-md-auto">
+                      <a href="./secteur?secteurID=${searchResultSecteur.secteurID}">
+                        ${searchResultSecteur.nom}
+                      </a>
+                    </div>
+                    
+                    <div class="col-12 col-md">
+                      ${searchResultSecteur.descriptif}
+                    </div>
+
                   </div>
                 </c:if>
                </c:forEach>
