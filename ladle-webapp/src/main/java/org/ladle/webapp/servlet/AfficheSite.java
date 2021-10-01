@@ -286,7 +286,7 @@ public class AfficheSite extends HttpServlet {
     }
 
     // Si pas d'erreur persiste le commentaire dans la BDD
-    if (errorListCommentaire.size() == 0) {
+    if (errorListCommentaire.isEmpty()) {
 
       // Date
       Timestamp currentDate = new Timestamp(System.currentTimeMillis());

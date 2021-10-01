@@ -223,7 +223,8 @@ a:hover {
 
 .card-header {
   border-bottom: 0px solid rgba(0,0,0,0.125);
-  background-color: #00396b;
+  background-color: #0659a2;
+  color: #fff;
 }
 
 #actuCard {
