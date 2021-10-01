@@ -230,43 +230,43 @@
             
           </div>
           <div class="card-body">
-          
+            
+            <%-- Bouton d'affichage du formulaire de modification du commentaire --%>
+            <c:if test="${utilisateur.role >= 1}"> 
+            
+              <div class="float-right d-flex">
+                 
+                <div>
+                  <button class="btn btn-warning pr-2" aria-label="Modifier le commentaire" 
+                   type="button" onclick="displayUpdateCommentForm(${commentaire.commentaireID});">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                  </button>
+                </div>
+                
+                <%-- Formulaire de suppression d'un commentaire --%>
+                <form name="deleteForm" method="post" action="site">
+                  <%-- input hidden site ID commentaire ID --%>
+                  <input name="siteID" type="hidden" value="${site.siteID}">
+                  <input name="commentaireID" type="hidden" value="${commentaire.commentaireID}">
+                  <%-- Bouton de suppression du commentaire --%>      
+                  <button class="btn btn-danger" aria-label="Supprimer le commentaire"
+                    type="submit" name="delete-btn" value="delete">
+                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                  </button>
+                </form>
+                
+              </div>
+
+            </c:if>
+            
             <%-- Contenu du commentaire --%>
             <div id="contentCommentID${commentaire.commentaireID}" 
-              class="d-flex justify-content-between contentComment"
+              class="d-inline contentComment"
               ${not empty errorListUpdatedCommentaire 
                 && not empty updatedCommentaireID 
                 && updatedCommentaireID == commentaire.commentaireID 
                 ? 'style="display:none !important;"' : ''}>
               ${commentaire.contenu}
-            
-              <%-- Bouton d'affichage du formulaire de modification du commentaire --%>
-              <c:if test="${utilisateur.role >= 1}"> 
-              
-                <div class="d-flex">
-                   
-                  <div>
-                    <button class="btn btn-warning pr-2" aria-label="Modifier le commentaire" 
-                     type="button" onclick="displayUpdateCommentForm(${commentaire.commentaireID});">
-                      <i class="fas fa-edit" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                  
-                  <%-- Formulaire de suppression d'un commentaire --%>
-                  <form name="deleteForm" method="post" action="site">
-                    <%-- input hidden site ID commentaire ID --%>
-                    <input name="siteID" type="hidden" value="${site.siteID}">
-                    <input name="commentaireID" type="hidden" value="${commentaire.commentaireID}">
-                    <%-- Bouton de suppression du commentaire --%>      
-                    <button class="btn btn-danger" aria-label="Supprimer le commentaire"
-                      type="submit" name="delete-btn" value="delete">
-                      <i class="fas fa-trash-alt" aria-hidden="true"></i>
-                    </button>
-                  </form>
-                  
-                </div>
-
-              </c:if>
             </div>
             
             <%-- Formulaire pour la modification du commentaire --%>
