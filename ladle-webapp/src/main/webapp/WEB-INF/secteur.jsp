@@ -95,17 +95,17 @@
         <c:if test="${!empty secteur.voies}">
           <div class="card table-responsive border-top-0 mb-2">
           
-            <table class="table table-hover table-md-small text-center" 
+            <table class="table table-hover table-md-small text-center mb-0" 
               aria-describedby="voiesTitle">
   
               <thead>
                 <tr>
                   <th scope="col">Numéro</th>
                   <th scope="col">Cotation</th>
-                  <th scope="col">Nom</th>
+                  <th scope="col" class="th-nom">Nom</th>
                   <th scope="col">Hauteur</th>
                   <th scope="col">Dégaines</th>
-                  <th class="text-left th-remarque" scope="col">Remarques</th>
+                  <th scope="col" class="text-left th-remarque">Remarques</th>
                 </tr>
               </thead>
   

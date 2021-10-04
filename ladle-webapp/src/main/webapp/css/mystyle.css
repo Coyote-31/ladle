@@ -254,8 +254,16 @@ hr {
   padding: 0;
 }
 
+.th-nom {
+  min-width: 15em;
+}
+
 .th-remarque {
-  min-width: 30em;
+  min-width: 20em;
+}
+
+textarea.textarea-small {
+  height: calc(1.5em + 0.75rem + 2px);
 }
 
 /* ============================= */
@@ -266,7 +274,13 @@ hr {
 /* No media query since the extra-large breakpoint has no upper bound on its width */
 
 /* Large devices (desktops, less than 1200px) */
-@media (max-width: 1199.98px) {}
+@media (max-width: 1199.98px) {
+  
+  .table-lg-small th, .table-lg-small td {
+    padding: 0.3rem;
+  }
+  
+}
 
 /* Medium devices (tablets, less than 992px) */
 @media (max-width: 991.98px) {
