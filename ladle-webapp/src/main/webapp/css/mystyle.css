@@ -217,14 +217,25 @@ a:hover {
   padding-right: 0 ! important;
 }
 
+.accordion>.card:first-of-type {
+  border-top-right-radius: 0.25rem;
+  border-top-left-radius: 0.25rem;
+}
+
 .accordion>.card:last-of-type {
-  border: 1px solid rgba(0,0,0,0.125);
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
 }
 
 .card-header {
+  border-top: 1px solid rgba(0,0,0,0.2);
   border-bottom: 0px solid rgba(0,0,0,0.125);
   background-color: #0659a2;
   color: #fff;
+}
+
+.accordion>.card:first-of-type>.card-header {
+  border-top: 0px;
 }
 
 #actuCard {
