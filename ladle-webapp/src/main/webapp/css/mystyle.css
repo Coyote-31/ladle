@@ -254,6 +254,10 @@ hr {
   padding: 0;
 }
 
+.th-remarque {
+  min-width: 30em;
+}
+
 /* ============================= */
 /* ------  MEDIA QUERIES  ------ */
 /* ============================= */
@@ -265,7 +269,13 @@ hr {
 @media (max-width: 1199.98px) {}
 
 /* Medium devices (tablets, less than 992px) */
-@media (max-width: 991.98px) {}
+@media (max-width: 991.98px) {
+  
+  .table-md-small th, .table-md-small td {
+    padding: 0.3rem;
+  }
+  
+}
 
 /* Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
