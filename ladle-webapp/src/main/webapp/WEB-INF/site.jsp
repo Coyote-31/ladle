@@ -18,7 +18,9 @@
   
     <h1 class="mb-0">Site :</h1>
     
+    <%-- Affiche le btn d'édition si l'utilisateur est connecté --%>
     <c:if test="${isLoginValid}">
+      <%-- Affiche le btn d'édition d'un site officel si l'utilisateur a les droits --%>
       <c:if test="${!site.officiel || site.officiel && utilisateur.role >= 1}">
         <button type="button" class="btn btn-warning my-auto" aria-label="Edition du site"
         onclick="window.location.href = './edition-site?siteID=${site.siteID}'">
@@ -60,7 +62,8 @@
         
         <div class="col-12 col-md-auto">
           <strong>Mis à jour :</strong>
-          <fmt:formatDate value="${site.dateLastMaj}" type="date" dateStyle = "medium"/>
+          <fmt:formatDate value="${site.dateLastMaj}" 
+            type="both" dateStyle = "medium" timeStyle="short"/>
         </div>
         
       </div>
