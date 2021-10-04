@@ -231,10 +231,11 @@
   aria-labelledby="modalDeleteSecteurID${secteur.secteurID}Label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalDeleteSecteurID${secteur.secteurID}Label">
-          Supprimer le secteur</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+        <div class="modal-header py-0">
+          <h3 class="modal-title my-auto" id="modalDeleteSecteurID${secteur.secteurID}Label">
+            Supprimer le secteur
+          </h3>
+          <button type="button" class="close my-auto" data-dismiss="modal" aria-label="Fermer">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -247,13 +248,14 @@
           
             <%-- Stockage de l'ID du secteur --%>
             <input name="secteurID" type="hidden" value="${secteur.secteurID}">
-            <p>Le secteur : <strong>${secteur.nom}</strong>, va être supprimé. Cette action est définitive.</p>
+            <p>Le secteur : <strong>${secteur.nom}</strong>, va être supprimé.<br>
+              Cette action est définitive.</p>
             <p>Voulez-vous vraiment supprimer ce secteur ?</p>
             
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-            <button type="submit" class="btn btn-primary" value="submit">Supprimer</button>
+          <div class="modal-footer d-flex justify-content-center">
+            <button type="button" class="btn btn-secondary ml-0" data-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-danger" value="submit">Supprimer</button>
           </div>
         </form>
       </div>
@@ -267,10 +269,11 @@
   aria-labelledby="modalDeleteSiteID${site.siteID}Label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalDeleteSiteID${site.siteID}Label">
-          Supprimer le site</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+        <div class="modal-header py-0">
+          <h3 class="modal-title my-auto" id="modalDeleteSiteID${site.siteID}Label">
+            Supprimer le site
+          </h3>
+          <button type="button" class="close my-auto" data-dismiss="modal" aria-label="Fermer">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -281,13 +284,14 @@
             <%-- Stockage de l'ID du site --%>
             <input name="siteID" type="hidden" value="${site.siteID}">
 
-            <p>Le site : <strong>${site.nom}</strong>, va être supprimé. Cette action est définitive.</p>
+            <p>Le site : <strong>${site.nom}</strong>, va être supprimé.<br>
+              Cette action est définitive.</p>
             <p>Voulez-vous vraiment supprimer ce site ?</p>
             
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-            <button type="submit" class="btn btn-primary" value="submit">Supprimer</button>
+          <div class="modal-footer d-flex justify-content-center">
+            <button type="button" class="btn btn-secondary ml-0" data-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-danger" value="submit">Supprimer</button>
           </div>
         </form>
       </div>
