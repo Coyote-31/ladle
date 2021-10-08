@@ -92,7 +92,7 @@
       <%-- Nom du site --%>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="labelNomSite">Nom du site</span>
+          <span class="input-group-text" id="labelNomSite">Nom</span>
         </div>
         <input id="siteNom" name="siteNom" type="text" 
         class="form-control${isSiteForm && site.nomErr ? ' is-invalid' : ''}" 
@@ -103,7 +103,7 @@
       <%-- Descriptif du site --%>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text">Descriptif du site</span>
+          <span class="input-group-text">Descriptif</span>
         </div>
         <textarea id="siteDescriptif" name="siteDescriptif" 
         class="form-control${isSiteForm && site.descriptifErr ? ' is-invalid' : ''}" 
@@ -114,7 +114,7 @@
       <%-- Accès au site --%>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text">Accès au site</span>
+          <span class="input-group-text">Accès</span>
         </div>
         <textarea id="siteAcces" name="siteAcces" 
         class="form-control${isSiteForm && site.accesErr ? ' is-invalid' : ''}" 
