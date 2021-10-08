@@ -117,7 +117,7 @@
           <div class="form-row">
 
             <%-- Input checkBox --%>
-            <div class="col">
+            <div class="col-12 col-sm-6">
               <div class="form-group form-check mb-0">
                 <input type="checkbox" checked name="login_CheckStayConnected" id="login_CheckStayConnected"
                  class="form-check-input" value="true">
@@ -126,16 +126,15 @@
               </div>
             </div>
             
-            <%-- Bouton Envoyé --%>
-            <div class="col">
-            </div>
+            
 
           </div>
         </div>
-
-        <div class="modal-footer justify-content-center">
-          <input type="submit" class="btn btn-success ml-0" value="Valider">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+        
+        <%-- Boutons --%>
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-danger ml-0" data-dismiss="modal">Annuler</button>
+          <input type="submit" class="btn btn-success" value="Valider">
         </div>
       
       </form>

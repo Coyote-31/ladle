@@ -51,10 +51,10 @@ public class Deconnexion extends HttpServlet {
     CookieHandler.deleteLogin(request, response);
 
     try {
-      getServletContext().getRequestDispatcher("/").forward(request, response);
+      response.sendRedirect("./");
 
-    } catch (ServletException | IOException | IllegalStateException e) {
-      LOG.error("Error building / (index)", e);
+    } catch (IOException | IllegalStateException e) {
+      LOG.error("Error redirect / (index)", e);
     }
   }
 

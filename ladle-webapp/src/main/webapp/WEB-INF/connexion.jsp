@@ -7,21 +7,31 @@
 <link rel="icon" href="images/favicon/favicon.ico">
 <%@ include file="/WEB-INF/parts/meta.jsp"%>
 </head>
-<body class="pb-3">
+<body>
   <%@ include file="/WEB-INF/parts/header.jsp"%>
   
   <div class="container ladle-bg-main">
+
+    <%-- Message de redirection depuis une page sécurisée --%>    
+    <c:if test="${fromSecurePage}">
+      <p class="text-danger">
+        Vous tentez d'accèder à une page sécurisée qui nécessite d'être connecté :
+      </p>
+    </c:if>
   
     <%-- Erreur de login invalid --%>
     
     <c:if test="${errorLoginInvalid}">
-      <p>Erreur ! Echec de connexion. Le pseudo/mail ou le mot de passe est invalide.</p>
+      <p class="text-danger">
+        Erreur ! Echec de connexion. Le pseudo/mail ou le mot de passe est invalide.
+      </p>
     </c:if>
     
     <%-- Formulaire de connexion --%>
     <form method="post" action="connexion">
-      <fieldset>
-      <legend>Connexion :</legend>
+    
+      <h1 class="mb-0">Connexion :</h1>
+      <hr>
       
         <div class="form-row">
   
@@ -48,21 +58,22 @@
         <div class="form-row">
   
           <%-- Input checkBox --%>
-          <div class="col">
-            <div class="form-group form-check">
+          <div class="col-12 col-sm-6">
+            <div class="form-group form-check mb-0">
               <input type="checkbox" checked name="login_CheckStayConnected" 
               id="login_CheckStayConnected" class="form-check-input" value="true"> 
               <label class="form-check-label" for="login_CheckStayConnected">Rester connecté</label>
             </div>
           </div>
-  
-          <%-- Bouton Envoyé --%>
-          <div class="col">
-            <input type="submit" class="btn btn-primary" value="Envoyer">
-          </div>
-  
+
         </div>
-      </fieldset>
+        
+        <hr>
+        <%-- Bouton Envoyé --%>
+        <div class="d-flex justify-content-center">
+          <input type="submit" class="btn btn-primary ml-0" value="Envoyer">
+        </div>
+
     </form>
 
   </div>

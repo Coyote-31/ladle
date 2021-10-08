@@ -131,6 +131,8 @@ public class AuthenticationUtilisateurFilter implements Filter {
       } else {
         // forward to the connexion page
         String loginPage = "/connexion";
+
+        request.setAttribute("fromSecurePage", true);
         RequestDispatcher dispatcher = httpRequest.getRequestDispatcher(loginPage);
 
         dispatcher.forward(request, response);
