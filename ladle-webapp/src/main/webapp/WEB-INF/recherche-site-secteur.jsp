@@ -355,13 +355,15 @@
                     <div class="row">
                     
                       <h5 class="mb-0 col-12 col-md-auto order-last order-md-first">
-                        <a href="./site?siteID=${searchResultSite.siteID}<c:forEach 
-                          items="${searchResultSecteurs}" var="searchResultSecteur">
-                          ${searchResultSite.siteID == searchResultSecteur.site.siteID ? 
-                          '&secteursID='+=searchResultSecteur.secteurID:''}</c:forEach>"
-                          >
-                          ${searchResultSite.nom}
-                        </a>
+                        <strong>
+                          <a href="./site?siteID=${searchResultSite.siteID}<c:forEach 
+                            items="${searchResultSecteurs}" var="searchResultSecteur">
+                            ${searchResultSite.siteID == searchResultSecteur.site.siteID ? 
+                            '&secteursID='+=searchResultSecteur.secteurID:''}</c:forEach>"
+                            >
+                            ${searchResultSite.nom}
+                          </a>
+                        </strong>
                       </h5>
                       
                       <c:if test="${searchResultSite.officiel}">
