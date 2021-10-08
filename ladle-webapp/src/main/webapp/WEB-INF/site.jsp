@@ -155,7 +155,7 @@
   <div class="card border-dark rounded mt-3">
     
     <%-- Comments : card-header --%>
-    <div class="card-header rounded-top bg-dark">
+    <div class="card-header bg-dark">
       <h4 class="mb-0">Commentaires (${commentaires.size()}) :</h4>
     </div>
     
@@ -178,8 +178,10 @@
         <form id="commentForm" name="commentForm" method="post" action="site" 
           ${empty errorListCommentaire ? 'style="display:none !important;"' : ''}>
           <div class="card">
-            <div class="card-header d-flex justify-content-between">
-              <div><strong>${utilisateur.pseudo}</strong></div>
+            <div class="card-header header-rounded-debug">
+              <div class="d-flex justify-content-between">
+                <strong>${utilisateur.pseudo}</strong>
+              </div>
             </div>
             <div class="card-body">
             <%-- Liste des erreurs de commentaire --%>
@@ -217,7 +219,7 @@
       
         <div class="card mt-3">
         
-          <div class="card-header d-flex flex-column flex-md-row justify-content-between">
+          <div class="card-header header-rounded-debug d-flex flex-column flex-md-row justify-content-between">
           
             <div class="flex-fill my-auto">
               <strong>${commentaire.utilisateur.pseudo}</strong>

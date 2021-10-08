@@ -104,7 +104,7 @@
   <%-- Liste de résultat de la recherche de topo --%>
   <c:if test="${emptyResult == false}">
     <hr>
-    <div class="accordion" id="accordionTopo">
+    <div class="accordion border rounded border-primary" id="accordionTopo">
     
       <c:forEach items="${topos}" var="topo">
       
@@ -113,7 +113,7 @@
       
         <c:set var="compteur" value="${compteur+1}" scope="page" />
         
-          <div class="card border-primary">
+          <div class="card">
           
             <div class="card-header" id="heading${compteur}">        
               <h2 class="mb-0 mx-0">

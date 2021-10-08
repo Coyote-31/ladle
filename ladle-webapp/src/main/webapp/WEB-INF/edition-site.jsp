@@ -139,7 +139,7 @@
     <%-- Les secteurs du site --%>
     <div class="card mt-3">
       
-      <div class="card-header">
+      <div class="card-header header-rounded-debug">
         <h2 class="h3 mb-0">Secteurs</h2>
       </div>
       

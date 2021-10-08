@@ -123,7 +123,7 @@
       
       <div class="card${isSecteurForm && secteur.planErr ? ' border-danger' : ''}">
       
-        <div class="card-header">
+        <div class="card-header header-rounded-debug">
           <h2 class="mb-0">
             <label class="mb-0" for="secteurPlan">
               Plan du secteur
@@ -173,7 +173,7 @@
       
       <div class="card">
       
-        <div class="card-header">
+        <div class="card-header header-rounded-debug">
           <h2 id="tableTitle" class="mb-0">
             Voies du secteur :
           </h2>
