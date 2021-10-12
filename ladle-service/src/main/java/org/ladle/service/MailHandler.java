@@ -3,17 +3,24 @@ package org.ladle.service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.URLDataSource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +34,10 @@ import org.ladle.beans.User;
 public final class MailHandler {
 
   private static final Logger LOG = LogManager.getLogger(MailHandler.class);
+
+  // URLs TODO : change for production
+  static final String URL_LADLE = "http://localhost:8080/ladle/email-validation";
+  static final String IMG_PATH = "http://localhost:8080/ladle/images/ladle_logo.png";
 
   private MailHandler() {
     throw new IllegalStateException("Utility class");
@@ -66,8 +77,6 @@ public final class MailHandler {
           }
         });
 
-    final String URL_LADLE = "http://localhost:8080/ladle/email-validation";
-
     try {
 
       Message message = new MimeMessage(session);
@@ -76,17 +85,46 @@ public final class MailHandler {
           Message.RecipientType.TO,
           InternetAddress.parse(user.getEmail()));
       message.setSentDate(new Date());
-      message.setSubject("Validation LADLE pour " + user.getPseudo());
+      message.setSubject("Validation LADLE");
 
       // Send HTML message
-      message.setContent(
-          "<h1>Validation de l'inscription :</h1>"
-                         + "<a href='"
-                         + URL_LADLE
-                         + "?id="
-                         + user.getEmailSHA()
-                         + "'>Valider votre compte</a>",
-          "text/html");
+      String html = "<img src=\"cid:logoLADLE\"/>"
+                    + "<hr>"
+                    + "<h1>Validation de l'inscription :</h1>"
+                    + "<p>"
+                    + "Bienvenue " + user.getPseudo() + " sur le site de l\'association LADLE !<br>"
+                    + "Veuillez confirmer votre adresse mail en cliquant sur ce lien : "
+                    + "<strong><a href='"
+                    + URL_LADLE
+                    + "?id="
+                    + user.getEmailSHA()
+                    + "'>Valider votre compte</a></strong>"
+                    + "</p>";
+
+      message.setContent(html, "text/html");
+
+      // Prepare a multipart HTML
+      Multipart multipart = new MimeMultipart();
+
+      // Prepare the HTML
+      MimeBodyPart htmlPart = new MimeBodyPart();
+      htmlPart.setContent(html, "text/html");
+      multipart.addBodyPart(htmlPart);
+
+      // Prepare the IMAGE
+      MimeBodyPart imgPart = new MimeBodyPart();
+
+      URL pathURL = new URL(IMG_PATH);
+      URLDataSource dsURL = new URLDataSource(pathURL);
+
+      imgPart.setDataHandler(new DataHandler(dsURL));
+
+      // Assign a cid to the image
+      imgPart.setHeader("Content-ID", "<logoLADLE>");
+      multipart.addBodyPart(imgPart);
+
+      // Set the message content!
+      message.setContent(multipart);
 
       Transport.send(message);
 
@@ -94,6 +132,8 @@ public final class MailHandler {
 
     } catch (MessagingException e) {
       LOG.error("Erreur : Email non envoyé !", e);
+    } catch (MalformedURLException e) {
+      LOG.error("Erreur : MalformedURLException !", e);
     }
   }
 }
