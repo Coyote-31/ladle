@@ -49,6 +49,8 @@ public class EmailValidation extends HttpServlet {
       boolean emailValide = userHandler.emailValidation(emailSHA);
       // Envoit à la jsp de la réponse
       request.setAttribute("emailValide", emailValide);
+    } else {
+      request.setAttribute("emailValide", false);
     }
 
     getServletContext().getRequestDispatcher("/WEB-INF/email-validation.jsp").forward(request, response);
