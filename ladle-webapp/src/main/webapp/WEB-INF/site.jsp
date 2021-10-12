@@ -239,7 +239,8 @@
             <%-- Bouton d'affichage du formulaire de modification du commentaire --%>
             <c:if test="${utilisateur.role >= 1}"> 
             
-              <div class="float-right d-flex">
+              <div id="btn-edit-commentID${commentaire.commentaireID}" 
+                class="float-right d-flex btn-edit-comment">
                  
                 <div>
                   <button class="btn btn-warning pr-2" aria-label="Modifier le commentaire" 
@@ -399,6 +400,11 @@
         updateComments.forEach(function(item, index, array) {
             item.style.setProperty("display", "none", "important");
         });
+        
+        let btnEditComments = Array.from(document.getElementsByClassName('btn-edit-comment'));
+        btnEditComments.forEach(function(item, index, array) {
+            item.style.setProperty("display", "flex", "important");
+        });
     }
     
     <%-- Fonction pour cacher le formulaire d'un nouveau commentaire --%>
@@ -414,7 +420,7 @@
         <%-- Reinitialisation du display global --%>
         let contentComments = Array.from(document.getElementsByClassName('contentComment'));
         contentComments.forEach(function(item, index, array) {
-            item.style.setProperty("display", "flex", "important");
+            item.style.setProperty("display", "inline", "important");
         });
         
         let updateComments = Array.from(document.getElementsByClassName('updateComment'));
@@ -422,18 +428,25 @@
             item.style.setProperty("display", "none", "important");
         });
         
+        let btnEditComments = Array.from(document.getElementsByClassName('btn-edit-comment'));
+        btnEditComments.forEach(function(item, index, array) {
+            item.style.setProperty("display", "flex", "important");
+        });
+        
         
         <%-- Gestion des elements spécifiques --%>
         document.getElementById("contentCommentID" + id).style.setProperty("display", "none", "important");
         document.getElementById("updateCommentID" + id).style.setProperty("display", "block", "important");
+        document.getElementById("btn-edit-commentID" + id).style.setProperty("display", "none", "important");
         
         hideCommentForm();
     }
     
     <%-- Fonction d'annulation de l'affichage du formulaire de modification d'un commentaire --%>
     function cancelUpdateCommentForm(id) {
-        document.getElementById("contentCommentID" + id).style.setProperty("display", "flex", "important");
+        document.getElementById("contentCommentID" + id).style.setProperty("display", "inline", "important");
         document.getElementById("updateCommentID" + id).style.setProperty("display", "none", "important");
+        document.getElementById("btn-edit-commentID" + id).style.setProperty("display", "flex", "important");
     }
 
    </script>
