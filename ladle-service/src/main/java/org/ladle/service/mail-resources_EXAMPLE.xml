@@ -4,4 +4,5 @@
 	<comment>Ressources sensibles sécurisées</comment>
 	<entry key="mailUsername">example@gmail.com</entry>
 	<entry key="mailPassword">xyzExAmpLe</entry>
+  <entry key="siteURL">http://localhost:8080/ladle</entry>
 </properties>

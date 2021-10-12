@@ -35,10 +35,6 @@ public final class MailHandler {
 
   private static final Logger LOG = LogManager.getLogger(MailHandler.class);
 
-  // URLs TODO : change for production
-  static final String URL_LADLE = "http://localhost:8080/ladle/email-validation";
-  static final String IMG_PATH = "http://localhost:8080/ladle/images/ladle_logo.png";
-
   private MailHandler() {
     throw new IllegalStateException("Utility class");
   }
@@ -60,6 +56,11 @@ public final class MailHandler {
 
     final String username = mailProps.getProperty("mailUsername");
     final String password = mailProps.getProperty("mailPassword");
+    final String siteURL = mailProps.getProperty("siteURL");
+
+    // URLs
+    final String URL_LADLE = siteURL + "/email-validation";
+    final String IMG_PATH = siteURL + "/images/ladle_logo.png";
 
     Properties prop = new Properties();
     prop.put("mail.smtp.host", "smtp.gmail.com");
