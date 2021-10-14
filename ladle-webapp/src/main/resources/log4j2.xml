@@ -4,16 +4,23 @@
     <Property name="filename">target/test.log</Property>
   </Properties>
   <Appenders>
-    <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+    <Console name="ConsoleStdOut" target="SYSTEM_OUT">
+        <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="ACCEPT"/>
+        <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
     </Console>
-  </Appenders>
+    <Console name="ConsoleStdErr" target="SYSTEM_ERR">
+        <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+        <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+    </Console>
+</Appenders>
   <Loggers>
     <Root level="info">
-      <AppenderRef ref="Console" />
+      <AppenderRef ref="ConsoleStdOut" />
+      <AppenderRef ref="ConsoleStdErr" />
     </Root>
     <Logger name="org.ladle" level="debug" additivity="false">
-      <AppenderRef ref="Console" />
+      <AppenderRef ref="ConsoleStdOut" />
+      <AppenderRef ref="ConsoleStdErr" />
     </Logger>
   </Loggers>
 </Configuration>
