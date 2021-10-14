@@ -127,7 +127,8 @@
   
               <div class="card-header" id="headingOwn${ownCompteur}">
                 <h2 class="mb-0 mx-0">
-                  <button class="btn btn-primary btn-block text-left collapsed ml-0" type="button" data-toggle="collapse"
+                  <button class="btn btn-primary btn-block text-left collapsed ml-0" 
+                    type="button" data-toggle="collapse"
                     data-target="#collapseOwn${ownCompteur}" aria-expanded="false"
                     aria-controls="collapseOwn${ownCompteur}"
                   >
@@ -160,105 +161,156 @@
                 </h2>
               </div>
   
-              <div id="collapseOwn${ownCompteur}" class="collapse" aria-labelledby="headingOwn${ownCompteur}"
-                data-parent="#accordionOwnTopo"
-              >
+              <div id="collapseOwn${ownCompteur}" class="collapse" 
+              aria-labelledby="headingOwn${ownCompteur}" data-parent="#accordionOwnTopo">
+              
+                <%-- Informations sur le topo --%>
                 <div class="card-body">
-                  Date de création :
-                  <fmt:formatDate value="${topo.parutionDate}" type="both" dateStyle="short" timeStyle="short" />
-                  <br>
-                  Région : ${topo.region.nom}
-                  <br>
-                  Lieu : ${topo.lieu}
-                  <br>
-                  Description : ${topo.description}
-                  <br>
-                  <br>
-  
+                
+                  <div class="row">
+                
+                    <div class="col-12 col-sm-3 col-lg-2">
+                      <strong>Parution</strong>
+                    </div>
+                    <div class="col-12 col-sm-9 col-lg-10">
+                      <fmt:formatDate value="${topo.parutionDate}" 
+                      type="both" dateStyle="short" timeStyle="short" />
+                    </div>
+                    
+                    <div class="col-12 col-sm-3 col-lg-2 mt-2">
+                      <strong>Région</strong>
+                    </div>
+                    <div class="col-12 col-sm-9 col-lg-10 mt-2">
+                      ${topo.region.nom}
+                    </div>
+                    
+                    <div class="col-12 col-sm-3 col-lg-2 mt-2">
+                      <strong>Lieu</strong>
+                    </div>
+                    <div class="col-12 col-sm-9 col-lg-10 mt-2">
+                      ${topo.lieu}
+                    </div>
+                    
+                    <div class="col-12 col-sm-3 col-lg-2 mt-2">
+                      <strong>Description</strong>
+                    </div>
+                    <div class="col-12 col-sm-9 col-lg-10 mt-2">
+                      ${topo.description}
+                    </div>
+                    
+                  </div>
+                  
+
+                  <%-- Informations sur le pret en cours --%>
                   <c:if test="${!topo.disponible && not empty topo.pretUtilisateur}">
-                    <strong>En cours de prêt :</strong>
-                    <br>
-                    Pseudo : ${topo.pretUtilisateur.pseudo}
-                    <br>
-                    Email : ${topo.pretUtilisateur.email}
-                    <br>
-                    <br>
-                    <button type="button" class="btn btn-danger mb-3" aria-label="Annuler le prêt"
-                      onclick="window.location.href = './annule-pret-topo?topoID=${topo.topoID}'"
-                    >
-                      <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>
-                      Annuler le prêt
-                    </button>
-                    <br>
-                    <br>
+                    <hr>
+                    
+                    <div class="row justify-content-center">
+
+                      <div class="col-12 col-md-8 d-flex justify-content-center">
+                        <div>
+                          <strong>En cours de prêt :</strong><br>
+                          Pseudo : ${topo.pretUtilisateur.pseudo}<br>
+                          Email : ${topo.pretUtilisateur.email}
+                        </div>
+                      </div>
+
+                      <div class="col-12 col-md-4 mt-3 mt-md-0 d-flex justify-content-center align-items-center">
+                        <button type="button" class="btn btn-danger ml-0" 
+                        aria-label="Annuler le prêt"
+                        onclick="window.location.href = './annule-pret-topo?topoID=${topo.topoID}'">
+                        <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>
+                          Annuler le prêt
+                        </button>
+                      </div>
+                    
+                    </div>
+                    
                   </c:if>
-  
-                  <button type="button" class="btn btn-warning mb-3" aria-label="Edition du topo"
-                    onclick="window.location.href = './edition-topo?id=${topo.topoID}'"
-                  >
-                    <i class="fas fa-edit pr-2" aria-hidden="true"></i>
-                    Editer
-                  </button>
-  
-                  <button type="button" class="btn btn-danger mb-3" aria-label="Suppression du topo"
-                    onclick="window.location.href = './supprime-topo?id=${topo.topoID}'"
-                  >
-                    <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>
-                    Supprimer
-                  </button>
-  
+                  
                   <%-- Liste des utilisateurs demandeurs --%>
                   <c:if test="${topo.demandePretUtilisateurs.size() > 0 && topo.disponible}">
-                    <div class="card">
+                    <hr>
+                    <div class="card border-secondary rounded">
   
-                      <div class="card-header" id="headingDemandes${ownCompteur}">
+                      <div class="card-header bg-dark" id="headingDemandes${ownCompteur}">
                         <h2 class="mb-0 mx-0">
-                          <button class="btn btn-outline-info btn-block text-left collapsed ml-0" type="button"
-                            data-toggle="collapse" data-target="#collapseDemandes${ownCompteur}" aria-expanded="false"
-                            aria-controls="collapseDemandes${ownCompteur}"
-                          >
-                            <div class="d-flex justify-content-between">
-                              <span>Demandes de prêt</span>
-                              <span class="text-muted">${topo.demandePretUtilisateurs.size()}</span>
+                          <button class="btn btn-outline-secondary btn-block text-left collapsed ml-0" 
+                          type="button"
+                          data-toggle="collapse" data-target="#collapseDemandes${ownCompteur}" 
+                          aria-expanded="false" aria-controls="collapseDemandes${ownCompteur}">
+                            <div class="">
+                              <span class="text-light">Demandes de prêt : </span>
+                              <span class="text-warning">${topo.demandePretUtilisateurs.size()}</span>
                             </div>
                           </button>
                         </h2>
                       </div>
   
                       <div id="collapseDemandes${ownCompteur}" class="collapse"
-                        aria-labelledby="headingDemandes${ownCompteur}"
-                      >
-                        <div class="card-body">
+                      aria-labelledby="headingDemandes${ownCompteur}">
+                      
+                        <div class="card-body p-0">
   
-                          <ul class="mb-0">
-                            <c:forEach items="${topo.demandePretUtilisateurs}" var="askingUser">
-  
-                              <li>
-                                ${askingUser.pseudo}
-  
-                                <button type="button" class="btn btn-success mb-2" aria-label="Accepter"
-                                  onclick="window.location.href = './accepte-demande-topo?topoID=${topo.topoID}&userID=${askingUser.utilisateurID}'"
-                                >
-                                  <i class="fas fa-check-square" aria-hidden="true"></i>
-                                </button>
-  
-                                <button type="button" class="btn btn-danger mb-2" aria-label="Refuser"
-                                  onclick="window.location.href = './refuse-demande-topo?topoID=${topo.topoID}&userID=${askingUser.utilisateurID}'"
-                                >
-                                  <i class="fas fa-window-close" aria-hidden="true"></i>
-                                </button>
-  
-                              </li>
-  
-                            </c:forEach>
-                          </ul>
+                          <c:forEach items="${topo.demandePretUtilisateurs}" var="askingUser">
+
+                            <div class="row m-3">
+                              
+                              <div class="col-md-8 col-lg-7 col-xl-6 row no-gutters align-items-center border p-2 p-md-1">
+
+                                <div class="col ml-1 ml-md-2 text-info">
+                                  <strong>${askingUser.pseudo}</strong>
+                                </div>
+
+                                <div class="col-auto">
+
+                                  <button type="button" class="btn btn-success m-1" 
+                                  aria-label="Accepter la demande"
+                                  data-toggle="tooltip" title="Accepter la demande"
+                                  onclick="window.location.href = './accepte-demande-topo?topoID=${topo.topoID}&userID=${askingUser.utilisateurID}'">
+                                    <i class="fas fa-check-square" aria-hidden="true"></i>
+                                  </button>
+
+                                  <button type="button" class="btn btn-danger m-1" 
+                                  aria-label="Refuser la demande"
+                                  data-toggle="tooltip" title="Refuser la demande"
+                                  onclick="window.location.href = './refuse-demande-topo?topoID=${topo.topoID}&userID=${askingUser.utilisateurID}'">
+                                    <i class="fas fa-window-close" aria-hidden="true"></i>
+                                  </button>
+
+                                </div>
+
+                              </div>
+
+                            </div>
+
+                          </c:forEach>
   
                         </div>
                       </div>
   
                     </div>
                   </c:if>
+                
                 </div>
+                  
+                <%-- OWN TOPO FOOTER --%>
+                <div class="card-footer">
+  
+                  <button type="button" class="btn btn-warning ml-0" aria-label="Edition du topo"
+                  onclick="window.location.href = './edition-topo?id=${topo.topoID}'">
+                    <i class="fas fa-edit pr-2" aria-hidden="true"></i>
+                    Editer
+                  </button>
+  
+                  <button type="button" class="btn btn-danger" aria-label="Suppression du topo"
+                  onclick="window.location.href = './supprime-topo?id=${topo.topoID}'">
+                    <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>
+                    Supprimer
+                  </button>
+  
+                </div>
+                
               </div>
   
             </div>
@@ -283,6 +335,7 @@
     
   </div>
   
+  <%-- Section EMPRUNTE --%>
   <div class="card border rounded border-danger mt-3">
   
     <div class="card-header bg-danger">
@@ -294,7 +347,7 @@
     
       <div class="card-body">
     
-        <div class="accordion mb-3" id="accordionLoanTopo">
+        <div class="accordion border rounded border-primary" id="accordionLoanTopo">
         
           <c:forEach items="${loanTopos}" var="topo">
           <c:set var="loanCompteur" value="${loanCompteur+1}" scope="page" />
@@ -303,7 +356,7 @@
             
               <div class="card-header" id="headingLoan${loanCompteur}">        
                 <h2 class="mb-0 mx-0">
-                  <button class="btn btn-outline-primary btn-block text-left collapsed ml-0" 
+                  <button class="btn btn-primary btn-block text-left collapsed ml-0" 
                     type="button" 
                     data-toggle="collapse" data-target="#collapseLoan${loanCompteur}" 
                     aria-expanded="false" aria-controls="collapseLoan${loanCompteur}">
@@ -316,24 +369,71 @@
               </div>
               
               <div id="collapseLoan${loanCompteur}" class="collapse" 
-                aria-labelledby="headingLoan${loanCompteur}" data-parent="#accordionLoanTopo">
+              aria-labelledby="headingLoan${loanCompteur}" data-parent="#accordionLoanTopo">
+              
                 <div class="card-body">
-                  Date de création : 
-                    <fmt:formatDate value="${topo.parutionDate}" 
-                    type="both" dateStyle = "short" timeStyle = "short"/><br>
-                  Région : ${topo.region.nom} <br>
-                  Lieu : ${topo.lieu} <br>
-                  Description : ${topo.description} <br><br>
-                  
-                  <strong>Propriétaire :</strong><br>
-                  Pseudo : ${topo.utilisateur.pseudo}<br>
-                  Email : ${topo.utilisateur.email}<br><br>
+                
+                  <%-- Informations du topo --%>
+                  <div class="row">
+                
+                    <div class="col-12 col-sm-3 col-lg-2">
+                      <strong>Parution</strong>
+                    </div>
+                    <div class="col-12 col-sm-9 col-lg-10">
+                      <fmt:formatDate value="${topo.parutionDate}" 
+                      type="both" dateStyle="short" timeStyle="short" />
+                    </div>
                     
-                  <button type="button" class="btn btn-danger mb-3" aria-label="Annuler l'emprunt"
-                        onclick="window.location.href = './annule-pret-topo?topoID=${topo.topoID}'">
-                    <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Annuler l'emprunt</button>
+                    <div class="col-12 col-sm-3 col-lg-2 mt-2">
+                      <strong>Région</strong>
+                    </div>
+                    <div class="col-12 col-sm-9 col-lg-10 mt-2">
+                      ${topo.region.nom}
+                    </div>
+                    
+                    <div class="col-12 col-sm-3 col-lg-2 mt-2">
+                      <strong>Lieu</strong>
+                    </div>
+                    <div class="col-12 col-sm-9 col-lg-10 mt-2">
+                      ${topo.lieu}
+                    </div>
+                    
+                    <div class="col-12 col-sm-3 col-lg-2 mt-2">
+                      <strong>Description</strong>
+                    </div>
+                    <div class="col-12 col-sm-9 col-lg-10 mt-2">
+                      ${topo.description}
+                    </div>
+                    
+                  </div>
                   
                 </div>
+                
+                <%-- Propriétaire du topo --%>
+                <div class="card-footer">
+                    
+                  <div class="row justify-content-center">
+
+                    <div class="col-12 col-md-8 d-flex justify-content-center">
+                      <div>
+                        <strong>Propriétaire :</strong><br>
+                        Pseudo : ${topo.utilisateur.pseudo}<br>
+                        Email : ${topo.utilisateur.email}
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-md-4 mt-3 mt-md-0 d-flex justify-content-center align-items-center">
+                      <button type="button" class="btn btn-danger ml-0" aria-label="Annuler l'emprunt"
+                      onclick="window.location.href = './annule-pret-topo?topoID=${topo.topoID}'">
+                        <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>
+                        Annuler l'emprunt
+                      </button>
+                    </div>
+                  
+                  </div>                  
+                  
+                </div>
+                
               </div>
             
             </div>
@@ -345,6 +445,7 @@
     </c:if>
   </div>
   
+  <%-- Section DEMANDE --%>
   <div class="card border rounded border-warning mt-3">
   
     <div class="card-header bg-warning">
@@ -356,42 +457,81 @@
     
       <div class="card-body">
       
-        <div class="accordion mb-3" id="accordionDemandeTopo">
+        <div class="accordion border rounded border-primary" id="accordionDemandeTopo">
         
           <c:forEach items="${demandeTopos}" var="topo">
           <c:set var="demandeCompteur" value="${demandeCompteur+1}" scope="page" />
           
             <div class="card">
             
-              <div class="card-header" id="headingDemande${demandeCompteur}">        
+              <div class="card-header" id="headingDemande${demandeCompteur}">   
+                   
                 <h2 class="mb-0 mx-0">
-                  <button class="btn btn-outline-primary btn-block text-left collapsed ml-0" 
+                  <button class="btn btn-primary btn-block text-left collapsed ml-0" 
                     type="button" 
                     data-toggle="collapse" data-target="#collapseDemande${demandeCompteur}" 
                     aria-expanded="false" aria-controls="collapseDemande${demandeCompteur}">
                     <div class="d-flex justify-content-between">
                       <span>${topo.nom}</span> 
-                      <span class="text-muted">${topo.utilisateur.pseudo}</span> 
+                      <span class="text-info">${topo.utilisateur.pseudo}</span> 
                     </div>
                   </button>
                 </h2>
+                
               </div>
               
               <div id="collapseDemande${demandeCompteur}" class="collapse" 
-                aria-labelledby="headingDemande${demandeCompteur}" data-parent="#accordionDemandeTopo">
+              aria-labelledby="headingDemande${demandeCompteur}" data-parent="#accordionDemandeTopo">
+              
                 <div class="card-body">
-                  Date de création : 
-                    <fmt:formatDate value="${topo.parutionDate}" 
-                    type="both" dateStyle = "short" timeStyle = "short"/><br>
-                  Région : ${topo.region.nom} <br>
-                  Lieu : ${topo.lieu} <br>
-                  Description : ${topo.description} <br><br>
+                
+                  <%-- Informations du topo --%>
+                  <div class="row">
+                
+                    <div class="col-12 col-sm-3 col-lg-2">
+                      <strong>Parution</strong>
+                    </div>
+                    <div class="col-12 col-sm-9 col-lg-10">
+                      <fmt:formatDate value="${topo.parutionDate}" 
+                      type="both" dateStyle="short" timeStyle="short" />
+                    </div>
                     
-                  <button type="button" class="btn btn-danger mb-3" aria-label="Annuler la demande de prêt"
-                        onclick="window.location.href = './annule-demande-topo?topoID=${topo.topoID}'">
-                    <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>Annuler la demande de prêt</button>
+                    <div class="col-12 col-sm-3 col-lg-2 mt-2">
+                      <strong>Région</strong>
+                    </div>
+                    <div class="col-12 col-sm-9 col-lg-10 mt-2">
+                      ${topo.region.nom}
+                    </div>
+                    
+                    <div class="col-12 col-sm-3 col-lg-2 mt-2">
+                      <strong>Lieu</strong>
+                    </div>
+                    <div class="col-12 col-sm-9 col-lg-10 mt-2">
+                      ${topo.lieu}
+                    </div>
+                    
+                    <div class="col-12 col-sm-3 col-lg-2 mt-2">
+                      <strong>Description</strong>
+                    </div>
+                    <div class="col-12 col-sm-9 col-lg-10 mt-2">
+                      ${topo.description}
+                    </div>
+                    
+                  </div>
                   
                 </div>
+                
+                <div class="card-footer">
+                  
+                  <button type="button" class="btn btn-danger ml-0" 
+                  aria-label="Annuler la demande de prêt"
+                  onclick="window.location.href = './annule-demande-topo?topoID=${topo.topoID}'">
+                    <i class="far fa-trash-alt pr-2" aria-hidden="true"></i>
+                    Annuler la demande de prêt
+                  </button>
+                
+                </div>
+                
               </div>
             
             </div>
@@ -407,6 +547,12 @@
 </div>
   
   <%@ include file="/WEB-INF/parts/footer.jsp"%>
+
+  <script type="text/javascript">
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
 </body>
 </html>

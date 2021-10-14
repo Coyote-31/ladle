@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -66,6 +67,7 @@ public class Utilisateur implements Serializable {
    * Liste des topos de l'utilisateur
    */
   @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OrderBy("parutionDate ASC")
   private List<Topo> topos;
   /**
    * Liste des topos prêtés à l'utilisateur

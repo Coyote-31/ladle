@@ -223,6 +223,18 @@ a:hover {
   background-color: transparent;
 }
 
+.accordion .card .card.border-primary {
+  border: 1px solid #0659a2;
+}
+
+.accordion .card .card.border-secondary {
+  border: 1px solid #95a5a6;
+}
+
+.accordion .card .card.rounded {
+  border-radius: 0.25rem !important;
+}
+
 .card .card-header {
   background-color: #0659a2;
   color: #fff;
