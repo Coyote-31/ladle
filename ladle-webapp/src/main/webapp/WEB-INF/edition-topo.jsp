@@ -28,6 +28,7 @@
     </c:if>
     
     <h1>Formulaire d'édition du topo</h1>
+    <hr>
     
     <%-- Formulaire d'édition du topo --%>
     <form method="post" action="edition-topo">
@@ -36,7 +37,7 @@
       <input name="topoID" type="hidden" value="${topoID}">
     
       <div class="row">
-        <div class="col">
+        <div class="col-12 col-md-6">
         
           <%-- Région --%>
           <div class="input-group mb-3">
@@ -56,7 +57,7 @@
           </div>
         
         </div>
-        <div class="col">
+        <div class="col-12 col-md-6">
         
           <%-- Lieu --%>
           <div class="input-group mb-3">
@@ -72,7 +73,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col-12 col-md-6">
       
           <%-- Nom --%>
           <div class="input-group mb-3">
@@ -86,11 +87,11 @@
           </div>
       
         </div>
-        <div class="col">
+        <div class="col-12 col-md-6 d-flex align-items-center mb-3">
       
           <%-- Disponibilité --%>
-          <div class="input-group mb-3">
-            <div class="custom-control custom-switch mt-1">
+          <div class="input-group">
+            <div class="custom-control custom-switch">
               <input id="checkboxDispo" name="checkboxDispo" type="checkbox" 
                 class="custom-control-input"${checkedboxDispo ? " checked" : ""}>
               <label class="custom-control-label d-inline" for="checkboxDispo">Disponible</label>
@@ -100,12 +101,18 @@
         </div>
       </div>
       
-      <%-- Description --%>
-      <label for="textareaDescription">Description :</label>
-      <textarea id="textareaDescription" name="textareaDescription"
-                class="form-control${topoDescriptionError ? ' is-invalid' : ''} mb-3" 
-                maxlength="2000"
-                aria-label="Description du topo">${textedareaDescription}</textarea>
+      <div class="">
+        <%-- Description --%>
+        <label for="textareaDescription">
+          <strong>Description :</strong>
+        </label>
+        <textarea id="textareaDescription" name="textareaDescription"
+        class="form-control${topoDescriptionError ? ' is-invalid' : ''}" 
+        maxlength="2000"
+        aria-label="Description du topo">${textedareaDescription}</textarea>
+      </div>
+      
+      <hr>
       
       <%-- Btn de validation du formulaire --%>
       <div class="row justify-content-center">
