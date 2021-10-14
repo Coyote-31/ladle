@@ -111,6 +111,9 @@ public class Connexion extends HttpServlet {
         userHandler.updateUtilisateur(utilisateur);
         session.setAttribute("utilisateur", utilisateur);
 
+        // TOMCAT session variable
+        session.setAttribute("userName", utilisateur.getPseudo());
+
         // Add/Update les cookies "login" et "tokenLogin"
         CookieHandler.updateLogin(login, utilisateur.getTokenLogin(), request, response);
 
@@ -120,6 +123,9 @@ public class Connexion extends HttpServlet {
 
         // Mise à jour de l'utilisateur dans la session
         session.setAttribute("utilisateur", utilisateur);
+
+        // TOMCAT session variable
+        session.setAttribute("userName", utilisateur.getPseudo());
       }
 
       try {
@@ -132,6 +138,8 @@ public class Connexion extends HttpServlet {
     } else {
       // Réinitialise l'attribut "utilisateur"
       session.setAttribute("utilisateur", null);
+      // TOMCAT session variable
+      session.setAttribute("userName", null);
       // Supprime les cookies "login" et "tokenLogin"
       CookieHandler.deleteLogin(request, response);
       // Ajout de la variable d'erreur "errorLoginInvalid"

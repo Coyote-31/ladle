@@ -47,6 +47,9 @@ public class Deconnexion extends HttpServlet {
     session.setAttribute("isLoginValid", false);
     session.setAttribute("utilisateur", null);
 
+    // TOMCAT session variable
+    session.setAttribute("userName", null);
+
     // Supprime les cookies
     CookieHandler.deleteLogin(request, response);
 

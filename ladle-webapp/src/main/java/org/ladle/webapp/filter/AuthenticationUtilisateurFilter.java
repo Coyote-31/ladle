@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ladle.beans.jpa.Utilisateur;
 import org.ladle.service.CookieHandler;
 import org.ladle.service.UserHandler;
 
@@ -120,8 +121,15 @@ public class AuthenticationUtilisateurFilter implements Filter {
 
         // met à jours les variables de connexion
         if (session != null) {
+
+          Utilisateur utilisateur = userHandler.getUtilisateurOnLogin(loginArray[0]);
+
           session.setAttribute("isLoginValid", true);
-          session.setAttribute("utilisateur", userHandler.getUtilisateurOnLogin(loginArray[0]));
+          session.setAttribute("utilisateur", utilisateur);
+
+          // TOMCAT session variable
+          session.setAttribute("userName", utilisateur.getPseudo());
+
           LOG.debug("{} is now connected", loginArray[0]);
         }
 
@@ -147,8 +155,14 @@ public class AuthenticationUtilisateurFilter implements Filter {
       // met à jours les variables de connexion
       if (userHandler.isValidTokenLogin(loginArray[0], loginArray[1]) && (session != null)) {
 
+        Utilisateur utilisateur = userHandler.getUtilisateurOnLogin(loginArray[0]);
+
         session.setAttribute("isLoginValid", true);
-        session.setAttribute("utilisateur", userHandler.getUtilisateurOnLogin(loginArray[0]));
+        session.setAttribute("utilisateur", utilisateur);
+
+        // TOMCAT session variable
+        session.setAttribute("userName", utilisateur.getPseudo());
+
         LOG.debug("{} is now connected", loginArray[0]);
       }
       // continue la requete
