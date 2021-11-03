@@ -484,7 +484,7 @@ public class EditeSecteur extends HttpServlet {
     if ("true".equals(request.getParameter("supprimePlan"))) {
 
       try {
-        response.sendRedirect("edition-secteur?secteurID=" + secteurID.toString());
+        response.sendRedirect("edition-secteur?secteurID=" + secteur.getSecteurID());
 
       } catch (IOException | IllegalStateException e) {
         LOG.error("Error sendRedirect -> edition-secteur.jsp", e);
@@ -494,7 +494,7 @@ public class EditeSecteur extends HttpServlet {
 
     // Sinon renvoit vers la page "secteur.jsp" correspondante
     try {
-      response.sendRedirect("secteur?secteurID=" + secteurID.toString());
+      response.sendRedirect("secteur?secteurID=" + secteur.getSecteurID());
 
     } catch (IOException | IllegalStateException e) {
       LOG.error("Error sendRedirect -> secteur.jsp", e);

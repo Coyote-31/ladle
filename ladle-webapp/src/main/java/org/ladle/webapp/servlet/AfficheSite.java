@@ -166,7 +166,7 @@ public class AfficheSite extends HttpServlet {
       }
 
       try {
-        response.sendRedirect("site?siteID=" + siteID.toString());
+        response.sendRedirect("site?siteID=" + site.getSiteID());
         return;
 
       } catch (IOException | IllegalStateException e) {
@@ -235,7 +235,7 @@ public class AfficheSite extends HttpServlet {
 
         // Si la modification est valide redirection vers le site
         try {
-          response.sendRedirect("site?siteID=" + siteID.toString());
+          response.sendRedirect("site?siteID=" + site.getSiteID());
           return;
 
         } catch (IOException | IllegalStateException e) {
@@ -325,7 +325,7 @@ public class AfficheSite extends HttpServlet {
 
     // Si le commentaire est valide redirection vers le site
     try {
-      response.sendRedirect("site?siteID=" + siteID.toString());
+      response.sendRedirect("site?siteID=" + site.getSiteID());
 
     } catch (IOException | IllegalStateException e) {
       LOG.error("Error sendRedirect -> site.jsp", e);

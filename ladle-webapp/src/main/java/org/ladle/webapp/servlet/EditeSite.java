@@ -262,7 +262,7 @@ public class EditeSite extends HttpServlet {
 
     // Renvoit vers la page "site.jsp" correspondante
     try {
-      response.sendRedirect("site?siteID=" + siteID.toString());
+      response.sendRedirect("site?siteID=" + site.getSiteID());
 
     } catch (IOException | IllegalStateException e) {
       LOG.error("Error sendRedirect -> site.jsp", e);
