@@ -80,7 +80,8 @@ public class SupprimeSecteur extends HttpServlet {
 
     // Renvoit vers la jsp d'affichage du site d'où provenait le secteur supprimé
     try {
-      response.sendRedirect("site?siteID=" + siteID);
+      String redirectPath = "site?siteID=" + siteID;
+      response.sendRedirect(redirectPath);
 
     } catch (IOException | IllegalStateException e) {
       LOG.error("Error sendRedirect -> site.jsp", e);
