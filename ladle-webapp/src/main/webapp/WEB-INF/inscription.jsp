@@ -6,8 +6,6 @@
 <meta charset="utf-8" />
 <title>Inscription</title>
 <link rel="icon" href="images/favicon/favicon.ico">
-<%-- Fontawesome --%>
-<script src="https://kit.fontawesome.com/9371740617.js" crossorigin="anonymous" type="text/javascript"></script>
 <%-- Inclusion des metas --%>
 <%@ include file="/WEB-INF/parts/meta.jsp"%>
 </head>

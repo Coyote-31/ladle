@@ -9,7 +9,9 @@
   crossorigin="anonymous">
   
 <%-- Fontawesome --%>
-<script src="https://kit.fontawesome.com/2d8c05dd63.js" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/2d8c05dd63.js" 
+        integrity="sha384-k08vxI4uddIb1aTsxstJZh9Ms5YulFOsaBd0tq2YrFaGZgL4MqAzPANXBQgU7lWv"
+        crossorigin="anonymous"></script>
 
 <%-- Custom CSS --%>
 <link rel="stylesheet" type="text/css" href="css/bootstrap-custom.css">
