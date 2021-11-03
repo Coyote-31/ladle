@@ -29,11 +29,13 @@
     
     <h1>Formulaire de création d'un nouveau topo</h1>
     
+    <hr>
+    
     <%-- Formulaire de création d'un nouveau topo --%>
     <form method="post" action="ajout-topo">
     
       <div class="row">
-        <div class="col">
+        <div class="col-12 col-md-6">
         
           <%-- Région --%>
           <div class="input-group mb-3">
@@ -53,7 +55,7 @@
           </div>
         
         </div>
-        <div class="col">
+        <div class="col-12 col-md-6">
         
           <%-- Lieu --%>
           <div class="input-group mb-3">
@@ -69,7 +71,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col-12 col-md-6">
       
           <%-- Nom --%>
           <div class="input-group mb-3">
@@ -83,7 +85,7 @@
           </div>
       
         </div>
-        <div class="col">
+        <div class="col-12 col-md-6 d-flex align-items-center mb-3">
       
           <%-- Disponibilité --%>
           <div class="input-group mb-3">
@@ -100,9 +102,11 @@
       <%-- Description --%>
       <label for="textareaDescription">Description :</label>
       <textarea id="textareaDescription" name="textareaDescription"
-                class="form-control${topoDescriptionError ? ' is-invalid' : ''} mb-3" 
+                class="form-control${topoDescriptionError ? ' is-invalid' : ''}" 
                 maxlength="2000"
                 aria-label="Description du topo">${textedareaDescription}</textarea>
+                
+      <hr>
       
       <%-- Btn de validation du formulaire --%>
       <div class="row justify-content-center">
