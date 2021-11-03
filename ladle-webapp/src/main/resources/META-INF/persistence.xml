@@ -7,7 +7,6 @@
 
   <persistence-unit name="ladleMySQLPU" transaction-type="JTA">
     <description>Persistence Unit for ladle_db with MySQL</description>
-    <!--  <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>  -->
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <jta-data-source>LadleJtaDatabase</jta-data-source>
 
