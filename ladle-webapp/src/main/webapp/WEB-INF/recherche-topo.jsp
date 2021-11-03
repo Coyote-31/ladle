@@ -130,29 +130,42 @@
             </div>
             
             <div id="collapse${compteur}" class="collapse" 
-              aria-labelledby="heading${compteur}" data-parent="#accordionTopo">
+            aria-labelledby="heading${compteur}" data-parent="#accordionTopo">
+              
               <div class="card-body">
-                  <table class="table table-borderless"
-                    aria-describedby="heading${compteur}">
-                    <tbody>
-                      <tr>
-                        <th scope="row">Parution</th>
-                        <td>
-                          <fmt:formatDate value="${topo.parutionDate}" 
-                            type="date" dateStyle="full"/>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Lieu</th>
-                        <td>${topo.lieu}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Description</th>
-                        <td>${topo.description}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-
+              
+                <div class="row">
+                
+                  <div class="col-12 col-sm-3 col-lg-2">
+                    <strong>Parution</strong>
+                  </div>
+                  <div class="col-12 col-sm-9 col-lg-10">
+                    <fmt:formatDate value="${topo.parutionDate}" 
+                    type="both" dateStyle="short" timeStyle="short" />
+                  </div>
+                  
+                  <div class="col-12 col-sm-3 col-lg-2 mt-2">
+                    <strong>Région</strong>
+                  </div>
+                  <div class="col-12 col-sm-9 col-lg-10 mt-2">
+                    ${topo.region.nom}
+                  </div>
+                  
+                  <div class="col-12 col-sm-3 col-lg-2 mt-2">
+                    <strong>Lieu</strong>
+                  </div>
+                  <div class="col-12 col-sm-9 col-lg-10 mt-2">
+                    ${topo.lieu}
+                  </div>
+                  
+                  <div class="col-12 col-sm-3 col-lg-2 mt-2">
+                    <strong>Description</strong>
+                  </div>
+                  <div class="col-12 col-sm-9 col-lg-10 mt-2">
+                    ${topo.description}
+                  </div>
+                  
+                </div>
                 
                 <%-- Boutons : Demande / Annulation --%>
             
