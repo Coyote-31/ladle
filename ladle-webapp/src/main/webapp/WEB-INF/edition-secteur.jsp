@@ -303,7 +303,7 @@
         
       </div>
       
-      <%-- Input hidden du nombre de voies TODO retirer ?? --%>
+      <%-- Input hidden du nombre de voies --%>
       <input id="nombreDeVoies" name="nombreDeVoies" 
         type="hidden" required value="${voieIteration}">
       
