@@ -337,7 +337,7 @@
           <%-- Boucle des Villes --%>
           <c:forEach items="${searchResultVilles}" var="searchResultVille">
             <c:if test="${searchResultDepartement.departementCode == searchResultVille.departement.departementCode}">
-              <div class="card bg-warning-light border-right-0 border-warning rounded-0 ml-3 mb-3">
+              <div class="card bg-warning-light border-right-0 border-warning rounded-0 ml-3 mb-3 pb-3">
                 <div class="card-header bg-warning rounded-0 text-white">
                   <h4 class="mb-0">
                     ${searchResultVille.nom}
@@ -350,7 +350,7 @@
             <%-- Boucle des Sites --%>
             <c:forEach items="${searchResultSites}" var="searchResultSite">
               <c:if test="${searchResultVille.villeID == searchResultSite.ville.villeID}">
-                <div class="card border-dark mx-3 mt-3 mb-3 pb-3">
+                <div class="card border-dark mx-3 mt-3 pb-3">
                   <div class="card-header bg-dark">
                     <div class="row">
                     
