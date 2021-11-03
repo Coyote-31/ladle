@@ -52,6 +52,7 @@ public final class CookieHandler {
         if (LOGIN.equals(cookie.getName())) {
           cookie.setValue(login);
           cookie.setMaxAge(MAX_AGE);
+          cookie.setSecure(true);
           response.addCookie(cookie);
           LOG.debug("Update cookie login : {}", cookie.getValue());
           cookieLoginExist = true;
@@ -61,6 +62,7 @@ public final class CookieHandler {
         if (TOKEN_LOGIN.equals(cookie.getName())) {
           cookie.setValue(tokenLogin);
           cookie.setMaxAge(MAX_AGE);
+          cookie.setSecure(true);
           response.addCookie(cookie);
           LOG.debug("Update cookie tokenLogin : {}", cookie.getValue());
           cookieTokenLoginExist = true;
@@ -71,8 +73,11 @@ public final class CookieHandler {
 
     // Ajoute le cookie "login" si il n'existe pas encore
     if (!cookieLoginExist) {
-      Cookie cookieLogin = new Cookie(LOGIN, login);
+      // Remove special characters before putting them in the header
+      String loginSecure = removeSpecial(login);
+      Cookie cookieLogin = new Cookie(LOGIN, loginSecure);
       cookieLogin.setMaxAge(MAX_AGE);
+      cookieLogin.setSecure(true);
       response.addCookie(cookieLogin);
       LOG.debug("Add cookie login : {}", cookieLogin.getValue());
     }
@@ -81,6 +86,7 @@ public final class CookieHandler {
     if (!cookieTokenLoginExist) {
       Cookie cookieTokenLogin = new Cookie(TOKEN_LOGIN, tokenLogin);
       cookieTokenLogin.setMaxAge(MAX_AGE);
+      cookieTokenLogin.setSecure(true);
       response.addCookie(cookieTokenLogin);
       LOG.debug("Add cookie tokenLogin : {}", cookieTokenLogin.getValue());
     }
@@ -134,6 +140,7 @@ public final class CookieHandler {
         if (LOGIN.equals(cookie.getName())) {
           cookie.setValue(null);
           cookie.setMaxAge(0);
+          cookie.setSecure(true);
           response.addCookie(cookie);
           LOG.debug("Delete cookie : login");
         }
@@ -142,11 +149,16 @@ public final class CookieHandler {
         if (TOKEN_LOGIN.equals(cookie.getName())) {
           cookie.setValue(null);
           cookie.setMaxAge(0);
+          cookie.setSecure(true);
           response.addCookie(cookie);
           LOG.debug("Delete cookie : tokenLogin");
         }
       }
     }
+  }
+
+  private static String removeSpecial(String str) {
+    return str.replaceAll("[^a-zA-Z ]", "");
   }
 
 }
