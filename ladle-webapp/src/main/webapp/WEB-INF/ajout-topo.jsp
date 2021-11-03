@@ -100,7 +100,9 @@
       </div>
       
       <%-- Description --%>
-      <label for="textareaDescription">Description :</label>
+      <label for="textareaDescription">
+        <strong>Description :</strong>
+      </label>
       <textarea id="textareaDescription" name="textareaDescription"
                 class="form-control${topoDescriptionError ? ' is-invalid' : ''}" 
                 maxlength="2000"
