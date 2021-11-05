@@ -17,7 +17,7 @@
 
     <%-- Validation du SHA réussie --%>
     <c:if test="${emailValide}">
-      <p class="text-success">Bravo ! L'addresse du compte est validée.</p>
+      <p class="text-success">Bravo ! L'adresse du compte est validée.</p>
     </c:if>
 
     <%-- Erreur de validation --%>

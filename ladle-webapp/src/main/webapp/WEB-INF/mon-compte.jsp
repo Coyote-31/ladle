@@ -93,7 +93,8 @@
               <strong>Type</strong>
             </div>
             <div class="col-12 col-md-8">
-              ${utilisateur.role == 0 ? "Utilisateur" : ""} ${utilisateur.role == 1 ? "Membre LADLE" : ""}
+              ${utilisateur.role == 0 ? "Utilisateur" : ""} 
+              ${utilisateur.role == 1 ? "Membre LADLE" : ""}
               ${utilisateur.role == 2 ? "Administrateur" : ""}
             </div>
           </div>
