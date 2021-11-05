@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -165,6 +167,21 @@ public class Secteur implements Serializable {
 
   public List<Voie> getVoies() {
     List<Voie> voiesCPY = new ArrayList<>();
+
+    // Classe les voies dans le bon ordre
+    Collections.sort(voies, new Comparator<Voie>() {
+
+      @Override
+      public int compare(Voie voie1, Voie voie2) {
+        return extractInt(voie1.getNumero()) - extractInt(voie2.getNumero());
+      }
+
+      int extractInt(String numVoie) {
+        String num = numVoie.replaceAll("\\D", "");
+        // return 0 if no digits found
+        return num.isEmpty() ? 0 : Integer.parseInt(num);
+      }
+    });
 
     for (Voie voie : voies) {
       voiesCPY.add(voie);
