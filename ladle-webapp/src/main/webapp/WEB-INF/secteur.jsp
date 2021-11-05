@@ -118,7 +118,7 @@
                     ${voie.cotation}
                   </td>
                   <td>${voie.nom}</td>
-                  <td>${voie.hauteur} m</td>
+                  <td>${voie.hauteur}${empty voie.hauteur? '':' m'}</td>
                   <td>${voie.degaine}</td>
                   <td class="text-left">
                     ${voie.remarque}
