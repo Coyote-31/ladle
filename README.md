@@ -24,6 +24,10 @@ Elle est packagée via **[Maven](https://maven.apache.org/index.html)** dans un 
 
 ![Aperçu de l'application](https://i.imgur.com/s7O8kg1.jpg)
 
+#### Architecture de l'application :
+
+![Architecture de l'application](https://i.imgur.com/eFKnsG4.jpg)
+
 ## 🗃 Base de données :
 
 La base de données est développée avec **MySQL v8.0**.
