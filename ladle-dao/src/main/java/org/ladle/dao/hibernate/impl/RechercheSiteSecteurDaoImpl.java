@@ -203,10 +203,10 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
                       + "JOIN v.sites si "
                       + " WITH (size(si.secteurs) " + selectedSectSign + " :sectNum) "
                       + " AND (si.officiel = :officiel OR :officiel is null) "
-                      + "LEFT JOIN si.secteurs sec "
-                      + "LEFT JOIN sec.voies vx "
-                      + "WHERE r.regionCode = :regionCode OR :regionCode is null "
-                      + " AND (vx.cotation " + selectedCotaSign + " :cotaNumChar OR :cotaNumChar is null) ";
+                      + "INNER JOIN si.secteurs sec "
+                      + "INNER JOIN sec.voies vx "
+                      + "   WITH (vx.cotation " + selectedCotaSign + " :cotaNumChar OR :cotaNumChar is null) "
+                      + "WHERE r.regionCode = :regionCode OR :regionCode is null ";
 
     try {
       searchResults = em.createQuery(hqlQuery)
