@@ -133,7 +133,7 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
     String selectedCotaSign;
     switch (selectedCotaEqual) {
       case "all":
-        selectedCotaSign = "<=";
+        selectedCotaSign = ">=";
         selectedCotaNumChar = null;
         break;
       case "supEq":
@@ -192,21 +192,46 @@ public class RechercheSiteSecteurDaoImpl implements RechercheSiteSecteurDao {
         break;
     }
 
-    // Requête HQL :
-    String hqlQuery = "SELECT r, d, v, si, sec, vx "
-                      + "FROM Region r "
-                      + "JOIN r.departements d "
-                      + "   WITH d.departementCode = :departementCode OR :departementCode is null "
-                      + "JOIN d.villes v "
-                      + "   WITH (v.cp = :cp OR :cp is null ) "
-                      + "   AND (v.id = :ville OR :ville is null) "
-                      + "JOIN v.sites si "
-                      + " WITH (size(si.secteurs) " + selectedSectSign + " :sectNum) "
-                      + " AND (si.officiel = :officiel OR :officiel is null) "
-                      + "INNER JOIN si.secteurs sec "
-                      + "INNER JOIN sec.voies vx "
-                      + "   WITH (vx.cotation " + selectedCotaSign + " :cotaNumChar OR :cotaNumChar is null) "
-                      + "WHERE r.regionCode = :regionCode OR :regionCode is null ";
+    // Gère 2 requètes : Avec Cotation et sans Cotation
+    // Ce qui résout le problème des Sites sans Secteurs ni Voies.
+    String hqlQuery = "";
+
+    // Cas sans cotation : Affiche les Sites sans secteur :
+    if ("all".equals(selectedCotaEqual)) {
+
+      hqlQuery = "SELECT r, d, v, si, sec, vx "
+                 + "FROM Region r "
+                 + "JOIN r.departements d "
+                 + "   WITH d.departementCode = :departementCode OR :departementCode is null "
+                 + "JOIN d.villes v "
+                 + "   WITH (v.cp = :cp OR :cp is null ) "
+                 + "   AND (v.id = :ville OR :ville is null) "
+                 + "JOIN v.sites si "
+                 + "   WITH (size(si.secteurs) " + selectedSectSign + " :sectNum) "
+                 + "   AND (si.officiel = :officiel OR :officiel is null) "
+                 + "LEFT JOIN si.secteurs sec "
+                 + "LEFT JOIN sec.voies vx "
+                 + "   WITH (:cotaNumChar is null) "
+                 + "WHERE r.regionCode = :regionCode OR :regionCode is null ";
+
+      // Cas avec cotation : N'affiche pas les Sites sans secteur :
+    } else {
+
+      hqlQuery = "SELECT r, d, v, si, sec, vx "
+                 + "FROM Region r "
+                 + "JOIN r.departements d "
+                 + "   WITH d.departementCode = :departementCode OR :departementCode is null "
+                 + "JOIN d.villes v "
+                 + "   WITH (v.cp = :cp OR :cp is null ) "
+                 + "   AND (v.id = :ville OR :ville is null) "
+                 + "JOIN v.sites si "
+                 + "   WITH (size(si.secteurs) " + selectedSectSign + " :sectNum) "
+                 + "   AND (si.officiel = :officiel OR :officiel is null) "
+                 + "LEFT JOIN si.secteurs sec "
+                 + "JOIN sec.voies vx "
+                 + "   WITH (vx.cotation " + selectedCotaSign + " :cotaNumChar OR :cotaNumChar is null) "
+                 + "WHERE r.regionCode = :regionCode OR :regionCode is null ";
+    }
 
     try {
       searchResults = em.createQuery(hqlQuery)
