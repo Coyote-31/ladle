@@ -58,7 +58,7 @@
     <javax.mail.version>1.6.2</javax.mail.version>
     <!-- module : ladle-dao -->
     <hibernate.version>5.4.24.Final</hibernate.version>
-    <mysql-connector-java.version>8.0.18</mysql-connector-java.version>
+    <mysql-connector-java.version>8.0.28</mysql-connector-java.version>
     <!-- module : ladle-beans -->
     <!-- multiple modules -->
 
